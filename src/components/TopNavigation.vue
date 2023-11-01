@@ -1,5 +1,5 @@
 <template>
-    <div class="topnav">
+    <nav class="topnav">
         <router-link to="/">
             <i class="fa fa-paw paw-icon" aria-hidden="true"></i>
             <span class="hp">HappyPaw</span>
@@ -21,7 +21,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </nav>
 </template>
 
 <style>
@@ -65,10 +65,11 @@
     }
     .topnav .user-icon {
         color: #ffffff;
-        font-size: 3.5rem;
+        font-size: 3rem;
         margin: auto;
-        width: 60%;
+        width: 80%;
         padding: 4px;
+        padding-top: 8px;
     }
     .topnav .dropdown-content {
         display: none;
