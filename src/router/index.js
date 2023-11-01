@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import PlanningView from '../views/PlanningView'
+import PlanningView from '../views/PlanningView.vue'
+import ContactView from '../views/ContactView.vue'
+import AfspraakMakenView from '../views/AfspraakMakenView.vue'
 
 const routes = [
   {
@@ -12,7 +14,17 @@ const routes = [
     path: '/planning',
     name: 'planning',
     component: PlanningView
-  }
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: ContactView
+  },
+  {
+    path: '/afspraak-maken',
+    name: 'afspraak-maken',
+    component: AfspraakMakenView
+  },
 ]
 
 const router = createRouter({
