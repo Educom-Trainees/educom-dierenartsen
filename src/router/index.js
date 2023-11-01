@@ -4,7 +4,6 @@ import ContactView from '../views/Contact.vue'
 import AfspraakMakenView from '../views/AfspraakMaken.vue'
 import RegisterView from '../views/Register.vue'
 import LoginView from '../views/Login.vue'
-import HomeView from '../views/HomeView.vue'
 import PlanningView from '../views/PlanningView'
 import ResultView from '../views/ResultView'
 
@@ -33,6 +32,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginView
+  },
+  {
+    path: '/planning',
+    name: 'planning',
+    component: PlanningView
   },
   {
     path: '/result',
