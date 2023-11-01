@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import ContactView from '../views/ContactView.vue'
-import AfspraakMakenView from '../views/AfspraakMakenView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import LoginView from '../views/LoginView.vue'
+import HomeView from '../views/Home.vue'
+import ContactView from '../views/Contact.vue'
+import AfspraakMakenView from '../views/AfspraakMaken.vue'
+import RegisterView from '../views/Register.vue'
+import LoginView from '../views/Login.vue'
 
 const routes = [
   {
