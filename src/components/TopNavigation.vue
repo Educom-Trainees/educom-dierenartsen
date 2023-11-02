@@ -1,106 +1,83 @@
 <template>
-    <nav class="topnav">
-        <router-link to="/">
-            <i class="fa fa-paw paw-icon" aria-hidden="true"></i>
-            <span class="hp">HappyPaw</span>
-        </router-link> 
-        <router-link to="/contact">Contact</router-link> 
-        <router-link to="/afspraak-maken">Afspraak</router-link>
-        <div class="dropdown">
-            <div class="dot">
-                <i class="fa fa-user user-icon" aria-hidden="true"></i>
-            </div>
-            <div class="dropdown-content">
-                <ul class="user-nav">
-                    <li class="nav-item">
-                        <router-link to="/register">Registreren</router-link> 
-                    </li>
-                    <li class="nav-item">
-                        <router-link to="/login">Inloggen</router-link> 
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="navbar-nav h-40">
+            <router-link to="/" class="navbar-brand">
+                <i class="fa fa-paw brand-logo" aria-hidden="true">
+                    <span class="brand-text">HappyPaw</span>
+                </i>
+            </router-link> 
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbarSupportedContent" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav w-100">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/contact">Contact</router-link> 
+                </li>
+                <li class="nav-item">
+                    <router-link  class="nav-link" to="/afspraak-maken">Afspraak</router-link>
+                </li>
+                <li class="nav-item w-100 d-flex justify-content-center justify-content-lg-end">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <router-link class="dropdown-item" to="/register">Registreren</router-link> 
+                            <router-link class="dropdown-item" to="/login">Inloggen</router-link> 
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
 </template>
 
 <style>
-    .topnav {
+    .navbar {
         background-color: #ffbd54;
-        overflow: hidden;
-        max-height: 72px;
     }
-    .topnav a {
-        float: left;
-        color: #ffffff;
-        text-align: center;
-        padding: 20px 16px;
-        text-decoration: none;
-        font-size: 22px;
-        font-weight: 800;
-        min-height: 33px;
+    .navbar .dropdown {
+        margin-right: 12px;
+        padding-right: 8px;
     }
-    .topnav a:hover {
-        background-color: #ffde59;
-        color: black;
-    }
-    .topnav .paw-icon {
-        color: #ff914d;
-        padding: 4px;
-        font-size: 1.5rem;
-    }
-    .topnav .dropdown {
-        float: right;
-        overflow: hidden;
-        max-width: 100px;
-        padding: 4px;
-    }
-    .topnav .dropdown .dot {
-        height: 65px;
-        width: 65px;
-        background-color: #ffde59;
+    .navbar .dropdown button {
         border-radius: 50%;
-        display: inline-block;
-        margin-right: 4px;
-    }
-    .topnav .user-icon {
-        color: #ffffff;
-        font-size: 3rem;
-        margin: auto;
-        width: 80%;
-        padding: 4px;
-        padding-top: 8px;
-    }
-    .topnav .dropdown-content {
-        display: none;
-        position: absolute;
-        right: 0;
-        background-color: #ffbd54;
-        min-width: 200px;
-        z-index: 1;
-        margin-top: 4px;
-    }
-    .topnav .dropdown ul {
-        padding: 0;
-        margin: 0;
-    }
-    .topnav .dropdown li {
-        width: 100%;
-    }
-    .topnav .dropdown-content a {
-        color: #ffffff;
-        text-decoration: none;
-        display: block;
-        width: 100%;
-    }
-    .topnav .dropdown-content a:hover {
+        height: 50px;
+        width: 50px;
         background-color: #ffde59;
+        border: none;
+    }
+    .navbar .dropdown button i {
+        font-size: 1.8rem;
+    }
+    .navbar .dropdown-menu {
+        position: absolute;
+        transform: translate3d(-80px, 0px, 0px);
+    }
+    .navbar .navbar-brand {
+        margin: 0 12px;
+    }
+    .navbar .brand-logo {
+        color: #ff914d;
+        font-size: 2rem;
+    }
+    .navbar .brand-text {
         color: black;
+        font-weight: 400;
     }
-    .topnav .dropdown:hover .dropdown-content {
-        display: block;
+    .navbar .navbar-brand, .navbar .brand-text {
+        padding: 0;
+        padding-left: 6px;
     }
-    .topnav .user-nav {
-        list-style: none;
+    .navbar .h-40 {
+        min-height: 40px;
+    }
+    .navbar .nav-link {
+        color: black;
+        font-weight: 400;
+        font-size: 18px;
     }
 </style>
