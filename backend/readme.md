@@ -35,6 +35,7 @@ De volgende API calls zijn mogelijk
 | GET   | http://localhost:3000/pet-types                              | list of all possible pet types |
 | GET   | http://localhost:3000/timeslots?date=2023-11-10              | list of all possible timeslots on the 10th of November |
 | GET   | http://localhost:3000/appointments?status=0&date=2023-11-10  | to get all 'planned' appointments of the 10th of November |
+| GET   | http://localhost:3000/appointments?number=2023010            | to get the appointment with number 2023013 |
 | GET   | http://localhost:3000/appointments/1122                      | to get the appointment with id 1122 |
 | GET   | http://localhost:3000/appointments?status=2                   | to get all appointments that have been cancelled by the customer
 | POST  | http://localhost:3000/appointments                            | add an new appointment |
