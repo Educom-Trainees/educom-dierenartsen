@@ -5,6 +5,7 @@ import Appointment from '../views/Appointment.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 import Result from '../views/Result.vue'
+import Overview from '../views/Overview.vue'
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/result',
     name: 'result',
     component: Result
+  },
+  {
+    path: '/overview',
+    name: 'overview',
+    component: Overview
   }
 ]
 
