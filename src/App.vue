@@ -24,10 +24,24 @@
   body {
     margin: 0;
   }
-  .blue {
+  :root {
+    --happyPaw1: #E6BCB2;
+    --happyPaw2: #DE9281;
+    --happyPaw3: #59371D;
+    --happyPaw4: #8F542E;
+    --darkGrey: #DDDDDD;
+    --lightGrey: #EEEEEE;
+  }
+  /* .blue {
     color: #39A7FF;
   }
   .blue-l {
     color: #67C4FF;
+  } */
+  h1 {
+    color: var(--happyPaw3)
+  }
+  h2 {
+    color: var(--happyPaw4);
   }
 </style>
