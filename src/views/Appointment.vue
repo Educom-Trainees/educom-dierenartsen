@@ -82,7 +82,13 @@
 </template>
 
 <script>
+  
+
   export default {
+    name: 'app',
+    components: {
+
+    },
     data() {
         return {
             name: '',
@@ -102,9 +108,6 @@
             phoneError: '',
             animal_nameError: ''
         }
-    },
-    name: 'app',
-    components: {
     },
     methods: {
       handleSubmit() {
