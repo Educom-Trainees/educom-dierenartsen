@@ -25,6 +25,9 @@
     margin: 0;
   }
   .blue {
-    color: #00A9FF;
+    color: #39A7FF;
+  }
+  .blue-l {
+    color: #67C4FF;
   }
 </style>
