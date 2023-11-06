@@ -2,8 +2,8 @@
   <div class="container">
     <div class="row">
         <div class="col-10 col-md-8">
-            <h1 class="text-lg blue">Neem contact op met onze kliniek</h1>
-            <h2 class="text-md blue-l mb-4">
+            <h1 class="text-lg">Neem contact op met onze kliniek</h1>
+            <h2 class="text-md mb-4">
               We vinden het belangrijk om bereikbaar te zijn voor onze klanten, 
               hieronder vind u de belangrijke informatie om ons te bereiken
             </h2>

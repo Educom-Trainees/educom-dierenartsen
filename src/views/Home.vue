@@ -3,8 +3,8 @@
   <div class="container">
     <div class="row">
         <div class="col-10 col-md-8">
-            <h1 class="text-lg blue">Topzorg voor uw huisdier, dat krijgt u bij ons!</h1>
-            <h2 class="text-md blue-l mb-4">Uw huisdier is bij ons in goede handen</h2>
+            <h1 class="text-lg">Topzorg voor uw huisdier, dat krijgt u bij ons!</h1>
+            <h2 class="text-md mb-4">Uw huisdier is bij ons in goede handen</h2>
             <p class="text-sm">
                 Als dierenarts dragen wij de verantwoordelijkheid voor de gezondheid van uw huisdier. 
                 Wij willen er samen met u voor zorgen dat uw hond, kat, konijn of welk ander huisdier 
