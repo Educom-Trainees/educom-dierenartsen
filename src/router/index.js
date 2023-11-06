@@ -1,41 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/Home.vue'
-import ContactView from '../views/Contact.vue'
-import AfspraakMakenView from '../views/AfspraakMaken.vue'
-import RegisterView from '../views/Register.vue'
-import LoginView from '../views/Login.vue'
-import ResultView from '../views/Result.vue'
+import Home from '../views/Home.vue'
+import Contact from '../views/Contact.vue'
+import Appointment from '../views/Appointment.vue'
+import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
+import Result from '../views/Result.vue'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: Home
   },
   {
     path: '/contact',
     name: 'contact',
-    component: ContactView
+    component: Contact
   },
   {
-    path: '/afspraak-maken',
-    name: 'afspraak-maken',
-    component: AfspraakMakenView
+    path: '/appointment',
+    name: 'appointment',
+    component: Appointment
   },
   {
     path: '/register',
     name: 'register',
-    component: RegisterView
+    component: Register
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: Login
   },
   {
     path: '/result',
     name: 'result',
-    component: ResultView
+    component: Result
   }
 ]
 
