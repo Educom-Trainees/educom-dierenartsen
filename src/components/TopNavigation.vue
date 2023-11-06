@@ -78,7 +78,6 @@
         min-height: 40px;
     }
     .navbar .nav-link {
-        color: black;
         font-weight: 400;
         font-size: 18px;
     }
