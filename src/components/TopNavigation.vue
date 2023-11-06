@@ -17,7 +17,7 @@
                     <router-link class="nav-link" to="/contact">Contact</router-link> 
                 </li>
                 <li class="nav-item">
-                    <router-link  class="nav-link" to="/afspraak-maken">Afspraak</router-link>
+                    <router-link  class="nav-link" to="/appointment">Afspraak</router-link>
                 </li>
                 <li class="nav-item w-100 d-flex justify-content-center justify-content-lg-end">
                     <div class="dropdown">
