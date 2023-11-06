@@ -37,7 +37,7 @@
 
 <style>
     .navbar {
-        background-color: #ffbd54;
+        background-color: #E6BCB2;
     }
     .navbar .dropdown {
         margin-right: 12px;
@@ -47,7 +47,7 @@
         border-radius: 50%;
         height: 50px;
         width: 50px;
-        background-color: #ffde59;
+        background-color: #DE9281;
         border: none;
     }
     .navbar .dropdown button i {
@@ -61,7 +61,7 @@
         margin: 0 12px;
     }
     .navbar .brand-logo {
-        color: #ff914d;
+        color: #8F542E;
         font-size: 2rem;
     }
     .navbar .brand-text {
