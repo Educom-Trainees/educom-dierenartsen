@@ -29,4 +29,10 @@ p {
   text-align: center;
   margin-left: 25%;
 }
+h1 {
+  color: #29b0e6;
+}
+h2 {
+  color: #29b0e6;
+}
 </style>
