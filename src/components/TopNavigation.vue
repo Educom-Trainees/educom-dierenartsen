@@ -65,8 +65,10 @@
         font-size: 2rem;
     }
     .navbar .brand-text {
-        color: black;
-        font-weight: 400;
+        font-weight: 500;
+    }
+    .navbar .brand-text, .navbar .nav-link {
+        color: #59371D;
     }
     .navbar .navbar-brand, .navbar .brand-text {
         padding: 0;
