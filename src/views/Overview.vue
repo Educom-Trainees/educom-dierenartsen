@@ -3,13 +3,15 @@
     <div class="row">
         <div class="col-12">
             <h1 class="text-lg text-left">Overzicht afspraken</h1>
-            <div class="datepicker-area">
+
+            <div class="datepicker-area d-flex justify-content-center align-items-center">
                 <div class="btn-group" role="group" aria-label="datepicker">
                     <button type="button" class="btn btn-secondary">&lt;</button>
                     <button type="button" class="btn btn-secondary">{{ date }}</button>
                     <button type="button" class="btn btn-secondary">&gt;</button>
                 </div>
             </div>
+
             <table class="table table-bordered table-responsive">
                 <tr>
                     <th class="icon"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
@@ -242,6 +244,14 @@
 <style>
     .container-fluid * {
         text-align: left;
+    }
+    .datepicker-area {
+        min-height: 70px;
+        background-color: var(--darkGrey);
+    }
+    .datepicker-area .btn-group, .datepicker-area .btn-group .btn {
+        background-color: var(--lightGrey);
+        color: black;
     }
     .table .icon, .table .time {
         text-align: center;
