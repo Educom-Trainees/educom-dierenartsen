@@ -24,4 +24,7 @@
   body {
     margin: 0;
   }
+  .blue {
+    color: #00A9FF;
+  }
 </style>
