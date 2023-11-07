@@ -6,9 +6,9 @@
 
             <div class="datepicker-area d-flex justify-content-center align-items-center">
                 <div class="btn-group" role="group" aria-label="datepicker">
-                    <button type="button" class="btn btn-secondary">&lt;</button>
-                    <button type="button" class="btn btn-secondary">{{ date }}</button>
-                    <button type="button" class="btn btn-secondary">&gt;</button>
+                    <button @click="($event) => {if (date > today) { previousDateDate() }}" type="button" class="btn btn-secondary">&lt;</button>
+                    <button type="button" class="btn btn-secondary">{{ getDateString(date) }}</button>
+                    <button @click="nextDate()" type="button" class="btn btn-secondary">&gt;</button>
                 </div>
             </div>
 
@@ -200,37 +200,58 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
+    const today = this.getDateString(new Date())
+
     export default {
         name: 'Overview',
         data() {
             return {
+                timeslots: [],
+                errors: [],
                 appointments: null,
-                date: this.getCurrentDate(),
+                // today: this.getDateString(new Date()),
+                date: new Date(),
             }
         },
+        created() {
+            axios.get(`http://localhost:3000/timeslots?date=2023-11-10`)
+            .then(response => {
+                this.timeslots = response.data,
+                console.log(response.data)
+            })
+            .catch(e => {
+            this.errors.push(e)
+            })
+        },
         methods: {
-            fetchAppointments(url) {
-                console.log(url)
-                var req = new Request(url)
+            // fetchAppointments(url) {
+            //     console.log(url)
+            //     var req = new Request(url)
 
-                fetch(req)
-                    .then(response => response.json())
-                    .then(data => { 
-                        this.appointments = data
-                        console.log(this.appointments)
-                    })
-                    .catch(error => {
-                        console.error(error)
-                    })
+            //     fetch(req)
+            //         .then(response => response.json())
+            //         .then(data => { 
+            //             this.appointments = data
+            //             console.log(this.appointments)
+            //         })
+            //         .catch(error => {
+            //             console.error(error)
+            //         })
+            // },
+            getDateString(date) {
+                const year = date.getFullYear()
+                const month = String(date.getMonth() + 1).padStart(2, '0')
+                const day = String(date.getDate()).padStart(2, '0')
+                return `${year}-${month}-${day}`
             },
-            getCurrentDate() {
-                const today = new Date()
-                const year = today.getFullYear()
-                const month = String(today.getMonth() + 1).padStart(2, '0')
-                const day = String(today.getDate()).padStart(2, '0')
-                const currentDate = `${year}-${month}-${day}`
-                return currentDate
+            nextDate() {
+                this.date.setDate(this.date.getDate() + 1); 
             },
+            previousDate() {
+                this.date.setDate(this.date.getDate() - 1); 
+            }
         },
         // computed: {
         //     filterAppointments() {
@@ -252,12 +273,18 @@
     .datepicker-area .btn-group, .datepicker-area .btn-group .btn {
         background-color: var(--lightGrey);
         color: black;
+        border: none;
     }
-    .table .icon, .table .time {
+    .table > :not(caption) > * > * {
+        padding: .45rem .45rem;
+    }
+    .table .icon {
         text-align: center;
+        font-size: 2rem;
     }
     .table .time {
-        font-size: 13px;
+        font-size: 11px;
+        text-align: center;
         /* border-top: 0;
         border-bottom: 0;
         border-left: 0; */
