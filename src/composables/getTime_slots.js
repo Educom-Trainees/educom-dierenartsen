@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
 const getTime_slots = () => {
-    const time_slots = ref([])
+    const time_slots = ref(null)
     const error = ref(null)
 
     const load = async () => {

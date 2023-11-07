@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-const getAppointments = async (date, name, phone, email, type_animal, name_animal, preference, status) => {
+const getAppointments = async (date, duration, name, phone, email, type_animal, type_consult, name_animal, preference, status) => {
     const appointments = ref([])
     const error = ref(null)
       try {
@@ -10,8 +10,8 @@ const getAppointments = async (date, name, phone, email, type_animal, name_anima
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({date: date, customer: name, phoneNumber: phone, email: email, petType: type_animal, 
-          pets: [{name: name_animal[0]}, {name: name_animal[1]}], 
+        body: JSON.stringify({date: date, duration: duration, customer: name, phoneNumber: phone, email: email, petType: type_animal, type: type_consult,
+          pets: [{name: name_animal[0]}, {name: name_animal[1]}, {name: name_animal[2]}, {name: name_animal[3]}], 
           preference: preference, status: status})})
         if(!data.ok){
           throw Error('not able to make appointment')

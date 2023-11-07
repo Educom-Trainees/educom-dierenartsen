@@ -73,9 +73,18 @@
       <label>Datum: </label>
         <input type="date" required v-model="date">
       <label>Tijd:</label>
-        <!-- <div v-if="time_slots.length">
-          <TimeSlotList :timeslots="time_slots" />
-        </div> -->
+        <div v-if="time_slots.length">
+              <select v-model="timeslotdata">
+              <option :value="timeslot.time + '_' + timeslot.doktor" v-for="timeslot in time_slots" :key="timeslot.time">
+                <div v-if="timeslot.doctor == this.preference || this.preference == 0">
+                  tijd: {{ timeslot.time }} dokter: {{ timeslot.doctor }}
+                </div>
+              </option>
+              <!-- <p v-if="timeslot.doctor == this.preference || this.preference == 0">
+                tijd: {{ timeslot.time }} dokter: {{ timeslot.doctor }}
+              </p> -->
+              </select>
+        </div>
       <button>vorige</button>
       <div class="submit">
         <button>volgende</button>
@@ -101,22 +110,13 @@
 </template>
 
 <script>
-  import TimeSlotList from '../components/TimeSlotList.vue'
   import getTime_slots from '../composables/getTime_slots'
   import getAppointment_type from '../composables/getAppointment_type'
   import postAppointments from '../composables/postAppointments'
 
   export default {
     name: 'app',
-    components: { TimeSlotList },
-    setup() {
-      const { time_slots, error, load} = getTime_slots()
-      load()
-      return {
-        time_slots,
-        error
-      }
-    },
+    components: {},
     data() {
         return {
             name: '',
@@ -132,6 +132,10 @@
             duration: 0,
             preference: 0,
             status: 0,
+            time_slots: '',
+            timeslotdata: '',
+            time: '',
+            docter: '',
             date: '',
             nameError: '',
             emailError: '',
@@ -140,20 +144,44 @@
         }
     },
     methods: {
-      handleSubmit() {
+      async handleSubmit() {
         const { appointment_type, error, load } = getAppointment_type(this.type_consult)
-        load()
-        // if(){
-        //   this.amount = appointment_type.
-        // }
-        console.log(appointment_type)
-        console.log(appointment_type.value)
+        await load()
+        for(let i=0; i < appointment_type.value.calculation.length; i++){
+          const app_type = appointment_type.value.calculation[i];
+          if (app_type.count && app_type.count != this.amount) { 
+            continue
+          }
+          if(app_type.type && app_type.type != this.type_animal){
+            continue
+          }
+          this.duration = app_type.duration
+          break
+        }
+        console.log(this.duration)
 
+        const { time_slots, timeslot_error } = await this.gettimeslots()
+
+        this.time_slots = time_slots
+
+        console.log(time_slots.value.length)
+        console.log(time_slots.length)
+        console.log(time_slots)
         this.showForm = false
         this.showdateForm = true
-        return { appointment_type, error }
+        return { 
+          appointment_type, 
+          time_slots, 
+          error, 
+          timeslot_error 
+        }
       },
       handledateSubmit() {
+        // this.time = this.timeslotdata.time
+        // this.docter = this.timeslotdata.docter
+        console.log(this.timeslotdata)
+        console.log(this.time)
+        console.log(this.docter)
         this.showdateForm = false
         this.showcontactForm = true
       },
@@ -171,13 +199,15 @@
 
         if(!this.nameError && !this.emailError){
           console.log('je zit goed')
-          console.log(this.name_animal)
-          console.log(this.name_animal[0])
-          console.log(this.name_animal[1])
-          postAppointments(this.date, this.name, this.phone, this.email, this.type_animal, this.name_animal, this.preference, this.status)
+          postAppointments(this.date, this.duration, this.name, this.phone, this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.status)
           // console.log('naam:' + this.name)
           // this.$router.push('/result')
         }
+      },
+      async gettimeslots(){
+        const { time_slots, error, load } = getTime_slots()
+        await load()
+        return { time_slots, error }
       }
     }
   }
