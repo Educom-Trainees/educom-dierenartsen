@@ -17,7 +17,6 @@ export default {
     load()
 
     const showAppointments = ref(true)
-    console.log(appointments)
     return {
       appointments,
       error,

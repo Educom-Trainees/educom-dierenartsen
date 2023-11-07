@@ -13,13 +13,15 @@
       <div v-if="phoneError" class="error">{{ phoneError }}</div> -->
       <label>type dier: </label>
         <select v-model="type_animal">
-          <option value="dog">hond</option>
-          <option value="cat">kat</option>
-          <option value="rabbit">konijn</option>
-          <option value="small_pig">cavia</option>
-          <option value="hamster">hamster</option>
-          <option value="rat">rat</option>
-          <option value="mouse">muis</option>
+          <option value="1">hond</option>
+          <option value="8">kleine hond</option>
+          <option value="9">grote hond</option>
+          <option value="2">kat</option>
+          <option value="3">konijn</option>
+          <option value="4">cavia</option>
+          <option value="5">hamster</option>
+          <option value="6">rat</option>
+          <option value="7">muis</option>
         </select><br>
       <label>aantal: </label>
         <select v-model="amount">
@@ -28,20 +30,33 @@
           <option value="3">3</option>
           <option value="4">4</option>
         </select><br>
-      <label>Naam dier: </label>
-      <input type="text" required v-model="name_animal"><br>
+      <label v-if="amount == 1">Naam huisdier: </label>
+      <label v-if="amount != 1">Naam eerste huisdier: </label>
+      <input type="text" required v-model="name_animal[0]"><br>
+      <div v-if="amount != 1">
+        <label>Naam tweede huisdier: </label>
+        <input type="text" required v-model="name_animal[1]">
+      </div>
+      <div v-if="amount != 1 && amount != 2">
+        <label>Naam derde huisdier: </label>
+        <input type="text" required v-model="name_animal[2]">
+      </div>
+      <div v-if="amount == 4">
+        <label>Naam vierde huisdier: </label>
+        <input type="text" required v-model="name_animal[3]">
+      </div>
       <label>type consult: </label>
         <select v-model="type_consult">
-          <option value="consult">consult</option>
-          <option value="first_consult">eerste consult</option>
-          <option value="vaccine">vaccinatie</option>
-          <option value="emptying">anaal klieren legen</option>
-          <option value="nails">nagels knippen</option>
-          <option value="blood">bloed onderzoek</option>
-          <option value="urine">urine onderzoek</option>
-          <option value="teeth">gebitscontrole</option>
-          <option value="operation_checkup">postoperatieve controle</option>
-          <option value="prescription">herhaal recept bestellen</option>
+          <option value="1">consult</option>
+          <option value="2">eerste consult</option>
+          <option value="3">vaccinatie</option>
+          <option value="4">anaal klieren legen</option>
+          <option value="5">nagels knippen</option>
+          <option value="6">bloed onderzoek</option>
+          <option value="7">urine onderzoek</option>
+          <option value="8">gebitscontrole</option>
+          <option value="9">postoperatieve controle</option>
+          <option value="10">herhaal recept bestellen</option>
         </select>
         <div class="submit">
           <button>volgende</button>
@@ -57,6 +72,10 @@
         </select><br>
       <label>Datum: </label>
         <input type="date" required v-model="date">
+      <label>Tijd:</label>
+        <!-- <div v-if="time_slots.length">
+          <TimeSlotList :timeslots="time_slots" />
+        </div> -->
       <button>vorige</button>
       <div class="submit">
         <button>volgende</button>
@@ -82,12 +101,21 @@
 </template>
 
 <script>
+  import TimeSlotList from '../components/TimeSlotList.vue'
+  import getTime_slots from '../composables/getTime_slots'
+  import getAppointment_type from '../composables/getAppointment_type'
   import postAppointments from '../composables/postAppointments'
 
   export default {
     name: 'app',
-    components: {
-
+    components: { TimeSlotList },
+    setup() {
+      const { time_slots, error, load} = getTime_slots()
+      load()
+      return {
+        time_slots,
+        error
+      }
     },
     data() {
         return {
@@ -95,12 +123,13 @@
             email: '',
             phone: '',
             type_animal: '',
-            amount: '1',
-            name_animal: '',
+            amount: 1,
+            name_animal: [],
             type_consult: '',
             showForm: true,
             showdateForm: false,
             showcontactForm: false,
+            duration: 0,
             preference: 0,
             status: 0,
             date: '',
@@ -112,8 +141,17 @@
     },
     methods: {
       handleSubmit() {
-          this.showForm = false
-          this.showdateForm = true
+        const { appointment_type, error, load } = getAppointment_type(this.type_consult)
+        load()
+        // if(){
+        //   this.amount = appointment_type.
+        // }
+        console.log(appointment_type)
+        console.log(appointment_type.value)
+
+        this.showForm = false
+        this.showdateForm = true
+        return { appointment_type, error }
       },
       handledateSubmit() {
         this.showdateForm = false
@@ -133,6 +171,9 @@
 
         if(!this.nameError && !this.emailError){
           console.log('je zit goed')
+          console.log(this.name_animal)
+          console.log(this.name_animal[0])
+          console.log(this.name_animal[1])
           postAppointments(this.date, this.name, this.phone, this.email, this.type_animal, this.name_animal, this.preference, this.status)
           // console.log('naam:' + this.name)
           // this.$router.push('/result')

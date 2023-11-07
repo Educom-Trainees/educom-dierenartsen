@@ -1,331 +1,866 @@
 {
-    "appointments": [
-        { 
-            "id": 19,
-            "number": "2023011",
-            "date": "2023-11-09",
-            "time": "14:30",
-            "duration": 15,           
-            "customer": "Morgan FreeWilly",
-            "phoneNumber": "+132333239837",
-            "email": "m.free.willy@mail.com",
-            "petType": 5,
-            "type": 10,
-            "pets" : [
-                 { 
-                     "id" : 245,
-                     "name" : ""
-                 }
-            ],
-            "preference": 2,
-            "doctor": 2, 
-            "status": 0
-        },
-        { 
-           "id": 13,
-           "number": "2023013",
-           "date": "2023-11-10",
-           "time": "09:30",
-           "duration": 15,           
-           "customer": "Jan Jansen",
-           "phoneNumber": "+3164923894",
-           "email": "jan.jansen@gmail.com",
-           "type": 1,
-           "petType": 2,
-           "pets" : [
-                { 
-                    "id" : 243,
-                    "name" : "Minoes"
-                },
-                { 
-                    "id" : 244,
-                    "name" : "Simba",
-                    "extra" : "heeft een gebroken poot"
-                }
-           ],
-           "preference": 0,
-           "doctor": 1, 
-           "status": 0
-         },
-         { 
-            "id": 14,
-            "number": "2023013",
-            "date": "2023-11-10",
-            "time": "09:30",
-            "duration": 15,           
-            "customer": "Piet Klaassen",
-            "phoneNumber": "+31613125476",
-            "email": "piet.klaassen@hotmail.com",
-            "type": 9,
-            "petType": 8,
-            "pets" : [
-                 { 
-                     "id" : 243,
-                     "name" : "Minoes"
-                 },
-                 { 
-                     "id" : 244,
-                     "name" : "Simba"
-                 }
-            ],
-            "preference": 0,
-            "doctor": 2, 
-            "status": 0
-          },
-          { 
-            "id": 16,
-            "number": "2023013",
-            "date": "2023-11-10",
-            "time": "09:30",
-            "duration": 15,           
-            "customer": "Jan Jansen",
-            "phoneNumber": "+3164923894",
-            "email": "jan.jansen@gmail.com",
-            "type": 1,
-            "petType": 2,
-            "pets" : [
-                 { 
-                     "id" : 23,
-                     "name" : "Fifi"
-                 },
-                 { 
-                     "id" : 121,
-                     "name" : ""
-                 }
-            ],
-            "preference": 0,
-            "doctor": 1, 
-            "status": 0
-          },
-          { 
-            "id": 15,
-            "number": "2023013",
-            "date": "2023-11-10",
-            "time": "09:45",
-            "duration": 30,           
-            "customer": "Jan Jansen",
-            "phoneNumber": "+3164923894",
-            "email": "jan.jansen@gmail.com",
-            "type": 4,
-            "petType": 3,
-            "pets" : [
-                 { 
-                     "id" : 245,
-                     "name" : "gewoon cavia"
-                 }
-            ],
-            "preference": 1,
-            "doctor": 3, 
-            "status": 0
-          },
-          { 
-            "id": 18,
-            "number": "2023001",
-            "date": "2023-11-10",
-            "time": "14:30",
-            "duration": 15,           
-            "customer": "Ontevrede klant",
-            "phoneNumber": "+323883229333",
-            "email": "ont.klant@mail.com",
-            "type": 3,
-            "petType": 2,
-            "pets" : [
-                 { 
-                     "id" : 245,
-                     "name" : "poes"
-                 }
-            ],
-            "preference": 2,
-            "doctor": 2, 
-            "status": 2
-          },
-          { 
-            "id": 19,
-            "number": "2023013",
-            "date": "2023-11-10",
-            "time": "14:30",
-            "duration": 30,           
-            "customer": "Morgan FreeWilly",
-            "phoneNumber": "+132333239837",
-            "email": "m.free.willy@mail.com",
-            "type": 2,
-            "petType": 5,
-            "pets" : [
-                 { 
-                     "id" : 245,
-                     "name" : ""
-                 }
-            ],
-            "preference": 2,
-            "doctor": 2, 
-            "status": 0
-          }
-       ],
-
-    "pet-types": [
-        { 
-            "id": 1, 
-            "name": "Hond",
-            "plural": "Honden"
-        },
-        { 
-            "id": 2, 
-            "name": "Kat",
-            "plural": "Katten"
-            
-        },
-        { 
-            "id": 3, 
-            "name": "Konijn",
-            "plural": "Konijnen"
-        },
-        { 
-            "id": 4, 
-            "name": "Cavia",
-            "plural": "Cavia's"
-        },
-        { 
-            "id": 5, 
-            "name": "Hamster",
-            "plural": "Hamsters"
-        },
-        { 
-            "id": 6, 
-            "name": "Rat",
-            "plural": "Ratten"
-        },
-        { 
-            "id": 7, 
-            "name": "Muis",
-            "plural": "Muizen"
-        },    
-        { 
-            "id": 8, 
-            "name": "Kleine hond",
-            "plural": "Kleine honden",
-            "parent": 1
-        },    
-        { 
-            "id": 9, 
-            "name": "Grote hond",
-            "plural": "Grote honden",
-            "parent": 1
-        }    
-    ],
-
-    "appointment-types": [
-        { 
-            "id": 1, 
-            "name": "consult",
-            "calculation": [ 
-                { "duration": 30, "count": 4 }, 
-                { "duration": 15 } 
-            ]
-        },
-        { 
-            "id": 2, 
-            "name": "eerste consult",
-            "calculation": [ 
-                { "duration": 45, "count": 4}, 
-                { "duration": 45, "count": 3, "type": 9}, 
-                { "duration": 30 } 
-            ]
-        },
-        { 
-            "id": 3, 
-            "name": "vaccinatie",
-            "calculation": [ 
-                { "duration": 30, "count": 4}, 
-                { "duration": 30, "count": 3}, 
-                { "duration": 15} 
-            ]
-        },
-        { 
-            "id": 4, 
-            "name": "anaal klieren legen",
-            "calculation": [ 
-                { "duration": 45, "count": 4}, 
-                { "duration": 45, "count": 3, "type": 9}, 
-                { "duration": 30 } 
-            ]
-        },
-        { 
-            "id": 5, 
-            "name": "nagels knippen",
-            "calculation": [ 
-                { "duration": 30, "count": 4 }, 
-                { "duration": 15} 
-            ]
-        },
-        { 
-            "id": 6, 
-            "name": "bloed onderzoek",
-            "calculation": [ 
-                { "duration": 30, "count": 4}, 
-                { "duration": 30, "count": 3}, 
-                { "duration": 15 } 
-            ]
-        },
-        { 
-            "id": 7, 
-            "name": "urine onderzoek",
-            "calculation": [ 
-                { "duration": 30, "count": 4}, 
-                { "duration": 30, "count": 3}, 
-                { "duration": 15 } 
-            ]
-        },
-        { 
-            "id": 8, 
-            "name": "gebitscontrole",
-            "calculation": [ 
-                { "duration": 30, "count": 4 }, 
-                { "duration": 15 } 
-            ]
-        },
-        { 
-            "id": 9, 
-            "name": "postoperatieve controle",
-            "calculation": [ 
-                { "duration": 30, "count": 4 }, 
-                { "duration": 15 } 
-            ]
-        },
-        { 
-            "id": 10, 
-            "name": "herhaal recept bestellen",
-            "calculation": [ 
-                { "duration": 15 } 
-            ]
+  "appointments": [
+    {
+      "id": 19,
+      "number": "2023011",
+      "date": "2023-11-09",
+      "time": "14:30",
+      "duration": 15,
+      "customer": "Morgan FreeWilly",
+      "phoneNumber": "+132333239837",
+      "email": "m.free.willy@mail.com",
+      "petType": 5,
+      "type": 10,
+      "pets": [
+        {
+          "id": 245,
+          "name": ""
         }
-    ],
-
-    "time-slots": [
-        { "time": "09:00", "doctor": 1 }, { "time": "09:00", "doctor": 2 },
-        { "time": "09:15", "doctor": 1 }, { "time": "09:15", "doctor": 2 },
-        { "time": "09:30", "doctor": 1 }, { "time": "09:30", "doctor": 2 },
-        { "time": "09:45", "doctor": 1 }, { "time": "09:45", "doctor": 2 },
-        { "time": "10:00", "doctor": 1 }, { "time": "10:00", "doctor": 2 },
-        { "time": "10:15", "doctor": 1 }, { "time": "10:15", "doctor": 2 },
-        { "time": "10:30", "doctor": 1 }, { "time": "10:30", "doctor": 2 },
-        { "time": "10:45", "doctor": 1 }, { "time": "10:45", "doctor": 2 },
-        { "time": "11:00", "doctor": 1 }, { "time": "11:00", "doctor": 2 },
-        { "time": "11:15", "doctor": 1 }, { "time": "11:15", "doctor": 2 },
-        { "time": "11:30", "doctor": 1 }, { "time": "11:30", "doctor": 2 },
-        { "time": "11:45", "doctor": 1 }, { "time": "11:45", "doctor": 2 },
-        { "time": "12:00", "doctor": 1 }, { "time": "12:00", "doctor": 2 },
-        { "time": "14:15", "doctor": 1 }, { "time": "14:15", "doctor": 2 },
-        { "time": "14:30", "doctor": 1 }, { "time": "14:30", "doctor": 2 },
-        { "time": "14:45", "doctor": 1 }, { "time": "14:45", "doctor": 2 },
-        { "time": "15:00", "doctor": 1 }, { "time": "15:00", "doctor": 2 },
-        { "time": "15:15", "doctor": 1 }, { "time": "15:15", "doctor": 2 },
-        { "time": "15:30", "doctor": 1 }, { "time": "15:30", "doctor": 2 },
-        { "time": "15:45", "doctor": 1 }, { "time": "15:45", "doctor": 2 },
-        { "time": "16:00", "doctor": 1 }, { "time": "16:00", "doctor": 2 },
-        { "time": "16:15", "doctor": 1 }, { "time": "16:15", "doctor": 2 },
-        { "time": "16:30", "doctor": 1 }, { "time": "16:30", "doctor": 2 },
-        { "time": "16:45", "doctor": 1 }, { "time": "16:45", "doctor": 2 },
-        { "time": "17:00", "doctor": 1 },
-        { "time": "17:15", "doctor": 1 }
-    ]
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 13,
+      "number": "2023013",
+      "date": "2023-11-10",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 1,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba",
+          "extra": "heeft een gebroken poot"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 14,
+      "number": "2023013",
+      "date": "2023-11-10",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "Piet Klaassen",
+      "phoneNumber": "+31613125476",
+      "email": "piet.klaassen@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 16,
+      "number": "2023013",
+      "date": "2023-11-10",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 1,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 23,
+          "name": "Fifi"
+        },
+        {
+          "id": 121,
+          "name": ""
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 15,
+      "number": "2023013",
+      "date": "2023-11-10",
+      "time": "09:45",
+      "duration": 30,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 4,
+      "petType": 3,
+      "pets": [
+        {
+          "id": 245,
+          "name": "gewoon cavia"
+        }
+      ],
+      "preference": 1,
+      "doctor": 3,
+      "status": 0
+    },
+    {
+      "id": 18,
+      "number": "2023001",
+      "date": "2023-11-10",
+      "time": "14:30",
+      "duration": 15,
+      "customer": "Ontevrede klant",
+      "phoneNumber": "+323883229333",
+      "email": "ont.klant@mail.com",
+      "type": 3,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 245,
+          "name": "poes"
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 2
+    },
+    {
+      "id": 19,
+      "number": "2023013",
+      "date": "2023-11-10",
+      "time": "14:30",
+      "duration": 30,
+      "customer": "Morgan FreeWilly",
+      "phoneNumber": "+132333239837",
+      "email": "m.free.willy@mail.com",
+      "type": 2,
+      "petType": 5,
+      "pets": [
+        {
+          "id": 245,
+          "name": ""
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "",
+      "pets": [
+        {
+          "name": [
+            "dsa",
+            "sad"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 20
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "eerstehond",
+            "tweedehond"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 21
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "sda"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 22
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stkj",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "test1",
+            "test2"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 23
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "sad",
+      "phoneNumber": "123",
+      "email": "s@sd.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "123",
+            "12344",
+            "12311"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 24
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "sad",
+            "aad"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 25
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "",
+      "pets": [
+        {
+          "name": [
+            "testhuis1",
+            "testhuis2"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 26
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "1",
+            "2"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 27
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "1hond",
+            "2hond",
+            "3hond"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 28
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": [
+            "test",
+            "dezemoetjenietzien"
+          ]
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 29
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "sw@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": "sad"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 30
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": "geen"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 31
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": "h1g"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 32
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "stijn",
+      "phoneNumber": "123567",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": "hond1"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 33
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "2",
+      "pets": [
+        {
+          "name": "kat1"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 34
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "3",
+      "pets": [
+        {
+          "name": "konijn1"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 35
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "s",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": "1",
+      "pets": [
+        {
+          "name": "asd"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 36
+    },
+    {
+      "date": "2023-11-07",
+      "customer": "sa",
+      "phoneNumber": "sad",
+      "email": "sad@sd",
+      "petType": "1",
+      "pets": [
+        {
+          "name": "sd"
+        }
+      ],
+      "preference": 0,
+      "status": 0,
+      "id": 37
+    }
+  ],
+  "pet-types": [
+    {
+      "id": 1,
+      "name": "Hond",
+      "plural": "Honden"
+    },
+    {
+      "id": 2,
+      "name": "Kat",
+      "plural": "Katten"
+    },
+    {
+      "id": 3,
+      "name": "Konijn",
+      "plural": "Konijnen"
+    },
+    {
+      "id": 4,
+      "name": "Cavia",
+      "plural": "Cavia's"
+    },
+    {
+      "id": 5,
+      "name": "Hamster",
+      "plural": "Hamsters"
+    },
+    {
+      "id": 6,
+      "name": "Rat",
+      "plural": "Ratten"
+    },
+    {
+      "id": 7,
+      "name": "Muis",
+      "plural": "Muizen"
+    },
+    {
+      "id": 8,
+      "name": "Kleine hond",
+      "plural": "Kleine honden",
+      "parent": 1
+    },
+    {
+      "id": 9,
+      "name": "Grote hond",
+      "plural": "Grote honden",
+      "parent": 1
+    }
+  ],
+  "appointment-types": [
+    {
+      "id": 1,
+      "name": "consult",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "eerste consult",
+      "calculation": [
+        {
+          "duration": 45,
+          "count": 4
+        },
+        {
+          "duration": 45,
+          "count": 3,
+          "type": 9
+        },
+        {
+          "duration": 30
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "vaccinatie",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 30,
+          "count": 3
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "anaal klieren legen",
+      "calculation": [
+        {
+          "duration": 45,
+          "count": 4
+        },
+        {
+          "duration": 45,
+          "count": 3,
+          "type": 9
+        },
+        {
+          "duration": 30
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "nagels knippen",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "bloed onderzoek",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 30,
+          "count": 3
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "urine onderzoek",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 30,
+          "count": 3
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "gebitscontrole",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "postoperatieve controle",
+      "calculation": [
+        {
+          "duration": 30,
+          "count": 4
+        },
+        {
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "herhaal recept bestellen",
+      "calculation": [
+        {
+          "duration": 15
+        }
+      ]
+    }
+  ],
+  "time-slots": [
+    {
+      "time": "09:00",
+      "doctor": 1
+    },
+    {
+      "time": "09:00",
+      "doctor": 2
+    },
+    {
+      "time": "09:15",
+      "doctor": 1
+    },
+    {
+      "time": "09:15",
+      "doctor": 2
+    },
+    {
+      "time": "09:30",
+      "doctor": 1
+    },
+    {
+      "time": "09:30",
+      "doctor": 2
+    },
+    {
+      "time": "09:45",
+      "doctor": 1
+    },
+    {
+      "time": "09:45",
+      "doctor": 2
+    },
+    {
+      "time": "10:00",
+      "doctor": 1
+    },
+    {
+      "time": "10:00",
+      "doctor": 2
+    },
+    {
+      "time": "10:15",
+      "doctor": 1
+    },
+    {
+      "time": "10:15",
+      "doctor": 2
+    },
+    {
+      "time": "10:30",
+      "doctor": 1
+    },
+    {
+      "time": "10:30",
+      "doctor": 2
+    },
+    {
+      "time": "10:45",
+      "doctor": 1
+    },
+    {
+      "time": "10:45",
+      "doctor": 2
+    },
+    {
+      "time": "11:00",
+      "doctor": 1
+    },
+    {
+      "time": "11:00",
+      "doctor": 2
+    },
+    {
+      "time": "11:15",
+      "doctor": 1
+    },
+    {
+      "time": "11:15",
+      "doctor": 2
+    },
+    {
+      "time": "11:30",
+      "doctor": 1
+    },
+    {
+      "time": "11:30",
+      "doctor": 2
+    },
+    {
+      "time": "11:45",
+      "doctor": 1
+    },
+    {
+      "time": "11:45",
+      "doctor": 2
+    },
+    {
+      "time": "12:00",
+      "doctor": 1
+    },
+    {
+      "time": "12:00",
+      "doctor": 2
+    },
+    {
+      "time": "14:15",
+      "doctor": 1
+    },
+    {
+      "time": "14:15",
+      "doctor": 2
+    },
+    {
+      "time": "14:30",
+      "doctor": 1
+    },
+    {
+      "time": "14:30",
+      "doctor": 2
+    },
+    {
+      "time": "14:45",
+      "doctor": 1
+    },
+    {
+      "time": "14:45",
+      "doctor": 2
+    },
+    {
+      "time": "15:00",
+      "doctor": 1
+    },
+    {
+      "time": "15:00",
+      "doctor": 2
+    },
+    {
+      "time": "15:15",
+      "doctor": 1
+    },
+    {
+      "time": "15:15",
+      "doctor": 2
+    },
+    {
+      "time": "15:30",
+      "doctor": 1
+    },
+    {
+      "time": "15:30",
+      "doctor": 2
+    },
+    {
+      "time": "15:45",
+      "doctor": 1
+    },
+    {
+      "time": "15:45",
+      "doctor": 2
+    },
+    {
+      "time": "16:00",
+      "doctor": 1
+    },
+    {
+      "time": "16:00",
+      "doctor": 2
+    },
+    {
+      "time": "16:15",
+      "doctor": 1
+    },
+    {
+      "time": "16:15",
+      "doctor": 2
+    },
+    {
+      "time": "16:30",
+      "doctor": 1
+    },
+    {
+      "time": "16:30",
+      "doctor": 2
+    },
+    {
+      "time": "16:45",
+      "doctor": 1
+    },
+    {
+      "time": "16:45",
+      "doctor": 2
+    },
+    {
+      "time": "17:00",
+      "doctor": 1
+    },
+    {
+      "time": "17:15",
+      "doctor": 1
+    }
+  ]
 }
