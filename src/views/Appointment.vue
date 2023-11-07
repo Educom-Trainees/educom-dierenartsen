@@ -50,10 +50,10 @@
 
     <form @submit.prevent="handledateSubmit" v-if="showdateForm">
       <label>voorkeur: </label>
-        <select v-model="docter">
-          <option value="1">dokter 1</option>
-          <option value="2">dokter 2</option>
-          <option value="none">geen voorkeur</option>
+        <select v-model="preference">
+          <option value="1">karel lant</option>
+          <option value="2">danique de beer</option>
+          <option value="0">geen voorkeur</option>
         </select><br>
       <label>Datum: </label>
         <input type="date" required v-model="date">
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-  
+  import postAppointments from '../composables/postAppointments'
 
   export default {
     name: 'app',
@@ -101,7 +101,8 @@
             showForm: true,
             showdateForm: false,
             showcontactForm: false,
-            docter: 'none',
+            preference: 0,
+            status: 0,
             date: '',
             nameError: '',
             emailError: '',
@@ -131,8 +132,10 @@
         // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
 
         if(!this.nameError && !this.emailError){
-          console.log('naam:' + this.name)
-          this.$router.push('/result')
+          console.log('je zit goed')
+          postAppointments(this.date, this.name, this.phone, this.email, this.type_animal, this.name_animal, this.preference, this.status)
+          // console.log('naam:' + this.name)
+          // this.$router.push('/result')
         }
       }
     }
