@@ -655,6 +655,140 @@
       "doctor": 1,
       "status": 0,
       "id": 48
+    },
+    {
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "sda",
+      "phoneNumber": "123123",
+      "email": "sda@sd.com",
+      "petType": "8",
+      "type": "1",
+      "pets": [
+        {
+          "name": "daw"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 49
+    },
+    {
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 30,
+      "customer": "sad",
+      "phoneNumber": "123312",
+      "email": "sda@asd.com",
+      "petType": "1",
+      "type": "2",
+      "pets": [
+        {
+          "name": "asd"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 50
+    },
+    {
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "ad",
+      "phoneNumber": "da13",
+      "email": "sda@adw",
+      "petType": "1",
+      "type": "3",
+      "pets": [
+        {
+          "name": "asd"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 51
+    },
+    {
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 30,
+      "customer": "daw",
+      "phoneNumber": "1243215",
+      "email": "AWD@asd.com",
+      "petType": "1",
+      "type": "2",
+      "pets": [
+        {
+          "name": "wad"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 52
+    },
+    {
+      "number": 53,
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 30,
+      "customer": "daw",
+      "phoneNumber": "12312312321",
+      "email": "sd@ad.com",
+      "petType": "8",
+      "type": "4",
+      "pets": [
+        {
+          "name": "fse"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 53
+    },
+    {
+      "number": 54,
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "ssd",
+      "phoneNumber": "dsa123",
+      "email": "sda@Ewa",
+      "petType": "1",
+      "type": "5",
+      "pets": [
+        {
+          "name": "asd"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 54
     }
   ],
   "pet-types": [

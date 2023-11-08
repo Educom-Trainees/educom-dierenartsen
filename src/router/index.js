@@ -34,9 +34,10 @@ const routes = [
     component: Login
   },
   {
-    path: '/result',
+    path: '/result/:id',
     name: 'result',
-    component: Result
+    component: Result,
+    props: true
   },
   {
     path: '/overview',

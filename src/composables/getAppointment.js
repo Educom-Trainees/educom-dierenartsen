@@ -1,16 +1,16 @@
 import { ref } from 'vue'
 
-const getAppointments = () => {
-    const appointments = ref(null)
+const getAppointment = (id) => {
+    const appointment = ref(null)
     const error = ref(null)
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/appointments')
+        let data = await fetch('http://localhost:3000/appointments/' + id)
         if(!data.ok){
           throw Error('no data found')
         }
-        appointments.value = await data.json()
+        appointment.value = await data.json()
       }
       catch (err) {
         error.value = err.message
@@ -18,7 +18,7 @@ const getAppointments = () => {
       }
     }
 
-    return { appointments, error, load}
+    return { appointment, error, load}
 }
 
-export default getAppointments
+export default getAppointment

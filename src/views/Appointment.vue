@@ -111,6 +111,7 @@
 
 <script>
   import getTime_slots from '../composables/getTime_slots'
+  import getAppointments from '../composables/getAppointments'
   import getAppointment_type from '../composables/getAppointment_type'
   import postAppointments from '../composables/postAppointments'
 
@@ -132,6 +133,8 @@
             duration: 0,
             preference: 0,
             status: 0,
+            number: 0,
+            appointments: '',
             time_slots: '',
             timeslotdata: '',
             time: '',
@@ -179,7 +182,12 @@
         this.showdateForm = false
         this.showcontactForm = true
       },
-      Result() {
+      async Result() {
+        const { appointments, error, load } = getAppointments()
+        await load()
+        this.appointments = appointments
+
+
         this.nameError = this.name.length < 30 ?
         '' : 'je naam mag niet langer zijn dan 30 letters'
         this.emailError = this.email.length < 75 ?
@@ -193,9 +201,12 @@
 
         if(!this.nameError && !this.emailError){
           console.log('je zit goed')
-          postAppointments(this.date, this.time, this.duration, this.name, this.phone, this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.doctor, this.status)
-          // console.log('naam:' + this.name)
-          // this.$router.push('/result')
+          const lastappointment = this.appointments[this.appointments.length - 1]
+          this.number = lastappointment.id
+          this.number++
+          await postAppointments(this.number, this.date, this.time, this.duration, this.name, this.phone, this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.doctor, this.status)
+          console.log('de afspraak is gepost')
+          this.$router.push('/result/' + this.number)
         }
       },
       async gettimeslots(){
