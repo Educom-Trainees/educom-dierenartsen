@@ -603,6 +603,34 @@
       "preference": 0,
       "status": 0,
       "id": 46
+    },
+    {
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 30,
+      "customer": "stijn engelmoer",
+      "phoneNumber": "123456789",
+      "email": "s.engel@ziggo.nl",
+      "petType": "2",
+      "type": "1",
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {
+          "name": "test2"
+        },
+        {
+          "name": "kat"
+        },
+        {
+          "name": "geennaam"
+        }
+      ],
+      "preference": "1",
+      "doctor": 1,
+      "status": 0,
+      "id": 47
     }
   ],
   "pet-types": [

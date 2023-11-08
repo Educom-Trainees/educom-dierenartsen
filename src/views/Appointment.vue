@@ -75,7 +75,7 @@
       <label>Tijd:</label>
         <div v-if="time_slots.length">
               <select v-model="timeslotdata">
-              <option :value="timeslot.time + '_' + timeslot.doktor" v-for="timeslot in time_slots" :key="timeslot.time">
+              <option :value="timeslot" v-for="timeslot in time_slots" :key="timeslot.time">
                 <div v-if="timeslot.doctor == this.preference || this.preference == 0">
                   tijd: {{ timeslot.time }} dokter: {{ timeslot.doctor }}
                 </div>
@@ -135,7 +135,7 @@
             time_slots: '',
             timeslotdata: '',
             time: '',
-            docter: '',
+            doctor: '',
             date: '',
             nameError: '',
             emailError: '',
@@ -164,9 +164,6 @@
 
         this.time_slots = time_slots
 
-        console.log(time_slots.value.length)
-        console.log(time_slots.length)
-        console.log(time_slots)
         this.showForm = false
         this.showdateForm = true
         return { 
@@ -177,11 +174,8 @@
         }
       },
       handledateSubmit() {
-        // this.time = this.timeslotdata.time
-        // this.docter = this.timeslotdata.docter
-        console.log(this.timeslotdata)
-        console.log(this.time)
-        console.log(this.docter)
+        this.time = this.timeslotdata.time
+        this.doctor = this.timeslotdata.doctor
         this.showdateForm = false
         this.showcontactForm = true
       },
@@ -199,7 +193,7 @@
 
         if(!this.nameError && !this.emailError){
           console.log('je zit goed')
-          postAppointments(this.date, this.duration, this.name, this.phone, this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.status)
+          postAppointments(this.date, this.time, this.duration, this.name, this.phone, this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.doctor, this.status)
           // console.log('naam:' + this.name)
           // this.$router.push('/result')
         }
