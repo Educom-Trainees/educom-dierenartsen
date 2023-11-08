@@ -860,6 +860,27 @@
       "doctor": 2,
       "status": 0,
       "id": 57
+    },
+    {
+      "number": 58,
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "sda",
+      "phoneNumber": "123123",
+      "email": "asd@asd",
+      "petType": "1",
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 58
     }
   ],
   "pet-types": [

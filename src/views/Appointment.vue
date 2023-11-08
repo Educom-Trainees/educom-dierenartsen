@@ -12,7 +12,7 @@
       <input type="text" required v-model="phone"><br>
       <div v-if="phoneError" class="error">{{ phoneError }}</div> -->
       <label>type dier: </label>
-        <select v-model="type_animal">
+        <select required v-model="type_animal">
           <option value="1">hond</option>
           <option value="8">kleine hond</option>
           <option value="9">grote hond</option>
@@ -32,21 +32,21 @@
         </select><br>
       <label v-if="amount == 1">Naam huisdier: </label>
       <label v-if="amount != 1">Naam eerste huisdier: </label>
-      <input type="text" required v-model="name_animal[0]"><br>
+      <input type="text" v-model="name_animal[0]"><br>
       <div v-if="amount != 1">
         <label>Naam tweede huisdier: </label>
-        <input type="text" required v-model="name_animal[1]">
+        <input type="text" v-model="name_animal[1]">
       </div>
       <div v-if="amount != 1 && amount != 2">
         <label>Naam derde huisdier: </label>
-        <input type="text" required v-model="name_animal[2]">
+        <input type="text" v-model="name_animal[2]">
       </div>
       <div v-if="amount == 4">
         <label>Naam vierde huisdier: </label>
-        <input type="text" required v-model="name_animal[3]">
+        <input type="text" v-model="name_animal[3]">
       </div>
       <label>type consult: </label>
-        <select v-model="type_consult">
+        <select required v-model="type_consult">
           <option value="1">consult</option>
           <option value="2">eerste consult</option>
           <option value="3">vaccinatie</option>
@@ -74,7 +74,7 @@
         <input type="date" required v-model="date">
       <label>Tijd:</label>
         <div v-if="time_slots.length">
-              <select v-model="timeslotdata">
+              <select required v-model="timeslotdata">
               <option :value="timeslot" v-for="timeslot in time_slots" :key="timeslot.time">
                 <div v-if="timeslot.doctor == this.preference || this.preference == 0">
                   tijd: {{ timeslot.time }} dokter: {{ timeslot.doctor }}
