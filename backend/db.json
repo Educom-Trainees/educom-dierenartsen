@@ -631,6 +631,30 @@
       "doctor": 1,
       "status": 0,
       "id": 47
+    },
+    {
+      "date": "2023-11-09",
+      "time": "15:00",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123123",
+      "email": "s@s.com",
+      "petType": "2",
+      "type": "1",
+      "pets": [
+        {
+          "name": "kat1"
+        },
+        {
+          "name": "kat2"
+        },
+        {},
+        {}
+      ],
+      "preference": "0",
+      "doctor": 1,
+      "status": 0,
+      "id": 48
     }
   ],
   "pet-types": [
