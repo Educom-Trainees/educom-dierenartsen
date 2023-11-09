@@ -4,192 +4,22 @@
         <div class="col-12">
             <h1 class="text-lg text-left">Overzicht afspraken</h1>
 
-            <div class="datepicker-area d-flex justify-content-center align-items-center">
+            <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
                 <div class="btn-group" role="group" aria-label="datepicker">
-                    <button @click="($event) => {if (date > today) { previousDateDate() }}" type="button" class="btn btn-secondary">&lt;</button>
-                    <button type="button" class="btn btn-secondary">{{ getDateString(date) }}</button>
-                    <button @click="nextDate()" type="button" class="btn btn-secondary">&gt;</button>
+                    <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
+                    <button type="button" class="btn btn-secondary">{{ toDateString(date) }}</button>
+                    <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
                 </div>
             </div>
-
-            <table class="table table-bordered table-responsive">
+            
+            <table id="overview-calendar" class="table table-bordered table-responsive">
                 <tr>
-                    <th class="icon"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
-                    <th width="47%">Karel Lant</th>
-                    <th width="47%">Danique de Beer</th>
+                    <th id="clock-o"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                    <th width="47%">{{ doctors[0] }}</th>
+                    <th width="47%">{{ doctors[1] }}</th>
                 </tr>
-                <tr>
-                    <td class="time">09:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">09:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">09:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">09:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">10:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">10:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">10:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">10:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">11:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">11:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">11:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">11:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">12:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">12:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">12:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">12:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">13:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">13:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">13:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">13:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">14:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">14:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">14:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">14:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">15:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">15:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">15:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">15:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">16:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">16:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">16:30</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">16:45</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">17:00</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">17:15</td>
-                    <td class="no-event" rowspan="1"></td>
-                    <td class="no-event" rowspan="1"></td>
-                </tr>
-                <tr>
-                    <td class="time">17:30</td>
+                <tr v-for="timeslot in timeslots.filter(timeslot => timeslot.doctor == 1)">
+                    <td class="event-time">{{ timeslot.time }}</td>
                     <td class="no-event" rowspan="1"></td>
                     <td class="no-event" rowspan="1"></td>
                 </tr>
@@ -200,93 +30,150 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
 
-    const today = this.getDateString(new Date())
+    const testDate = '2023-11-10'
+    const doctors = ['Karel Lant', 'Danique de Beer']
+    const today = new Date(testDate)
+    const baseUrlTimeslots = 'http://localhost:3000/timeslots?date='
+    const baseUrlActiveAppointments = 'http://localhost:3000/appointments?status=0&date='
 
     export default {
         name: 'Overview',
+        components: {
+        },
+        created() {
+            this.getTimeslots(testDate)
+            this.getActiveAppointments(testDate)
+        },
+        updated() {
+            console.log('mounting appointments')
+            this.mountAppointments()
+        },
         data() {
             return {
+                doctors: doctors,
                 timeslots: [],
-                errors: [],
-                appointments: null,
-                // today: this.getDateString(new Date()),
+                activeAppointments: [],
+                today: today,
                 date: new Date(),
             }
         },
-        created() {
-            axios.get(`http://localhost:3000/timeslots?date=2023-11-10`)
-            .then(response => {
-                this.timeslots = response.data,
-                console.log(response.data)
-            })
-            .catch(e => {
-            this.errors.push(e)
-            })
-        },
         methods: {
-            // fetchAppointments(url) {
-            //     console.log(url)
-            //     var req = new Request(url)
-
-            //     fetch(req)
-            //         .then(response => response.json())
-            //         .then(data => { 
-            //             this.appointments = data
-            //             console.log(this.appointments)
-            //         })
-            //         .catch(error => {
-            //             console.error(error)
-            //         })
-            // },
-            getDateString(date) {
+            toDateString(date) {
                 const year = date.getFullYear()
                 const month = String(date.getMonth() + 1).padStart(2, '0')
                 const day = String(date.getDate()).padStart(2, '0')
                 return `${year}-${month}-${day}`
             },
             nextDate() {
-                this.date.setDate(this.date.getDate() + 1); 
+                this.date.setDate(this.date.getDate() + 1)
+                console.log('next day: ', this.date)
             },
             previousDate() {
-                this.date.setDate(this.date.getDate() - 1); 
-            }
+                this.date.setDate(this.date.getDate() - 1)
+                console.log('previous day: ', this.date)
+            }, 
+            async getTimeslots(dateString) {
+                const url = baseUrlTimeslots + dateString
+                await axios.get(url)
+                    .then(response => {
+                        this.timeslots = response.data;
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                            console.error('Error getting timeslots:', error);
+                }); 
+            },
+            async getActiveAppointments(dateString) {
+                const url = baseUrlActiveAppointments + dateString
+                await axios.get(url)
+                    .then(response => {
+                        this.activeAppointments = response.data;
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                            console.error('Error getting active appointments:', error);
+                }); 
+            },
+            mountAppointments() {
+                const appointmentsObject = {
+                    1: this.activeAppointments.filter(a => a.doctor == 1),
+                    2: this.activeAppointments.filter(a => a.doctor == 2)
+                }
+                const timeslotArray = [
+                    this.timeslots.filter(t => t.doctor == 1),
+                    this.timeslots.filter(t => t.doctor == 2)
+                ]
+                for (let doctorsKey in appointmentsObject) {
+                    for (let appointment of appointmentsObject[doctorsKey]) {
+                        for (var timeslotIndex = 0; timeslotIndex < timeslotArray.length; timeslotIndex++) {
+                            if (appointment.time == timeslotArray[timeslotIndex].time) {
+                                this.addToOverview(timeslotIndex, appointment) 
+                            }
+                        }
+                    }
+                }
+            },
+            calculateRowspan(duration) {
+                switch (duration) {
+                    case "15": 
+                        return "1"
+                    case "30":
+                        return "2"
+                    case "45":
+                        return "3"
+                    case "60":
+                        return "4"
+                }
+            },
+            addToOverview(timeslotIndex, appointment) {
+                const customer = appointment.customer
+                const startTime = appointment.time
+                const table = document.getElementById('overview-calendar').getElementsByTagName('tbody')[0]
+                const timeslotRow = table.rows[timeslotIndex]
+                const cell = timeslotRow.childNodes[appointment.doctor]
+
+                cell.classList.remove("no-event")
+                cell.classList.add("has-event")
+                const rowspan = this.calculateRowspan(appointment.duration)
+                cell.setAttribute("rowspan", rowspan)
+                cell.innerHTML = 
+                    '<div class="appointment">' +
+                        '<span>' + customer - startTime + '</span>' +
+                    '</div>'
+                console.log('added to calendar')
+            },
         },
         // computed: {
-        //     filterAppointments() {
-        //         this.doctor_1_appointments = this.appointments.filter((appointment) => appointment.doctor == 1)
+        //     date: {
+        //         get() {
+        //             return this.toDateString(this.date)
+        //         },
         //     }
         // }
     }
-
 </script>
 
 <style>
     .container-fluid * {
         text-align: left;
     }
-    .datepicker-area {
+    #datepicker-area {
         min-height: 70px;
         background-color: var(--darkGrey);
     }
-    .datepicker-area .btn-group, .datepicker-area .btn-group .btn {
+    #datepicker-area .btn-group, #datepicker-area .btn-group .btn {
         background-color: var(--lightGrey);
         color: black;
         border: none;
     }
-    .table > :not(caption) > * > * {
-        padding: .45rem .45rem;
-    }
-    .table .icon {
+    #clock-o {
         text-align: center;
         font-size: 2rem;
     }
-    .table .time {
-        font-size: 11px;
+    .table .event-time {
         text-align: center;
-        /* border-top: 0;
-        border-bottom: 0;
-        border-left: 0; */
+        padding: 2px;
     }
 </style>
