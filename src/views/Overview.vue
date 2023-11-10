@@ -15,10 +15,10 @@
     </div>
     <div class="row flex-column flex-lg-row">
         <div class="col-12 col-lg-6">
-            <Calendar doctor='Karel Lant' doctorId="1" :timeslots="timeslots" :appointments="appointments" />
+            <Calendar doctor='Karel Lant' doctorId="1" :timeslots="timeslots" :appointments="appointments" color="#38B6FF" />
         </div>
         <div class="col-12 col-lg-6">
-            <Calendar doctor='Danique de Beer' doctorId="2" :timeslots="timeslots" :appointments="appointments" />
+            <Calendar doctor='Danique de Beer' doctorId="2" :timeslots="timeslots" :appointments="appointments" color="#C1FF72"/>
         </div>
     </div>
   </div>
@@ -64,12 +64,10 @@
             nextDate() {
                 this.date = new Date(this.date)
                 this.date.setDate(this.date.getDate() + 1)
-                console.log('next day: ', this.date)
             },
             previousDate() {
                 this.date = new Date(this.date)
                 this.date.setDate(this.date.getDate() - 1)
-                console.log('previous day: ', this.date)
             }, 
             getAppointments(dateString) {
                 const url = baseUrlActiveAppointments + dateString
@@ -77,18 +75,7 @@
                     .then(response => this.appointments = response.data)
                     .catch(error => console.log('Error getting appointments:', error))
             },
-        },
-        // computed: {
-        //     calculatedTimeslots(doctor) {
-        //         return this.timeslots.map(t => {
-        //             const a = this.appointments.filter(a => a.time == t && a.doctor == doctor)
-        //             return {
-        //                 "timeslot": t,
-        //                 "appointment": a? a[0] : undefined
-        //             }
-        //         })
-        //     }
-        // }  
+        }, 
     }
 </script>
 
