@@ -6,7 +6,7 @@
             </th>
             <th id="th-doc">
                 <span id="doctor">{{ doctor }}</span>
-                <span id="nr-appointment"></span>
+                <span id="nr-appointment">{{ appointments.filter(a => a.doctor == doctorId || a.doctor == 3).length }}</span>
             </th>
         </tr>
         <tr v-for="item in calculatedTimeslots">
@@ -40,7 +40,7 @@
         computed: {
             calculatedTimeslots() {
                 const array = this.timeslots.map(t => {
-                    const a = this.appointments.filter(a => a.time == t && a.doctor == this.doctorId)
+                    const a = this.appointments.filter(a => a.time == t && (a.doctor == this.doctorId || a.doctor == 3))
                     return {
                         "timeslot": t,
                         "doctor": this.doctorId,
@@ -79,8 +79,21 @@
         border-right: 1px solid var(--bs-border-color);
         background-color: var(--darkGrey);
     }
-    .table #doctor {
+    .table th #doctor {
         background-color: var(--lightGrey);
+        float: left;
+    }
+    .table th #nr-appointment {
+        float: right;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        padding: 0;
+        min-width: 40px;
+        min-height: 40px;
+        background-color: var(--happyPaw1);
+        color: white;
     }
     .table .timeslot {
         border: none;
@@ -94,7 +107,7 @@
         color: black !important;
         padding: 0 16px !important;
         margin: 0 24px;
-        border-radius: 25px;
+        border-radius: 20px;
         min-height: 25px;
     }
     .table .appointment-info {
