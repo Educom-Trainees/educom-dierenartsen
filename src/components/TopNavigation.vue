@@ -37,7 +37,7 @@
 
 <style>
     .navbar {
-        background-color: #E6BCB2;
+        background-color: var(--happyPaw1);
     }
     .navbar .dropdown {
         margin-right: 12px;
@@ -47,7 +47,7 @@
         border-radius: 50%;
         height: 50px;
         width: 50px;
-        background-color: #DE9281;
+        background-color: var(--happyPaw2);
         border: none;
     }
     .navbar .dropdown button i {
@@ -61,14 +61,14 @@
         margin: 0 12px;
     }
     .navbar .brand-logo {
-        color: #8F542E;
+        color: var(--happyPaw4);
         font-size: 2rem;
     }
     .navbar .brand-text {
         font-weight: 500;
     }
     .navbar .brand-text, .navbar .nav-link {
-        color: #59371D;
+        color: var(--happyPaw3);
     }
     .navbar .navbar-brand, .navbar .brand-text {
         padding: 0;
