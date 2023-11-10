@@ -7,7 +7,7 @@
             <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
                 <div class="btn-group" role="group" aria-label="datepicker">
                     <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
-                    <button type="button" class="btn btn-secondary">{{ toDateString(date) }}</button>
+                    <button type="button" class="btn btn-secondary">{{ displayDate(date) }}</button>
                     <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
                 </div>
             </div>
@@ -55,6 +55,16 @@
             }
         },
         methods: {
+            displayDate(date) {
+                const weekdays = ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag']
+                const months = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December']
+                const weekday = weekdays[date.getDay()]
+                const day = String(date.getDate()).padStart(2, '0')
+                const month = months[date.getMonth()]
+                const year = date.getFullYear()
+                return `${weekday}, ${day} ${month} ${year}`
+
+            },
             toDateString(date) {
                 const year = date.getFullYear()
                 const month = String(date.getMonth() + 1).padStart(2, '0')
