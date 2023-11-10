@@ -881,6 +881,140 @@
       "doctor": 2,
       "status": 0,
       "id": 58
+    },
+    {
+      "number": 59,
+      "date": "2023-11-08",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "dsa",
+      "phoneNumber": "123123",
+      "email": "sda@asd",
+      "petType": "1",
+      "type": "1",
+      "pets": [
+        {
+          "name": "sfa"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": "1",
+      "doctor": 2,
+      "status": 0,
+      "id": 59
+    },
+    {
+      "number": 60,
+      "date": "2023-11-09",
+      "time": "09:15",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123123123",
+      "email": "s@s.com",
+      "petType": "9",
+      "type": "1",
+      "pets": [
+        {
+          "name": "hiadsd"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": "0",
+      "doctor": 1,
+      "status": 0,
+      "id": 60
+    },
+    {
+      "number": 61,
+      "date": "2023-11-09",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "asd",
+      "phoneNumber": "12331",
+      "email": "asd@asd",
+      "petType": "1",
+      "type": "3",
+      "pets": [
+        {
+          "name": "das"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 61
+    },
+    {
+      "number": 62,
+      "date": "2023-11-09",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "df",
+      "phoneNumber": "123123",
+      "email": "dfs@ads",
+      "petType": "8",
+      "type": "1",
+      "pets": [
+        {
+          "name": "asd"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 62
+    },
+    {
+      "number": 63,
+      "date": "2023-11-16",
+      "time": "10:15",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": 3,
+      "type": "7",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 63
+    },
+    {
+      "number": 64,
+      "date": "2023-11-10",
+      "time": "10:00",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123123",
+      "email": "s@s.com",
+      "petType": 3,
+      "type": "7",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 64
     }
   ],
   "pet-types": [
