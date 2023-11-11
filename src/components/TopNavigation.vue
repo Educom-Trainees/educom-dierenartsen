@@ -55,7 +55,7 @@
     }
     .navbar .dropdown-menu {
         position: absolute;
-        transform: translate3d(-80px, 0px, 0px);
+        transform: translate3d(-92px, 0px, 0px);
     }
     .navbar .navbar-brand {
         margin: 0 12px;
