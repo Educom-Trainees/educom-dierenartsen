@@ -20,7 +20,7 @@
             </p>
         </div>
         <div class="col-10 col-md-4">
-          <img src="../assets/flyer-HappyPaw.png" class="d-block w-100" alt="">
+          <img src="../assets/flyer-HappyPaw.png" class="d-block w-100 h-100" alt="">
         </div>
     </div>
   </div>

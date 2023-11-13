@@ -79,6 +79,9 @@
     }
     .navbar .nav-link {
         font-weight: 400;
-        font-size: 18px;
+        font-size: 24px;
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
     }
 </style>
