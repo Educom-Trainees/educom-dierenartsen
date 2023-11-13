@@ -31,9 +31,8 @@
 
 <script>
 import AppointmentDetail from './AppointmentDetail.vue'
+import { calculateEndTime } from '../composables/datetime-utils.js'
 import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
-// const { calculateEndTime } = require('../composables/datetime-utils.js');
-// const tslot = this.timeslots.map(t => { return {'timeslot': t, 'doctor': this.doctorId }})
 
 export default {
     name: 'Calendar',
@@ -43,20 +42,9 @@ export default {
     props: ['doctor', 'doctorId', 'timeslots', 'appointments', 'color'],
     data() {
         return {
-            tslot: this.timeslots.map(t => { return {'timeslot': t, 'doctor': this.doctorId }})
+            tslot: this.timeslots.map(t => { return {'timeslot': t, 'doctor': this.doctorId }}),
+            calculateEndTime: calculateEndTime,
         }
-    },
-    methods: {
-        calculateEndTime(date, time, duration) {
-            const ts = new Date([date, time]
-                .join(' '))
-            ts.setMinutes(ts.getMinutes() + duration)
-            return this.toTimeString(ts)
-        },
-        toTimeString(datetime) {
-            return [String(datetime.getHours()).padStart(2, '0'), String(datetime.getMinutes()).padStart(2, '0')]
-                .join(':')
-        },
     },
     computed: {
         calculatedTimeslots() {
@@ -64,6 +52,7 @@ export default {
             return combineTimeslotAppointments(this.tslot, app)
 
         }
+        // old computed method, deprecated: 13-11-2023
         // calculatedTimeslots() {
         //     const array = this.timeslots.map(t => {
         //         const a = this.appointments.filter(a => a.time == t && (a.doctor == this.doctorId || a.doctor == 3))

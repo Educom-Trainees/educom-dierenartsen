@@ -7,7 +7,7 @@
             <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
                 <div class="btn-group" role="group" aria-label="datepicker">
                     <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
-                    <button type="button" class="btn btn-secondary">{{ displayDate(date) }}</button>
+                    <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
                     <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
                 </div>
             </div>
@@ -27,6 +27,7 @@
 <script>
 import axios from 'axios'
 import Calendar from '../components/Calendar.vue'
+import { displayFullDate, toDateString } from '../composables/datetime-utils.js'
 
 const testDate = '2023-11-10'
 const today = new Date(testDate)
@@ -52,25 +53,11 @@ export default {
             date: new Date(testDate),
             timeslots: timeslots,
             appointments: [],
+            displayFullDate: displayFullDate,
+            toDateString: toDateString,
         }
     },
     methods: {
-        displayDate(date) {
-            const weekdays = ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag']
-            const months = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December']
-            const weekday = weekdays[date.getDay()]
-            const day = String(date.getDate()).padStart(2, '0')
-            const month = months[date.getMonth()]
-            const year = date.getFullYear()
-            return `${weekday}, ${day} ${month} ${year}`
-
-        },
-        toDateString(date) {
-            const year = date.getFullYear()
-            const month = String(date.getMonth() + 1).padStart(2, '0')
-            const day = String(date.getDate()).padStart(2, '0')
-            return `${year}-${month}-${day}`
-        },
         nextDate() {
             this.date = new Date(this.date)
             this.date.setDate(this.date.getDate() + 1)
