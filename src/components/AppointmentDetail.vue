@@ -55,14 +55,6 @@
                     <span class="details output">{{ name }}</span>
                 </div>
             </div>
-            <!-- <div v-for="(value,key) in petDetails.Huisdier" class="row">
-                <div class="col-sm">
-                    <span class="details label">{{ key }}</span>
-                </div>
-                <div class="col-sm">
-                    <span class="details output">{{ value }}</span>
-                </div>
-            </div> -->
         </div>
     </div>
 </template>
@@ -135,6 +127,7 @@ export default {
     width: 100%;
     height: 100%;
     min-width: 300px;
+    border-radius: 3px;
 }
 .detail-box .close {
     color: #aaaaaa;
@@ -188,6 +181,7 @@ export default {
 }
 .detail-box .details {
     font-size: 13px;
+    word-wrap: break-word;
 }
 .detail-box .output {
     font-weight: bolder;
