@@ -31,7 +31,9 @@
 
 <script>
 import AppointmentDetail from './AppointmentDetail.vue'
+import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 // const { calculateEndTime } = require('../composables/datetime-utils.js');
+// const tslot = this.timeslots.map(t => { return {'timeslot': t, 'doctor': this.doctorId }})
 
 export default {
     name: 'Calendar',
@@ -39,6 +41,11 @@ export default {
     AppointmentDetail
 },
     props: ['doctor', 'doctorId', 'timeslots', 'appointments', 'color'],
+    data() {
+        return {
+            tslot: this.timeslots.map(t => { return {'timeslot': t, 'doctor': this.doctorId }})
+        }
+    },
     methods: {
         calculateEndTime(date, time, duration) {
             const ts = new Date([date, time]
@@ -53,27 +60,32 @@ export default {
     },
     computed: {
         calculatedTimeslots() {
-            const array = this.timeslots.map(t => {
-                const a = this.appointments.filter(a => a.time == t && (a.doctor == this.doctorId || a.doctor == 3))
-                return {
-                    "timeslot": t,
-                    "doctor": this.doctorId,
-                    "appointment": a? a[0] : undefined,
-                    "show": true,
-                }
-            })
-            for (var i = 0; i < array.length; i++) { 
-                if (array[i].appointment) {
-                    if (array[i].appointment.duration > 15) {
-                        const r = array[i].appointment.duration / 15
-                        for (var n = 1; n < r; n++) {
-                            array[i+n].show = false
-                        }
-                    }
-                }
-            }
-            return array
+            const app = this.appointments.filter(a => (a.doctor == this.doctorId || a.doctor == 3))
+            return combineTimeslotAppointments(this.tslot, app)
+
         }
+        // calculatedTimeslots() {
+        //     const array = this.timeslots.map(t => {
+        //         const a = this.appointments.filter(a => a.time == t && (a.doctor == this.doctorId || a.doctor == 3))
+        //         return {
+        //             "timeslot": t,
+        //             "doctor": this.doctorId,
+        //             "appointment": a? a[0] : undefined,
+        //             "show": true,
+        //         }
+        //     })
+        //     for (var i = 0; i < array.length; i++) { 
+        //         if (array[i].appointment) {
+        //             if (array[i].appointment.duration > 15) {
+        //                 const r = array[i].appointment.duration / 15
+        //                 for (var n = 1; n < r; n++) {
+        //                     array[i+n].show = false
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     return array
+        // }
     }
 }
 </script>
