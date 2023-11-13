@@ -28,21 +28,6 @@
           <button @click="changeamount(3)" type="button" value="3" id="small" :class="{selected: amount == 3}">3</button>
           <button @click="changeamount(4)" type="button" value="4" id="small" :class="{selected: amount == 4}">4</button>
         <br>
-        <label v-if="amount == 1">Naam huisdier </label>
-        <label v-if="amount != 1">Naam eerste huisdier </label>
-        <input type="text" v-model="name_animal[0]"><br>
-        <div v-if="amount != 1">
-          <label>Naam tweede huisdier </label>
-          <input type="text" v-model="name_animal[1]">
-        </div>
-        <div v-if="amount != 1 && amount != 2">
-          <label>Naam derde huisdier </label>
-          <input type="text" v-model="name_animal[2]">
-        </div>
-        <div v-if="amount == 4">
-          <label>Naam vierde huisdier </label>
-          <input type="text" v-model="name_animal[3]">
-        </div>
         <div v-if="name_animalError" class="error">{{ name_animalError }}</div>
           <select required v-model="type_consult" id="type_select">
             <option hidden value="">Selecteer type afspraak*</option>
@@ -63,7 +48,7 @@
     </form>
     
     </div>
-    <div class="test" v-if="showForm">
+    <div class="button_div" v-if="showForm">
       <h2>test</h2>
     </div>
     <div class="test" v-if="showdateForm">
@@ -102,7 +87,7 @@
       <button class="submit">volgende</button>
     </form>
     </div>
-    <div class="test" v-if="showdateForm">
+    <div class="button_div" v-if="showdateForm">
       <h2>test</h2>
     </div>
     <div class="test" v-if="showcontactForm">
@@ -118,12 +103,26 @@
       <label>Uw naam</label><br>
       <input type="text" required v-model="name" placeholder="Naam*"><br>
       <div v-if="nameError" class="error">{{ nameError }}</div>
+      <label>Gegevens huisdieren </label>
+        <div v-if="amount == 1">
+          <input type="text" v-model="name_animal[0]" placeholder="Naam huisdier"><br>
+        </div>
+        <div v-if="amount != 1">
+          <input type="text" v-model="name_animal[0]" placeholder="Naam eerste huisdier"><br>
+          <input type="text" v-model="name_animal[1]" placeholder="Naam tweede huisdier">
+        </div>
+        <div v-if="amount != 1 && amount != 2">
+          <input type="text" v-model="name_animal[2]" placeholder="Naam derde huisdier">
+        </div>
+        <div v-if="amount == 4">
+          <input type="text" v-model="name_animal[3]" placeholder="Naam vierde huisdier">
+        </div>
       <button class="back">vorige</button>
       <button class="submit">bevestig afspraak</button>
     </form>
   </div>
   </div>
-  <div class="test" v-if="showcontactForm">
+  <div class="button_div" v-if="showcontactForm">
     <h2>test</h2>
   </div>
 </template>
@@ -277,7 +276,7 @@
 .appointment_form{
   text-align: left;
   background-color: whitesmoke;
-  /* margin-left: 50px; */
+  margin-left: 20px;
 }
 .appointment_result {
   background-color: white;
@@ -288,6 +287,7 @@
   flex: 50%;
 }
 .row {
+  margin-left: 20px;
   display: flex;
 }
 .submit {
@@ -309,6 +309,11 @@
   margin-bottom: 10px;
 }
 .test {
+  margin-left: 50px;
+  background-color: lightgrey;
+  margin-right: 200px;
+}
+.button_div {
   margin-left: 50px;
   background-color: lightgrey;
   margin-right: 200px;
@@ -372,6 +377,8 @@ button {
 }
 input {
   border-radius: 12px;
+  margin-left: 10px;
+  margin-bottom: 5px;
 }
 label {
   margin-left: 10px;
@@ -382,5 +389,8 @@ label {
 img {
   height: 50%;
   width: 40%;
+}
+h4 {
+  margin-left: 10px;
 }
 </style>

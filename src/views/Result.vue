@@ -14,20 +14,34 @@
         <p>Afspraak type</p>
         <p>Datum</p>
         <p>Tijd</p>
-        <p v-if="appointment.doctor == 1"></p>
-        <p v-if="appointment.doctor == 2"></p>
+        <p>Dokter</p>
       </div>
       <div class="appointment_result">
         <p>{{ appointment.number }}</p>
         <p>{{ appointment.customer }}</p>
         <p>{{ appointment.phoneNumber }}</p>
         <p>{{ appointment.email }}</p>
-        <p>{{ appointment.type_animal }}</p>
-        <p>{{ appointment.type }}</p>
+        <p v-if="appointment.petType == 1">Hond</p>
+        <p v-if="appointment.petType == 2">Kat</p>
+        <p v-if="appointment.petType == 3">Konijn</p>
+        <p v-if="appointment.petType == 4">Cavia</p>
+        <p v-if="appointment.petType == 5">Hamster</p>
+        <p v-if="appointment.petType == 6">Rat</p>
+        <p v-if="appointment.petType == 7">Muis</p>
+        <p v-if="appointment.type == 1">consult</p>
+        <p v-if="appointment.type == 2">Eerste consult</p>
+        <p v-if="appointment.type == 3">Vaccinatie</p>
+        <p v-if="appointment.type == 4">Anaal klieren legen</p>
+        <p v-if="appointment.type == 5">Nagels knippen</p>
+        <p v-if="appointment.type == 6">Bloed onderzoek</p>
+        <p v-if="appointment.type == 7">Urine onderzoek</p>
+        <p v-if="appointment.type == 8">Gebitscontrole</p>
+        <p v-if="appointment.type == 9">Postoperatieve controle</p>
+        <p v-if="appointment.type == 10">Herhaal recept bestellen</p>
         <p>{{ appointment.date }}</p>
         <p>{{ appointment.time }}</p>
-        <p v-if="appointment.doctor == 1">dokter: karel lant</p>
-        <p v-if="appointment.doctor == 2">dokter: danique de beer</p>
+        <p v-if="appointment.doctor == 1">karel lant</p>
+        <p v-if="appointment.doctor == 2">danique de beer</p>
       </div>
       <div class="appointment_result_pic">
         <img src="../assets/dog-computer.jpg">
