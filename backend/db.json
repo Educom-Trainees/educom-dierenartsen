@@ -1,6 +1,624 @@
 {
   "appointments": [
     {
+      "id": 106,
+      "number": "2023106",
+      "date": "2023-11-17",
+      "time": "15:15",
+      "duration": 30,
+      "customer": "Charlie Brown",
+      "phoneNumber": "+132333234737",
+      "email": "charlie.b@mail.com",
+      "type": 2,
+      "petType": 5,
+      "pets": [
+        {
+          "id": 257,
+          "name": "ed"
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 105,
+      "number": "2023105",
+      "date": "2023-11-17",
+      "time": "14:30",
+      "duration": 30,
+      "customer": "Johnny Bravo",
+      "phoneNumber": "+132333234837",
+      "email": "johhny.b@mail.com",
+      "type": 2,
+      "petType": 5,
+      "pets": [
+        {
+          "id": 257,
+          "name": "ed"
+        }
+      ],
+      "preference": 2,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 104,
+      "number": "2023104",
+      "date": "2023-11-17",
+      "time": "11:45",
+      "duration": 30,
+      "customer": "Tom de Wit",
+      "phoneNumber": "+132333239100",
+      "email": "tom.wit@mail.com",
+      "type": 2,
+      "petType": 5,
+      "pets": [
+        {
+          "id": 245,
+          "name": "Jerry"
+        }
+      ],
+      "preference": 2,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 103,
+      "number": "2023103",
+      "date": "2023-11-16",
+      "time": "14:30",
+      "duration": 30,
+      "customer": "Mickey Mouse",
+      "phoneNumber": "+3164923899",
+      "email": "mickey@gmail.com",
+      "type": 4,
+      "petType": 3,
+      "pets": [
+        {
+          "id": 248,
+          "name": "Donald"
+        }
+      ],
+      "preference": 1,
+      "doctor": 3,
+      "status": 0
+    },
+    {
+      "id": 102,
+      "number": "2023102",
+      "date": "2023-11-17",
+      "time": "09:00",
+      "duration": 30,
+      "customer": "Mickey Mouse",
+      "phoneNumber": "+3164923899",
+      "email": "mickey@gmail.com",
+      "type": 4,
+      "petType": 3,
+      "pets": [
+        {
+          "id": 248,
+          "name": "Donald"
+        }
+      ],
+      "preference": 1,
+      "doctor": 3,
+      "status": 0
+    },
+    {
+      "id": 101,
+      "number": "2023101",
+      "date": "2023-11-16",
+      "time": "15:00",
+      "duration": 30,
+      "customer": "Derik Klaarsen",
+      "phoneNumber": "+3164923894",
+      "email": "derik.klaarsen@gmail.com",
+      "type": 4,
+      "petType": 3,
+      "pets": [
+        {
+          "id": 245,
+          "name": "Wally"
+        }
+      ],
+      "preference": 1,
+      "doctor": 3,
+      "status": 0
+    },
+    {
+      "id": 100,
+      "number": "2023100",
+      "date": "2023-11-16",
+      "time": "15:45",
+      "duration": 15,
+      "customer": "Jackie Chan",
+      "phoneNumber": "+31613125477",
+      "email": "jackie.chan@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 261,
+          "name": "Carter"
+        },
+        {
+          "id": 255,
+          "name": "Puma"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 99,
+      "number": "2023099",
+      "date": "2023-11-17",
+      "time": "11:45",
+      "duration": 15,
+      "customer": "Bruce Lee",
+      "phoneNumber": "+31613125477",
+      "email": "bruce.lee@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 260,
+          "name": "Thunder"
+        },
+        {
+          "id": 254,
+          "name": "Lightning"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 98,
+      "number": "2023098",
+      "date": "2023-11-16",
+      "time": "14:15",
+      "duration": 15,
+      "customer": "Bruce Lee",
+      "phoneNumber": "+31613125477",
+      "email": "bruce.lee@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 260,
+          "name": "Thunder"
+        },
+        {
+          "id": 254,
+          "name": "Lightning"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 97,
+      "number": "2023097",
+      "date": "2023-11-16",
+      "time": "09:00",
+      "duration": 15,
+      "customer": "Bob Squarepants",
+      "phoneNumber": "+31613125477",
+      "email": "spons.bob@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 249,
+          "name": "Patrick"
+        },
+        {
+          "id": 250,
+          "name": "Sandy"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 96,
+      "number": "2023096",
+      "date": "2023-11-20",
+      "time": "11:00",
+      "duration": 15,
+      "customer": "Bob Squarepants",
+      "phoneNumber": "+31613125477",
+      "email": "spons.bob@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 249,
+          "name": "Patrick"
+        },
+        {
+          "id": 250,
+          "name": "Sandy"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 95,
+      "number": "2023095",
+      "date": "2023-11-17",
+      "time": "10:00",
+      "duration": 15,
+      "customer": "Bob Squarepants",
+      "phoneNumber": "+31613125477",
+      "email": "spons.bob@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 249,
+          "name": "Patrick"
+        },
+        {
+          "id": 250,
+          "name": "Sandy"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 93,
+      "number": "2023093",
+      "date": "2023-11-16",
+      "time": "10:30",
+      "duration": 15,
+      "customer": "Santa Claus",
+      "phoneNumber": "+31613125477",
+      "email": "santa.claus@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Rudolf"
+        },
+        {
+          "id": 244,
+          "name": "Mufasa"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 92,
+      "number": "2023092",
+      "date": "2023-11-14",
+      "time": "11:15",
+      "duration": 15,
+      "customer": "Santa Claus",
+      "phoneNumber": "+31613125477",
+      "email": "santa.claus@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Rudolf"
+        },
+        {
+          "id": 244,
+          "name": "Mufasa"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 91,
+      "number": "2023091",
+      "date": "2023-11-15",
+      "time": "11:00",
+      "duration": 15,
+      "customer": "Santa Claus",
+      "phoneNumber": "+31613125477",
+      "email": "santa.claus@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Rudolf"
+        },
+        {
+          "id": 244,
+          "name": "Mufasa"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 89,
+      "number": "2023089",
+      "date": "2023-11-17",
+      "time": "12:00",
+      "duration": 15,
+      "customer": "Piet Klaassen",
+      "phoneNumber": "+31613125476",
+      "email": "piet.klaassen@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 88,
+      "number": "2023088",
+      "date": "2023-11-16",
+      "time": "11:30",
+      "duration": 15,
+      "customer": "Piet Klaassen",
+      "phoneNumber": "+31613125476",
+      "email": "piet.klaassen@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 87,
+      "number": "2023087",
+      "date": "2023-11-15",
+      "time": "14:30",
+      "duration": 15,
+      "customer": "Piet Klaassen",
+      "phoneNumber": "+31613125476",
+      "email": "piet.klaassen@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 86,
+      "number": "2023086",
+      "date": "2023-11-14",
+      "time": "15:30",
+      "duration": 15,
+      "customer": "Piet Klaassen",
+      "phoneNumber": "+31613125476",
+      "email": "piet.klaassen@hotmail.com",
+      "type": 9,
+      "petType": 8,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba"
+        }
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 86,
+      "number": "2023086",
+      "date": "2023-11-17",
+      "time": "10:45",
+      "duration": 15,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 1,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba",
+          "extra": "heeft een gebroken poot"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 85,
+      "number": "2023085",
+      "date": "2023-11-16",
+      "time": "11:15",
+      "duration": 15,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 1,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba",
+          "extra": "heeft een gebroken poot"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 84,
+      "number": "2023084",
+      "date": "2023-11-15",
+      "time": "10:15",
+      "duration": 15,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 1,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba",
+          "extra": "heeft een gebroken poot"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 83,
+      "number": "2023083",
+      "date": "2023-11-14",
+      "time": "09:15",
+      "duration": 15,
+      "customer": "Jan Jansen",
+      "phoneNumber": "+3164923894",
+      "email": "jan.jansen@gmail.com",
+      "type": 1,
+      "petType": 2,
+      "pets": [
+        {
+          "id": 243,
+          "name": "Minoes"
+        },
+        {
+          "id": 244,
+          "name": "Simba",
+          "extra": "heeft een gebroken poot"
+        }
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0
+    },
+    {
+      "id": 82,
+      "number": "2023082",
+      "date": "2023-11-16",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "Morgan FreeWilly",
+      "phoneNumber": "+132333239837",
+      "email": "m.free.willy@mail.com",
+      "petType": 5,
+      "type": 10,
+      "pets": [
+        {
+          "id": 245,
+          "name": ""
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 81,
+      "number": "2023081",
+      "date": "2023-11-15",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "Morgan FreeWilly",
+      "phoneNumber": "+132333239837",
+      "email": "m.free.willy@mail.com",
+      "petType": 5,
+      "type": 10,
+      "pets": [
+        {
+          "id": 245,
+          "name": ""
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
+      "id": 80,
+      "number": "2023080",
+      "date": "2023-11-14",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "Morgan FreeWilly",
+      "phoneNumber": "+132333239837",
+      "email": "m.free.willy@mail.com",
+      "petType": 5,
+      "type": 10,
+      "pets": [
+        {
+          "id": 245,
+          "name": ""
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
       "id": 19,
       "number": "2023011",
       "date": "2023-11-09",
@@ -658,7 +1276,7 @@
     },
     {
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "09:30",
       "duration": 15,
       "customer": "sda",
       "phoneNumber": "123123",
@@ -680,7 +1298,7 @@
     },
     {
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "10:30",
       "duration": 30,
       "customer": "sad",
       "phoneNumber": "123312",
@@ -702,7 +1320,7 @@
     },
     {
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "11:00",
       "duration": 15,
       "customer": "ad",
       "phoneNumber": "da13",
@@ -724,7 +1342,7 @@
     },
     {
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "11:45",
       "duration": 30,
       "customer": "daw",
       "phoneNumber": "1243215",
@@ -747,7 +1365,7 @@
     {
       "number": 53,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "14:30",
       "duration": 30,
       "customer": "daw",
       "phoneNumber": "12312312321",
@@ -770,7 +1388,7 @@
     {
       "number": 54,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "15:00",
       "duration": 15,
       "customer": "ssd",
       "phoneNumber": "dsa123",
@@ -793,7 +1411,7 @@
     {
       "number": 55,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "15:15",
       "duration": 15,
       "customer": "stijn",
       "phoneNumber": "1245678",
@@ -818,7 +1436,7 @@
     {
       "number": 56,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "15:45",
       "duration": 15,
       "customer": "ads",
       "phoneNumber": "123",
@@ -841,7 +1459,7 @@
     {
       "number": 57,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "16:00",
       "duration": 15,
       "customer": "sad",
       "phoneNumber": "sad",
@@ -864,7 +1482,7 @@
     {
       "number": 58,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "16:15",
       "duration": 15,
       "customer": "sda",
       "phoneNumber": "123123",
@@ -885,7 +1503,7 @@
     {
       "number": 59,
       "date": "2023-11-08",
-      "time": "09:00",
+      "time": "16:30",
       "duration": 15,
       "customer": "dsa",
       "phoneNumber": "123123",
@@ -979,7 +1597,7 @@
       "date": "2023-11-16",
       "time": "10:15",
       "duration": 15,
-      "customer": "stijn",
+      "customer": "Stijn",
       "phoneNumber": "123",
       "email": "s@s.com",
       "petType": 3,
@@ -998,7 +1616,7 @@
     {
       "number": 64,
       "date": "2023-11-10",
-      "time": "10:00",
+      "time": "11:00",
       "duration": 15,
       "customer": "stijn",
       "phoneNumber": "123123",
@@ -1105,7 +1723,7 @@
     {
       "number": 69,
       "date": "2023-11-13",
-      "time": "10:00",
+      "time": "15:00",
       "duration": 30,
       "customer": "sda",
       "phoneNumber": "`123",
@@ -1126,7 +1744,7 @@
     {
       "number": 70,
       "date": "2023-11-13",
-      "time": "10:00",
+      "time": "16:00",
       "duration": 15,
       "customer": "sad",
       "phoneNumber": "123",
