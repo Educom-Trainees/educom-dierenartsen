@@ -29,8 +29,7 @@ import axios from 'axios'
 import Calendar from '../components/Calendar.vue'
 import { displayFullDate, toDateString } from '../composables/datetime-utils.js'
 
-const testDate = '2023-11-10'
-const today = new Date(testDate)
+const today = new Date()
 const baseUrlActiveAppointments = 'http://localhost:3000/appointments?status=0&date='
 const timeslots = [
     "09:00","09:15","09:30","09:45","10:00","10:15","10:30","10:45","11:00",
@@ -50,11 +49,16 @@ export default {
     data() {
         return {
             today: today,
-            date: new Date(testDate),
+            date: new Date(),
             timeslots: timeslots,
             appointments: [],
             displayFullDate: displayFullDate,
             toDateString: toDateString,
+        }
+    },
+    watch: {
+        date(newDate) {
+            this.getAppointments(this.toDateString(newDate))
         }
     },
     methods: {
@@ -77,11 +81,17 @@ export default {
 </script>
 
 <style>
+.container-fluid {
+    padding-left: 0;
+}
 .container-fluid * {
     text-align: left;
 }
 .container-fluid h1 {
     padding: 8px;
+}
+.container-fluid .row {
+    margin-left: 0;
 }
 .col-12 {
     padding: 0;
@@ -89,6 +99,9 @@ export default {
 #datepicker-area {
     min-height: 70px;
     background-color: var(--darkGrey);
+}
+#datepicker-area .btn-group {
+    min-width: 325px;
 }
 #datepicker-area .btn-group, #datepicker-area .btn-group .btn {
     background-color: var(--lightGrey);

@@ -1,6 +1,6 @@
 export function combineTimeslotAppointments(timeslots, appointments) {
     const array = timeslots.map(t => {
-        const a = appointments.filter(a => a.time == t.timeslot)
+        const a = appointments.filter(a => a.time == t.time)
         return {...t, 'appointment': a? a[0] : undefined, 'show': true}
     })
     for (var i = 0; i < array.length; i++) { 

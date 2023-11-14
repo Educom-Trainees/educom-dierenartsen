@@ -148,7 +148,7 @@ export default {
 .detail-box #datetime-info {
     background-color: var(--lightGrey);
     width: 98% !important;
-    padding: 0 12px !important;
+    padding: 0 10px !important;
 }
 .detail-box .btn-action {
     margin-top: 4px !important;

@@ -10,7 +10,7 @@
             </th>
         </tr>
         <tr v-for="item in calculatedTimeslots">
-            <td class="timeslot">{{ item.timeslot }}</td>
+            <td class="timeslot">{{ item.time }}</td>
             <td v-if="item.appointment" class="has-event" :rowspan="item.appointment.duration/15">
                 <div class="dropdown">
                     <button class="btn btn-primary" 
@@ -42,7 +42,7 @@ export default {
     props: ['doctor', 'doctorId', 'timeslots', 'appointments', 'color'],
     data() {
         return {
-            tslot: this.timeslots.map(t => { return {'timeslot': t, 'doctor': this.doctorId }}),
+            tslot: this.timeslots.map(t => { return {'time': t, 'doctor': this.doctorId }}),
             calculateEndTime: calculateEndTime,
         }
     },
@@ -99,6 +99,7 @@ export default {
 .table th #doctor {
     background-color: var(--lightGrey);
     float: left;
+    padding: 8px;
 }
 .table th #nr-appointment {
     float: right;
@@ -129,11 +130,11 @@ export default {
 .table .has-event .btn {
     color: black !important;
     padding: 0 16px !important;
-    margin: 0 24px;
+    margin: 0 6px;
     border-radius: 20px;
     min-height: 25px;
     border: none;
-    width: 90%;
+    width: 93%;
 }
 .table .appointment-info {
     padding: 8px;
