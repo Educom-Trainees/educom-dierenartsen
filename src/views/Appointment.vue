@@ -133,6 +133,7 @@ import TopNavigation from '../components/TopNavigation.vue'
 import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
+  import combineTimeslotAppointments from '../composables/arrayTransfromer'
 import postAppointments from '../composables/postAppointments'
 
 export default {
@@ -157,6 +158,7 @@ export default {
           status: 0,
           number: 0,
           appointments: '',
+            freeTimeslots: [],
           time_slots: '',
           timeslotdata: '',
           time: '',
@@ -233,6 +235,30 @@ export default {
       const { appointments, error, load } = getAppointments()
       await load()
       this.appointments = appointments
+        this.showForm = false
+        this.showdateForm = true
+        return { 
+          appointment_type, 
+          freeTimeslots, 
+          error
+        }
+      },
+      async handledateSubmit() {
+        const { appointments, error, load } = getAppointments()
+        await load()
+        const newTimeslot = combineTimeslotAppointments(this.time_slots, appointments)
+
+        console.log(newTimeslot)
+
+        this.time = this.timeslotdata.time
+        this.doctor = this.timeslotdata.doctor
+        this.showdateForm = false
+        this.showcontactForm = true
+      },
+      async Result() {
+        const { appointments, error, load } = getAppointments()
+        await load()
+        this.appointments = appointments
 
 
       this.nameError = this.name.length < 30 ?
@@ -262,6 +288,28 @@ export default {
       const { time_slots, error, load } = getTime_slots()
       await load()
       return { time_slots, error }
+      },
+      async getappointments(){
+        const { appointments, error, load } = getAppointments()
+        await load()
+        return { appointments, error }
+      },
+      getFreeSlots(time_slots, duration){
+        for (let i = 0; i < time_slots.length; i++) {
+          if(time_slots.show == true && time_slots.appointment == undefined){
+            if(duration == 15){
+              return time_slots[i]
+            }else if(duration == 30){
+              if(time_slots[i++].show == true && time_slots[i++].appointment == undefined){
+                return time_slots[i]
+              }
+            }else if(duration == 45){
+              if(time_slots[i+2].show == true && time_slots[i+2].appointment == undefined){
+                return time_slots[i]
+              }
+            }
+          }
+        } 
     }
   }
 }
