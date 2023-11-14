@@ -62,9 +62,10 @@
       <label>Datum: </label><br>
         <input type="date" required v-model="date"><br>
       <label>Tijd:</label><br>
-        <div v-if="time_slots.length">
+        <div v-if="freeTimeslots">
+          {{console.log('test')}}
             <select required v-model="timeslotdata" v-if="this.preference == 0">
-                <option :value="timeslot" v-for="timeslot in time_slots" :key="timeslot.time">
+                <option :value="timeslot" v-for="timeslot in freeTimeslots" :key="timeslot.time">
                   <div v-if="timeslot.doctor == 1">
                     tijd: {{ timeslot.time }} dokter: karel lant
                   </div>
@@ -74,12 +75,12 @@
                 </option>
             </select>
             <select required v-model="timeslotdata" v-if="this.preference == 1">
-                <option :value="timeslot" v-for="timeslot in time_slots.filter(t => t.doctor == 1)" :key="timeslot.time">
+                <option :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1)" :key="timeslot.time">
                     tijd: {{ timeslot.time }} dokter: karel lant
                 </option>
             </select>
             <select required v-model="timeslotdata" v-if="this.preference == 2">
-                <option :value="timeslot" v-for="timeslot in time_slots.filter(t => t.doctor == 2)" :key="timeslot.time">
+                <option :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2)" :key="timeslot.time">
                     tijd: {{ timeslot.time }} dokter: danique de beer
                 </option>
             </select>
@@ -133,7 +134,7 @@ import TopNavigation from '../components/TopNavigation.vue'
 import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
-  import combineTimeslotAppointments from '../composables/arrayTransfromer'
+  import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import postAppointments from '../composables/postAppointments'
 
 export default {
@@ -158,7 +159,7 @@ export default {
           status: 0,
           number: 0,
           appointments: '',
-            freeTimeslots: [],
+            freeTimeslots: '',
           time_slots: '',
           timeslotdata: '',
           time: '',
@@ -244,12 +245,6 @@ export default {
         }
       },
       async handledateSubmit() {
-        const { appointments, error, load } = getAppointments()
-        await load()
-        const newTimeslot = combineTimeslotAppointments(this.time_slots, appointments)
-
-        console.log(newTimeslot)
-
         this.time = this.timeslotdata.time
         this.doctor = this.timeslotdata.doctor
         this.showdateForm = false
@@ -295,21 +290,30 @@ export default {
         return { appointments, error }
       },
       getFreeSlots(time_slots, duration){
+        const result = []
+        console.log('freeslots')
+        console.log(time_slots)
+        console.log(duration)
         for (let i = 0; i < time_slots.length; i++) {
-          if(time_slots.show == true && time_slots.appointment == undefined){
+          console.log(time_slots[i])
+          if(time_slots[i].show == true && time_slots[i].appointment == undefined){
             if(duration == 15){
-              return time_slots[i]
+              console.log('loop')
+                result.push(time_slots[i])
             }else if(duration == 30){
               if(time_slots[i++].show == true && time_slots[i++].appointment == undefined){
-                return time_slots[i]
+                result.push(time_slots[i])
               }
             }else if(duration == 45){
               if(time_slots[i+2].show == true && time_slots[i+2].appointment == undefined){
-                return time_slots[i]
+                result.push(time_slots[i])
               }
             }
           }
         } 
+        console.log('einde van de loop')
+        console.log(result)
+        return result
     }
   }
 }
