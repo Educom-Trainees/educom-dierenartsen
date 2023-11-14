@@ -7,6 +7,10 @@
               We vinden het belangrijk om bereikbaar te zijn voor onze klanten, 
               hieronder vind u de belangrijke informatie om ons te bereiken
             </h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-10 col-md-6">
             <address>
               <strong>Bezoek adres</strong> <small>(op afspraak)</small><br>
               Fazantenplein 3<br>
@@ -25,6 +29,9 @@
               <strong>E-mail</strong><br>
               <a href="mailto:#">info@happypaws.nl</a>
             </address>
+        </div>
+        <div class="col-10 col-md-6">
+          <img src="../assets/visit_us_cats.jpg" class="d-block w-100 h-100" alt="">
         </div>
     </div>
   </div>

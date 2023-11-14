@@ -38,4 +38,17 @@ h1 {
 h2 {
   color: var(--happyPaw4);
 }
+@media (min-width: 375px) {
+  .text-md {
+  font-size: 1.1rem;
+}
+}
+@media (min-width: 768px) {
+  .text-md {
+  font-size: 1.4rem;
+}
+.text-sm, address {
+  font-size: 1.25rem;
+}
+}
 </style>
