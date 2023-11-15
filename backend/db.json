@@ -2167,5 +2167,11 @@
     }
   ],
   "users": [
+    {
+      "email": "admin@happypaw.nl",
+      "passwordHash": "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
+      "role": 2,
+      "id": 1
+    }
   ]
 }
