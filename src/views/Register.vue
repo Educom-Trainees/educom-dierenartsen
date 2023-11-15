@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h1 class="text-lg text-left">Inloggen</h1>
+                <h1 class="text-lg text-left">Registreren</h1>
             </div>
         </div>
         <div class="row justify-content-center align-items-center register-row">
@@ -15,7 +15,8 @@
                         <span id="register-brand">HappyPaw</span>
                     </div>
                 </div>
-                <form id="register-form" class="d-flex flex-column align-items-center mt-4">
+                <form @submit.prevent="registerUser" id="register-form" class="d-flex flex-column align-items-center mt-4">
+                    <div v-if="errors.genericErr" class="error">{{ errors.genericErr }}</div>
                     <div class="form-group">
                         <label for="RegisterEmail">E-mailadres:</label>
                         <input v-model="registerForm.email" type="email" class="form-control" id="RegisterEmail" aria-describedby="emailHelp" placeholder="E-mailadres">
@@ -31,7 +32,7 @@
                         <input v-model="registerForm.confirmPassword" type="password" class="form-control" id="RegisterConfirmPassword" placeholder="Bevestig Wachtwoord">
                         <div v-if="errors.confirmPasswordErr" class="error">{{ errors.confirmPasswordErr }}</div>
                     </div>
-                    <button @click="registerUser" type="submit" class="btn submit-btn mt-5">Registreren</button>
+                    <button type="submit" class="btn submit-btn mt-5">Registreren</button>
                 </form>
             </div>
         </div>
@@ -39,13 +40,14 @@
 </template>
 
 <script>
+import router from '../router/index.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
-import { storeUser } from '../composables/userManager.js'
+import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
 
 const adminRole = 2
 const doctorRole = 1
 const userRole = 0
-const genericErr = 'Er is iets fout gegaan. Probeer het later opnieuw.'
+const userAlreadyExistError = '❌ Er bestaat al een gebruiker met dit e-mailadres.'
 
 export default {
     name: 'Register',
@@ -65,19 +67,63 @@ export default {
         }
     },
     methods: {
-        registerUser() {
+        async registerUser() {
             const email = this.registerForm.email
             const password = this.registerForm.password
             const confirmPassword = this.registerForm.confirmPassword
 
-            const { validatedEmail, emailErr } = sanitizeAndValidateEmail(email)
-            const { validatedPassword, passwordErr, confirmPasswordErr } = validatePassword(password, confirmPassword)
+            const { processedEmail, emailErr } = sanitizeAndValidateEmail(email)
+            const { processedPassword, passwordErr, confirmPasswordErr } = validatePassword(password, confirmPassword)
 
             if (emailErr.length === 0 && passwordErr.length === 0 && confirmPasswordErr.length === 0) {
-            storeUser(
-                validatedEmail, 
-                validatedPassword, 
-                adminRole)
+                try {
+                    try {
+                        const userDataFromDatabase = await getUser(processedEmail)
+                        if (userDataFromDatabase === null) {
+                            try {
+                                const hashedPassword = await hashPassword(processedPassword)
+                                const newUser = {
+                                    "email": processedEmail,
+                                    "passwordHash": hashedPassword,
+                                    "role": 2
+                                }
+                                try {
+                                    const userStored = await storeUser(newUser)
+                                    if (userStored) {
+                                        console.log('User registratioin successful.')
+                                        try {
+                                            console.log('Navigating user to login page.')
+                                            router.push('/login')
+                                        }
+                                        catch (routerErr) {
+                                            console.error('Error navigating to login page: ', routerErr)
+                                            this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                                        }
+                                    }
+                                }
+                                catch(storeUserError) {
+                                    console.error('Error registering user: ', storeUserError)
+                                    this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                                }
+                            }
+                            catch(hashError) {
+                                console.error('Error registering user: ', hashError)
+                                this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                            }
+                        }
+                        else {
+                            this.errors.emailErr = '❌ Er bestaat al een gebruiker met dit e-mailadres.'
+                        }
+                    }
+                    catch (getUserError) {
+                        console.error('Error registering user: ', getUserError)
+                        this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                    }
+                }
+                catch(error) {
+                    console.error('User registration failed. ', error)
+                    this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                }
             }
             else {
                 this.errors.emailErr = emailErr
@@ -104,7 +150,7 @@ export default {
     background-color: var(--happyPaw2);
     border: none;
 }
-#login-paw {
+#register-paw {
     font-size: 8rem;
     color: white;
 }
