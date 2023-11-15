@@ -15,7 +15,7 @@
                         <span id="login-brand">HappyPaw</span>
                     </div>
                 </div>
-                <form id="login-form" class="d-flex flex-column align-items-center mt-4">
+                <form @submit.prevent="loginUser" id="login-form" class="d-flex flex-column align-items-center mt-4">
                     <div v-if="errors.genericErr" class="error">{{ errors.genericErr }}</div>
                     <div class="form-group">
                         <label for="LoginEmail">E-mailadres:</label>
@@ -27,7 +27,7 @@
                         <input v-model="loginForm.password" type="password" class="form-control" id="LoginPassword" placeholder="Wachtwoord">
                         <div v-if="errors.passwordErr" class="error">{{ errors.passwordErr }}</div>
                     </div>
-                    <button @click="loginUser" type="submit" class="btn submit-btn mt-5">Inloggen</button>
+                    <button type="submit" class="btn submit-btn mt-5">Inloggen</button>
                 </form>
             </div>
         </div>
@@ -35,10 +35,12 @@
 </template>
 
 <script>
+import router from '../router/index.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, authenticateUser } from '../composables/userManager.js'
 
-const genericErr = 'Er is iets fout gegaan. Probeer het later opnieuw.'
+const testEmail = 'admin@happypaw.nl'
+const testPassword = 'FPFAr9shsFsi%Rs'
 
 export default {
     name: 'Login',
@@ -56,31 +58,52 @@ export default {
         }
     },
     methods: {
-        loginUser() {
-            const email = this.registerForm.email
-            const password = this.registerForm.password
+        async loginUser() {
+            const email = this.loginForm.email
+            const password = this.loginForm.password
 
-            const { validatedEmail, emailErr } = sanitizeAndValidateEmail(email)
-            const { validatedPassword, passwordErr } = validatePassword(password)
+            const { processedEmail, emailErr } = sanitizeAndValidateEmail(email)
+            const { processedPassword, passwordErr } = validatePassword(password)
 
             if (emailErr.length === 0 && passwordErr.length === 0) {
                 try {
-                    const userDataFromDatabase = getUser(validatedEmail)
-                    if (userDataFromDatabase === null) {
-                        this.errors.emailErr = '❌ Er is geen gebruiker met dit e-mailadres.'
-                    }
-                    else {
-                        const isAuthenticated = authenticateUser(validatedPassword, userDataFromDatabase.password)
-                        if (isAuthenticated) {
-                            this.$router.push({ path: '/' })
+                    try {
+                        const userDataFromDatabase = await getUser(processedEmail)
+                        if (userDataFromDatabase === null) {
+                            this.errors.emailErr = '❌ Er is geen gebruiker met dit e-mailadres.'
                         }
                         else {
-                            this.errors.passwordErr = '❌ De combinatie van e-mailadres en wachtwoord is niet geldig.'
+                            const userPasswordHash = userDataFromDatabase[0].passwordHash
+                            try {
+                                const isAuthenticated = await authenticateUser(processedPassword, userPasswordHash)
+                                if (isAuthenticated) {
+                                    console.log('User login successful.')
+                                    try {
+                                        ///
+                                        router.push('/')
+                                    }
+                                    catch (routerError) {
+                                        console.error('Error redirecting user: ', routerError)
+                                        this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                                    }
+                                }
+                                else {
+                                    this.errors.passwordErr = '❌ De combinatie van e-mailadres en wachtwoord is niet geldig.'
+                                }
+                            }
+                            catch (authenticateUserError) {
+                                console.error('Error logging in user: ', authenticateUserError)
+                                this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                            }
                         }
                     }
+                    catch(getUserError) {
+                        console.error('Error logging in user: ', getUserError)
+                        this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                    }
                 }
-                catch(error) {
-                    console.error('Something went wrong with login. ', error)
+                catch (error) {
+                    console.error('User login failed. ', error)
                     this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
                 }
             }
