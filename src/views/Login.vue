@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="row justify-content-center align-items-center login-row">
-            <div class="col-md-3 col-10 login-area">
+            <div class="col-sm-3 col-md-5 col-10 login-area">
                 <div class="w-100 d-flex flex-column align-items-center">
                     <div class="happy-login d-flex justify-content-center align-items-center">
                         <i id="login-paw" class="fa fa-paw" aria-hidden="true"></i>
@@ -16,20 +16,82 @@
                     </div>
                 </div>
                 <form id="login-form" class="d-flex flex-column align-items-center mt-4">
+                    <div v-if="errors.genericErr" class="error">{{ errors.genericErr }}</div>
                     <div class="form-group">
                         <label for="LoginEmail">E-mailadres:</label>
-                        <input type="email" class="form-control" id="LoginEmail" aria-describedby="emailHelp" placeholder="E-mailadres">
+                        <input v-model="loginForm.email" type="email" class="form-control" id="LoginEmail" aria-describedby="emailHelp" placeholder="E-mailadres">
+                        <div v-if="errors.emailErr" class="error">{{ errors.emailErr }}</div>
                     </div>
                     <div class="form-group">
                         <label for="LoginPassword">Wachtwoord:</label>
-                        <input type="password" class="form-control" id="LoginPassword" placeholder="Wachtwoord">
+                        <input v-model="loginForm.password" type="password" class="form-control" id="LoginPassword" placeholder="Wachtwoord">
+                        <div v-if="errors.passwordErr" class="error">{{ errors.passwordErr }}</div>
                     </div>
-                    <button type="submit" class="btn submit-btn mt-5">Inloggen</button>
-                    </form>
+                    <button @click="loginUser" type="submit" class="btn submit-btn mt-5">Inloggen</button>
+                </form>
             </div>
         </div>
     </div>
 </template>
+
+<script>
+import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
+import { getUser, authenticateUser } from '../composables/userManager.js'
+
+const genericErr = 'Er is iets fout gegaan. Probeer het later opnieuw.'
+
+export default {
+    name: 'Login',
+    data() {
+        return {
+            loginForm: {
+                'email': '',
+                'password': '',
+            },
+            errors: {
+                'genericErr': undefined,
+                'emailErr': undefined,
+                'passwordErr': undefined,
+            },
+        }
+    },
+    methods: {
+        loginUser() {
+            const email = this.registerForm.email
+            const password = this.registerForm.password
+
+            const { validatedEmail, emailErr } = sanitizeAndValidateEmail(email)
+            const { validatedPassword, passwordErr } = validatePassword(password)
+
+            if (emailErr.length === 0 && passwordErr.length === 0) {
+                try {
+                    const userDataFromDatabase = getUser(validatedEmail)
+                    if (userDataFromDatabase === null) {
+                        this.errors.emailErr = '❌ Er is geen gebruiker met dit e-mailadres.'
+                    }
+                    else {
+                        const isAuthenticated = authenticateUser(validatedPassword, userDataFromDatabase.password)
+                        if (isAuthenticated) {
+                            this.$router.push({ path: '/' })
+                        }
+                        else {
+                            this.errors.passwordErr = '❌ De combinatie van e-mailadres en wachtwoord is niet geldig.'
+                        }
+                    }
+                }
+                catch(error) {
+                    console.error('Something went wrong with login. ', error)
+                    this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                }
+            }
+            else {
+                this.errors.emailErr = emailErr
+                this.errors.passwordErr = passwordErr
+            }
+        },
+    },
+}
+</script>
 
 <style>
 .login-row {
