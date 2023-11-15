@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+// import USER_ROLES from '../utils/userRoles.js'
 import Home from '../views/Home.vue'
 import Contact from '../views/Contact.vue'
 import Appointment from '../views/Appointment.vue'
@@ -42,13 +43,40 @@ const routes = [
   {
     path: '/overview',
     name: 'overview',
-    component: Overview
+    component: Overview,
+    meta: {
+      requiresAuth: true,
+      requiredRoles:[1, 2]
+    }
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+
+  if (to.meta.requiresAuth) {
+    const userData = JSON.parse(sessionStorage.getItem('userData'))
+
+    if (!userData || !userData.userRole) {
+      next('/login')
+    } 
+    else {
+      const hasRequiredRole = to.meta.requiredRoles.includes(userData.userRole)
+      
+      if (!hasRequiredRole) {
+        next(false)
+      } else {
+        next()
+      }
+    }
+  }
+  else {
+    next()
+  }
 })
 
 export default router
