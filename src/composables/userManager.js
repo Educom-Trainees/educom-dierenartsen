@@ -1,69 +1,58 @@
 import axios from 'axios'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
-const saltRounds = 10
 const baseUrlPostUser = 'http://localhost:3000/users'
 const baseUrlGetUser = 'http://localhost:3000/users?email='
+const saltRounds = 10
 
-export function storeUser(email, password, role=0) {
-
-    axios.post(baseUrlPostUser, {
-        email: email,
-        password: hashPassword(password),
-        role: role,
-    })
-    .then(response => {
-            console.log('Login successful: ', response.data)
-            const token = response.data.token
-            localStorage.setItem('token', token)
-            this.$router.push('/')
-          })
-    .catch(error => {
-        console.error('Login failed: ', error)
-        throw new Error('Error storing user in database. ', error)
-    })
+export async function storeUser(newUser) {
+    try {
+        const response = await axios.post(baseUrlPostUser, newUser)
+        console.log('User storage successful.')
+        return true
+    }
+    catch(error) {
+        console.error('User storage failed.')
+        throw error
+    }
 }
 
-export function getUser(userEmail) {
+export async function getUser(userEmail) {
     const url = baseUrlGetUser + userEmail
-    axios.get(url)
-        .then(response => { 
+    try {
+        const response = await axios.get(url)
+        if (Array.isArray(response.data) && response.data.length === 0) {
+            console.log('User not found.')
+            return null
+        } else {
             console.log('User found.')
-            return response.data // Return user data
-        })
-        .catch(error => {
-            if (error.response && error.response.status === 404) {
-                console.log('User not found.')
-                return null // Return null when the user is not found
-              } 
-              else {
-                console.error('Error getting user from database. ', error)
-                throw new Error('Error getting user from database. ', error)
-              }
-        })
+            return response.data
+        }
+    }
+    catch(error) {
+        console.error('Error getting user from database.')
+        throw error
+    }
 }
 
-function hashPassword(password) {
-    bcrypt.hash(password, saltRounds, (err, hashedPassword) => {
-        if (err) {
-            console.error('Error hashing password. ', err)
-            throw new Error('Error hashing password. ', err)
-        } else {
-            return hashedPassword
-        }
-    });
+export async function hashPassword(password) {
+    try {
+        const hashedPassword = await bcrypt.hash(password, saltRounds)
+        return hashedPassword
+    }
+    catch (error) {
+        console.error('Error hashing password.')
+        throw error
+    }
 }
 
-export function authenticateUser(receivedPasswordFromClient, hashedPasswordFromDatabase) {
-
-    bcrypt.compare(receivedPasswordFromClient, hashedPasswordFromDatabase, (err, result) => {
-        if (err) {
-            console.error('Error comparing passwords. ', err)
-            throw new Error('Error comparing passwords. ', err);
-        } else if (result) {
-            return true // Return true when passwords match
-        } else {
-            return false // Return false when passwords do not match
-        }
-    })
+export async function authenticateUser(receivedPasswordFromClient, hashedPasswordFromDatabase) {
+    try {
+        const match = await bcrypt.compare(receivedPasswordFromClient, hashedPasswordFromDatabase)
+        return match
+    }
+    catch (error) {
+        console.error('Error comparing passwords.')
+        throw error
+    }
 }
