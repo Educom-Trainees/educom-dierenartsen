@@ -47,7 +47,6 @@ import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
 const adminRole = 2
 const doctorRole = 1
 const userRole = 0
-const userAlreadyExistError = '❌ Er bestaat al een gebruiker met dit e-mailadres.'
 
 export default {
     name: 'Register',
@@ -85,18 +84,17 @@ export default {
                                 const newUser = {
                                     "email": processedEmail,
                                     "passwordHash": hashedPassword,
-                                    "role": 2
+                                    "role": adminRole
                                 }
                                 try {
                                     const userStored = await storeUser(newUser)
                                     if (userStored) {
-                                        console.log('User registratioin successful.')
+                                        console.log('User registration successful.')
                                         try {
-                                            console.log('Navigating user to login page.')
                                             router.push('/login')
                                         }
-                                        catch (routerErr) {
-                                            console.error('Error navigating to login page: ', routerErr)
+                                        catch (routerError) {
+                                            console.error('Error redirecting user:  ', routerError)
                                             this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
                                         }
                                     }
