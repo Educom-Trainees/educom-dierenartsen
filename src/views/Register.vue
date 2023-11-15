@@ -41,12 +41,9 @@
 
 <script>
 import router from '../router/index.js'
+import USER_ROLES from '../utils/userRoles.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
-
-const adminRole = 2
-const doctorRole = 1
-const userRole = 0
 
 export default {
     name: 'Register',
@@ -84,7 +81,7 @@ export default {
                                 const newUser = {
                                     "email": processedEmail,
                                     "passwordHash": hashedPassword,
-                                    "role": adminRole
+                                    "role": USER_ROLES.GUEST
                                 }
                                 try {
                                     const userStored = await storeUser(newUser)

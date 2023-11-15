@@ -73,17 +73,24 @@ export default {
                             this.errors.emailErr = '❌ Er is geen gebruiker met dit e-mailadres.'
                         }
                         else {
-                            const userPasswordHash = userDataFromDatabase[0].passwordHash
+                            const user = userDataFromDatabase[0]
                             try {
-                                const isAuthenticated = await authenticateUser(processedPassword, userPasswordHash)
+                                const isAuthenticated = await authenticateUser(processedPassword, user.passwordHash)
                                 if (isAuthenticated) {
                                     console.log('User login successful.')
                                     try {
-                                        ///
-                                        router.push('/')
+                                        const userData = { userId: user.id, userRole: user.role }
+                                        sessionStorage.setItem('userData', JSON.stringify(userData))
+                                        try {
+                                            router.push('/overview')
+                                        }
+                                        catch (routerError) {
+                                            console.error('Error redirecting user: ', routerError)
+                                            this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+                                        }
                                     }
-                                    catch (routerError) {
-                                        console.error('Error redirecting user: ', routerError)
+                                    catch (sessionStorageError) {
+                                        console.error('Error storing user data in browser session: ', sessionStorageError)
                                         this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
                                     }
                                 }
