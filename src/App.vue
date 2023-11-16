@@ -46,9 +46,13 @@ h2 {
 @media (min-width: 768px) {
   .text-md {
   font-size: 1.4rem;
+  }
+  .text-sm, address {
+    font-size: 1.25rem;
+  }
 }
-.text-sm, address {
-  font-size: 1.25rem;
-}
+.error {
+  font-size: 14px;
+  color: red;
 }
 </style>
