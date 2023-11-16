@@ -14,13 +14,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100">
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/contact">Contact</router-link> 
-                </li>
-                <li class="nav-item">
                     <router-link  class="nav-link" to="/appointment">Afspraak</router-link>
                 </li>
                 <li v-if="showOverview" class="nav-item">
                     <router-link  class="nav-link" to="/overview">Overzicht</router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/contact">Contact</router-link> 
                 </li>
                 <li class="nav-item w-100 d-flex justify-content-center justify-content-lg-end">
                     <div class="dropdown">
