@@ -399,7 +399,7 @@ export default {
   float: right;
   border-radius: 12px;
   width: 150px;
-  background-color: blue;
+  background-color: var(--happyPaw4);
   color: white;
   margin-right: 10px;
   margin-bottom: 10px;
@@ -408,7 +408,7 @@ export default {
   float: left;
   border-radius: 12px;
   width: 150px;
-  background-color: blue;
+  background-color: var(--happyPaw4);
   color: white;
   margin-left: 10px;
   margin-bottom: 10px;
@@ -433,7 +433,7 @@ select{
 }
 button.selected {
   color: white;
-  background-color: blue;
+  background-color: var(--happyPaw4);
   border-radius: 12px;
   width: 50px;
   margin-right: 5px;
@@ -441,14 +441,14 @@ button.selected {
 }
 button.selectedblock {
   color: white;
-  background-color: blue;
+  background-color: var(--happyPaw4);
   height: 40px;
   width: 150px;
   margin-left: 40px;
 }
 button.selected_animal {
   color: white;
-  background-color: blue;
+  background-color: var(--happyPaw4);
   border-radius: 12px;
   height: 70px;
   width: 100px;
@@ -457,7 +457,7 @@ button.selected_animal {
 }
 button.selected_time {
   color: white;
-  background-color: blue;
+  background-color: var(--happyPaw4);
   height: 40px;
   width: 110px;
   margin-left: 40px;

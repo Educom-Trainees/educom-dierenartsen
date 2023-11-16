@@ -47,7 +47,7 @@
           <p v-if="appointment.doctor == 2">danique de beer</p>
         </div>
         <div class="appointment_result_pic">
-          <img src="../assets/dog-computer.jpg">
+          <img id="computer" src="../assets/dog-computer.jpg">
         </div>
       </div>
     </div>
@@ -75,5 +75,8 @@ export default {
 </script>
 
 <style>
-
+#computer{
+  height: 100%;
+  width: 100%;
+}
 </style>
