@@ -1767,12 +1767,12 @@
     {
       "number": 71,
       "date": "2023-11-16",
-      "time": "10:45",
+      "time": "09:45",
       "duration": 15,
       "customer": "stijn",
-      "phoneNumber": "1235",
+      "phoneNumber": "1233",
       "email": "s@s.com",
-      "petType": 8,
+      "petType": 3,
       "type": "1",
       "pets": [
         {},
@@ -1780,19 +1780,19 @@
         {},
         {}
       ],
-      "preference": 2,
-      "doctor": 2,
+      "preference": 0,
+      "doctor": 1,
       "status": 0,
       "id": 107
     },
     {
       "number": 108,
       "date": "2023-11-16",
-      "time": "10:00",
+      "time": "10:45",
       "duration": 15,
-      "customer": "st",
-      "phoneNumber": "123",
-      "email": "s@s",
+      "customer": "stijntest",
+      "phoneNumber": "1233",
+      "email": "s@s.com",
       "petType": 3,
       "type": "1",
       "pets": [
@@ -1801,52 +1801,10 @@
         {},
         {}
       ],
-      "preference": 1,
+      "preference": 0,
       "doctor": 1,
       "status": 0,
       "id": 108
-    },
-    {
-      "number": 109,
-      "date": "2023-11-16",
-      "time": "16:45",
-      "duration": 45,
-      "customer": "stijn",
-      "phoneNumber": "123456",
-      "email": "s@s.com",
-      "petType": 9,
-      "type": "2",
-      "pets": [
-        {},
-        {},
-        {},
-        {}
-      ],
-      "preference": 0,
-      "doctor": 2,
-      "status": 0,
-      "id": 109
-    },
-    {
-      "number": 110,
-      "date": "2023-11-23",
-      "time": "09:30",
-      "duration": 15,
-      "customer": "stijn",
-      "phoneNumber": "12345",
-      "email": "s@s.com",
-      "petType": 3,
-      "type": "3",
-      "pets": [
-        {},
-        {},
-        {},
-        {}
-      ],
-      "preference": 0,
-      "doctor": 1,
-      "status": 0,
-      "id": 110
     },
     {
       "number": 111,
@@ -2325,6 +2283,12 @@
       "passwordHash": "$2a$10$91UtnZJNMNMEM9Q1SyG5Oe7rB3DJArFOvgFKpPYtacowR9QFGqp.O",
       "role": 0,
       "id": 3
+    },
+    {
+      "email": "stijn@gmail.com",
+      "passwordHash": "$2a$10$ZXAI9pUoXC7n2lINkfGfA.8aGRGYD5J1X64xgJal3/LPJs7RsRgZ.",
+      "role": 0,
+      "id": 4
     }
   ]
 }
