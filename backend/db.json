@@ -1763,6 +1763,48 @@
       "doctor": 2,
       "status": 0,
       "id": 70
+    },
+    {
+      "number": 71,
+      "date": "2023-11-16",
+      "time": "10:45",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "1235",
+      "email": "s@s.com",
+      "petType": 8,
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0,
+      "id": 107
+    },
+    {
+      "number": 108,
+      "date": "2023-11-16",
+      "time": "10:00",
+      "duration": 15,
+      "customer": "st",
+      "phoneNumber": "123",
+      "email": "s@s",
+      "petType": 3,
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 1,
+      "doctor": 1,
+      "status": 0,
+      "id": 108
     }
   ],
   "pet-types": [
