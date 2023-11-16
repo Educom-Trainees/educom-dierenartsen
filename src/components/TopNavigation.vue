@@ -27,9 +27,13 @@
                         <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                        <div v-if="!isLoggedIn" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                             <router-link class="dropdown-item" to="/register">Registreren</router-link> 
                             <router-link class="dropdown-item" to="/login">Inloggen</router-link> 
+                        </div>
+                        <div v-if="isLoggedIn" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <!-- <router-link class="dropdown-item" to="/profiel">Profiel</router-link>  -->
+                            <div @click="logout"><router-link class="dropdown-item" to="/">Uitloggen</router-link></div> 
                         </div>
                     </div>
                 </li>
@@ -40,16 +44,24 @@
 
 <script>
 import { USER_ROLES } from '../utils/userRoles.js'
-import { hasRequiredRole } from '../composables/userRoleChecker.js'
+import { hasRequiredRole, isLoggedIn, logoutUser } from '../composables/userRoleChecker.js'
 
 export default {
     data() {
         return {
             showOverview: false,
+            isLoggedIn: false,
         }
     }, 
     beforeMount() {
         this.showOverview = hasRequiredRole([USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE])
+        this.isLoggedIn = isLoggedIn('testing function isloggedin')
+    },
+    methods: {
+        logout() {
+            logoutUser()
+            location.reload()
+        }
     }
 }
 </script>
