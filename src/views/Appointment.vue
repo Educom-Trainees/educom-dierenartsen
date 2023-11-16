@@ -97,17 +97,22 @@
       <div v-if="nameError" class="error">{{ nameError }}</div>
       <label>Gegevens huisdieren </label>
         <div v-if="amount == 1">
-          <input type="text" v-model="name_animal[0]" placeholder="Naam huisdier"><br>
+          <input type="text" v-model="name_animal[0]" placeholder="Naam huisdier">
+          <input type="text" v-model="info_animal[0]" placeholder="Reden voor afspraak"><br>
         </div>
         <div v-if="amount != 1">
-          <input type="text" v-model="name_animal[0]" placeholder="Naam eerste huisdier"><br>
+          <input type="text" v-model="name_animal[0]" placeholder="Naam eerste huisdier">
+          <input type="text" v-model="info_animal[0]" placeholder="Reden voor afspraak"><br>
           <input type="text" v-model="name_animal[1]" placeholder="Naam tweede huisdier">
+          <input type="text" v-model="info_animal[1]" placeholder="Reden voor afspraak">
         </div>
         <div v-if="amount != 1 && amount != 2">
           <input type="text" v-model="name_animal[2]" placeholder="Naam derde huisdier">
+          <input type="text" v-model="info_animal[2]" placeholder="Reden voor afspraak">
         </div>
         <div v-if="amount == 4">
           <input type="text" v-model="name_animal[3]" placeholder="Naam vierde huisdier">
+          <input type="text" v-model="info_animal[3]" placeholder="Reden voor afspraak">
         </div>
       <button @click="backtodateform" class="back">vorige</button>
       <button class="submit">bevestig afspraak</button>
@@ -141,6 +146,7 @@ export default {
           type_animal: '',
           amount: 1,
           name_animal: [],
+          info_animal: [],
           type_consult: '',
           showForm: true,
           showdateForm: false,
@@ -150,17 +156,17 @@ export default {
           status: 0,
           number: 0,
           appointments: '',
-            freeTimeslots: '',
-            time_slots: '',
-            timeslotdata: '',
-            time: '',
-            doctor: '',
-            date: toDateString(new Date()),
-            name_animalError: '',
-            nameError: '',
-            emailError: '',
-            phoneError: '',
-            animal_nameError: ''
+          freeTimeslots: '',
+          time_slots: '',
+          timeslotdata: '',
+          time: '',
+          doctor: '',
+          date: toDateString(new Date()),
+          name_animalError: '',
+          nameError: '',
+          emailError: '',
+          phoneError: '',
+          animal_nameError: ''
         }
     },
     watch: {
@@ -305,7 +311,7 @@ export default {
         this.number++
 
         await postAppointments(this.number, this.date, this.time, this.duration, this.name, this.phone, 
-        this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.doctor, this.status)
+        this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
 
         console.log('de afspraak is gepost')
         this.$router.push('/result/' + this.number)
@@ -384,6 +390,7 @@ export default {
   margin-left: 20px;
 }
 .appointment_result {
+  font-size: 1.25rem;
   background-color: white;
   flex: 25%;
 }

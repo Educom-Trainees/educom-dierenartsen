@@ -29,8 +29,8 @@
           <p v-if="appointment.petType == 5">Hamster</p>
           <p v-if="appointment.petType == 6">Rat</p>
           <p v-if="appointment.petType == 7">Muis</p>
-        <p v-if="appointment.petType == 8">Kleine hond</p>
-        <p v-if="appointment.petType == 9">Grote hond</p>
+          <p v-if="appointment.petType == 8">Kleine hond</p>
+          <p v-if="appointment.petType == 9">Grote hond</p>
           <p v-if="appointment.type == 1">Consult</p>
           <p v-if="appointment.type == 2">Eerste consult</p>
           <p v-if="appointment.type == 3">Vaccinatie</p>
@@ -76,7 +76,9 @@ export default {
 
 <style>
 #computer{
-  height: 100%;
-  width: 100%;
+  margin-top: 10%;
+  border-radius: 30%;
+  height: 70%;
+  width: 60%;
 }
 </style>
