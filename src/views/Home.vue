@@ -1,4 +1,5 @@
 <template>
+  <TopNavigation />
   <Carousel />
   <div class="container">
     <div class="row">
@@ -27,12 +28,14 @@
 </template>
 
 <script>
+import TopNavigation from '../components/TopNavigation.vue'
 import Carousel from '../components/Carousel.vue'
 
 export default {
   name: 'Home',
   components: {
-    Carousel
+    Carousel,
+    TopNavigation
   }
 }
 </script>

@@ -1,4 +1,5 @@
 <template>
+    <TopNavigation />
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -35,12 +36,16 @@
 </template>
 
 <script>
+import TopNavigation from '../components/TopNavigation.vue'
 import router from '../router/index.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, authenticateUser } from '../composables/userManager.js'
 
 export default {
     name: 'Login',
+    components: {
+        TopNavigation
+    },
     data() {
         return {
             loginForm: {

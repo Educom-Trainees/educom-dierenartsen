@@ -1,4 +1,5 @@
 <template>
+    <TopNavigation />
     <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -26,6 +27,7 @@
 
 <script>
 import axios from 'axios'
+import TopNavigation from '../components/TopNavigation.vue'
 import Calendar from '../components/Calendar.vue'
 import { displayFullDate, toDateString } from '../composables/datetime-utils.js'
 
@@ -41,7 +43,8 @@ const timeslots = [
 export default {
     name: 'Overview',
     components: {
-        Calendar,
+        Calendar, 
+        TopNavigation
     },
     mounted() {
         this.getAppointments(this.toDateString(this.date))

@@ -19,6 +19,9 @@
                 <li class="nav-item">
                     <router-link  class="nav-link" to="/appointment">Afspraak</router-link>
                 </li>
+                <li v-if="showOverview" class="nav-item">
+                    <router-link  class="nav-link" to="/overview">Overview</router-link>
+                </li>
                 <li class="nav-item w-100 d-flex justify-content-center justify-content-lg-end">
                     <div class="dropdown">
                         <button class="btn btn-secondary" type="button" id="dropdownMenuButton" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,6 +37,22 @@
         </div>
     </nav>
 </template>
+
+<script>
+import { USER_ROLES } from '../utils/userRoles.js'
+import { hasRequiredRole } from '../composables/userRoleChecker.js'
+
+export default {
+    data() {
+        return {
+            showOverview: false,
+        }
+    }, 
+    beforeMount() {
+        this.showOverview = hasRequiredRole([USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE])
+    }
+}
+</script>
 
 <style>
     .navbar {

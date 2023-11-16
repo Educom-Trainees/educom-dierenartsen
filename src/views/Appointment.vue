@@ -1,4 +1,5 @@
 <template>
+  <TopNavigation />
   <div class="planning">
     <h1 class="appointment_header">Afspraak maken</h1>
     <div class="test" v-if="showForm">
@@ -128,141 +129,142 @@
 </template>
 
 <script>
-  import getTime_slots from '../composables/getTime_slots'
-  import getAppointments from '../composables/getAppointments'
-  import getAppointment_type from '../composables/getAppointment_type'
-  import postAppointments from '../composables/postAppointments'
+import TopNavigation from '../components/TopNavigation.vue'
+import getTime_slots from '../composables/getTime_slots'
+import getAppointments from '../composables/getAppointments'
+import getAppointment_type from '../composables/getAppointment_type'
+import postAppointments from '../composables/postAppointments'
 
-
-
-  export default {
-    name: 'app',
-    components: {},
-    data() {
-        return {
-            name: '',
-            email: '',
-            phone: '',
-            type_animal: '',
-            amount: 1,
-            name_animal: [],
-            type_consult: '',
-            showForm: true,
-            showdateForm: false,
-            showcontactForm: false,
-            duration: 0,
-            preference: 0,
-            status: 0,
-            number: 0,
-            appointments: '',
-            time_slots: '',
-            timeslotdata: '',
-            time: '',
-            doctor: '',
-            date: '',
-            name_animalError: '',
-            nameError: '',
-            emailError: '',
-            phoneError: '',
-            animal_nameError: ''
-        }
-    },
-    methods: {
-      changeamount(amount){
-        this.amount = amount
-      },
-      changetype_animal(animal){
-        this.type_animal = animal
-      },
-      changepreference(preference){
-        this.preference = preference
-      },
-      async handleSubmit() {
-        // for (let i = 0; i < 4;) { 
-        //   console.log(this.name_animal[i].length)
-        //   this.name_animalError = this.name_animal[i].length < 90 ?
-        //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
-        //   i++
-        // }
-
-        // console.log(this.name_animal[0].length)
-        // if(this.name_animalError){
-        //   return {
-        //     name_animalError
-        //   }
-        // }
-
-
-        const { appointment_type, error, load } = getAppointment_type(this.type_consult)
-        await load()
-        for(let i=0; i < appointment_type.value.calculation.length; i++){
-          const app_type = appointment_type.value.calculation[i];
-          if (app_type.count && app_type.count != this.amount) { 
-            continue
-          }
-          if(app_type.type && app_type.type != this.type_animal){
-            continue
-          }
-          this.duration = app_type.duration
-          break
-        }
-        console.log(this.duration)
-
-        const { time_slots, timeslot_error } = await this.gettimeslots()
-
-        this.time_slots = time_slots
-
-        this.showForm = false
-        this.showdateForm = true
-        return { 
-          appointment_type, 
-          time_slots, 
-          error, 
-          timeslot_error 
-        }
-      },
-      handledateSubmit() {
-        this.time = this.timeslotdata.time
-        this.doctor = this.timeslotdata.doctor
-        this.showdateForm = false
-        this.showcontactForm = true
-      },
-      async Result() {
-        const { appointments, error, load } = getAppointments()
-        await load()
-        this.appointments = appointments
-
-
-        this.nameError = this.name.length < 30 ?
-        '' : 'je naam mag niet langer zijn dan 30 letters'
-        this.emailError = this.email.length < 75 ?
-        '' : 'je email mag niet langer zijn dan 75 letters'
-
-        // dit werkt niet met de -
-        // const validationPhone = /^\d{10}$/;
-
-        // this.phoneError = this.phone.match(validationPhone) ?
-        // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
-
-        if(!this.nameError && !this.emailError){
-          const lastappointment = this.appointments[this.appointments.length - 1]
-          this.number = lastappointment.id
-          this.number++
-
-          await postAppointments(this.number, this.date, this.time, this.duration, this.name, this.phone, 
-          this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.doctor, this.status)
-
-          console.log('de afspraak is gepost')
-          this.$router.push('/result/' + this.number)
-        }
-      },
-      async gettimeslots(){
-        const { time_slots, error, load } = getTime_slots()
-        await load()
-        return { time_slots, error }
+export default {
+  name: 'app',
+  components: {
+    TopNavigation
+  },
+  data() {
+      return {
+          name: '',
+          email: '',
+          phone: '',
+          type_animal: '',
+          amount: 1,
+          name_animal: [],
+          type_consult: '',
+          showForm: true,
+          showdateForm: false,
+          showcontactForm: false,
+          duration: 0,
+          preference: 0,
+          status: 0,
+          number: 0,
+          appointments: '',
+          time_slots: '',
+          timeslotdata: '',
+          time: '',
+          doctor: '',
+          date: '',
+          name_animalError: '',
+          nameError: '',
+          emailError: '',
+          phoneError: '',
+          animal_nameError: ''
       }
+  },
+  methods: {
+    changeamount(amount){
+      this.amount = amount
+    },
+    changetype_animal(animal){
+      this.type_animal = animal
+    },
+    changepreference(preference){
+      this.preference = preference
+    },
+    async handleSubmit() {
+      // for (let i = 0; i < 4;) { 
+      //   console.log(this.name_animal[i].length)
+      //   this.name_animalError = this.name_animal[i].length < 90 ?
+      //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
+      //   i++
+      // }
+
+      // console.log(this.name_animal[0].length)
+      // if(this.name_animalError){
+      //   return {
+      //     name_animalError
+      //   }
+      // }
+
+
+      const { appointment_type, error, load } = getAppointment_type(this.type_consult)
+      await load()
+      for(let i=0; i < appointment_type.value.calculation.length; i++){
+        const app_type = appointment_type.value.calculation[i];
+        if (app_type.count && app_type.count != this.amount) { 
+          continue
+        }
+        if(app_type.type && app_type.type != this.type_animal){
+          continue
+        }
+        this.duration = app_type.duration
+        break
+      }
+      console.log(this.duration)
+
+      const { time_slots, timeslot_error } = await this.gettimeslots()
+
+      this.time_slots = time_slots
+
+      this.showForm = false
+      this.showdateForm = true
+      return { 
+        appointment_type, 
+        time_slots, 
+        error, 
+        timeslot_error 
+      }
+    },
+    handledateSubmit() {
+      this.time = this.timeslotdata.time
+      this.doctor = this.timeslotdata.doctor
+      this.showdateForm = false
+      this.showcontactForm = true
+    },
+    async Result() {
+      const { appointments, error, load } = getAppointments()
+      await load()
+      this.appointments = appointments
+
+
+      this.nameError = this.name.length < 30 ?
+      '' : 'je naam mag niet langer zijn dan 30 letters'
+      this.emailError = this.email.length < 75 ?
+      '' : 'je email mag niet langer zijn dan 75 letters'
+
+      // dit werkt niet met de -
+      // const validationPhone = /^\d{10}$/;
+
+      // this.phoneError = this.phone.match(validationPhone) ?
+      // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
+
+      if(!this.nameError && !this.emailError){
+        const lastappointment = this.appointments[this.appointments.length - 1]
+        this.number = lastappointment.id
+        this.number++
+
+        await postAppointments(this.number, this.date, this.time, this.duration, this.name, this.phone, 
+        this.email, this.type_animal, this.type_consult, this.name_animal, this.preference, this.doctor, this.status)
+
+        console.log('de afspraak is gepost')
+        this.$router.push('/result/' + this.number)
+      }
+    },
+    async gettimeslots(){
+      const { time_slots, error, load } = getTime_slots()
+      await load()
+      return { time_slots, error }
     }
   }
+}
 </script>
 <style>
 .appointment_header{

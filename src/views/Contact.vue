@@ -1,4 +1,5 @@
 <template>
+  <TopNavigation />
   <div class="container">
     <div class="row">
         <div class="col-10 col-md-8">
@@ -38,9 +39,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'Home',
+import TopNavigation from '../components/TopNavigation.vue'
+
+export default {
+  name: 'Contact',
+  components: {
+    TopNavigation
   }
+}
 </script>
 
 <style>

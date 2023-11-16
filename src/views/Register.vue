@@ -1,4 +1,5 @@
 <template>
+    <TopNavigation />
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -41,12 +42,16 @@
 
 <script>
 import router from '../router/index.js'
+import TopNavigation from '../components/TopNavigation.vue'
 import { USER_ROLES } from '../utils/userRoles.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
 
 export default {
     name: 'Register',
+    components: {
+        TopNavigation
+    },
     data() {
         return {
             registerForm: {

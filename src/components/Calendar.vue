@@ -37,8 +37,8 @@ import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 export default {
     name: 'Calendar',
     components: {
-    AppointmentDetail
-},
+        AppointmentDetail
+    },
     props: ['doctor', 'doctorId', 'timeslots', 'appointments', 'color'],
     data() {
         return {
