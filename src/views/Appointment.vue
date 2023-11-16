@@ -3,26 +3,23 @@
   <div class="planning">
     <h1 class="appointment_header">Afspraak maken</h1>
     <div class="test" v-if="showForm">
-      <h2>hier komt de balk</h2>
+      <h2><img src="../assets/balk1.png"></h2>
       <form @submit.prevent="handleSubmit" v-if="showForm" class="appointment_form">
         <!-- <div class="test"> -->
         <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
         <label>Selecteer diersoort* </label><br>
-          <!-- <select>
-            <option value="8">kleine hond</option>
-            <option value="1">gemiddelde hond</option>
-            <option value="9">grote hond</option>
-          </select> -->
-          <button @click="changetype_animal(1)" type="button" id="big" value="1" :class="{selected_animal: type_animal == 1}"><img src="../assets/dog.png"><br>hond</button>
+          <button v-if="type_animal != 1 && type_animal != 8 && type_animal != 9" @click="changetype_animal(1)" type="button" id="big" value="1" :class="{selected_animal: type_animal == 1}"><img src="../assets/dog.png"><br>hond</button>
           <button @click="changetype_animal(2)" type="button" id="big" value="2" :class="{selected_animal: type_animal == 2}"><img src="../assets/black-cat.png"><br>kat</button>
           <button @click="changetype_animal(3)" type="button" id="big" value="3" :class="{selected_animal: type_animal == 3}"><img src="../assets/rabbit.png"><br>konijn</button>
           <button @click="changetype_animal(4)" type="button" id="big" value="4" :class="{selected_animal: type_animal == 4}"><img src="../assets/guinea-pig.png"><br>cavia</button>
           <button @click="changetype_animal(5)" type="button" id="big" value="5" :class="{selected_animal: type_animal == 5}"><img src="../assets/hamster.png"><br>hamster</button>
           <button @click="changetype_animal(6)" type="button" id="big" value="6" :class="{selected_animal: type_animal == 6}"><img src="../assets/rat.png"><br>rat</button>
           <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}"><img src="../assets/muis.png"><br>muis</button>
-          <!-- <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}">kleine hond</button>
-          <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}">grote hond</button> -->
           <br>
+          <div v-if="type_animal == 1 || type_animal == 8 || type_animal == 9">
+            <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}"><img src="../assets/dog.png"><br>kleine hond</button>
+            <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}"><img src="../assets/dog.png"><br>grote hond</button>
+          </div>
         <label>Aantal huisdieren* </label><br>
           <button @click="changeamount(1)" type="button" value="1" id="small" :class="{selected: amount == 1}">1</button>
           <button @click="changeamount(2)" type="button" value="2" id="small" :class="{selected: amount == 2}">2</button>
@@ -43,17 +40,16 @@
             <option value="9">postoperatieve controle</option>
             <option value="10">herhaal recept bestellen</option>
           </select><br>
-            <button class="back">vorige</button>
-            <button class="submit">volgende</button>
+            <button v-if="type_animal != 1" class="submit">volgende</button>
         <!-- </div> -->
     </form>
     
     </div>
     <div class="button_div" v-if="showForm">
-      <h2>test</h2>
+      <h2 id="removetext">.</h2>
     </div>
     <div class="test" v-if="showdateForm">
-    <h2>hier komt de balk</h2>
+    <h2><img src="../assets/balk2.png"></h2>
     <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
       <label>Clinici</label><br>
         <button @click="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
@@ -62,38 +58,32 @@
       <label>Datum: </label><br>
         <input type="date" required v-model="date"><br>
       <label>Tijd:</label><br>
-        <div v-if="freeTimeslots">
-          {{console.log('test')}}
-            <select required v-model="timeslotdata" v-if="this.preference == 0">
-                <option :value="timeslot" v-for="timeslot in freeTimeslots" :key="timeslot.time">
-                  <div v-if="timeslot.doctor == 1">
-                    tijd: {{ timeslot.time }} dokter: karel lant
-                  </div>
-                  <div v-if="timeslot.doctor == 2">
-                    tijd: {{ timeslot.time }} dokter: danique de beer
-                  </div>
-                </option>
-            </select>
-            <select required v-model="timeslotdata" v-if="this.preference == 1">
-                <option :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1)" :key="timeslot.time">
-                    tijd: {{ timeslot.time }} dokter: karel lant
-                </option>
-            </select>
-            <select required v-model="timeslotdata" v-if="this.preference == 2">
-                <option :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2)" :key="timeslot.time">
-                    tijd: {{ timeslot.time }} dokter: danique de beer
-                </option>
-            </select>
+        <div v-if="date">
+            <div v-if="this.preference == 0">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots" :key="timeslot.time">
+                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                </button> 
+            </div>
+            <div v-if="this.preference == 1">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1)" :key="timeslot.time">
+                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                </button>
+            </div>
+            <div v-if="this.preference == 2">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2)" :key="timeslot.time">
+                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                </button> 
+            </div>
         </div>
-      <button class="back">vorige</button>
+      <button @click="backtoform" class="back">vorige</button>
       <button class="submit">volgende</button>
     </form>
     </div>
     <div class="button_div" v-if="showdateForm">
-      <h2>test</h2>
+      <h2 id="removetext">test</h2>
     </div>
     <div class="test" v-if="showcontactForm">
-      <h2>hier komt de balk</h2>
+      <h2><img src="../assets/balk3.png"></h2>
       <h3>{{ date }} {{ time }}</h3>
     <form @submit.prevent="Result" v-if="showcontactForm" class="appointment_form">
       <h4>Persoonlijke gegevens</h4>
@@ -119,17 +109,18 @@
         <div v-if="amount == 4">
           <input type="text" v-model="name_animal[3]" placeholder="Naam vierde huisdier">
         </div>
-      <button class="back">vorige</button>
+      <button @click="backtodateform" class="back">vorige</button>
       <button class="submit">bevestig afspraak</button>
     </form>
   </div>
   </div>
   <div class="button_div" v-if="showcontactForm">
-    <h2>test</h2>
+    <h2 id="removetext">test</h2>
   </div>
 </template>
 
 <script>
+  import { toDateString } from '../composables/datetime-utils.js'
 import TopNavigation from '../components/TopNavigation.vue'
 import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
@@ -160,35 +151,55 @@ export default {
           number: 0,
           appointments: '',
             freeTimeslots: '',
-          time_slots: '',
-          timeslotdata: '',
-          time: '',
-          doctor: '',
-          date: '',
-          name_animalError: '',
-          nameError: '',
-          emailError: '',
-          phoneError: '',
-          animal_nameError: ''
+            time_slots: '',
+            timeslotdata: '',
+            time: '',
+            doctor: '',
+            date: toDateString(new Date()),
+            name_animalError: '',
+            nameError: '',
+            emailError: '',
+            phoneError: '',
+            animal_nameError: ''
+        }
+    },
+    watch: {
+      date() {
+        this.handleSubmit()
+      },
+      preference() {
+        this.handleSubmit()
       }
-  },
-  methods: {
-    changeamount(amount){
-      this.amount = amount
     },
-    changetype_animal(animal){
-      this.type_animal = animal
-    },
-    changepreference(preference){
-      this.preference = preference
-    },
-    async handleSubmit() {
-      // for (let i = 0; i < 4;) { 
-      //   console.log(this.name_animal[i].length)
-      //   this.name_animalError = this.name_animal[i].length < 90 ?
-      //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
-      //   i++
-      // }
+    methods: {
+      changeamount(amount){
+        this.amount = amount
+      },
+      changetype_animal(animal){
+        this.type_animal = animal
+      },
+      changepreference(preference){
+        this.preference = preference
+      },
+      changetimeANDdoctor(time, doctor){
+        this.time = time
+        this.doctor = doctor
+      },
+      backtoform(){
+        this.showForm = true
+        this.showdateForm = false
+      },
+      backtodateform(){
+        this.showdateForm = true
+        this.showcontactForm = false
+      },
+      async handleSubmit() {
+        // for (let i = 0; i < 4;) { 
+        //   console.log(this.name_animal[i].length)
+        //   this.name_animalError = this.name_animal[i].length < 90 ?
+        //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
+        //   i++
+        // }
 
       // console.log(this.name_animal[0].length)
       // if(this.name_animalError){
@@ -196,8 +207,6 @@ export default {
       //     name_animalError
       //   }
       // }
-
-
       const { appointment_type, error, load } = getAppointment_type(this.type_consult)
       await load()
       for(let i=0; i < appointment_type.value.calculation.length; i++){
@@ -213,29 +222,54 @@ export default {
       }
       console.log(this.duration)
 
-      const { time_slots, timeslot_error } = await this.gettimeslots()
+        const { time_slots, timeslot_error } = await this.gettimeslots()
+        const { appointments, appointments_error } = await this.getappointments()
 
-      this.time_slots = time_slots
+        const filteredapp = appointments.value.filter(a => a.date == this.date)
+        var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
+        var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
 
-      this.showForm = false
-      this.showdateForm = true
-      return { 
-        appointment_type, 
-        time_slots, 
-        error, 
-        timeslot_error 
-      }
-    },
-    handledateSubmit() {
-      this.time = this.timeslotdata.time
-      this.doctor = this.timeslotdata.doctor
-      this.showdateForm = false
-      this.showcontactForm = true
-    },
-    async Result() {
-      const { appointments, error, load } = getAppointments()
-      await load()
-      this.appointments = appointments
+        console.log('uit de loop')
+        console.log(freeTimeslots)
+
+        if(this.preference == 0){
+          var prefDoctor = 0
+          var sumdoctor1 = 0
+          var sumdoctor2 = 0
+          for (let i = 0; i < freeTimeslots.length; i++) {
+            if(freeTimeslots[i] != undefined){
+              if(freeTimeslots[i].doctor == 1){
+                sumdoctor1++
+              }else if(freeTimeslots[i].doctor == 2){
+                sumdoctor2++
+              }
+            }
+          }
+          if(sumdoctor1 >= sumdoctor2){
+            prefDoctor = 1
+          }else if(sumdoctor1 < sumdoctor2){
+            prefDoctor = 2
+          }
+
+          console.log('sum1')
+          console.log(sumdoctor1)
+
+          console.log('sum2')
+          console.log(sumdoctor2)
+
+          console.log('voordat hij dubbele verwijdert')
+          console.log(freeTimeslots)
+
+          var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
+
+          console.log('nadat hij dubble verwijdert')
+          console.log(list)
+
+          this.freeTimeslots = list
+        }else {
+          this.freeTimeslots = freeTimeslots
+        }
+
         this.showForm = false
         this.showdateForm = true
         return { 
@@ -245,8 +279,6 @@ export default {
         }
       },
       async handledateSubmit() {
-        this.time = this.timeslotdata.time
-        this.doctor = this.timeslotdata.doctor
         this.showdateForm = false
         this.showcontactForm = true
       },
@@ -279,6 +311,32 @@ export default {
         this.$router.push('/result/' + this.number)
       }
     },
+      RemoveDuplicate(array, prefDoctor){
+        console.log('array:')
+        console.log(array)
+        console.log('voorkeur:')
+        console.log(prefDoctor)
+        const result = []
+        array.forEach((element, index) => {
+          if(element == undefined){}
+            else if(array[index + 1] != undefined && element.time == array[index + 1].time || 
+               array[index - 1] != undefined && element.time == array[index - 1].time ){
+              if(element.doctor != prefDoctor){
+                console.log('deze worden geskipt')
+                console.log(element)
+              }else {
+                console.log('de voorkeur dokter')
+                console.log(element)
+                result.push(element)
+              }
+            }else {
+              console.log('de enige tijd')
+              console.log(element)
+              result.push(element)
+            }
+        });
+        return result
+      },
     async gettimeslots(){
       const { time_slots, error, load } = getTime_slots()
       await load()
@@ -291,28 +349,21 @@ export default {
       },
       getFreeSlots(time_slots, duration){
         const result = []
-        console.log('freeslots')
-        console.log(time_slots)
-        console.log(duration)
-        for (let i = 0; i < time_slots.length; i++) {
-          console.log(time_slots[i])
-          if(time_slots[i].show == true && time_slots[i].appointment == undefined){
+        time_slots.forEach((element, index) => {
+          if(element.show == true && time_slots[index].appointment == undefined){
             if(duration == 15){
-              console.log('loop')
-                result.push(time_slots[i])
-            }else if(duration == 30){
-              if(time_slots[i++].show == true && time_slots[i++].appointment == undefined){
-                result.push(time_slots[i])
+                result.push(element)
+            }else if(duration == 30 && time_slots[index + 1] != undefined){
+              if(time_slots[index + 1].show == true && time_slots[index + 1].appointment == undefined){
+                result.push(element)
               }
-            }else if(duration == 45){
-              if(time_slots[i+2].show == true && time_slots[i+2].appointment == undefined){
-                result.push(time_slots[i])
+            }else if(duration == 45 && time_slots[index+2] != undefined){
+              if(time_slots[index + 2].show == true && time_slots[index + 2].appointment == undefined){
+                result.push(element)
               }
             }
           }
-        } 
-        console.log('einde van de loop')
-        console.log(result)
+        });
         return result
     }
   }
@@ -372,6 +423,9 @@ export default {
   background-color: lightgrey;
   margin-right: 200px;
 }
+.time {
+  width: 20%;
+}
 select{
   /* float: left; */
   background-color: white;
@@ -397,9 +451,16 @@ button.selected_animal {
   background-color: blue;
   border-radius: 12px;
   height: 70px;
-  width: 90px;
+  width: 100px;
   margin-right: 5px;
   margin-left: 10px;
+}
+button.selected_time {
+  color: white;
+  background-color: blue;
+  height: 40px;
+  width: 110px;
+  margin-left: 40px;
 }
 #small {
   border-radius: 12px;
@@ -410,9 +471,14 @@ button.selected_animal {
 #big {
   border-radius: 12px;
   height: 70px;
-  width: 90px;
+  width: 100px;
   margin-right: 5px;
   margin-left: 10px;
+}
+#smallblock {
+  height: 40px;
+  width: 110px;
+  margin-left: 40px;
 }
 #block {
   height: 40px;
@@ -424,6 +490,9 @@ button.selected_animal {
   margin-left: 10px;
   margin-bottom: 50px;
   margin-top: 5px;
+}
+#removetext {
+  color: lightgrey;
 }
 button {
   background-color: white;

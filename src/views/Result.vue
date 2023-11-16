@@ -2,7 +2,7 @@
   <TopNavigation />
   <h1 class="appointment_header">Afspraak maken</h1>
   <div class="test">
-    <h2 class="">hier komt de balk</h2>
+    <h2><img src="../assets/balk4.png"></h2>
     <div v-if="appointment" class="appointment_form">
       <h3>Afspraak bevestiging</h3>
       <div class="row">
@@ -29,7 +29,9 @@
           <p v-if="appointment.petType == 5">Hamster</p>
           <p v-if="appointment.petType == 6">Rat</p>
           <p v-if="appointment.petType == 7">Muis</p>
-          <p v-if="appointment.type == 1">consult</p>
+        <p v-if="appointment.petType == 8">Kleine hond</p>
+        <p v-if="appointment.petType == 9">Grote hond</p>
+          <p v-if="appointment.type == 1">Consult</p>
           <p v-if="appointment.type == 2">Eerste consult</p>
           <p v-if="appointment.type == 3">Vaccinatie</p>
           <p v-if="appointment.type == 4">Anaal klieren legen</p>
