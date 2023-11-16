@@ -6,9 +6,9 @@
  */
 export function hasRequiredRole(requiredRoles) {
 
-    const userData = JSON.parse(sessionStorage.getItem('userData'))
+    const userData = getUserDataFromSession()
 
-    if (!userData || !userData.userRole) {
+    if (!isLoggedIn()) {
         return false
     } 
     else {
@@ -20,4 +20,29 @@ export function hasRequiredRole(requiredRoles) {
             return true
         }
     }
+}
+
+/**
+ * Check if the user is logged in.
+ * 
+ * @returns {boolean} Returns true if the user is logged in, otherwise false.
+ */
+export function isLoggedIn() {
+
+    const userData = getUserDataFromSession()
+
+    return userData !== null
+}
+
+/**
+ * Get the user data from browser session.
+ * 
+ * @returns {Object} Returns user data if the user is logged in, otherwise null.
+ */
+export function getUserDataFromSession() {
+    return JSON.parse(sessionStorage.getItem('userData'))
+}
+
+export function logoutUser() {
+    sessionStorage.removeItem('userData')
 }

@@ -84,7 +84,7 @@ export default {
                                         const userData = { userId: user.id, userRole: user.role }
                                         sessionStorage.setItem('userData', JSON.stringify(userData))
                                         try {
-                                            router.push('/overview')
+                                            router.push('/')
                                         }
                                         catch (routerError) {
                                             console.error('Error redirecting user: ', routerError)
