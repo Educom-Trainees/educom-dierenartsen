@@ -35,7 +35,7 @@ export function validatePassword(password, confirmPassword=null) {
     // 
     if (confirmPassword === null) {
         if (processedPassword.length === 0) {
-            passwordErr = '❌ Wachtwoord mag niet leeg zijn'
+            passwordErr = '❌ Wachtwoord mag niet leeg zijn.'
             return { processedPassword, passwordErr}
         }
     }
@@ -47,12 +47,12 @@ export function validatePassword(password, confirmPassword=null) {
             return { processedPassword, passwordErr, confirmPasswordErr }
         }
         if (processedConfirmPassword.length === 0) {
-            confirmPasswordErr = '❌ Bevestig wachtwoord mag niet leeg zijn'
+            confirmPasswordErr = '❌ Bevestig wachtwoord mag niet leeg zijn.'
             return { processedPassword, passwordErr, confirmPasswordErr }
         }
         // Check if passwords match
         if (processedPassword !== processedConfirmPassword) {
-            confirmPasswordErr = '❌ Wachtwoorden komen niet overeen'
+            confirmPasswordErr = '❌ Wachtwoorden komen niet overeen.'
             return { processedPassword, passwordErr, confirmPasswordErr }
         }
     }
@@ -64,7 +64,7 @@ export function validatePassword(password, confirmPassword=null) {
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(processedPassword);
 
     if (!(isLengthValid && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar)) {
-        passwordErr = '❌ Ongeldig wachtwoord formaat'
+        passwordErr = '❌ Ongeldig wachtwoord formaat.'
         if (confirmPassword === null) {
             return { processedPassword, passwordErr }
         }

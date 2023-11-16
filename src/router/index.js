@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import USER_ROLES from '../utils/userRoles.js'
+import { USER_ROLES } from '../utils/userRoles.js'
 import Home from '../views/Home.vue'
 import Contact from '../views/Contact.vue'
 import Appointment from '../views/Appointment.vue'
@@ -46,7 +46,7 @@ const routes = [
     component: Overview,
     meta: {
       requiresAuth: true,
-      requiredRoles:[1, 2]
+      requiredRoles:[USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
     }
   }
 ]
@@ -68,7 +68,7 @@ router.beforeEach((to, from, next) => {
       const hasRequiredRole = to.meta.requiredRoles.includes(userData.userRole)
       
       if (!hasRequiredRole) {
-        next(false)
+        next('/')
       } else {
         next()
       }

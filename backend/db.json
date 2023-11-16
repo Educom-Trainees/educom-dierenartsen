@@ -2172,6 +2172,18 @@
       "passwordHash": "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
       "role": 2,
       "id": 1
+    },
+    {
+      "email": "karel@happypaw.nl",
+      "passwordHash": "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+      "role": 1,
+      "id": 2
+    },
+    {
+      "email": "mike@hotmail.com",
+      "passwordHash": "$2a$10$91UtnZJNMNMEM9Q1SyG5Oe7rB3DJArFOvgFKpPYtacowR9QFGqp.O",
+      "role": 0,
+      "id": 3
     }
   ]
 }

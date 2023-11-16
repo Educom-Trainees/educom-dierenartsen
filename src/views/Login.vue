@@ -39,9 +39,6 @@ import router from '../router/index.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, authenticateUser } from '../composables/userManager.js'
 
-const testEmail = 'admin@happypaw.nl'
-const testPassword = 'FPFAr9shsFsi%Rs'
-
 export default {
     name: 'Login',
     data() {

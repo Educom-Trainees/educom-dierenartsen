@@ -5,7 +5,7 @@
                 <h1 class="text-lg text-left">Registreren</h1>
             </div>
         </div>
-        <div class="row justify-content-center align-items-center register-row">
+        <div class="row justify-content-center align-items-center register-row mb-4">
             <div class="col-sm-3 col-md-5 col-10 register-area">
                 <div class="w-100 d-flex flex-column align-items-center">
                     <div class="happy-register d-flex justify-content-center align-items-center">
@@ -41,7 +41,7 @@
 
 <script>
 import router from '../router/index.js'
-import USER_ROLES from '../utils/userRoles.js'
+import { USER_ROLES } from '../utils/userRoles.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
 
