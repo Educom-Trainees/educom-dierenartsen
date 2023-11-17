@@ -127,31 +127,6 @@
       "status": 0
     },
     {
-      "id": 100,
-      "number": "2023100",
-      "date": "2023-11-16",
-      "time": "15:45",
-      "duration": 15,
-      "customer": "Jackie Chan",
-      "phoneNumber": "+31613125477",
-      "email": "jackie.chan@hotmail.com",
-      "type": 9,
-      "petType": 8,
-      "pets": [
-        {
-          "id": 261,
-          "name": "Carter"
-        },
-        {
-          "id": 255,
-          "name": "Puma"
-        }
-      ],
-      "preference": 0,
-      "doctor": 1,
-      "status": 0
-    },
-    {
       "id": 99,
       "number": "2023099",
       "date": "2023-11-17",
