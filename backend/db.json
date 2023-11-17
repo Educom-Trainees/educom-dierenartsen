@@ -1807,6 +1807,7 @@
       "id": 108
     },
     {
+<<<<<<< HEAD
       "number": 111,
       "date": "2023-11-16",
       "time": "11:00",
@@ -1821,10 +1822,24 @@
           "name": "janneke",
           "extra": "hij heeft zijn poot gebroken"
         },
+=======
+      "number": 109,
+      "date": "2023-11-17",
+      "time": "11:00",
+      "duration": 45,
+      "customer": "klant beer",
+      "phoneNumber": "065555555",
+      "email": "klant@gmail.com",
+      "petType": 9,
+      "type": "2",
+      "pets": [
+        {},
+>>>>>>> 8929bf4 (Updated data)
         {},
         {},
         {}
       ],
+<<<<<<< HEAD
       "preference": 0,
       "doctor": 2,
       "status": 0,
@@ -1862,6 +1877,12 @@
       "doctor": 2,
       "status": 0,
       "id": 112
+=======
+      "preference": 2,
+      "doctor": 2,
+      "status": 0,
+      "id": 109
+>>>>>>> 8929bf4 (Updated data)
     }
   ],
   "pet-types": [
