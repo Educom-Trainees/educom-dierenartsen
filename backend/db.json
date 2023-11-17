@@ -1807,22 +1807,6 @@
       "id": 108
     },
     {
-<<<<<<< HEAD
-      "number": 111,
-      "date": "2023-11-16",
-      "time": "11:00",
-      "duration": 15,
-      "customer": "stijn",
-      "phoneNumber": "123",
-      "email": "s@s.com",
-      "petType": 3,
-      "type": "1",
-      "pets": [
-        {
-          "name": "janneke",
-          "extra": "hij heeft zijn poot gebroken"
-        },
-=======
       "number": 109,
       "date": "2023-11-17",
       "time": "11:00",
@@ -1834,12 +1818,10 @@
       "type": "2",
       "pets": [
         {},
->>>>>>> 8929bf4 (Updated data)
         {},
         {},
         {}
       ],
-<<<<<<< HEAD
       "preference": 0,
       "doctor": 2,
       "status": 0,
@@ -1877,12 +1859,6 @@
       "doctor": 2,
       "status": 0,
       "id": 112
-=======
-      "preference": 2,
-      "doctor": 2,
-      "status": 0,
-      "id": 109
->>>>>>> 8929bf4 (Updated data)
     }
   ],
   "pet-types": [
