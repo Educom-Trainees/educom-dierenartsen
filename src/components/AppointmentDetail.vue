@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <div class="col-sm">
-                    <span class="btn btn-action action-move">Verplaatsen</span>
+                    <span class="btn btn-action action-move" @click="changeAppointment(appointment.id, '2023-11-17', '16:15')">Verplaatsen</span>
                 </div>
                 <div class="col-sm">
                     <span @click="cancelAppointment(appointment)" class="btn btn-action action-cancel">Annuleren</span>
@@ -62,6 +62,7 @@
 <script>
 import axios from 'axios'
 import { displayTimeslot, displayDate } from '../composables/datetime-utils.js'
+import putAppointment from '../composables/putAppointment'
 
 const baseUrlPetTypes = 'http://localhost:3000/pet-types'
 

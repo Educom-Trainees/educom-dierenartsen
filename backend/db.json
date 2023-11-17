@@ -22,67 +22,22 @@
       "status": 0
     },
     {
-      "id": 105,
-      "number": "2023105",
+      "number": 105,
       "date": "2023-11-17",
-      "time": "14:30",
-      "duration": 30,
-      "customer": "Johnny Bravo",
-      "phoneNumber": "+132333234837",
-      "email": "johhny.b@mail.com",
-      "type": 2,
-      "petType": 5,
-      "pets": [
-        {
-          "id": 257,
-          "name": "ed"
-        }
-      ],
-      "preference": 2,
-      "doctor": 1,
-      "status": 0
+      "time": "16:15",
+      "id": 105
     },
     {
-      "id": 104,
-      "number": "2023104",
+      "number": 104,
       "date": "2023-11-17",
-      "time": "11:45",
-      "duration": 30,
-      "customer": "Tom de Wit",
-      "phoneNumber": "+132333239100",
-      "email": "tom.wit@mail.com",
-      "type": 2,
-      "petType": 5,
-      "pets": [
-        {
-          "id": 245,
-          "name": "Jerry"
-        }
-      ],
-      "preference": 2,
-      "doctor": 1,
-      "status": 0
+      "time": "16:15",
+      "id": 104
     },
     {
-      "id": 103,
-      "number": "2023103",
-      "date": "2023-11-16",
-      "time": "14:30",
-      "duration": 30,
-      "customer": "Mickey Mouse",
-      "phoneNumber": "+3164923899",
-      "email": "mickey@gmail.com",
-      "type": 4,
-      "petType": 3,
-      "pets": [
-        {
-          "id": 248,
-          "name": "Donald"
-        }
-      ],
-      "preference": 1,
-      "doctor": 3,
-      "status": 0
+      "number": 103,
+      "date": "16:15",
+      "time": "2023-11-16",
+      "id": 103
     },
     {
       "id": 102,
@@ -106,25 +61,10 @@
       "status": 0
     },
     {
-      "id": 101,
-      "number": "2023101",
-      "date": "2023-11-16",
-      "time": "15:00",
-      "duration": 30,
-      "customer": "Derik Klaarsen",
-      "phoneNumber": "+3164923894",
-      "email": "derik.klaarsen@gmail.com",
-      "type": 4,
-      "petType": 3,
-      "pets": [
-        {
-          "id": 245,
-          "name": "Wally"
-        }
-      ],
-      "preference": 1,
-      "doctor": 3,
-      "status": 0
+      "number": 101,
+      "date": "16:15",
+      "time": "2023-11-16",
+      "id": 101
     },
     {
       "id": 99,
@@ -402,29 +342,10 @@
       "status": 0
     },
     {
-      "id": 86,
-      "number": "2023086",
-      "date": "2023-11-14",
-      "time": "15:30",
-      "duration": 15,
-      "customer": "Piet Klaassen",
-      "phoneNumber": "+31613125476",
-      "email": "piet.klaassen@hotmail.com",
-      "type": 9,
-      "petType": 8,
-      "pets": [
-        {
-          "id": 243,
-          "name": "Minoes"
-        },
-        {
-          "id": 244,
-          "name": "Simba"
-        }
-      ],
-      "preference": 0,
-      "doctor": 2,
-      "status": 0
+      "number": 86,
+      "date": "2023-11-17",
+      "time": "16:15",
+      "id": 86
     },
     {
       "id": 86,
@@ -453,30 +374,10 @@
       "status": 0
     },
     {
-      "id": 85,
-      "number": "2023085",
+      "number": 85,
       "date": "2023-11-16",
-      "time": "11:15",
-      "duration": 15,
-      "customer": "Jan Jansen",
-      "phoneNumber": "+3164923894",
-      "email": "jan.jansen@gmail.com",
-      "type": 1,
-      "petType": 2,
-      "pets": [
-        {
-          "id": 243,
-          "name": "Minoes"
-        },
-        {
-          "id": 244,
-          "name": "Simba",
-          "extra": "heeft een gebroken poot"
-        }
-      ],
-      "preference": 0,
-      "doctor": 1,
-      "status": 0
+      "time": "16:15",
+      "id": 85
     },
     {
       "id": 84,
