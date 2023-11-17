@@ -23,7 +23,7 @@
                     <span class="btn btn-action action-move">Verplaatsen</span>
                 </div>
                 <div class="col-sm">
-                    <span class="btn btn-action action-cancel">Annuleren</span>
+                    <span class="btn btn-action action-cancel" @click="deleteAppointment(appointment.id)">Annuleren</span>
                 </div>
             </div>
             <div class="row">
@@ -62,6 +62,7 @@
 <script>
 import axios from 'axios'
 import { displayTimeslot, displayDate } from '../composables/datetime-utils.js'
+import deleteAppointment from '../composables/deleteAppointment'
 
 const baseUrlPetTypes = 'http://localhost:3000/pet-types'
 
@@ -84,6 +85,11 @@ export default {
                 .then(response => this.petTypes = response.data)
                 .catch(error => console.log('Error getting pet-types:', error))
         },
+        async deleteAppointment(id) {
+            const {error, load} = deleteAppointment(id)
+            await load()
+            return error
+        }
     },
     computed: {
         customerDetails() {

@@ -1593,27 +1593,6 @@
       "id": 62
     },
     {
-      "number": 63,
-      "date": "2023-11-16",
-      "time": "10:15",
-      "duration": 15,
-      "customer": "Stijn",
-      "phoneNumber": "123",
-      "email": "s@s.com",
-      "petType": 3,
-      "type": "7",
-      "pets": [
-        {},
-        {},
-        {},
-        {}
-      ],
-      "preference": 0,
-      "doctor": 1,
-      "status": 0,
-      "id": 63
-    },
-    {
       "number": 64,
       "date": "2023-11-10",
       "time": "11:00",
@@ -1763,105 +1742,6 @@
       "doctor": 2,
       "status": 0,
       "id": 70
-    },
-    {
-      "number": 71,
-      "date": "2023-11-16",
-      "time": "09:45",
-      "duration": 15,
-      "customer": "stijn",
-      "phoneNumber": "1233",
-      "email": "s@s.com",
-      "petType": 3,
-      "type": "1",
-      "pets": [
-        {},
-        {},
-        {},
-        {}
-      ],
-      "preference": 0,
-      "doctor": 1,
-      "status": 0,
-      "id": 107
-    },
-    {
-      "number": 108,
-      "date": "2023-11-16",
-      "time": "10:45",
-      "duration": 15,
-      "customer": "stijntest",
-      "phoneNumber": "1233",
-      "email": "s@s.com",
-      "petType": 3,
-      "type": "1",
-      "pets": [
-        {},
-        {},
-        {},
-        {}
-      ],
-      "preference": 0,
-      "doctor": 1,
-      "status": 0,
-      "id": 108
-    },
-    {
-      "number": 111,
-      "date": "2023-11-16",
-      "time": "11:00",
-      "duration": 15,
-      "customer": "stijn",
-      "phoneNumber": "123",
-      "email": "s@s.com",
-      "petType": 3,
-      "type": "1",
-      "pets": [
-        {
-          "name": "janneke",
-          "extra": "hij heeft zijn poot gebroken"
-        },
-        {},
-        {},
-        {}
-      ],
-      "preference": 0,
-      "doctor": 2,
-      "status": 0,
-      "id": 111
-    },
-    {
-      "number": 112,
-      "date": "2023-11-16",
-      "time": "15:15",
-      "duration": 30,
-      "customer": "stijn engelmoer",
-      "phoneNumber": "123123",
-      "email": "s@s.com",
-      "petType": 4,
-      "type": "7",
-      "pets": [
-        {
-          "name": "gecko",
-          "extra": "blijft rondjes lopen"
-        },
-        {
-          "name": "pablo",
-          "extra": "bijt mij de hele tijd"
-        },
-        {
-          "name": "henk",
-          "extra": "geen idee"
-        },
-        {
-          "name": "benjamin",
-          "extra": "is te klein"
-        }
-      ],
-      "preference": 2,
-      "doctor": 2,
-      "status": 0,
-      "id": 112
     }
   ],
   "pet-types": [

@@ -62,6 +62,9 @@ export default {
     watch: {
         date(newDate) {
             this.getAppointments(this.toDateString(newDate))
+        },
+        appointments() {
+            this.getAppointments(this.toDateString(this.date))
         }
     },
     methods: {
