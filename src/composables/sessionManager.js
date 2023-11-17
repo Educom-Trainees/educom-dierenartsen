@@ -43,6 +43,9 @@ export function getUserDataFromSession() {
     return JSON.parse(sessionStorage.getItem('userData'))
 }
 
+/**
+ * Remove the user data from browser session.
+ */
 export function logoutUser() {
     sessionStorage.removeItem('userData')
 }

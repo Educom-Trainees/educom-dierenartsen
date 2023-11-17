@@ -41,11 +41,11 @@
 </template>
 
 <script>
-import router from '../router/index.js'
 import TopNavigation from '../components/TopNavigation.vue'
 import { USER_ROLES } from '../utils/userRoles.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
 import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
+import { loginUser } from '../composables/userLoginService.js'
 
 export default {
     name: 'Register',
@@ -93,10 +93,14 @@ export default {
                                     if (userStored) {
                                         console.log('User registration successful.')
                                         try {
-                                            router.push('/login')
+                                            const result = await loginUser(processedEmail, processedPassword)
+
+                                            if (result && typeof result === 'object') {
+                                                this.errors = result
+                                            }
                                         }
-                                        catch (routerError) {
-                                            console.error('Error redirecting user:  ', routerError)
+                                        catch (registerLoginError) {
+                                            console.error('Error logingin in user after registration:  ', registerLoginError)
                                             this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
                                         }
                                     }

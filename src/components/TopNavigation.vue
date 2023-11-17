@@ -44,7 +44,7 @@
 
 <script>
 import { USER_ROLES } from '../utils/userRoles.js'
-import { hasRequiredRole, isLoggedIn, logoutUser } from '../composables/userRoleChecker.js'
+import { hasRequiredRole, isLoggedIn, logoutUser } from '../composables/sessionManager.js'
 
 export default {
     data() {

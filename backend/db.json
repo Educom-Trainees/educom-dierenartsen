@@ -2144,6 +2144,18 @@
       "passwordHash": "$2a$10$ZXAI9pUoXC7n2lINkfGfA.8aGRGYD5J1X64xgJal3/LPJs7RsRgZ.",
       "role": 0,
       "id": 4
+    },
+    {
+      "email": "leo.klant@gmail.com",
+      "passwordHash": "$2a$10$vdzfEcYQOL.TVn0Iygd9LOdwq4xAdq73Myr97aAxb2LF2xNjOl9my",
+      "role": 0,
+      "id": 5
+    },
+    {
+      "email": "danique@happypaw.nl",
+      "passwordHash": "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
+      "role": 1,
+      "id": 6
     }
   ]
 }

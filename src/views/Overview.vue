@@ -19,7 +19,7 @@
             <Calendar doctor='Karel Lant' doctorId="1" :timeslots="timeslots" :appointments="appointments" color="#A0E9FF" />
         </div>
         <div class="col-12 col-lg-6">
-            <Calendar doctor='Danique de Beer' doctorId="2" :timeslots="timeslots" :appointments="appointments" color="#C1FF72"/>
+            <Calendar doctor='Danique de Beer' doctorId="2" :timeslots="timeslots" :appointments="appointments" color="#C1FF72" />
         </div>
     </div>
   </div>
@@ -63,9 +63,6 @@ export default {
         date(newDate) {
             this.getAppointments(this.toDateString(newDate))
         },
-        appointments() {
-            this.getAppointments(this.toDateString(this.date))
-        }
     },
     methods: {
         nextDate() {
