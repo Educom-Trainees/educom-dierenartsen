@@ -16,7 +16,7 @@
     </div>
     <div class="row flex-column flex-lg-row">
         <div class="col-12 col-lg-6">
-            <Calendar doctor='Karel Lant' doctorId="1" :timeslots="timeslots" :appointments="appointments" color="#38B6FF" />
+            <Calendar doctor='Karel Lant' doctorId="1" :timeslots="timeslots" :appointments="appointments" color="#A0E9FF" />
         </div>
         <div class="col-12 col-lg-6">
             <Calendar doctor='Danique de Beer' doctorId="2" :timeslots="timeslots" :appointments="appointments" color="#C1FF72"/>
