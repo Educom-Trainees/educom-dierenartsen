@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { USER_ROLES } from '../utils/userRoles.js'
 import TopNavigation from '../components/TopNavigation.vue'
 import router from '../router/index.js'
 import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
@@ -81,10 +82,15 @@ export default {
                                 if (isAuthenticated) {
                                     console.log('User login successful.')
                                     try {
-                                        const userData = { userId: user.id, userRole: user.role }
+                                        const userData = { userId: user.id, userEmail: user.email, userRole: user.role }
                                         sessionStorage.setItem('userData', JSON.stringify(userData))
                                         try {
-                                            router.push('/')
+                                            if (user.role === USER_ROLES.ADMIN || user.role === USER_ROLES.EMPLOYEE) {
+                                                router.push('/overview')
+                                            }
+                                            else {
+                                                router.push('/')
+                                            }
                                         }
                                         catch (routerError) {
                                             console.error('Error redirecting user: ', routerError)
