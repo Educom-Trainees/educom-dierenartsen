@@ -7,6 +7,7 @@ import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 import Result from '../views/Result.vue'
 import Overview from '../views/Overview.vue'
+import Profile from '../views/Profile.vue'
 
 const routes = [
   {
@@ -48,6 +49,15 @@ const routes = [
       requiresAuth: true,
       requiredRoles:[USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
     }
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
+    meta: {
+      requiresAuth: true,
+      requiredRoles: [USER_ROLES.GUEST]
+    }
   }
 ]
 
@@ -59,14 +69,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth) {
+
     const userData = JSON.parse(sessionStorage.getItem('userData'))
 
-    if (!userData || !userData.userRole) {
+    if (userData === null) {
       next('/login')
     } 
     else {
       const hasRequiredRole = to.meta.requiredRoles.includes(userData.userRole)
-      
+
       if (!hasRequiredRole) {
         next('/')
       } else {

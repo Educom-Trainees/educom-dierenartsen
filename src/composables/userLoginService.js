@@ -36,7 +36,7 @@ export async function loginUser(email, password) {
                                         router.push('/overview')
                                     }
                                     else {
-                                        router.push('/')
+                                        router.push('/profile')
                                     }
                                 }
                                 catch (routerError) {
