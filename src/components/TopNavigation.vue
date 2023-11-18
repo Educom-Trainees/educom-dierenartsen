@@ -47,6 +47,7 @@ import { USER_ROLES } from '../utils/userRoles.js'
 import { hasRequiredRole, isLoggedIn, logoutUser } from '../composables/sessionManager.js'
 
 export default {
+    name: 'TopNavigation',
     data() {
         return {
             showOverview: false,
