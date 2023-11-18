@@ -23,7 +23,7 @@
                     <span class="btn btn-action action-move">Verplaatsen</span>
                 </div>
                 <div class="col-sm">
-                    <span class="btn btn-action action-cancel">Annuleren</span>
+                    <span @click="cancelAppointment(appointment)" class="btn btn-action action-cancel">Annuleren</span>
                 </div>
             </div>
             <div class="row">
@@ -84,6 +84,18 @@ export default {
                 .then(response => this.petTypes = response.data)
                 .catch(error => console.log('Error getting pet-types:', error))
         },
+        cancelAppointment(appointment) {
+            const baseUrlAppointment = 'http://localhost:3000/appointments/'
+            const url = baseUrlAppointment + String(appointment.id)
+
+            const cancelledAppointment = {...appointment, 'status': 1}
+
+            axios.put(url, cancelledAppointment)
+                .then(response => console.log('Appointment cancelled successfully.'))
+                .catch(error => console.log('Error updating appointments:', error))
+
+            location.reload()
+        }
     },
     computed: {
         customerDetails() {

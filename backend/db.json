@@ -224,7 +224,7 @@
       ],
       "preference": 0,
       "doctor": 1,
-      "status": 0
+      "status": 1
     },
     {
       "id": 95,
@@ -349,7 +349,7 @@
       ],
       "preference": 0,
       "doctor": 2,
-      "status": 0
+      "status": 1
     },
     {
       "id": 88,
@@ -2156,6 +2156,16 @@
       "passwordHash": "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
       "role": 1,
       "id": 6
+    },
+    {
+      "salutation": "Meneer",
+      "firstName": "Brandon",
+      "lastName": "Klant",
+      "email": "brandon@gmail.com",
+      "phone": "067890456",
+      "passwordHash": "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
+      "role": 0,
+      "id": 8
     }
   ]
 }
