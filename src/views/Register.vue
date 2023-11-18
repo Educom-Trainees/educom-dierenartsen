@@ -19,9 +19,32 @@
                 <form @submit.prevent="registerUser" id="register-form" class="d-flex flex-column align-items-center mt-4">
                     <div v-if="errors.genericErr" class="error">{{ errors.genericErr }}</div>
                     <div class="form-group">
+                        <label id="salutation">Aanhef:</label>
+                        <input v-model="registerForm.salutation" type="radio" class="radio-btn" id="SalutationWomen" name="RegisterSalutation" value="Mevrouw">
+                        <label class="salutation-label" for="SalutationWomen">Mevrouw</label>
+                        <input v-model="registerForm.salutation" type="radio" class="radio-btn" id="SalutationMen" name="RegisterSalutation" value="Meneer">
+                        <label class="salutation-label" for="SalutationMen">Meneer</label>
+                        <div v-if="errors.salutationErr" class="error">{{ errors.salutationErr }}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterFirstName">Voornaam:</label>
+                        <input v-model="registerForm.firstName" type="text" class="form-control" id="RegisterFirstName" placeholder="Voornaam">
+                        <div v-if="errors.firstNameErr" class="error">{{ errors.firstNameErr }}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterLastName">Achternaam:</label>
+                        <input v-model="registerForm.lastName" type="text" class="form-control" id="RegisterLastName" placeholder="Achternaam">
+                        <div v-if="errors.lastNameErr" class="error">{{ errors.lastNameErr }}</div>
+                    </div>
+                    <div class="form-group">
                         <label for="RegisterEmail">E-mailadres:</label>
-                        <input v-model="registerForm.email" type="email" class="form-control" id="RegisterEmail" aria-describedby="emailHelp" placeholder="E-mailadres">
+                        <input v-model="registerForm.email" type="email" class="form-control" id="RegisterEmail" placeholder="E-mailadres">
                         <div v-if="errors.emailErr" class="error">{{ errors.emailErr }}</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="RegisterPhone">Telefoonnummer:</label>
+                        <input v-model="registerForm.phone" type="tel" class="form-control" id="RegisterPhone" placeholder="Telefoonnummer">
+                        <div v-if="errors.phoneErr" class="error">{{ errors.phoneErr }}</div>
                     </div>
                     <div class="form-group">
                         <label for="RegisterPassword">Wachtwoord:</label>
@@ -42,10 +65,7 @@
 
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
-import { USER_ROLES } from '../utils/userRoles.js'
-import { sanitizeAndValidateEmail, validatePassword } from '../composables/userValidator.js'
-import { getUser, storeUser, hashPassword } from '../composables/userManager.js'
-import { loginUser } from '../composables/userLoginService.js'
+import { registerUser } from '../composables/userRegisterService.js'
 
 export default {
     name: 'Register',
@@ -55,13 +75,21 @@ export default {
     data() {
         return {
             registerForm: {
+                'salutation': '',
+                'firstName': '',
+                'lastName': '',
                 'email': '',
+                'phone': '',
                 'password': '',
                 'confirmPassword': '',
             },
             errors: {
                 'genericErr': undefined,
+                'salutationErr': undefined,
+                'firstNameErr': undefined,
+                'lastNameErr': undefined,
                 'emailErr': undefined,
+                'phoneErr': undefined,
                 'passwordErr': undefined,
                 'confirmPasswordErr': undefined,
             },
@@ -69,71 +97,84 @@ export default {
     },
     methods: {
         async registerUser() {
-            const email = this.registerForm.email
-            const password = this.registerForm.password
-            const confirmPassword = this.registerForm.confirmPassword
 
-            const { processedEmail, emailErr } = sanitizeAndValidateEmail(email)
-            const { processedPassword, passwordErr, confirmPasswordErr } = validatePassword(password, confirmPassword)
+            const result = await registerUser(this.registerForm)
 
-            if (emailErr.length === 0 && passwordErr.length === 0 && confirmPasswordErr.length === 0) {
-                try {
-                    try {
-                        const userDataFromDatabase = await getUser(processedEmail)
-                        if (userDataFromDatabase === null) {
-                            try {
-                                const hashedPassword = await hashPassword(processedPassword)
-                                const newUser = {
-                                    "email": processedEmail,
-                                    "passwordHash": hashedPassword,
-                                    "role": USER_ROLES.GUEST
-                                }
-                                try {
-                                    const userStored = await storeUser(newUser)
-                                    if (userStored) {
-                                        console.log('User registration successful.')
-                                        try {
-                                            const result = await loginUser(processedEmail, processedPassword)
-
-                                            if (result && typeof result === 'object') {
-                                                this.errors = result
-                                            }
-                                        }
-                                        catch (registerLoginError) {
-                                            console.error('Error logingin in user after registration:  ', registerLoginError)
-                                            this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-                                        }
-                                    }
-                                }
-                                catch(storeUserError) {
-                                    console.error('Error registering user: ', storeUserError)
-                                    this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-                                }
-                            }
-                            catch(hashError) {
-                                console.error('Error registering user: ', hashError)
-                                this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-                            }
-                        }
-                        else {
-                            this.errors.emailErr = '❌ Er bestaat al een gebruiker met dit e-mailadres.'
-                        }
-                    }
-                    catch (getUserError) {
-                        console.error('Error registering user: ', getUserError)
-                        this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-                    }
-                }
-                catch(error) {
-                    console.error('User registration failed. ', error)
-                    this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-                }
+            if (result && typeof result === 'object') {
+                this.errors = result
             }
-            else {
-                this.errors.emailErr = emailErr
-                this.errors.passwordErr = passwordErr
-                this.errors.confirmPasswordErr = confirmPasswordErr
-            }
+            // old register function, deprecated: 17-11-2023
+            // const email = this.registerForm.email
+            // const password = this.registerForm.password
+            // const confirmPassword = this.registerForm.confirmPassword
+
+            // const { processedEmail, emailErr } = sanitizeAndValidateEmail(email)
+            // const { processedPassword, passwordErr, confirmPasswordErr } = validatePassword(password, confirmPassword)
+
+            // const processedFirstName = firstName.trim()
+            // if (processedFirstName.length === 0) {
+            //     firstNameErr = '❌ Voornaam mag niet leeg zijn.'
+            //     return { processedEmail, firstNameErr }
+            // }
+
+            // if (emailErr.length === 0 && passwordErr.length === 0 && confirmPasswordErr.length === 0) {
+            //     try {
+            //         try {
+            //             const userDataFromDatabase = await getUser(processedEmail)
+            //             if (userDataFromDatabase === null) {
+            //                 try {
+            //                     const hashedPassword = await hashPassword(processedPassword)
+            //                     const newUser = {
+            //                         "email": processedEmail,
+            //                         "passwordHash": hashedPassword,
+            //                         "role": USER_ROLES.GUEST
+            //                     }
+            //                     try {
+            //                         const userStored = await storeUser(newUser)
+            //                         if (userStored) {
+            //                             console.log('User registration successful.')
+            //                             try {
+            //                                 const result = await loginUser(processedEmail, processedPassword)
+
+            //                                 if (result && typeof result === 'object') {
+            //                                     this.errors = result
+            //                                 }
+            //                             }
+            //                             catch (registerLoginError) {
+            //                                 console.error('Error logingin in user after registration:  ', registerLoginError)
+            //                                 this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+            //                             }
+            //                         }
+            //                     }
+            //                     catch(storeUserError) {
+            //                         console.error('Error registering user: ', storeUserError)
+            //                         this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+            //                     }
+            //                 }
+            //                 catch(hashError) {
+            //                     console.error('Error registering user: ', hashError)
+            //                     this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+            //                 }
+            //             }
+            //             else {
+            //                 this.errors.emailErr = '❌ Er bestaat al een gebruiker met dit e-mailadres.'
+            //             }
+            //         }
+            //         catch (getUserError) {
+            //             console.error('Error registering user: ', getUserError)
+            //             this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+            //         }
+            //     }
+            //     catch(error) {
+            //         console.error('User registration failed. ', error)
+            //         this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
+            //     }
+            // }
+            // else {
+            //     this.errors.emailErr = emailErr
+            //     this.errors.passwordErr = passwordErr
+            //     this.errors.confirmPasswordErr = confirmPasswordErr
+            // }
         },
     },
 }
@@ -160,11 +201,11 @@ export default {
 }
 @media (min-width: 375px) {
     .happy-register {
-        min-height: 100px;
-        min-width: 100px;
+        min-height: 50px;
+        min-width: 50px;
     }
     #register-paw {
-        font-size: 4rem;
+        font-size: 2rem;
     }
     #register-form .form-group {
         width: 90%;
@@ -187,8 +228,21 @@ export default {
     font-weight: 600;
     color: var(--happyPaw4);
 }
-#login-form .form-group * {
+#register-form .form-group * {
     margin-left: 0;
+}
+#register-form #salutation {
+    display: block;
+    margin-bottom: 0;
+}
+#register-form .salutation-label {
+    font-weight: 400;
+}
+#register-form .radio-btn {
+    margin-right: 4px;
+}
+#register-form .radio-btn[id="SalutationMen"] {
+    margin-left: 8px;
 }
 .submit-btn {
     width: 80%;

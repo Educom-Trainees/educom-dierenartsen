@@ -79,3 +79,31 @@ export function validatePassword(password, confirmPassword=null) {
         return { processedPassword, passwordErr, confirmPasswordErr }
     }
 }
+
+export function validatePersonalInfo(salutation,firstName,lastName,phone) {
+    var salutationErr = ''
+    var firstNameErr = ''
+    var lastNameErr = ''
+    var phoneErr = ''
+
+    const processedSalutation = salutation.trim()
+    if (processedSalutation.length === 0) {
+        salutationErr = '❌ Kies een aanhef.'
+    }
+    const processedFirstName = firstName.trim()
+    if (processedFirstName.length === 0) {
+        firstNameErr = '❌ Voornaam mag niet leeg zijn.'
+    }
+    const processedLastName = lastName.trim()
+    if (processedLastName.length === 0) {
+        lastNameErr = '❌ Achternaam mag niet leeg zijn.'
+    }
+    const processedPhone = phone.trim()
+    if (processedPhone.length === 0) {
+        phoneErr = '❌ Telefoonnummer mag niet leeg zijn.'
+    }
+    return { 
+        processedSalutation, processedFirstName, processedLastName, processedPhone,
+        salutationErr, firstNameErr, lastNameErr, phoneErr
+    }
+}
