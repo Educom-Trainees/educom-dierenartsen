@@ -1,4 +1,5 @@
-﻿erDiagram
+﻿```mermaid
+erDiagram
     appointments ||--|| pet-types : Contains
     appointments {
         int    id        PK
@@ -48,3 +49,4 @@
     string passwordhash
     int role
     }
+```
