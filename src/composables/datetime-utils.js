@@ -37,3 +37,13 @@ export function toDateString(date) {
     const day = String(date.getDate()).padStart(2, '0')
     return `${year}-${month}-${day}`
 }
+export function nextDate(date) {
+    var newDate = new Date(date)
+    newDate.setDate(newDate.getDate() + 1)
+    return newDate
+}
+export function previousDate(date) {
+    var newDate = new Date(date)
+    newDate.setDate(newDate.getDate() - 1)
+    return newDate
+}

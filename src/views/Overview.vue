@@ -29,7 +29,7 @@
 import axios from 'axios'
 import TopNavigation from '../components/TopNavigation.vue'
 import Calendar from '../components/Calendar.vue'
-import { displayFullDate, toDateString } from '../composables/datetime-utils.js'
+import { displayFullDate, toDateString, nextDate, previousDate } from '../composables/datetime-utils.js'
 
 const today = new Date()
 const baseUrlActiveAppointments = 'http://localhost:3000/appointments?status=0&date='
@@ -66,12 +66,10 @@ export default {
     },
     methods: {
         nextDate() {
-            this.date = new Date(this.date)
-            this.date.setDate(this.date.getDate() + 1)
+            this.date = nextDate(this.date)
         },
         previousDate() {
-            this.date = new Date(this.date)
-            this.date.setDate(this.date.getDate() - 1)
+            this.date = previousDate(this.date)
         }, 
         getAppointments(dateString) {
             const url = baseUrlActiveAppointments + dateString
