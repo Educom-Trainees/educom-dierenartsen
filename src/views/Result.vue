@@ -41,7 +41,7 @@
           <p v-if="appointment.type == 8">Gebitscontrole</p>
           <p v-if="appointment.type == 9">Postoperatieve controle</p>
           <p v-if="appointment.type == 10">Herhaal recept bestellen</p>
-          <p>{{ appointment.date }}</p>
+          <p>{{ displayFullDate(new Date(appointment.date)) }}</p>
           <p>{{ appointment.time }}</p>
           <p v-if="appointment.doctor == 1">karel lant</p>
           <p v-if="appointment.doctor == 2">danique de beer</p>
@@ -57,11 +57,17 @@
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
 import getAppointment from '../composables/getAppointment'
+import { displayFullDate } from '../composables/datetime-utils.js'
 
 export default {
   name: 'Result',
   components: {
     TopNavigation
+  },
+  data() {
+    return {
+      displayFullDate: displayFullDate,
+    }
   },
   props: ['id'],
   setup(props) {
@@ -75,10 +81,19 @@ export default {
 </script>
 
 <style>
+.appointment_result {
+  font-size: 1.25rem;
+  background-color: white;
+  flex: 35%;
+}
+.appointment_result_pic {
+  background-color: white;
+  flex: 30%;
+}
 #computer{
-  margin-top: 10%;
+  margin-top: 40%;
   border-radius: 30%;
-  height: 70%;
-  width: 60%;
+  height: 60%;
+  width: 100%;
 }
 </style>

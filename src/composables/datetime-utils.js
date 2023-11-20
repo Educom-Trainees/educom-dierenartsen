@@ -38,8 +38,11 @@ export function toDateString(date) {
     return `${year}-${month}-${day}`
 }
 export function nextDate(date) {
+    console.log('test')
+    console.log(date)
     var newDate = new Date(date)
     newDate.setDate(newDate.getDate() + 1)
+    console.log(newDate)
     return newDate
 }
 export function previousDate(date) {
