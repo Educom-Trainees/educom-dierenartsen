@@ -32,7 +32,7 @@
                             <router-link class="dropdown-item" to="/login">Inloggen</router-link> 
                         </div>
                         <div v-if="isLoggedIn" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <!-- <router-link class="dropdown-item" to="/profiel">Profiel</router-link>  -->
+                            <router-link class="dropdown-item" to="/profile">Profiel</router-link> 
                             <div @click="logout"><router-link class="dropdown-item" to="/">Uitloggen</router-link></div> 
                         </div>
                     </div>
