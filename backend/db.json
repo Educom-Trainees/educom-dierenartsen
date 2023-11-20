@@ -1665,6 +1665,33 @@
       "doctor": 1,
       "status": 0,
       "id": 108
+    },
+    {
+      "number": 109,
+      "date": "2023-11-28T12:40:24.032Z",
+      "time": "11:00",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s",
+      "petType": 3,
+      "type": "7",
+      "pets": [
+        {
+          "name": "123",
+          "extra": "geen"
+        },
+        {
+          "name": "123",
+          "extra": "geen"
+        },
+        {},
+        {}
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0,
+      "id": 109
     }
   ],
   "pet-types": [
@@ -2114,6 +2141,16 @@
       "passwordHash": "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
       "role": 0,
       "id": 8
+    },
+    {
+      "salutation": "Mevrouw",
+      "firstName": "stijn",
+      "lastName": "engelmoer",
+      "email": "s123s12dass@s.com",
+      "phone": "123321",
+      "passwordHash": "$2a$10$gPUJzQBPvMNpuHU2C337n.bmKeTgjjX9PVRFUTVi624lShT3A263u",
+      "role": 0,
+      "id": 9
     }
   ]
 }
