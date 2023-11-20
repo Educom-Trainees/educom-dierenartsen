@@ -233,6 +233,7 @@ export default {
         this.date = previousDate(this.date)
       }, 
       async handleSubmit() {
+        this.freeTimeslots = []
         // for (let i = 0; i < 4;) { 
         //   console.log(this.name_animal[i].length)
         //   this.name_animalError = this.name_animal[i].length < 90 ?
