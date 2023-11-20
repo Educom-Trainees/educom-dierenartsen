@@ -51,13 +51,20 @@
     <div class="test" v-if="showdateForm">
     <h2><img src="../assets/balk2.png"></h2>
     <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
+      <label>Kies een tijdstip </label><br>
+        <!-- <input type="date" required v-model="date"><br> -->
+        <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
+            <div class="btn-group" role="group" aria-label="datepicker">
+                <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
+                <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
+                <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
+            </div>
+        </div>
       <label>Clinici</label><br>
         <button @click="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
         <button @click="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
         <button @click="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
-      <label>Datum: </label><br>
-        <input type="date" required v-model="date"><br>
-      <label>Tijd:</label><br>
+      <label>Tijden</label><br>
         <div v-if="date">
             <div v-if="this.preference == 0">
                 <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots" :key="timeslot.time">
@@ -125,13 +132,13 @@
 </template>
 
 <script>
-  import { toDateString } from '../composables/datetime-utils.js'
 import TopNavigation from '../components/TopNavigation.vue'
 import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
   import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import postAppointments from '../composables/postAppointments'
+import { displayFullDate, skipSundayandMonday } from '../composables/datetime-utils.js'
 
 export default {
   name: 'app',
@@ -161,12 +168,13 @@ export default {
           timeslotdata: '',
           time: '',
           doctor: '',
-          date: toDateString(new Date()),
+          date: new Date(),
           name_animalError: '',
           nameError: '',
           emailError: '',
           phoneError: '',
-          animal_nameError: ''
+          animal_nameError: '',
+          displayFullDate: displayFullDate,
         }
     },
     watch: {
@@ -230,6 +238,8 @@ export default {
 
         const { time_slots, timeslot_error } = await this.gettimeslots()
         const { appointments, appointments_error } = await this.getappointments()
+
+        this.date = skipSundayandMonday(this.date)
 
         const filteredapp = appointments.value.filter(a => a.date == this.date)
         var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)

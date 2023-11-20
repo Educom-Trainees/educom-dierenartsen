@@ -47,3 +47,13 @@ export function previousDate(date) {
     newDate.setDate(newDate.getDate() - 1)
     return newDate
 }
+
+export function skipSundayandMonday(date) {
+    if(date.getDay() == 0){
+        date.setDate(date.getDate() + 2)
+    }
+    if(date.getDay() == 1){
+        date.setDate(date.getDate() + 1)
+    }
+    return date
+}
