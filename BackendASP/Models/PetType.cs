@@ -13,5 +13,7 @@ namespace BackendASP.Models
         public required string Image { get; set; }
 
         public PetType? Parent { get; set; }
+
+        public List<Appointments>? Appointment {  get; set; }
     }
 }

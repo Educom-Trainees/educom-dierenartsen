@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231121111858_Appointments-PetType")]
+    partial class AppointmentsPetType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,31 +24,6 @@ namespace BackendASP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("BackendASP.Models.AppointmentPets", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ExtraInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.ToTable("AppointmentPets");
-                });
 
             modelBuilder.Entity("BackendASP.Models.Appointments", b =>
                 {
@@ -63,8 +41,8 @@ namespace BackendASP.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -90,20 +68,6 @@ namespace BackendASP.Migrations
                     b.HasIndex("PetTypeId");
 
                     b.ToTable("Appointments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppointmentNumber = 1,
-                            CustomerName = "Corbijn Bulsink",
-                            Date = new DateOnly(2023, 11, 20),
-                            Email = "corbijn.bullie@hoi.nl",
-                            PetTypeId = 1,
-                            PhoneNumber = "0611330161",
-                            Preference = 1,
-                            Status = 0
-                        });
                 });
 
             modelBuilder.Entity("BackendASP.Models.PetType", b =>
@@ -204,17 +168,6 @@ namespace BackendASP.Migrations
                             ParentId = 1,
                             Plural = "grote honden"
                         });
-                });
-
-            modelBuilder.Entity("BackendASP.Models.AppointmentPets", b =>
-                {
-                    b.HasOne("BackendASP.Models.Appointments", "Appointment")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("BackendASP.Models.Appointments", b =>

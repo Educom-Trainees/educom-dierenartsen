@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231121125129_AddedDBSetForModels")]
+    partial class AddedDBSetForModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,8 +66,8 @@ namespace BackendASP.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -97,7 +100,7 @@ namespace BackendASP.Migrations
                             Id = 1,
                             AppointmentNumber = 1,
                             CustomerName = "Corbijn Bulsink",
-                            Date = new DateOnly(2023, 11, 20),
+                            Date = new DateTime(2023, 11, 20, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             Email = "corbijn.bullie@hoi.nl",
                             PetTypeId = 1,
                             PhoneNumber = "0611330161",

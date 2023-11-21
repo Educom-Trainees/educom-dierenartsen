@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace BackendASP.Database
 {
@@ -11,6 +12,8 @@ namespace BackendASP.Database
 
 
         public DbSet<PetType> PetTypes { get; set; }
+        public DbSet<Appointments> Appointments { get; set; }
+        public DbSet<AppointmentPets> AppointmentPets { get; set; }
 
 
         public PetCareContext(IConfiguration config)
@@ -20,7 +23,7 @@ namespace BackendASP.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"));
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -37,6 +40,10 @@ namespace BackendASP.Database
                 new { Id = 8, Name = "kleine hond", Plural = "kleine honden", Image = "dog.png", ParentId = 1 },
                 new { Id = 9, Name = "grote hond", Plural = "grote honden", Image = "dog.png", ParentId = 1 }
                 );
+
+            modelBuilder.Entity<Appointments>().HasData(
+
+                new { Id = 1, AppointmentNumber = 1, Date = DateOnly.Parse("2023-11-20"), CustomerName = "Corbijn Bulsink", PhoneNumber = "0611330161", Email = "corbijn.bullie@hoi.nl", Preference = 1, Status = 0, PetTypeId = 1 });
 
 
             base.OnModelCreating(modelBuilder);
