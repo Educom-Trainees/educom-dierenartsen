@@ -97,6 +97,7 @@
 import TopNavigation from '../components/TopNavigation.vue'
 import AppointmentDateandTime from '../components/AppointmentDateandTime.vue'
 import { isLoggedIn, getUserDataFromSession } from '../composables/sessionManager.js'
+import { getUser } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
 import postAppointments from '../composables/postAppointments'
@@ -120,7 +121,6 @@ export default {
           type_consult: '',
           showForm: 'showForm',
           duration: 0,
-          //check dit
           preference: 0,
           status: 0,
           number: 0,
@@ -153,11 +153,19 @@ export default {
         this.showForm = 'showDateForm'
       },
       async handleSubmit() {
-        if(isLoggedIn() == true){
+        if(isLoggedIn()){
           const user = getUserDataFromSession()
-          console.log("test user")
-          console.log(user)
           this.email = user.userEmail
+          var userdata = getUser(user.userEmail)
+          
+          const value = await userdata.then(function(result) {
+            var name = result[0].firstName + ' ' + result[0].lastName
+            var phone = result[0].phone
+            return {name, phone}
+          })
+
+          this.name = value.name
+          this.phone = value.phone
         }
 
         const { appointment_type, error, load } = getAppointment_type(this.type_consult)

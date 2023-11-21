@@ -1837,6 +1837,69 @@
       "doctor": 1,
       "status": 0,
       "id": 209
+    },
+    {
+      "number": 210,
+      "date": "2023-11-21",
+      "time": "11:30",
+      "duration": 15,
+      "customer": "stijn engelmoer",
+      "phoneNumber": "123",
+      "email": "ssaaaaaaaaaaa@s.com",
+      "petType": 4,
+      "type": "6",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 210
+    },
+    {
+      "number": 211,
+      "date": "2023-11-21",
+      "time": "16:00",
+      "duration": 15,
+      "customer": "stijn engelmoer",
+      "phoneNumber": "123",
+      "email": "ssaaaaaaaaaaa@s.com",
+      "petType": 3,
+      "type": "6",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 211
+    },
+    {
+      "number": 212,
+      "date": "2023-11-21",
+      "time": "14:45",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s",
+      "petType": 3,
+      "type": "7",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 212
     }
   ],
   "pet-types": [
