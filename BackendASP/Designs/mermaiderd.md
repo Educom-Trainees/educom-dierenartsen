@@ -1,32 +1,33 @@
 ﻿```mermaid
 erDiagram
-    appointments ||--|| pet-types : Contains
+    appointments }|--|| petTypes : Contains
+    appointments }|--|| appointmentTypes : Contains
+    appointments ||--|{ appointmentPets : Contains
     appointments {
         int    id        PK
         int number
         date date
-        time time
         int duration
         string customername
         string phonenumber
         string email
-        int type
-        int petType     FK
-        pets-snap ikffniet
+        int appointmentTypeId      FK
+        int petTypeId              FK       
+        int timeslotId FK
         int preference 
-        int doctor
         int status
     }    
-    pet-types
-    pet-types {
+    petTypes
+    petTypes {
         int    id                PK
         string name           
         string pluralname 
+        string image
         int parentid FK
     } 
 
-    appointment-types }|--|| products : Contains
-    appointment-types {
+    appointmentTypes ||--|{ calculations : Contains
+    appointmentTypes {
         int    id                PK
         string name
         int calculation 
@@ -40,13 +41,29 @@ erDiagram
 
     users ||--|{ appointments : Makes
     users {
-    int    id                PK
-    string salutation
-    string firstname
-    string lastname
-    string email
-    string phonenumber
-    string passwordhash
-    int role
+        int    id                PK
+        string salutation
+        string firstname
+        string lastname
+        string email
+        string phonenumber
+        string passwordhash
+        int role
+    }
+
+    appointmentPets {
+        int id          PK
+        string name
+        string extraInfo
+        int appointmentId FK
+    }
+
+    calculations ||--o{ petTypes : contains 
+    calculations {
+        int id              PK
+        int duration
+        nullable_int count
+        nullable_int petTypeId         FK
+        int appointmentTypeId          FK
     }
 ```
