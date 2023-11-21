@@ -1,6 +1,27 @@
 {
   "appointments": [
     {
+      "id": 200,
+      "number": "2023200",
+      "date": "2023-11-21",
+      "time": "15:15",
+      "duration": 30,
+      "customer": "Charlie Brown",
+      "phoneNumber": "+132333234737",
+      "email": "charlie.b@mail.com",
+      "type": 2,
+      "petType": 5,
+      "pets": [
+        {
+          "id": 257,
+          "name": "ed"
+        }
+      ],
+      "preference": 2,
+      "doctor": 2,
+      "status": 0
+    },
+    {
       "id": 106,
       "number": "2023106",
       "date": "2023-11-17",
@@ -2472,22 +2493,10 @@
       "id": 2
     },
     {
-      "email": "mike@hotmail.com",
-      "passwordHash": "$2a$10$91UtnZJNMNMEM9Q1SyG5Oe7rB3DJArFOvgFKpPYtacowR9QFGqp.O",
-      "role": 0,
-      "id": 3
-    },
-    {
       "email": "stijn@gmail.com",
       "passwordHash": "$2a$10$ZXAI9pUoXC7n2lINkfGfA.8aGRGYD5J1X64xgJal3/LPJs7RsRgZ.",
       "role": 0,
       "id": 4
-    },
-    {
-      "email": "leo.klant@gmail.com",
-      "passwordHash": "$2a$10$vdzfEcYQOL.TVn0Iygd9LOdwq4xAdq73Myr97aAxb2LF2xNjOl9my",
-      "role": 0,
-      "id": 5
     },
     {
       "email": "danique@happypaw.nl",

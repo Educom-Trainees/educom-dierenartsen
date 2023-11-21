@@ -7,7 +7,7 @@
 
             <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
                 <div class="btn-group" role="group" aria-label="datepicker">
-                    <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
+                    <button @click="previousDate()" type="button" class="btn btn-secondary active">&lt;</button>
                     <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
                     <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
                 </div>
@@ -16,29 +16,20 @@
     </div>
     <div class="row flex-column flex-lg-row">
         <div class="col-12 col-lg-6">
-            <Calendar doctor='Karel Lant' doctorId="1" :timeslots="timeslots" :appointments="appointments" color="#A0E9FF" />
+            <Calendar doctor='Karel Lant' doctorId="1" :appointments="appointments" color="#A0E9FF" />
         </div>
         <div class="col-12 col-lg-6">
-            <Calendar doctor='Danique de Beer' doctorId="2" :timeslots="timeslots" :appointments="appointments" color="#C1FF72" />
+            <Calendar doctor='Danique de Beer' doctorId="2" :appointments="appointments" color="#C1FF72" />
         </div>
     </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
 import TopNavigation from '../components/TopNavigation.vue'
 import Calendar from '../components/Calendar.vue'
 import { displayFullDate, toDateString, nextDate, previousDate } from '../composables/datetime-utils.js'
-
-const today = new Date()
-const baseUrlActiveAppointments = 'http://localhost:3000/appointments?status=0&date='
-const timeslots = [
-    "09:00","09:15","09:30","09:45","10:00","10:15","10:30","10:45","11:00",
-    "11:15","11:30","11:45","12:00","12:15","12:30","12:45","13:00","13:15",
-    "13:30","13:45","14:00","14:15","14:30","14:45","15:00","15:15","15:30",
-    "15:45","16:00","16:15","16:30","16:45","17:00","17:15"
-]
+import { GetActiveAppointmentsByDate } from '../composables/appointmentManager.js'
 
 export default {
     name: 'Overview',
@@ -51,9 +42,8 @@ export default {
     },
     data() {
         return {
-            today: today,
+            today: new Date(),
             date: new Date(),
-            timeslots: timeslots,
             appointments: [],
             displayFullDate: displayFullDate,
             toDateString: toDateString,
@@ -69,13 +59,12 @@ export default {
             this.date = nextDate(this.date)
         },
         previousDate() {
-            this.date = previousDate(this.date)
+            if (this.date > this.today) {
+                this.date = previousDate(this.date)
+            }
         }, 
-        getAppointments(dateString) {
-            const url = baseUrlActiveAppointments + dateString
-            axios.get(url)
-                .then(response => this.appointments = response.data)
-                .catch(error => console.log('Error getting appointments:', error))
+        async getAppointments(date) {
+            this.appointments = await GetActiveAppointmentsByDate(date)
         },
     }, 
 }

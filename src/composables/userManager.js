@@ -5,6 +5,12 @@ const baseUrlPostUser = 'http://localhost:3000/users'
 const baseUrlGetUser = 'http://localhost:3000/users?email='
 const saltRounds = 10
 
+/**
+ * Store new user in database.
+ * 
+ * @param {Object} newUser - The new user
+ * @returns Returns true if user was stored successfully.
+ */
 export async function storeUser(newUser) {
     try {
         const response = await axios.post(baseUrlPostUser, newUser)
@@ -17,6 +23,12 @@ export async function storeUser(newUser) {
     }
 }
 
+/**
+ * Get user information from database.
+ * 
+ * @param {String} userEmail - The user email.
+ * @returns Returns user object if user found, otherwise null.
+ */
 export async function getUser(userEmail) {
     const url = baseUrlGetUser + userEmail
     try {
@@ -35,6 +47,12 @@ export async function getUser(userEmail) {
     }
 }
 
+/**
+ * Create password hash.
+ * 
+ * @param {String} password - The password to create hash for.
+ * @returns Returns hashed password.
+ */
 export async function hashPassword(password) {
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds)
@@ -46,6 +64,13 @@ export async function hashPassword(password) {
     }
 }
 
+/**
+ * Authenticate user password at login against hashed password from database.
+ * 
+ * @param {String} receivedPasswordFromClient - The password from user.
+ * @param {*} hashedPasswordFromDatabase - The hashed password from database.
+ * @returns Returns true if password matches hash from database.
+ */
 export async function authenticateUser(receivedPasswordFromClient, hashedPasswordFromDatabase) {
     try {
         const match = await bcrypt.compare(receivedPasswordFromClient, hashedPasswordFromDatabase)

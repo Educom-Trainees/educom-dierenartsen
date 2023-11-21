@@ -1,3 +1,9 @@
+/**
+ * Clean and validate email.
+ * 
+ * @param {String} email - The email to validate.
+ * @returns Returns processed email and associated error message in an array.
+ */
 export function sanitizeAndValidateEmail(email) {
     var emailErr = ''
      // Trim leading and trailing spaces
@@ -26,7 +32,13 @@ export function sanitizeAndValidateEmail(email) {
     }
     return { processedEmail, emailErr }
 }
-
+/**
+ * Process and validate password.
+ * 
+ * @param {String} password - The password to validate.
+ * @param {String} confirmPassword - The confirmation password.
+ * @returns Returns the processed password and associated error messages in an array.
+ */
 export function validatePassword(password, confirmPassword=null) {
     var passwordErr = ''
     var confirmPasswordErr = ''
@@ -79,7 +91,15 @@ export function validatePassword(password, confirmPassword=null) {
         return { processedPassword, passwordErr, confirmPasswordErr }
     }
 }
-
+/**
+ * Process and validate user information.
+ * 
+ * @param {String} salutation - The user salutation.
+ * @param {String} firstName - The user firstname.
+ * @param {String} lastName - The user lastname.
+ * @param {String} phone - The user phone-number.
+ * @returns Returns the processed user information and associated error messages in an array.
+ */
 export function validatePersonalInfo(salutation,firstName,lastName,phone) {
     var salutationErr = ''
     var firstNameErr = ''

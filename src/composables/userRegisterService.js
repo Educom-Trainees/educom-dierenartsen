@@ -3,7 +3,11 @@ import { validatePersonalInfo, sanitizeAndValidateEmail, validatePassword } from
 import { getUser, storeUser, hashPassword } from './userManager.js'
 import { loginUser } from './userLoginService.js'
 
-
+/**
+ * Register new user.
+ * 
+ * @param {Object} registerForm - The register form with data input from user.
+ */
 export async function registerUser(registerForm) {
     
     const { 
@@ -44,7 +48,7 @@ export async function registerUser(registerForm) {
                         try {
                             const userStored = await storeUser(newUser)
                             if (userStored) {
-                                console.log('User registration successful.')
+                                // console.log('User registration successful.')
                                 try {
                                     const result = await loginUser(processedEmail, processedPassword)
                                 }

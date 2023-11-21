@@ -1,3 +1,10 @@
+/**
+ * Create new array by combining timeslots array with appointments array.
+ * 
+ * @param {Array} timeslots - The timeslots array.
+ * @param {Array} appointments - The appointments array.
+ * @returns Returns a new array.
+ */
 export function combineTimeslotAppointments(timeslots, appointments) {
     const array = timeslots.map(t => {
         const a = appointments.filter(a => a.time == t.time && a.doctor == t.doctor)
@@ -14,4 +21,34 @@ export function combineTimeslotAppointments(timeslots, appointments) {
         }
     }
     return array
+}
+
+export function getFreeTimeslots(array, appointmentDuration) {
+    const rowspan = appointmentDuration / 15
+    var freeTimeslots = []
+
+    switch (appointmentDuration) {
+        case 15:
+            for (var i = 0; i < array.length; i++) { 
+                if (array[i].appointment === undefined && array[i].show === true) {
+                    freeTimeslots.push(array[i])
+                }
+            }
+            return freeTimeslots
+        case 30:
+            for (var i = 0; i < array.length; i++) { 
+                if (array[i].appointment === undefined && array[i].show === true && 
+                    array[i+1].appointment === undefined) {
+                    freeTimeslots.push(array[i])
+                }
+            }
+            return freeTimeslots
+        case 45:
+            for (var i = 0; i < array.length; i++) { 
+                if (array[i].appointment === undefined && array[i].show === true &&
+                    array[i+1].appointment === undefined && array[i+2].appointment === undefined) {
+                    freeTimeslots.push(array[i])
+                }
+            }
+    }
 }
