@@ -96,6 +96,7 @@
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
 import AppointmentDateandTime from '../components/AppointmentDateandTime.vue'
+import { isLoggedIn, getUserDataFromSession } from '../composables/sessionManager.js'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
 import postAppointments from '../composables/postAppointments'
@@ -140,6 +141,7 @@ export default {
         this.showForm = array[0]
         this.doctor = array[1]
         this.time = array[2]
+        this.preference = array[3]
       },
       changeamount(amount){
         this.amount = amount
@@ -151,6 +153,13 @@ export default {
         this.showForm = 'showDateForm'
       },
       async handleSubmit() {
+        if(isLoggedIn() == true){
+          const user = getUserDataFromSession()
+          console.log("test user")
+          console.log(user)
+          this.email = user.userEmail
+        }
+
         const { appointment_type, error, load } = getAppointment_type(this.type_consult)
         await load()
         for(let i=0; i < appointment_type.value.calculation.length; i++){

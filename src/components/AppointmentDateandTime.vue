@@ -89,13 +89,13 @@ export default {
     },
     methods: {
         emitShowForm(form) {
-            this.emitArray = [form, this.doctor, this.time]
+            this.emitArray = [form, this.doctor, this.time, this.preference]
             this.$emit('showForm', this.emitArray)
             // this.$emit('showForm', this.doctor)
             // this.$emit('showForm', this.time)
         },
         handledateSubmit() {
-            this.$emit('showForm', ['showContactForm', this.doctor, this.time])
+            this.$emit('showForm', ['showContactForm', this.doctor, this.time, this.preference])
         },
         backtoform(){
             this.$emit('showdateForm', false)
