@@ -156,7 +156,7 @@ import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
   import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import postAppointments from '../composables/postAppointments'
-import { displayFullDate, skipSundayandMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
+import { displayFullDate, toDateString, skipSundayandMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
 
 export default {
   name: 'app',
@@ -267,8 +267,12 @@ export default {
 
         this.date = skipSundayandMonday(this.date)
 
-        const filteredapp = appointments.value.filter(a => a.date == this.date)
+        console.log('test filter')
+
+        const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
+        console.log(filteredapp)
         var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
+        console.log(newTimeslot)
         var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
 
         console.log('uit de loop')
@@ -292,13 +296,6 @@ export default {
           }else if(sumdoctor1 < sumdoctor2){
             prefDoctor = 2
           }
-
-          console.log('sum1')
-          console.log(sumdoctor1)
-
-          console.log('sum2')
-          console.log(sumdoctor2)
-
           console.log('voordat hij dubbele verwijdert')
           console.log(freeTimeslots)
 
@@ -346,7 +343,7 @@ export default {
         this.number = lastappointment.id
         this.number++
 
-        await postAppointments(this.number, this.date, this.time, this.duration, this.name, this.phone, 
+        await postAppointments(this.number, toDateString(this.date), this.time, this.duration, this.name, this.phone, 
         this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
 
         console.log('de afspraak is gepost')
@@ -354,26 +351,16 @@ export default {
       }
     },
       RemoveDuplicate(array, prefDoctor){
-        console.log('array:')
-        console.log(array)
-        console.log('voorkeur:')
-        console.log(prefDoctor)
         const result = []
         array.forEach((element, index) => {
           if(element == undefined){}
             else if(array[index + 1] != undefined && element.time == array[index + 1].time || 
                array[index - 1] != undefined && element.time == array[index - 1].time ){
               if(element.doctor != prefDoctor){
-                console.log('deze worden geskipt')
-                console.log(element)
               }else {
-                console.log('de voorkeur dokter')
-                console.log(element)
                 result.push(element)
               }
             }else {
-              console.log('de enige tijd')
-              console.log(element)
               result.push(element)
             }
         });
@@ -390,17 +377,25 @@ export default {
         return { appointments, error }
       },
       getFreeSlots(time_slots, duration){
+        console.log(time_slots)
         const result = []
         time_slots.forEach((element, index) => {
+          console.log(element)
           if(element.show == true && time_slots[index].appointment == undefined){
+                // console.log('deze wordt geskipt')
+                // console.log(element)
             if(duration == 15){
+              // console.log('deze wordt niet geskipt')
+              //   console.log(element)
                 result.push(element)
             }else if(duration == 30 && time_slots[index + 1] != undefined){
               if(time_slots[index + 1].show == true && time_slots[index + 1].appointment == undefined){
+                //console.log(element)
                 result.push(element)
               }
             }else if(duration == 45 && time_slots[index+2] != undefined){
               if(time_slots[index + 2].show == true && time_slots[index + 2].appointment == undefined){
+                //console.log(element)
                 result.push(element)
               }
             }
