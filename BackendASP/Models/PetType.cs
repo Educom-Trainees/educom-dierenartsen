@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace BackendASP.Models
 {
@@ -14,6 +15,7 @@ namespace BackendASP.Models
 
         public PetType? Parent { get; set; }
 
-        public List<Appointments>? Appointment {  get; set; }
+        [JsonIgnore]
+        virtual public List<Appointment>? Appointments {  get; set; }
     }
 }

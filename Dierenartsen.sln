@@ -6,6 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8D671A19-5FB4-46D9-910F-270E486F770F}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		backend\db.json = backend\db.json
+		backend\readme.md = backend\readme.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendASP", "BackendASP\BackendASP.csproj", "{B78E2DC5-83B0-45DE-965C-AB513E144D89}"

@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231121144445_AddedDurationDoctorEnums")]
+    partial class AddedDurationDoctorEnums
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,32 @@ namespace BackendASP.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BackendASP.Models.Appointment", b =>
+            modelBuilder.Entity("BackendASP.Models.AppointmentPets", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ExtraInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.ToTable("AppointmentPets");
+                });
+
+            modelBuilder.Entity("BackendASP.Models.Appointments", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,39 +114,6 @@ namespace BackendASP.Migrations
                             PhoneNumber = "0611330161",
                             Preference = 1,
                             Status = 0
-                        });
-                });
-
-            modelBuilder.Entity("BackendASP.Models.AppointmentPets", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ExtraInfo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.ToTable("AppointmentPets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AppointmentId = 1,
-                            Name = "Fifi"
                         });
                 });
 
@@ -222,7 +217,18 @@ namespace BackendASP.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BackendASP.Models.Appointment", b =>
+            modelBuilder.Entity("BackendASP.Models.AppointmentPets", b =>
+                {
+                    b.HasOne("BackendASP.Models.Appointments", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+                });
+
+            modelBuilder.Entity("BackendASP.Models.Appointments", b =>
                 {
                     b.HasOne("BackendASP.Models.PetType", "PetType")
                         .WithMany("Appointments")
@@ -233,17 +239,6 @@ namespace BackendASP.Migrations
                     b.Navigation("PetType");
                 });
 
-            modelBuilder.Entity("BackendASP.Models.AppointmentPets", b =>
-                {
-                    b.HasOne("BackendASP.Models.Appointment", "Appointment")
-                        .WithMany("Pets")
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
-                });
-
             modelBuilder.Entity("BackendASP.Models.PetType", b =>
                 {
                     b.HasOne("BackendASP.Models.PetType", "Parent")
@@ -251,11 +246,6 @@ namespace BackendASP.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("BackendASP.Models.Appointment", b =>
-                {
-                    b.Navigation("Pets");
                 });
 
             modelBuilder.Entity("BackendASP.Models.PetType", b =>

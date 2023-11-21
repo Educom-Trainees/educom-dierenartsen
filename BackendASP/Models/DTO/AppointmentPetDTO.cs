@@ -1,17 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BackendASP.Models
 {
-    public class AppointmentPets
+    public class AppointmentPetDTO
     {
         public int Id { get; set; }
         [MaxLength(100)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? Name { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string? ExtraInfo { get; set; }
-
-        [ForeignKey(nameof(Appointment))]
-        public int AppointmentId { get; set; }
-        public Appointment Appointment { get; set; } = null!;
     }
 }

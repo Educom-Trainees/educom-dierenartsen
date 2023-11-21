@@ -1,8 +1,6 @@
 ﻿using BackendASP.Models;
+using BackendASP.Models.Enums;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
-using System.ComponentModel.DataAnnotations;
 
 namespace BackendASP.Database
 {
@@ -12,7 +10,7 @@ namespace BackendASP.Database
 
 
         public DbSet<PetType> PetTypes { get; set; }
-        public DbSet<Appointments> Appointments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentPets> AppointmentPets { get; set; }
 
 
@@ -41,11 +39,15 @@ namespace BackendASP.Database
                 new { Id = 9, Name = "grote hond", Plural = "grote honden", Image = "dog.png", ParentId = 1 }
                 );
 
-            modelBuilder.Entity<Appointments>().HasData(
+            modelBuilder.Entity<Appointment>().HasData(
+                new { Id = 1, AppointmentNumber = 1, Date = DateOnly.Parse("2023-11-20"), Duration = 30, 
+                      CustomerName = "Corbijn Bulsink", PhoneNumber = "0611330161", Email = "corbijn.bullie@hoi.nl", 
+                      Preference = DoctorTypes.KAREL_LANT, Doctor = DoctorTypes.KAREL_LANT, Status = StatusTypes.ACTIVE, 
+                      PetTypeId = 4 });
 
-                new { Id = 1, AppointmentNumber = 1, Date = DateOnly.Parse("2023-11-20"), CustomerName = "Corbijn Bulsink", PhoneNumber = "0611330161", Email = "corbijn.bullie@hoi.nl", Preference = 1, Status = 0, PetTypeId = 1 });
-
-
+            modelBuilder.Entity<AppointmentPets>().HasData(
+                new { Id = 1, Name = "Fifi", AppointmentId = 1 }
+            );
             base.OnModelCreating(modelBuilder);
         }
     }
