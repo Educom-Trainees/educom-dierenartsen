@@ -9,23 +9,23 @@
             </div>
         </div>
       <label>Clinici</label><br>
-        <button @click="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
-        <button @click="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
-        <button @click="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
+        <button @click.prevent="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
+        <button @click.prevent="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
+        <button @click.prevent="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
       <label>Ochtend</label><br>
         <div v-if="date">
             <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
                   <img class="time" src="../assets/time.png"> {{ timeslot.time }}
                 </button> 
             </div>
             <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
                   <img class="time" src="../assets/time.png"> {{ timeslot.time }}
                 </button>
             </div>
             <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
                   <img class="time" src="../assets/time.png"> {{ timeslot.time }}
                 </button> 
             </div>
@@ -33,22 +33,22 @@
       <label>Namiddag</label><br>
         <div v-if="date">
             <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
                   <img class="time" src="../assets/time.png"> {{ timeslot.time }}
                 </button> 
             </div>
             <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
                   <img class="time" src="../assets/time.png"> {{ timeslot.time }}
                 </button>
             </div>
             <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
+                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
                   <img class="time" src="../assets/time.png"> {{ timeslot.time }}
                 </button> 
             </div>
         </div>
-      <button @click="backtoform" class="back">vorige</button>
+      <button @click.prevent="emitShowForm('showForm')" class="back">vorige</button>
       <button class="submit">volgende</button>
     </form>
 </template>
@@ -72,6 +72,7 @@ export default {
             doctor: '',
             date: new Date(),
             freeTimeslots: '',
+            emitArray: [],
             displayFullDate: displayFullDate,
         }
     },
@@ -87,9 +88,14 @@ export default {
         this.preparesetup()
     },
     methods: {
+        emitShowForm(form) {
+            this.emitArray = [form, this.doctor, this.time]
+            this.$emit('showForm', this.emitArray)
+            // this.$emit('showForm', this.doctor)
+            // this.$emit('showForm', this.time)
+        },
         handledateSubmit() {
-            this.$emit('showdateForm', false)
-            this.$emit('showcontactForm', true)
+            this.$emit('showForm', ['showContactForm', this.doctor, this.time])
         },
         backtoform(){
             this.$emit('showdateForm', false)

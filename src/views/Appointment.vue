@@ -4,7 +4,7 @@
     <h1 class="appointment_header">Afspraak maken</h1>
     <div class="test" v-if="showForm">
       <h2><img src="../assets/balk1.png"></h2>
-      <form @submit.prevent="handleSubmit" v-if="showForm" class="appointment_form">
+      <form @submit.prevent="handleSubmit" v-if="showForm2 == 'showForm'" class="appointment_form">
         <!-- <div class="test"> -->
         <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
         <label>Selecteer diersoort* </label><br>
@@ -48,9 +48,9 @@
     <div class="button_div" v-if="showForm">
       <h2 id="removetext">.</h2>
     </div>
-    <div class="test" v-if="showdateForm">
+    <div class="test" v-if="showForm2 == 'showDateForm'">
     <h2><img src="../assets/balk2.png"></h2>
-    <AppointmentDateandTime @showcontactForm="showcontactForm" @showForm="showForm" @showdateForm="showdateForm" :duration="duration" v-if="showdateForm" />
+    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" v-if="showdateForm" />
     <!-- <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
       <label>Kies een tijdstip </label><br>
         <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
@@ -104,13 +104,13 @@
       <button class="submit">volgende</button>
     </form> -->
     </div>
-    <div class="button_div" v-if="showdateForm">
+    <div class="button_div" v-if="showForm2 == 'showDateForm'">
       <h2 id="removetext">test</h2>
     </div>
-    <div class="test" v-if="showcontactForm">
+    <div class="test" v-if="showForm2 == 'showContactForm'">
       <h2><img src="../assets/balk3.png"></h2>
       <h3><img id="agenda" src="../assets/agenda.png">{{ displayFullDate(date) }} {{ time }}</h3>
-    <form @submit.prevent="Result" v-if="showcontactForm" class="appointment_form">
+    <form @submit.prevent="Result" v-if="showForm2 == 'showContactForm'" class="appointment_form">
       <h4>Persoonlijke gegevens</h4>
       <label>Uw contactgegevens</label><br>
       <input type="email" required v-model="email" placeholder="Email adres*"><br>
@@ -179,6 +179,7 @@ export default {
           name_animal: [],
           info_animal: [],
           type_consult: '',
+          showForm2: 'showForm',
           showForm: true,
           showdateForm: false,
           showcontactForm: false,
@@ -211,6 +212,12 @@ export default {
       }
     },
     methods: {
+      showThisForm(array) {
+        console.log('test',array)
+        this.showForm2 = array[0]
+        this.doctor = array[1]
+        this.time = array[2]
+      },
       changeamount(amount){
         this.amount = amount
       },
@@ -306,7 +313,7 @@ export default {
         // }else {
         //   this.freeTimeslots = freeTimeslots
         // }
-
+          this.showForm2 = 'showDateForm'
         this.showForm = false
         this.showdateForm = true
         return { 
@@ -542,9 +549,9 @@ img {
 h4 {
   margin-left: 10px;
 }
-/* #agenda{
+#agenda{
   margin-right: 10px;
   height: 4%;
   width: 4%;
-} */
+}
 </style>
