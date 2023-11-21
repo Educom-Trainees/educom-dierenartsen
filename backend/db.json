@@ -1702,6 +1702,90 @@
       "doctor": 1,
       "status": 0,
       "id": 203
+    },
+    {
+      "number": 204,
+      "date": "2023-11-21",
+      "time": "09:15",
+      "duration": 15,
+      "customer": "stijn engelmoer",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": 4,
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 204
+    },
+    {
+      "number": 205,
+      "date": "2023-11-21",
+      "time": "09:15",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s",
+      "petType": 3,
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 205
+    },
+    {
+      "number": 206,
+      "date": "2023-11-21",
+      "time": "12:00",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s",
+      "petType": 4,
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 206
+    },
+    {
+      "number": 207,
+      "date": "2023-11-21",
+      "time": "11:45",
+      "duration": 15,
+      "customer": "stijn",
+      "phoneNumber": "123",
+      "email": "s@s.com",
+      "petType": 3,
+      "type": "1",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 207
     }
   ],
   "pet-types": [

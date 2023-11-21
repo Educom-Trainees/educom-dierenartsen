@@ -2,10 +2,9 @@
   <TopNavigation />
   <div class="planning">
     <h1 class="appointment_header">Afspraak maken</h1>
-    <div class="test" v-if="showForm">
+    <div class="test" v-if="showForm == 'showForm'">
       <h2><img src="../assets/balk1.png"></h2>
-      <form @submit.prevent="handleSubmit" v-if="showForm2 == 'showForm'" class="appointment_form">
-        <!-- <div class="test"> -->
+      <form @submit.prevent="handleSubmit" v-if="showForm == 'showForm'" class="appointment_form">
         <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
         <label>Selecteer diersoort* </label><br>
           <button v-if="type_animal != 1 && type_animal != 8 && type_animal != 9" @click="changetype_animal(1)" type="button" id="big" value="1" :class="{selected_animal: type_animal == 1}"><img src="../assets/dog.png"><br>hond</button>
@@ -14,8 +13,7 @@
           <button @click="changetype_animal(4)" type="button" id="big" value="4" :class="{selected_animal: type_animal == 4}"><img src="../assets/guinea-pig.png"><br>cavia</button>
           <button @click="changetype_animal(5)" type="button" id="big" value="5" :class="{selected_animal: type_animal == 5}"><img src="../assets/hamster.png"><br>hamster</button>
           <button @click="changetype_animal(6)" type="button" id="big" value="6" :class="{selected_animal: type_animal == 6}"><img src="../assets/rat.png"><br>rat</button>
-          <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}"><img src="../assets/muis.png"><br>muis</button>
-          <br>
+          <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}"><img src="../assets/muis.png"><br>muis</button><br>
           <div v-if="type_animal == 1 || type_animal == 8 || type_animal == 9">
             <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}"><img src="../assets/dog.png"><br>kleine hond</button>
             <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}"><img src="../assets/dog.png"><br>grote hond</button>
@@ -40,77 +38,23 @@
             <option value="9">postoperatieve controle</option>
             <option value="10">herhaal recept bestellen</option>
           </select><br>
-            <button v-if="type_animal != 1" class="submit">volgende</button>
-        <!-- </div> -->
+        <button v-if="type_animal != 1" class="submit">volgende</button>
     </form>
-    
     </div>
-    <div class="button_div" v-if="showForm">
+    <div class="button_div" v-if="showForm == 'showForm'">
       <h2 id="removetext">.</h2>
     </div>
-    <div class="test" v-if="showForm2 == 'showDateForm'">
+    <div class="test" v-if="showForm == 'showDateForm'">
     <h2><img src="../assets/balk2.png"></h2>
-    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" v-if="showdateForm" />
-    <!-- <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
-      <label>Kies een tijdstip </label><br>
-        <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
-            <div class="btn-group" role="group" aria-label="datepicker">
-                <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
-                <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
-                <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
-            </div>
-        </div>
-      <label>Clinici</label><br>
-        <button @click="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
-        <button @click="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
-        <button @click="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
-      <label>Ochtend</label><br>
-        <div v-if="date">
-            <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-            <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button>
-            </div>
-            <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-        </div>
-      <label>Namiddag</label><br>
-        <div v-if="date">
-            <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-            <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button>
-            </div>
-            <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-        </div>
-      <button @click="backtoform" class="back">vorige</button>
-      <button class="submit">volgende</button>
-    </form> -->
+    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" v-if="showForm == 'showDateForm'" />
     </div>
-    <div class="button_div" v-if="showForm2 == 'showDateForm'">
-      <h2 id="removetext">test</h2>
+    <div class="button_div" v-if="showForm == 'showDateForm'">
+      <h2 id="removetext">.</h2>
     </div>
-    <div class="test" v-if="showForm2 == 'showContactForm'">
+    <div class="test" v-if="showForm == 'showContactForm'">
       <h2><img src="../assets/balk3.png"></h2>
       <h3><img id="agenda" src="../assets/agenda.png">{{ displayFullDate(date) }} {{ time }}</h3>
-    <form @submit.prevent="Result" v-if="showForm2 == 'showContactForm'" class="appointment_form">
+    <form @submit.prevent="Result" v-if="showForm == 'showContactForm'" class="appointment_form">
       <h4>Persoonlijke gegevens</h4>
       <label>Uw contactgegevens</label><br>
       <input type="email" required v-model="email" placeholder="Email adres*"><br>
@@ -139,35 +83,29 @@
           <input type="text" v-model="name_animal[3]" placeholder="Naam vierde huisdier">
           <input type="text" v-model="info_animal[3]" placeholder="Reden voor afspraak">
         </div>
-      <button @click="backtodateform" class="back">vorige</button>
+      <button @click.prevent="backtodateform" class="back">vorige</button>
       <button class="submit">bevestig afspraak</button>
     </form>
   </div>
   </div>
-  <div class="button_div" v-if="showcontactForm">
-    <h2 id="removetext">test</h2>
+  <div class="button_div" v-if="showForm == 'showContactForm'">
+    <h2 id="removetext">.</h2>
   </div>
 </template>
 
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
 import AppointmentDateandTime from '../components/AppointmentDateandTime.vue'
-import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
-  import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import postAppointments from '../composables/postAppointments'
-import { displayFullDate, toDateString, skipSundayandMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
+import { displayFullDate, toDateString} from '../composables/datetime-utils.js'
 
 export default {
   name: 'app',
   components: {
     TopNavigation,
     AppointmentDateandTime
-  },
-  emit: {
-    showdateForm: 'showdateForm',
-    showcontactForm: 'showcontactForm'
   },
   data() {
       return {
@@ -179,22 +117,16 @@ export default {
           name_animal: [],
           info_animal: [],
           type_consult: '',
-          showForm2: 'showForm',
-          showForm: true,
-          showdateForm: false,
-          showcontactForm: false,
+          showForm: 'showForm',
           duration: 0,
+          //check dit
           preference: 0,
           status: 0,
           number: 0,
           appointments: '',
-          freeTimeslots: '',
-          time_slots: '',
-          timeslotdata: '',
           time: '',
           doctor: '',
           date: new Date(),
-          today: new Date(),
           name_animalError: '',
           nameError: '',
           emailError: '',
@@ -203,18 +135,9 @@ export default {
           displayFullDate: displayFullDate,
         }
     },
-    watch: {
-      date() {
-        this.handleSubmit()
-      },
-      preference() {
-        this.handleSubmit()
-      }
-    },
     methods: {
       showThisForm(array) {
-        console.log('test',array)
-        this.showForm2 = array[0]
+        this.showForm = array[0]
         this.doctor = array[1]
         this.time = array[2]
       },
@@ -224,30 +147,40 @@ export default {
       changetype_animal(animal){
         this.type_animal = animal
       },
-      changepreference(preference){
-        this.preference = preference
-      },
-      changetimeANDdoctor(time, doctor){
-        this.time = time
-        this.doctor = doctor
-      },
-      backtoform(){
-        this.showForm = true
-        this.showdateForm = false
-      },
       backtodateform(){
-        this.showdateForm = true
-        this.showcontactForm = false
+        this.showForm = 'showDateForm'
       },
-      nextDate() {
-        this.date = nextDate(this.date)
-      },
-      previousDate() {
-        this.date = previousDate(this.date)
-      }, 
       async handleSubmit() {
-        //this.freeTimeslots = []
+        const { appointment_type, error, load } = getAppointment_type(this.type_consult)
+        await load()
+        for(let i=0; i < appointment_type.value.calculation.length; i++){
+          const app_type = appointment_type.value.calculation[i];
+          if (app_type.count && app_type.count != this.amount) { 
+            continue
+          }
+          if(app_type.type && app_type.type != this.type_animal){
+            continue
+          }
+          this.duration = app_type.duration
+          break
+        }
+        this.showForm = 'showDateForm'
+      },
+      async Result() {
+        const { appointments, error, load } = getAppointments()
+        await load()
+        this.appointments = appointments
 
+        this.nameError = this.name.length < 30 ?
+        '' : 'je naam mag niet langer zijn dan 30 letters'
+        this.emailError = this.email.length < 75 ?
+        '' : 'je email mag niet langer zijn dan 75 letters'
+
+        // dit werkt niet met de -
+        // const validationPhone = /^\d{10}$/;
+
+        // this.phoneError = this.phone.match(validationPhone) ?
+        // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
         // laat deze staan
         // for (let i = 0; i < 4;) { 
         //   console.log(this.name_animal[i].length)
@@ -255,7 +188,6 @@ export default {
         //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
         //   i++
         // }
-
         // console.log(this.name_animal[0].length)
         // if(this.name_animalError){
         //   return {
@@ -263,84 +195,6 @@ export default {
         //   }
         // }
         // tot hier
-
-      const { appointment_type, error, load } = getAppointment_type(this.type_consult)
-      await load()
-      for(let i=0; i < appointment_type.value.calculation.length; i++){
-        const app_type = appointment_type.value.calculation[i];
-        if (app_type.count && app_type.count != this.amount) { 
-          continue
-        }
-        if(app_type.type && app_type.type != this.type_animal){
-          continue
-        }
-        this.duration = app_type.duration
-        break
-      }
-
-        // const { time_slots, timeslot_error } = await this.gettimeslots()
-        // const { appointments, appointments_error } = await this.getappointments()
-
-        // this.date = skipSundayandMonday(this.date)
-
-        // const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
-        // var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
-        // var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
-
-        // if(this.preference == 0){
-        //   var prefDoctor = 0
-        //   var sumdoctor1 = 0
-        //   var sumdoctor2 = 0
-        //   for (let i = 0; i < freeTimeslots.length; i++) {
-        //     if(freeTimeslots[i] != undefined){
-        //       if(freeTimeslots[i].doctor == 1){
-        //         sumdoctor1++
-        //       }else if(freeTimeslots[i].doctor == 2){
-        //         sumdoctor2++
-        //       }
-        //     }
-        //   }
-        //   if(sumdoctor1 >= sumdoctor2){
-        //     prefDoctor = 1
-        //   }else if(sumdoctor1 < sumdoctor2){
-        //     prefDoctor = 2
-        //   }
-
-        //   var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
-
-
-        //   this.freeTimeslots = list
-        // }else {
-        //   this.freeTimeslots = freeTimeslots
-        // }
-          this.showForm2 = 'showDateForm'
-        this.showForm = false
-        this.showdateForm = true
-        return { 
-          appointment_type,
-          error
-        }
-      },
-      async handledateSubmit() {
-        this.showdateForm = false
-        this.showcontactForm = true
-      },
-      async Result() {
-        const { appointments, error, load } = getAppointments()
-        await load()
-        this.appointments = appointments
-
-
-      this.nameError = this.name.length < 30 ?
-      '' : 'je naam mag niet langer zijn dan 30 letters'
-      this.emailError = this.email.length < 75 ?
-      '' : 'je email mag niet langer zijn dan 75 letters'
-
-      // dit werkt niet met de -
-      // const validationPhone = /^\d{10}$/;
-
-      // this.phoneError = this.phone.match(validationPhone) ?
-      // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
 
       if(!this.nameError && !this.emailError){
         const lastappointment = this.appointments[this.appointments.length - 1]
@@ -354,59 +208,6 @@ export default {
         this.$router.push('/result/' + this.number)
       }
     },
-      RemoveDuplicate(array, prefDoctor){
-        const result = []
-        array.forEach((element, index) => {
-          if(element == undefined){}
-            else if(array[index + 1] != undefined && element.time == array[index + 1].time || 
-               array[index - 1] != undefined && element.time == array[index - 1].time ){
-              if(element.doctor != prefDoctor){
-              }else {
-                result.push(element)
-              }
-            }else {
-              result.push(element)
-            }
-        });
-        return result
-      },
-    async gettimeslots(){
-      const { time_slots, error, load } = getTime_slots()
-      await load()
-      return { time_slots, error }
-      },
-      async getappointments(){
-        const { appointments, error, load } = getAppointments()
-        await load()
-        return { appointments, error }
-      },
-      getFreeSlots(time_slots, duration){
-        console.log(time_slots)
-        const result = []
-        time_slots.forEach((element, index) => {
-          console.log(element)
-          if(element.show == true && time_slots[index].appointment == undefined){
-                // console.log('deze wordt geskipt')
-                // console.log(element)
-            if(duration == 15){
-              // console.log('deze wordt niet geskipt')
-              //   console.log(element)
-                result.push(element)
-            }else if(duration == 30 && time_slots[index + 1] != undefined){
-              if(time_slots[index + 1].show == true && time_slots[index + 1].appointment == undefined){
-                //console.log(element)
-                result.push(element)
-              }
-            }else if(duration == 45 && time_slots[index+2] != undefined){
-              if(time_slots[index + 2].show == true && time_slots[index + 2].appointment == undefined){
-                //console.log(element)
-                result.push(element)
-              }
-            }
-          }
-        });
-        return result
-    }
   }
 }
 </script>
@@ -460,7 +261,6 @@ export default {
   width: 20%;
 }
 select{
-  /* float: left; */
   background-color: white;
   border-radius: 12px;
 }
