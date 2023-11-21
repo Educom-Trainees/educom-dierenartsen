@@ -50,9 +50,9 @@
     </div>
     <div class="test" v-if="showdateForm">
     <h2><img src="../assets/balk2.png"></h2>
-    <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
+    <AppointmentDateandTime @showcontactForm="showcontactForm" @showForm="showForm" @showdateForm="showdateForm" :duration="duration" v-if="showdateForm" />
+    <!-- <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
       <label>Kies een tijdstip </label><br>
-        <!-- <input type="date" required v-model="date"><br> -->
         <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
             <div class="btn-group" role="group" aria-label="datepicker">
                 <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
@@ -102,7 +102,7 @@
         </div>
       <button @click="backtoform" class="back">vorige</button>
       <button class="submit">volgende</button>
-    </form>
+    </form> -->
     </div>
     <div class="button_div" v-if="showdateForm">
       <h2 id="removetext">test</h2>
@@ -151,6 +151,7 @@
 
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
+import AppointmentDateandTime from '../components/AppointmentDateandTime.vue'
 import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
@@ -161,7 +162,12 @@ import { displayFullDate, toDateString, skipSundayandMonday, previousDate, nextD
 export default {
   name: 'app',
   components: {
-    TopNavigation
+    TopNavigation,
+    AppointmentDateandTime
+  },
+  emit: {
+    showdateForm: 'showdateForm',
+    showcontactForm: 'showcontactForm'
   },
   data() {
       return {
@@ -233,7 +239,9 @@ export default {
         this.date = previousDate(this.date)
       }, 
       async handleSubmit() {
-        this.freeTimeslots = []
+        //this.freeTimeslots = []
+
+        // laat deze staan
         // for (let i = 0; i < 4;) { 
         //   console.log(this.name_animal[i].length)
         //   this.name_animalError = this.name_animal[i].length < 90 ?
@@ -241,12 +249,14 @@ export default {
         //   i++
         // }
 
-      // console.log(this.name_animal[0].length)
-      // if(this.name_animalError){
-      //   return {
-      //     name_animalError
-      //   }
-      // }
+        // console.log(this.name_animal[0].length)
+        // if(this.name_animalError){
+        //   return {
+        //     name_animalError
+        //   }
+        // }
+        // tot hier
+
       const { appointment_type, error, load } = getAppointment_type(this.type_consult)
       await load()
       for(let i=0; i < appointment_type.value.calculation.length; i++){
@@ -260,60 +270,47 @@ export default {
         this.duration = app_type.duration
         break
       }
-      console.log(this.duration)
 
-        const { time_slots, timeslot_error } = await this.gettimeslots()
-        const { appointments, appointments_error } = await this.getappointments()
+        // const { time_slots, timeslot_error } = await this.gettimeslots()
+        // const { appointments, appointments_error } = await this.getappointments()
 
-        this.date = skipSundayandMonday(this.date)
+        // this.date = skipSundayandMonday(this.date)
 
-        console.log('test filter')
+        // const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
+        // var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
+        // var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
 
-        const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
-        console.log(filteredapp)
-        var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
-        console.log(newTimeslot)
-        var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
+        // if(this.preference == 0){
+        //   var prefDoctor = 0
+        //   var sumdoctor1 = 0
+        //   var sumdoctor2 = 0
+        //   for (let i = 0; i < freeTimeslots.length; i++) {
+        //     if(freeTimeslots[i] != undefined){
+        //       if(freeTimeslots[i].doctor == 1){
+        //         sumdoctor1++
+        //       }else if(freeTimeslots[i].doctor == 2){
+        //         sumdoctor2++
+        //       }
+        //     }
+        //   }
+        //   if(sumdoctor1 >= sumdoctor2){
+        //     prefDoctor = 1
+        //   }else if(sumdoctor1 < sumdoctor2){
+        //     prefDoctor = 2
+        //   }
 
-        console.log('uit de loop')
-        console.log(freeTimeslots)
+        //   var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
 
-        if(this.preference == 0){
-          var prefDoctor = 0
-          var sumdoctor1 = 0
-          var sumdoctor2 = 0
-          for (let i = 0; i < freeTimeslots.length; i++) {
-            if(freeTimeslots[i] != undefined){
-              if(freeTimeslots[i].doctor == 1){
-                sumdoctor1++
-              }else if(freeTimeslots[i].doctor == 2){
-                sumdoctor2++
-              }
-            }
-          }
-          if(sumdoctor1 >= sumdoctor2){
-            prefDoctor = 1
-          }else if(sumdoctor1 < sumdoctor2){
-            prefDoctor = 2
-          }
-          console.log('voordat hij dubbele verwijdert')
-          console.log(freeTimeslots)
 
-          var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
-
-          console.log('nadat hij dubble verwijdert')
-          console.log(list)
-
-          this.freeTimeslots = list
-        }else {
-          this.freeTimeslots = freeTimeslots
-        }
+        //   this.freeTimeslots = list
+        // }else {
+        //   this.freeTimeslots = freeTimeslots
+        // }
 
         this.showForm = false
         this.showdateForm = true
         return { 
-          appointment_type, 
-          freeTimeslots, 
+          appointment_type,
           error
         }
       },
