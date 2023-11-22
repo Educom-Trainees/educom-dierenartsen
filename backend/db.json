@@ -2347,6 +2347,16 @@
       "passwordHash": "$2a$10$vbGPEKFmFZMG5um8ZqOdCOz/k6eNV8iMn5wsYk9kwrUIsYwTrFneG",
       "role": 0,
       "id": 9
+    },
+    {
+      "salutation": "Mevrouw",
+      "firstName": "test",
+      "lastName": "achternaam",
+      "email": "stijn@engelmoer.com",
+      "phone": "1234567",
+      "passwordHash": "$2a$10$WQO6UF9KcWw4TlUyXpdE/uq81LdSeCaPJxs9h2D9zULNuwJ6XrqvK",
+      "role": 0,
+      "id": 10
     }
   ]
 }

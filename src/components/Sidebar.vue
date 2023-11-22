@@ -22,6 +22,7 @@ export default {
         },
         activate(index) {
             this.selectedIndex = index
+            this.$emit('index', this.selectedIndex)
         }
     }
 }
