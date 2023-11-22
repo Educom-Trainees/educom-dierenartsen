@@ -36,7 +36,6 @@ export default {
     methods: {
         show(profileContent) {
             this.showing = profileContent
-            console.log(this.showing)
         }
     }
 }

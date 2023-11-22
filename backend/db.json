@@ -1900,6 +1900,80 @@
       "doctor": 1,
       "status": 0,
       "id": 212
+    },
+    {
+      "number": 213,
+      "date": "2023-11-22",
+      "time": "11:00",
+      "duration": 15,
+      "customer": "test achternaam",
+      "phoneNumber": "1234567",
+      "email": "stijn@engelmoer.com",
+      "petType": 3,
+      "type": "7",
+      "pets": [
+        {},
+        {
+          "name": "test2",
+          "extra": "pas goed op"
+        },
+        {
+          "name": "test3"
+        },
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 213
+    },
+    {
+      "number": 214,
+      "date": "2023-11-22",
+      "time": "11:00",
+      "duration": 15,
+      "customer": "test achternaam",
+      "phoneNumber": "1234567",
+      "email": "stijn@engelmoer.com",
+      "petType": 2,
+      "type": "7",
+      "pets": [
+        {
+          "name": "pablo",
+          "extra": "plas te veel"
+        },
+        {
+          "name": "pablo 2",
+          "extra": "omdat het kan"
+        },
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 214
+    },
+    {
+      "number": 215,
+      "date": "2023-11-22",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "test achternaam",
+      "phoneNumber": "1234567",
+      "email": "stijn@engelmoer.com",
+      "petType": 3,
+      "type": "8",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 215
     }
   ],
   "pet-types": [
@@ -2349,14 +2423,12 @@
       "id": 9
     },
     {
-      "salutation": "Mevrouw",
-      "firstName": "test",
-      "lastName": "achternaam",
+      "id": 10,
+      "salutation": "Meneer",
+      "firstName": "max",
+      "lastName": "verstappen",
       "email": "stijn@engelmoer.com",
-      "phone": "1234567",
-      "passwordHash": "$2a$10$WQO6UF9KcWw4TlUyXpdE/uq81LdSeCaPJxs9h2D9zULNuwJ6XrqvK",
-      "role": 0,
-      "id": 10
+      "phone": "06 16776122"
     }
   ]
 }

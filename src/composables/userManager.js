@@ -24,6 +24,28 @@ export async function storeUser(newUser) {
 }
 
 /**
+ * change a user in database.
+ * 
+ * @param {Object} newUser - The new user
+ * @returns Returns true if user was changed successfully.
+ */
+export async function putUser(newUser) {
+    console.log('putuser')
+    console.log(newUser)
+    try {
+        const response = await axios.put(
+            'http://localhost:3000/users/' + newUser.id, 
+            newUser)
+        console.log('User change successful.')
+        return true
+    }
+    catch(error) {
+        console.error('User change failed.')
+        throw error
+    }
+}
+
+/**
  * Get user information from database.
  * 
  * @param {String} userEmail - The user email.
