@@ -11,7 +11,8 @@ namespace BackendASP.Database
 
         public DbSet<PetType> PetTypes { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
-        public DbSet<AppointmentPets> AppointmentPets { get; set; }
+        public DbSet<AppointmentPet> AppointmentPets { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         public PetCareContext(IConfiguration config)
@@ -40,14 +41,58 @@ namespace BackendASP.Database
                 );
 
             modelBuilder.Entity<Appointment>().HasData(
-                new { Id = 1, AppointmentNumber = 1, Date = DateOnly.Parse("2023-11-20"), Duration = 30, 
-                      CustomerName = "Corbijn Bulsink", PhoneNumber = "0611330161", Email = "corbijn.bullie@hoi.nl", 
-                      Preference = DoctorTypes.KAREL_LANT, Doctor = DoctorTypes.KAREL_LANT, Status = StatusTypes.ACTIVE, 
-                      PetTypeId = 4 });
+                new
+                {
+                    Id = 1,
+                    AppointmentNumber = 1,
+                    Date = DateOnly.Parse("2023-11-20"),
+                    Duration = 30,
+                    CustomerName = "Corbijn Bulsink",
+                    PhoneNumber = "0611330161",
+                    Email = "corbijn.bullie@hoi.nl",
+                    Preference = DoctorTypes.KAREL_LANT,
+                    Doctor = DoctorTypes.KAREL_LANT,
+                    Status = StatusTypes.ACTIVE,
+                    PetTypeId = 4
+                });
 
-            modelBuilder.Entity<AppointmentPets>().HasData(
+            modelBuilder.Entity<AppointmentPet>().HasData(
                 new { Id = 1, Name = "Fifi", AppointmentId = 1 }
             );
+
+            modelBuilder.Entity<User>().HasData(
+                new
+                {
+                    Id = 1,
+                    Salutation = "Meneer",
+                    FirstName = "Brandon",
+                    LastName = "Klant",
+                    Email = "brandon@gmail.com",
+                    PhoneNumber = "067890456",
+                    PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
+                    Role = UserRoles.GUEST
+                },
+                new
+                {
+                    Id = 2,
+                    Salutation = "Mevrouw",
+                    FirstName = "Stijn",
+                    LastName = "Engelmoer",
+                    Email = "s123s12dass@s.com",
+                    PhoneNumber = "123321",
+                    PasswordHash = "$2a$10$gPUJzQBPvMNpuHU2C337n.bmKeTgjjX9PVRFUTVi624lShT3A263u",
+                    Role = UserRoles.GUEST
+                },
+                new
+                {
+                    Id = 3,
+                    Salutation = "Meneer",
+                    FirstName = "Karel",
+                    LastName = "Lant",
+                    Email = "karel@happypaw.nl",
+                    PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+                    Role = UserRoles.EMPLOYEE
+                });
             base.OnModelCreating(modelBuilder);
         }
     }

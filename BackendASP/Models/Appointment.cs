@@ -22,6 +22,6 @@ namespace BackendASP.Models
 
         // FK's
         public required PetType PetType { get; set; }
-        virtual public ICollection<AppointmentPets> Pets { get; set; } = new List<AppointmentPets>();
+        virtual public ICollection<AppointmentPet> Pets { get; set; } = new List<AppointmentPet>();
     }
 }

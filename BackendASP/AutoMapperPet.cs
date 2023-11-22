@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BackendASP.Models;
+using BackendASP.Models.DTO;
 
 namespace BackendASP
 {
@@ -8,8 +9,12 @@ namespace BackendASP
         public AutoMapperPet() {
             CreateMap<Appointment, AppointmentDTO>();
             CreateMap<AppointmentDTO, Appointment>();
-            CreateMap<AppointmentPets, AppointmentPetDTO>();
-            CreateMap<AppointmentPetDTO, AppointmentPets>();
+
+            CreateMap<AppointmentPet, AppointmentPetDTO>();
+            CreateMap<AppointmentPetDTO, AppointmentPet>();
+
+            CreateMap<PetType, PetTypeDTO>();
+            CreateMap<PetTypeDTO, PetType>();
         }
     }
 }

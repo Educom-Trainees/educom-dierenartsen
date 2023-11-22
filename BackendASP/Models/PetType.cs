@@ -11,7 +11,7 @@ namespace BackendASP.Models
         [MaxLength(30)]
         public required string Plural { get; set; }
         [MaxLength(30)]
-        public required string Image { get; set; }
+        public string? Image { get; set; }
 
         public PetType? Parent { get; set; }
 

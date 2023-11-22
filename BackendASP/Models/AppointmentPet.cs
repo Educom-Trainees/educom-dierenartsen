@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BackendASP.Models
 {
-    public class AppointmentPets
+    public class AppointmentPet
     {
         public int Id { get; set; }
         [MaxLength(100)]

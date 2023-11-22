@@ -1,41 +1,49 @@
-﻿using BackendASP.Database;
+﻿using AutoMapper;
+using BackendASP.Database;
 using BackendASP.Models;
+using BackendASP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
-    [Route("pet-types")]
+    [Route("pettypes")]
     [ApiController]
     public class PetTypesController : ControllerBase
     {
         private readonly PetCareContext _context;
+        private readonly IMapper _mapper;
 
-        public PetTypesController(PetCareContext context)
+        public PetTypesController(PetCareContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/PetTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PetType>>> GetPetTypes()
+        public async Task<ActionResult<IEnumerable<PetTypeDTO>>> GetPetTypes()
         {
             if (_context.PetTypes == null)
             {
                 return NotFound();
             }
-            return await _context.PetTypes.ToListAsync();
+            var petTypes = await _mapper.ProjectTo<PetTypeDTO>(_context.PetTypes)
+                .ToListAsync();
+
+            return petTypes;
         }
 
         // GET: api/PetTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PetType>> GetPetType(int id)
+        public async Task<ActionResult<PetTypeDTO>> GetPetTypeById(int id)
         {
             if (_context.PetTypes == null)
             {
                 return NotFound();
             }
-            var petType = await _context.PetTypes.FindAsync(id);
+            var petType = await _mapper.ProjectTo<PetTypeDTO>(_context.PetTypes)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (petType == null)
             {

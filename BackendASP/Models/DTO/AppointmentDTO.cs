@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace BackendASP.Models
+namespace BackendASP.Models.DTO
 {
     public class AppointmentDTO
     {

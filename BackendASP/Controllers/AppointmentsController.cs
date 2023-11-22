@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using BackendASP.Database;
 using BackendASP.Models;
+using BackendASP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("appointments")]
     [ApiController]
     public class AppointmentsController : ControllerBase
     {
@@ -36,20 +37,22 @@ namespace BackendASP.Controllers
 
         // GET: api/Appointments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Appointment>> GetAppointments(int id)
+        public async Task<ActionResult<AppointmentDTO>> GetAppointmentById(int id)
         {
             if (_context.Appointments == null)
             {
                 return NotFound();
             }
-            var appointments = await _context.Appointments.Include(a => a.Pets).FirstOrDefaultAsync(a => a.Id == id);
+            var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments
+                .Include(a => a.PetType))
+                .FirstOrDefaultAsync(a => a.Id == id);            
 
-            if (appointments == null)
+            if (appointment == null)
             {
                 return NotFound();
             }
 
-            return appointments;
+            return appointment;
         }
 
         // PUT: api/Appointments/5
@@ -90,7 +93,7 @@ namespace BackendASP.Controllers
         {
             if (_context.Appointments == null)
             {
-                return Problem("Entity set 'PetCareContext.Appointments'  is null.");
+                return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
             var appointments = _mapper.Map<Appointment>(appointmentDTO);
             var petType = await _context.PetTypes.FindAsync(appointmentDTO.PetTypeId);

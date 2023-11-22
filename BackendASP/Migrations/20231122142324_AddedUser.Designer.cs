@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231122142324_AddedUser")]
+    partial class AddedUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -273,7 +276,7 @@ namespace BackendASP.Migrations
                         },
                         new
                         {
-                            Id = 2,
+                            Id = 9,
                             Email = "s123s12dass@s.com",
                             FirstName = "Stijn",
                             LastName = "Engelmoer",
@@ -281,16 +284,6 @@ namespace BackendASP.Migrations
                             PhoneNumber = "123321",
                             Role = 0,
                             Salutation = "Mevrouw"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "karel@happypaw.nl",
-                            FirstName = "Karel",
-                            LastName = "Lant",
-                            PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
-                            Role = 1,
-                            Salutation = "Meneer"
                         });
                 });
 
