@@ -2475,17 +2475,21 @@
     },
     {
       "salutation": "Meneer",
-      "firstName": "test",
+      "firstName": "stijn",
       "lastName": "achternaam",
-      "email": "stijn.test@gmail.com",
+      "email": "stijn.achternaam@gmail.com",
       "phone": "1234567",
       "passwordHash": "$2a$10$6DrzFHVTllDdRCuX/ZIRmeD9/u5NwJdaT6dfT9om6ggLWa.3NJIcm",
       "role": 0,
       "id": 12,
       "pets": [
         {
-          "type": "5",
-          "name": "hammie"
+          "type": "6",
+          "name": "remy"
+        },
+        {
+          "type": "6",
+          "name": "remy2"
         }
       ]
     }

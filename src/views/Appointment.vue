@@ -143,16 +143,13 @@ export default {
         const type = await userdata.then(function(result) {
           if(result[0].pets){
             var pet_type = result[0].pets[0].type
-            var pet_name = result[0].pets[0].name
           }else{
             var pet_type = ''
-            var pet_name = ''
           }
-          return {pet_type, pet_name}
+          return {pet_type}
         })
         
         this.type_animal = type.pet_type
-        this.name_animal[0] = type.pet_name
     },
     methods: {
       showThisForm(array) {
@@ -173,15 +170,36 @@ export default {
       async handleSubmit() {
         if(isLoggedIn()){
           const user = getUserDataFromSession()
-          this.email = user.userEmail
           var userdata = getUserById(user.userId)
+          var pet_type = this.type_animal
           
           const value = await userdata.then(function(result) {
             var name = result[0].firstName + ' ' + result[0].lastName
             var phone = result[0].phone
-            return {name, phone}
+            var email = result[0].email
+            if(result[0].pets){
+              var samepets = result[0].pets.filter(p => p.type == pet_type)
+            }else{
+              var samepets = 0
+            }
+            return {name, phone, email, samepets}
           })
 
+          if(value.samepets.length > this.amount){
+            var loop = this.amount
+          }else {
+            var loop = value.samepets.length
+          }
+          for (let i = 0; i < loop; i++) { 
+            console.log('loop')
+              const pets = await userdata.then(function(result) {
+                var pet_name = value.samepets[i].name
+                return {pet_name}
+              })
+            this.name_animal[i] = pets.pet_name
+          }
+
+          this.email = value.email
           this.name = value.name
           this.phone = value.phone
         }

@@ -57,41 +57,40 @@ export default {
         }
     },
     async created() {
-        const user = getUserDataFromSession()
-        var userdata = getUserById(user.userId)
-
-        const length = await userdata.then(function(result) {
-            if(result[0].pets){
-                var length = result[0].pets.length
-                return {length}
-            }else {
-                return 0
-            }
-        })
-
-        for (let i = 0; i < length.length; i++) {
-            const value = await userdata.then(function(result) {
-                var id = result[0].pets[i].id
-                var type = result[0].pets[i].type
-                var name = result[0].pets[i].name
-                return {id, type, name}
-            })
-            this.pets.push(value)
-        }
+        await this.readyPage()
     },
     methods: {
         async registerPet(){
             await addPet(this.type_pet, this.petname)
             this.showInput = !this.showInput
+            this.pets = []
+            await this.readyPage()
         },
         changeInput(){
             this.showInput = !this.showInput
-        }
-    },
-    watch: {
-        pets(){
-            console.log('watch')
-            this.created()
+        },
+        async readyPage(){
+            const user = getUserDataFromSession()
+            var userdata = getUserById(user.userId)
+
+            const length = await userdata.then(function(result) {
+                if(result[0].pets){
+                    var length = result[0].pets.length
+                    return {length}
+                }else {
+                    return 0
+                }
+            })
+
+            for (let i = 0; i < length.length; i++) {
+                const value = await userdata.then(function(result) {
+                    var id = result[0].pets[i].id
+                    var type = result[0].pets[i].type
+                    var name = result[0].pets[i].name
+                    return {id, type, name}
+                })
+                this.pets.push(value)
+            }
         }
     }
 }
