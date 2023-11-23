@@ -2000,6 +2000,73 @@
       "doctor": 1,
       "status": 0,
       "id": 216
+    },
+    {
+      "number": 217,
+      "date": "2023-11-23",
+      "time": "09:30",
+      "duration": 30,
+      "customer": "stijn achternaam",
+      "phoneNumber": "1234567",
+      "email": "stijn.lastnaam@gmail.com",
+      "petType": "2",
+      "type": "4",
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 217
+    },
+    {
+      "number": 218,
+      "date": "2023-11-23",
+      "time": "09:45",
+      "duration": 15,
+      "customer": "stijn achternaam",
+      "phoneNumber": "1234567",
+      "email": "stijn.engel@gmail.com",
+      "petType": "2",
+      "type": "1",
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 218
+    },
+    {
+      "number": 219,
+      "date": "2023-11-23",
+      "time": "10:00",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "123456",
+      "email": "henk.vries@gmail.com",
+      "petType": "",
+      "type": "7",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 219
     }
   ],
   "pet-types": [
@@ -2477,19 +2544,47 @@
       "salutation": "Meneer",
       "firstName": "stijn",
       "lastName": "achternaam",
-      "email": "stijn.achternaam@gmail.com",
+      "email": "stijn.engel@gmail.com",
       "phone": "1234567",
       "passwordHash": "$2a$10$6DrzFHVTllDdRCuX/ZIRmeD9/u5NwJdaT6dfT9om6ggLWa.3NJIcm",
       "role": 0,
       "id": 12,
       "pets": [
         {
-          "type": "6",
-          "name": "remy"
+          "type": "2",
+          "name": "pablo"
         },
         {
-          "type": "6",
-          "name": "remy2"
+          "type": "3",
+          "name": "konijntje"
+        },
+        {
+          "type": "8",
+          "name": "hondje"
+        }
+      ]
+    },
+    {
+      "salutation": "Meneer",
+      "firstName": "henk",
+      "lastName": "de vries",
+      "email": "henk.vries@gmail.com",
+      "phone": "123456",
+      "passwordHash": "$2a$10$6gY3Jfx9UWIBEK9s8ZsFKO2foBbgl8oUNb4RluF7qSI6.TouR31zi",
+      "role": 0,
+      "id": 13,
+      "pets": [
+        {
+          "type": "2",
+          "name": "pablo"
+        },
+        {
+          "type": "4",
+          "name": "caviatje"
+        },
+        {
+          "type": "2",
+          "name": "pablo2"
         }
       ]
     }

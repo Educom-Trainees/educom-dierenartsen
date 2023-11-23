@@ -68,12 +68,12 @@ export default {
         var userdata = getUserById(user.userId)
           
         const value = await userdata.then(function(result) {
-            var id = result[0].id
-            var email = result[0].email
-            var salutation = result[0].salutation
-            var firstName = result[0].firstName 
-            var lastName = result[0].lastName
-            var phone = result[0].phone
+            var id = result.id
+            var email = result.email
+            var salutation = result.salutation
+            var firstName = result.firstName 
+            var lastName = result.lastName
+            var phone = result.phone
             return {id, email, salutation, firstName, lastName, phone}
         })
         this.infoForm.id = value.id

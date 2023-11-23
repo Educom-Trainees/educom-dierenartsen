@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 
 const baseUrlPostUser = 'http://localhost:3000/users'
 const baseUrlGetUser = 'http://localhost:3000/users?email='
-const baseUrlGetUserById = 'http://localhost:3000/users?id='
+const baseUrlGetUserById = 'http://localhost:3000/users/'
 const saltRounds = 10
 
 /**

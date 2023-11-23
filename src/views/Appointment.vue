@@ -141,8 +141,8 @@ export default {
         var userdata = getUserById(user.userId)
 
         const type = await userdata.then(function(result) {
-          if(result[0].pets){
-            var pet_type = result[0].pets[0].type
+          if(result.pets){
+            var pet_type = result.pets[0].type
           }else{
             var pet_type = ''
           }
@@ -174,11 +174,11 @@ export default {
           var pet_type = this.type_animal
           
           const value = await userdata.then(function(result) {
-            var name = result[0].firstName + ' ' + result[0].lastName
-            var phone = result[0].phone
-            var email = result[0].email
-            if(result[0].pets){
-              var samepets = result[0].pets.filter(p => p.type == pet_type)
+            var name = result.firstName + ' ' + result.lastName
+            var phone = result.phone
+            var email = result.email
+            if(result.pets){
+              var samepets = result.pets.filter(p => p.type == pet_type)
             }else{
               var samepets = 0
             }

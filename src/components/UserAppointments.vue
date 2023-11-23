@@ -2,7 +2,6 @@
     <div class="row justify-content-center align-items-center register-row mb-4">
         <h2 v-if="appointments.length == 0">geen afspraken gevonden</h2>
         <div class="col-sm-3 col-md-5 col-10 change-area" v-for="appointment in appointments" :key="appointment.id">
-            {{console.log(appointment.pets[1].name) }}
             <h2 class="usertitle">afspraken</h2>
             <div class="row">
                 <div class="col-sm-6 result">
@@ -52,6 +51,7 @@
 
 <script>
 import { getUserDataFromSession } from '../composables/sessionManager.js'
+import { getUserById } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
 export default {
     data() {
@@ -60,13 +60,12 @@ export default {
         }
     },
     async created() {
-        const user = getUserDataFromSession()
+        const olduser = getUserDataFromSession()
+        var userdata = getUserById(olduser.userId)
         const { appointments, error, load } = getAppointments()
         await load()
         this.appointments = appointments
-        console.log(this.appointments)
-        this.appointments = this.appointments.filter(a => a.email == user.userEmail)
-        console.log(this.appointments)
+        this.appointments = this.appointments.filter(a => a.email == olduser.userEmail)
     }
 }
 </script>

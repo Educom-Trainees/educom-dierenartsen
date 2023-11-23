@@ -82,9 +82,24 @@ export async function addPet(type, name) {
     console.log('addpet')
     const user = getUserDataFromSession()
     const userDataFromDatabase = await getUserById(user.userId)
-    if (userDataFromDatabase !== null) {
+    if (userDataFromDatabase !== null && userDataFromDatabase.pets) {
         const changedUser = {
-            "id": userDataFromDatabase[0].id,
+            "id": userDataFromDatabase.id,
+            "pets": [...userDataFromDatabase.pets, 
+                {
+                    "type": type,
+                    "name": name
+                }]
+        }
+        try {
+            const userStored = await putUser(changedUser)
+        }
+        catch(Error) {
+            console.log('het is niet gelukt om een huisdier erin te zetten')
+        }
+    }else if(userDataFromDatabase !== null){
+        const changedUser = {
+            "id": userDataFromDatabase.id,
             "pets": [{
                 "type": type,
                 "name": name

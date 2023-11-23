@@ -74,8 +74,8 @@ export default {
             var userdata = getUserById(user.userId)
 
             const length = await userdata.then(function(result) {
-                if(result[0].pets){
-                    var length = result[0].pets.length
+                if(result.pets){
+                    var length = result.pets.length
                     return {length}
                 }else {
                     return 0
@@ -84,9 +84,9 @@ export default {
 
             for (let i = 0; i < length.length; i++) {
                 const value = await userdata.then(function(result) {
-                    var id = result[0].pets[i].id
-                    var type = result[0].pets[i].type
-                    var name = result[0].pets[i].name
+                    var id = result.pets[i].id
+                    var type = result.pets[i].type
+                    var name = result.pets[i].name
                     return {id, type, name}
                 })
                 this.pets.push(value)
