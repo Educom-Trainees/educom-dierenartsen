@@ -2,12 +2,20 @@
     <div class="row justify-content-center align-items-center register-row mb-4">
         <div class="col-sm-3 col-md-5 col-10 change-area">
             <h2 class="usertitle">Mijn Huisdieren</h2>
-            <div class="row">
+            <div class="row" v-for="pet in pets" :key="pet.id">
                 <div class="col-sm-5 result">
-                    <p>type</p>
+                    <p v-if="pet.type == 1">Hond</p>
+                    <p v-if="pet.type == 2">Kat</p>
+                    <p v-if="pet.type == 3">Konijn</p>
+                    <p v-if="pet.type == 4">Cavia</p>
+                    <p v-if="pet.type == 5">Hamster</p>
+                    <p v-if="pet.type == 6">Rat</p>
+                    <p v-if="pet.type == 7">Muis</p>
+                    <p v-if="pet.type == 8">Kleine hond</p>
+                    <p v-if="pet.type == 9">Grote hond</p>
                 </div>
                 <div class="col-sm-5 result">
-                    <p>naam</p>
+                    <p>{{ pet.name}}</p>
                 </div>
                 <div class="col-sm-2 result">
                     <button type="submit">-</button>
@@ -34,18 +42,40 @@
 </template>
 
 <script>
+import { addPet } from '../composables/userChanges.js'
+import { getUser } from '../composables/userManager.js'
+import { getUserDataFromSession } from '../composables/sessionManager.js'
 export default {
     data() {
         return {
+            pets: [],
             showInput: false,
             type_pet: '',
             petname: ''
         }
     },
+    async created() {
+        const user = getUserDataFromSession()
+        var userdata = getUser(user.userEmail)
+
+        const length = await userdata.then(function(result) {
+            var length = result[0].pets.length
+            return {length}
+        })
+
+        for (let i = 0; i < length.length; i++) {
+            const value = await userdata.then(function(result) {
+                var id = result[0].pets[i].id
+                var type = result[0].pets[i].type
+                var name = result[0].pets[i].name
+                return {id, type, name}
+            })
+            this.pets.push(value)
+        }
+    },
     methods: {
-        registerPet(){
-            console.log(this.type_pet)
-            console.log(this.petname)
+        async registerPet(){
+            await addPet(this.type_pet, this.petname)
             this.showInput = !this.showInput
         },
         changeInput(){

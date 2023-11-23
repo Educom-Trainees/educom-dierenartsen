@@ -71,3 +71,33 @@ export async function changeUser(infoForm) {
         return errors
     }
 }
+
+/**
+ * add a pet to a user.
+ * 
+ * @param {Object} petForm - The pet form with data input from user.
+ */
+export async function addPet(type, name) {
+
+    console.log('addpet')
+    const user = getUserDataFromSession()
+    const userDataFromDatabase = await getUser(user.userEmail)
+    if (userDataFromDatabase !== null) {
+        const changedUser = {
+            "id": userDataFromDatabase[0].id,
+            "pets": [{
+                "type": type,
+                "name": name
+            }]
+        }
+        try {
+            const userStored = await putUser(changedUser)
+        }
+        catch(Error) {
+            console.log('het is niet gelukt om een huisdier erin te zetten')
+        }
+    }
+    else {
+        console.log('geen gebruiker gevonden')
+    }
+}

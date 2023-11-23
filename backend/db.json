@@ -1974,6 +1974,32 @@
       "doctor": 1,
       "status": 0,
       "id": 215
+    },
+    {
+      "number": 216,
+      "date": "2023-11-23",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "stijn engelmoer",
+      "phoneNumber": "12345",
+      "email": "stijn2@engelmoer.com",
+      "petType": 4,
+      "type": "3",
+      "pets": [
+        {
+          "name": "pablo",
+          "extra": "pijn"
+        },
+        {
+          "name": "henk"
+        },
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 216
     }
   ],
   "pet-types": [
@@ -2429,6 +2455,33 @@
       "lastName": "verstappen",
       "email": "stijn@engelmoer.com",
       "phone": "06 16776122"
+    },
+    {
+      "salutation": "Meneer",
+      "firstName": "stijn",
+      "lastName": "engelmoer",
+      "email": "stijn2@engelmoer.com",
+      "phone": "12345",
+      "pets": [
+        {
+          "id": 1,
+          "type": 4,
+          "name": "test"
+        },
+        {
+          "id": 2,
+          "type": 5,
+          "name": "muisje"
+        },
+        {
+          "id": 3,
+          "type": 6,
+          "name": "muisje"
+        }
+      ],
+      "passwordHash": "$2a$10$SIA/8TUfkcukzoRgLJiG2eoymSEsAAMpBGtolCyQ3prfGEyDIJvwC",
+      "role": 0,
+      "id": 11
     }
   ]
 }
