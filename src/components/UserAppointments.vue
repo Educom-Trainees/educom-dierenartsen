@@ -21,8 +21,8 @@
                 </div>
                 <div class="col-sm-6 result">
                     <p><b>{{ appointment.number }}</b></p>
-                    <p><b>{{ appointment.date }}</b></p>
-                    <p><b>{{ appointment.time }}</b></p>
+                    <p><b>{{ displayFullDate(new Date(appointment.date)) }}</b></p>
+                    <p><b>{{ appointment.time + ' - ' + addMinutes(appointment.time, appointment.duration) }}</b></p>
                     <p><b v-if="appointment.type == 1">Consult</b></p>
                     <p><b v-if="appointment.type == 2">Eerste consult</b></p>
                     <p><b v-if="appointment.type == 3">Vaccinatie</b></p>
@@ -53,10 +53,12 @@
 import { getUserDataFromSession } from '../composables/sessionManager.js'
 import { getUserById } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
+import { displayFullDate } from '../composables/datetime-utils.js'
 export default {
     data() {
       return {
-          appointments: []
+          appointments: [],
+          displayFullDate: displayFullDate
         }
     },
     async created() {
@@ -71,6 +73,15 @@ export default {
         await load()
         this.appointments = appointments
         this.appointments = this.appointments.filter(a => a.email == user.email)
+    },
+    methods: {
+        addMinutes(time, minsToAdd) {
+            function D(J){ return (J<10? '0':'') + J;};
+            var piece = time.split(':');
+            var mins = piece[0]*60 + +piece[1] + +minsToAdd;
+
+            return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);  
+        }
     }
 }
 </script>

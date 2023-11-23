@@ -2090,6 +2090,27 @@
       "doctor": 1,
       "status": 0,
       "id": 221
+    },
+    {
+      "number": 222,
+      "date": "2023-11-23",
+      "time": "12:00",
+      "duration": 30,
+      "customer": "henk de vries",
+      "phoneNumber": "123456",
+      "email": "henk.vries@gmail.com",
+      "petType": 9,
+      "type": "6",
+      "pets": [
+        {},
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 222
     }
   ],
   "pet-types": [
