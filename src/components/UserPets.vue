@@ -17,9 +17,9 @@
                 <div class="col-sm-5 result">
                     <p>{{ pet.name}}</p>
                 </div>
-                <div class="col-sm-2 result">
+                <!-- <div class="col-sm-2 result">
                     <button type="submit">-</button>
-                </div>
+                </div> -->
             </div>
             <button @click.prevent="changeInput()" v-if="!showInput" class="btn submit-btn mt-1">Huisdier toevoegen</button>
             <form v-if="showInput" @submit.prevent="registerPet" id="register-form" class="d-flex flex-column align-items-center mt-4">
@@ -59,8 +59,12 @@ export default {
         var userdata = getUser(user.userEmail)
 
         const length = await userdata.then(function(result) {
-            var length = result[0].pets.length
-            return {length}
+            if(result[0].pets){
+                var length = result[0].pets.length
+                return {length}
+            }else {
+                return 0
+            }
         })
 
         for (let i = 0; i < length.length; i++) {

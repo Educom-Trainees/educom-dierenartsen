@@ -2458,30 +2458,30 @@
     },
     {
       "salutation": "Meneer",
-      "firstName": "stijn",
+      "firstName": "jan",
       "lastName": "engelmoer",
-      "email": "stijn2@engelmoer.com",
+      "email": "jan2@engelmoer.com",
       "phone": "12345",
       "pets": [
+        {},
         {
-          "id": 1,
-          "type": 4,
-          "name": "test"
-        },
-        {
-          "id": 2,
-          "type": 5,
-          "name": "muisje"
-        },
-        {
-          "id": 3,
-          "type": 6,
-          "name": "muisje"
+          "type": "2",
+          "name": "pablo"
         }
       ],
       "passwordHash": "$2a$10$SIA/8TUfkcukzoRgLJiG2eoymSEsAAMpBGtolCyQ3prfGEyDIJvwC",
       "role": 0,
       "id": 11
+    },
+    {
+      "salutation": "Meneer",
+      "firstName": "test",
+      "lastName": "achternaam",
+      "email": "stijn.test@gmail.com",
+      "phone": "1234567",
+      "passwordHash": "$2a$10$6DrzFHVTllDdRCuX/ZIRmeD9/u5NwJdaT6dfT9om6ggLWa.3NJIcm",
+      "role": 0,
+      "id": 12
     }
   ]
 }

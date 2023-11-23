@@ -40,7 +40,7 @@
 
 <script>
 import { getUserDataFromSession } from '../composables/sessionManager.js'
-import { getUser } from '../composables/userManager.js'
+import { getUserById, getUser } from '../composables/userManager.js'
 import { changeUser } from '../composables/userChanges.js'
 export default {
     data() {
@@ -65,19 +65,19 @@ export default {
     },
     async created() {
         const user = getUserDataFromSession()
-        console.log(user)
-        this.infoForm.email = user.userEmail
-        var userdata = getUser(user.userEmail)
+        var userdata = getUserById(user.userId)
           
         const value = await userdata.then(function(result) {
             var id = result[0].id
+            var email = result[0].email
             var salutation = result[0].salutation
             var firstName = result[0].firstName 
             var lastName = result[0].lastName
             var phone = result[0].phone
-            return {id, salutation, firstName, lastName, phone}
+            return {id, email, salutation, firstName, lastName, phone}
         })
         this.infoForm.id = value.id
+        this.infoForm.email = value.email
         this.infoForm.salutation = value.salutation
         this.infoForm.firstName = value.firstName
         this.infoForm.lastName = value.lastName

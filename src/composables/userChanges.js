@@ -1,5 +1,5 @@
 import { validatePersonalInfo, sanitizeAndValidateEmail } from './userValidator.js'
-import { getUser, putUser } from './userManager.js'
+import { getUser, getUserById, putUser } from './userManager.js'
 import { getUserDataFromSession } from '../composables/sessionManager.js'
 
 
@@ -31,7 +31,7 @@ export async function changeUser(infoForm) {
         try {
             try {
                 const user = getUserDataFromSession()
-                const userDataFromDatabase = await getUser(user.userEmail)
+                const userDataFromDatabase = await getUserById(user.userId)
                 if (userDataFromDatabase !== null) {
                     const changedUser = {
                         "id": infoForm.id,

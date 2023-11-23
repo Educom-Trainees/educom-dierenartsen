@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 
 const baseUrlPostUser = 'http://localhost:3000/users'
 const baseUrlGetUser = 'http://localhost:3000/users?email='
+const baseUrlGetUserById = 'http://localhost:3000/users?id='
 const saltRounds = 10
 
 /**
@@ -30,10 +31,8 @@ export async function storeUser(newUser) {
  * @returns Returns true if user was changed successfully.
  */
 export async function putUser(newUser) {
-    console.log('putuser')
-    console.log(newUser)
     try {
-        const response = await axios.put(
+        const response = await axios.patch(
             'http://localhost:3000/users/' + newUser.id, 
             newUser)
         console.log('User change successful.')
@@ -53,6 +52,30 @@ export async function putUser(newUser) {
  */
 export async function getUser(userEmail) {
     const url = baseUrlGetUser + userEmail
+    try {
+        const response = await axios.get(url)
+        if (Array.isArray(response.data) && response.data.length === 0) {
+            console.log('User not found.')
+            return null
+        } else {
+            console.log('User found.')
+            return response.data
+        }
+    }
+    catch(error) {
+        console.error('Error getting user from database.')
+        throw error
+    }
+}
+
+/**
+ * Get user information from database.
+ * 
+ * @param {String} userid - The user id.
+ * @returns Returns user object if user found, otherwise null.
+ */
+export async function getUserById(userid) {
+    const url = baseUrlGetUserById + userid
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {

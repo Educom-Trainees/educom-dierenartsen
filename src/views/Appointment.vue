@@ -97,7 +97,7 @@
 import TopNavigation from '../components/TopNavigation.vue'
 import AppointmentDateandTime from '../components/AppointmentDateandTime.vue'
 import { isLoggedIn, getUserDataFromSession } from '../composables/sessionManager.js'
-import { getUser } from '../composables/userManager.js'
+import { getUserById } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
 import postAppointments from '../composables/postAppointments'
@@ -136,6 +136,24 @@ export default {
           displayFullDate: displayFullDate,
         }
     },
+    async created() {
+        const user = getUserDataFromSession()
+        var userdata = getUserById(user.userId)
+
+        const type = await userdata.then(function(result) {
+          if(result[0].pets){
+            var pet_type = result[0].pets[0].type
+            var pet_name = result[0].pets[0].name
+          }else{
+            var pet_type = ''
+            var pet_name = ''
+          }
+          return {pet_type, pet_name}
+        })
+        
+        this.type_animal = type.pet_type
+        this.name_animal[0] = type.pet_name
+    },
     methods: {
       showThisForm(array) {
         this.showForm = array[0]
@@ -156,7 +174,7 @@ export default {
         if(isLoggedIn()){
           const user = getUserDataFromSession()
           this.email = user.userEmail
-          var userdata = getUser(user.userEmail)
+          var userdata = getUserById(user.userId)
           
           const value = await userdata.then(function(result) {
             var name = result[0].firstName + ' ' + result[0].lastName
