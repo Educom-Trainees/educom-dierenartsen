@@ -137,6 +137,7 @@ export default {
         }
     },
     async created() {
+      if(isLoggedIn()){
         const user = getUserDataFromSession()
         var userdata = getUserById(user.userId)
 
@@ -150,6 +151,7 @@ export default {
         })
         
         this.type_animal = type.pet_type
+      }
     },
     methods: {
       showThisForm(array) {

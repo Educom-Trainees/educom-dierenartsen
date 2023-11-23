@@ -61,11 +61,16 @@ export default {
     },
     async created() {
         const olduser = getUserDataFromSession()
-        var userdata = getUserById(olduser.userId)
+        const userdata = getUserById(olduser.userId)
+        const user = await userdata.then(function(result) {
+            var email = result.email
+            return {email}
+        })
+
         const { appointments, error, load } = getAppointments()
         await load()
         this.appointments = appointments
-        this.appointments = this.appointments.filter(a => a.email == olduser.userEmail)
+        this.appointments = this.appointments.filter(a => a.email == user.email)
     }
 }
 </script>
