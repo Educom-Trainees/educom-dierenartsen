@@ -1,5 +1,5 @@
 import { validatePersonalInfo, sanitizeAndValidateEmail } from './userValidator.js'
-import { getUser, getUserById, putUser } from './userManager.js'
+import { getUserById, putUser } from './userManager.js'
 import { getUserDataFromSession } from '../composables/sessionManager.js'
 
 
@@ -81,7 +81,7 @@ export async function addPet(type, name) {
 
     console.log('addpet')
     const user = getUserDataFromSession()
-    const userDataFromDatabase = await getUser(user.userEmail)
+    const userDataFromDatabase = await getUserById(user.userId)
     if (userDataFromDatabase !== null) {
         const changedUser = {
             "id": userDataFromDatabase[0].id,

@@ -43,7 +43,7 @@
 
 <script>
 import { addPet } from '../composables/userChanges.js'
-import { getUser } from '../composables/userManager.js'
+import { getUserById } from '../composables/userManager.js'
 import { getUserDataFromSession } from '../composables/sessionManager.js'
 export default {
     data() {
@@ -56,7 +56,7 @@ export default {
     },
     async created() {
         const user = getUserDataFromSession()
-        var userdata = getUser(user.userEmail)
+        var userdata = getUserById(user.userId)
 
         const length = await userdata.then(function(result) {
             if(result[0].pets){

@@ -2481,7 +2481,13 @@
       "phone": "1234567",
       "passwordHash": "$2a$10$6DrzFHVTllDdRCuX/ZIRmeD9/u5NwJdaT6dfT9om6ggLWa.3NJIcm",
       "role": 0,
-      "id": 12
+      "id": 12,
+      "pets": [
+        {
+          "type": "2",
+          "name": "pablo"
+        }
+      ]
     }
   ]
 }

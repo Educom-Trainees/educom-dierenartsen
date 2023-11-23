@@ -40,7 +40,7 @@
 
 <script>
 import { getUserDataFromSession } from '../composables/sessionManager.js'
-import { getUserById, getUser } from '../composables/userManager.js'
+import { getUserById } from '../composables/userManager.js'
 import { changeUser } from '../composables/userChanges.js'
 export default {
     data() {
