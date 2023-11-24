@@ -8,15 +8,23 @@
         <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
         <label>Selecteer diersoort* </label><br>
           <button v-if="type_animal != 1 && type_animal != 8 && type_animal != 9" @click="changetype_animal(1)" type="button" id="big" value="1" :class="{selected_animal: type_animal == 1}"><img src="../assets/dog.png"><br>hond</button>
-          <button @click="changetype_animal(2)" type="button" id="big" value="2" :class="{selected_animal: type_animal == 2}"><img src="../assets/black-cat.png"><br>kat</button>
-          <button @click="changetype_animal(3)" type="button" id="big" value="3" :class="{selected_animal: type_animal == 3}"><img src="../assets/rabbit.png"><br>konijn</button>
-          <button @click="changetype_animal(4)" type="button" id="big" value="4" :class="{selected_animal: type_animal == 4}"><img src="../assets/guinea-pig.png"><br>cavia</button>
-          <button @click="changetype_animal(5)" type="button" id="big" value="5" :class="{selected_animal: type_animal == 5}"><img src="../assets/hamster.png"><br>hamster</button>
-          <button @click="changetype_animal(6)" type="button" id="big" value="6" :class="{selected_animal: type_animal == 6}"><img src="../assets/rat.png"><br>rat</button>
-          <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}"><img src="../assets/muis.png"><br>muis</button><br>
+          <button @click="changetype_animal(2)" type="button" id="big" value="2" :class="{selected_animal: type_animal == 2}">
+            <img v-if="type_animal == 2" src="../assets/inverted-black-cat.png"><img v-if="type_animal != 2" src="../assets/black-cat.png"><br>kat</button>
+          <button @click="changetype_animal(3)" type="button" id="big" value="3" :class="{selected_animal: type_animal == 3}">
+            <img v-if="type_animal == 3" src="../assets/inverted-rabbit.png"><img v-if="type_animal != 3" src="../assets/rabbit.png"><br>konijn</button>
+          <button @click="changetype_animal(4)" type="button" id="big" value="4" :class="{selected_animal: type_animal == 4}">
+            <img v-if="type_animal == 4" src="../assets/inverted-guinea-pig.png"><img v-if="type_animal != 4" src="../assets/guinea-pig.png"><br>cavia</button>
+          <button @click="changetype_animal(5)" type="button" id="big" value="5" :class="{selected_animal: type_animal == 5}">
+            <img v-if="type_animal == 5" src="../assets/inverted-hamster.png"><img v-if="type_animal != 5" src="../assets/hamster.png"><br>hamster</button>
+          <button @click="changetype_animal(6)" type="button" id="big" value="6" :class="{selected_animal: type_animal == 6}">
+            <img v-if="type_animal == 6" src="../assets/inverted-rat.png"><img v-if="type_animal != 6" src="../assets/rat.png"><br>rat</button>
+          <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}">
+            <img v-if="type_animal == 7" src="../assets/inverted-muis.png"><img v-if="type_animal != 7" src="../assets/muis.png"><br>muis</button><br>
           <div v-if="type_animal == 1 || type_animal == 8 || type_animal == 9">
-            <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}"><img src="../assets/dog.png"><br>kleine hond</button>
-            <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}"><img src="../assets/dog.png"><br>grote hond</button>
+            <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}">
+              <img v-if="type_animal == 8" src="../assets/inverted-dog.png"><img v-if="type_animal != 8" src="../assets/dog.png"><br>kleine hond</button>
+            <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}">
+              <img v-if="type_animal == 9" src="../assets/inverted-dog.png"><img v-if="type_animal != 9" src="../assets/dog.png"><br>grote hond</button>
           </div>
         <label>Aantal huisdieren* </label><br>
           <button @click="changeamount(1)" type="button" value="1" id="small" :class="{selected: amount == 1}">1</button>
@@ -46,7 +54,7 @@
     </div>
     <div class="test" v-if="showForm == 'showDateForm'">
     <h2><img src="../assets/balk2.png"></h2>
-    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" v-if="showForm == 'showDateForm'" />
+    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" :time="time" v-if="showForm == 'showDateForm'" />
     </div>
     <div class="button_div" v-if="showForm == 'showDateForm'">
       <h2 id="removetext">.</h2>

@@ -60,7 +60,8 @@ import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
 export default {
     props: [
-        'duration'
+        'duration',
+        'time'
     ],
     data() {
         return {
