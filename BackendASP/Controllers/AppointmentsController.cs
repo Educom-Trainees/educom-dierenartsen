@@ -2,6 +2,7 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
+using BackendASP.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,14 @@ namespace BackendASP.Controllers
         {
             _context = context;
             _mapper = mapper;
+
+            DayTypes days = DayTypes.WORKING_DAYS;
+            DayTypes today = DayTypes.SUNDAY;
+
+            bool avaliable = (days & today) != 0;
+
+            int value = (int)days;
+
         }
 
         // GET: api/Appointments

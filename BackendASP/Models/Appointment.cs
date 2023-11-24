@@ -1,4 +1,5 @@
-﻿using BackendASP.Models.Enums;
+﻿using BackendASP.Migrations;
+using BackendASP.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -22,6 +23,7 @@ namespace BackendASP.Models
 
         // FK's
         public required PetType PetType { get; set; }
+        public required AppointmentType AppointmentType { get; set; }
         virtual public ICollection<AppointmentPet> Pets { get; set; } = new List<AppointmentPet>();
     }
 }

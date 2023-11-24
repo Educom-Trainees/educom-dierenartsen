@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231124081027_AddedAppointmentType")]
+    partial class AddedAppointmentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,12 +143,7 @@ namespace BackendASP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TreatmentTimeId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TreatmentTimeId");
 
                     b.ToTable("AppointmentTypes");
 
@@ -153,153 +151,52 @@ namespace BackendASP.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "consult",
-                            TreatmentTimeId = 2
+                            Name = "consult"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "eerste consult",
-                            TreatmentTimeId = 4
+                            Name = "eerste consult"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "vaccinatie",
-                            TreatmentTimeId = 3
+                            Name = "vaccinatie"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "anaal klieren legen",
-                            TreatmentTimeId = 4
+                            Name = "anaal klieren legen"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "nagels knippen",
-                            TreatmentTimeId = 2
+                            Name = "nagels knippen"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "bloed onderzoek",
-                            TreatmentTimeId = 3
+                            Name = "bloed onderzoek"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "urine onderzoek",
-                            TreatmentTimeId = 3
+                            Name = "urine onderzoek"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "gebitscontrole",
-                            TreatmentTimeId = 2
+                            Name = "gebitscontrole"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "postoperatieve controle",
-                            TreatmentTimeId = 2
+                            Name = "postoperatieve controle"
                         },
                         new
                         {
                             Id = 10,
-                            Name = "herhaal recept bestellen",
-                            TreatmentTimeId = 1
-                        });
-                });
-
-            modelBuilder.Entity("BackendASP.Models.Calculation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PetTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TreatmentTimeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetTypeId");
-
-                    b.HasIndex("TreatmentTimeId");
-
-                    b.ToTable("Calculations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Duration = 15,
-                            TreatmentTimeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Count = 4,
-                            Duration = 30,
-                            TreatmentTimeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Duration = 15,
-                            TreatmentTimeId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Count = 4,
-                            Duration = 30,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Count = 3,
-                            Duration = 30,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Duration = 15,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Count = 4,
-                            Duration = 45,
-                            TreatmentTimeId = 4
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Count = 3,
-                            Duration = 45,
-                            PetTypeId = 9,
-                            TreatmentTimeId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Duration = 30,
-                            TreatmentTimeId = 4
+                            Name = "herhaal recept bestellen"
                         });
                 });
 
@@ -399,45 +296,6 @@ namespace BackendASP.Migrations
                             Name = "grote hond",
                             ParentId = 1,
                             Plural = "grote honden"
-                        });
-                });
-
-            modelBuilder.Entity("BackendASP.Models.TreatmentTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TreatmentTimes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "kort"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "kort - gemiddeld"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "gemiddeld"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "gemiddeld - lang"
                         });
                 });
 
@@ -544,34 +402,6 @@ namespace BackendASP.Migrations
                     b.Navigation("Appointment");
                 });
 
-            modelBuilder.Entity("BackendASP.Models.AppointmentType", b =>
-                {
-                    b.HasOne("BackendASP.Models.TreatmentTime", "TreatmentTime")
-                        .WithMany("AppointmentType")
-                        .HasForeignKey("TreatmentTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TreatmentTime");
-                });
-
-            modelBuilder.Entity("BackendASP.Models.Calculation", b =>
-                {
-                    b.HasOne("BackendASP.Models.PetType", "PetType")
-                        .WithMany()
-                        .HasForeignKey("PetTypeId");
-
-                    b.HasOne("BackendASP.Models.TreatmentTime", "TreatmentTime")
-                        .WithMany("Calculation")
-                        .HasForeignKey("TreatmentTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PetType");
-
-                    b.Navigation("TreatmentTime");
-                });
-
             modelBuilder.Entity("BackendASP.Models.PetType", b =>
                 {
                     b.HasOne("BackendASP.Models.PetType", "Parent")
@@ -594,13 +424,6 @@ namespace BackendASP.Migrations
             modelBuilder.Entity("BackendASP.Models.PetType", b =>
                 {
                     b.Navigation("Appointments");
-                });
-
-            modelBuilder.Entity("BackendASP.Models.TreatmentTime", b =>
-                {
-                    b.Navigation("AppointmentType");
-
-                    b.Navigation("Calculation");
                 });
 #pragma warning restore 612, 618
         }

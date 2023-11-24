@@ -7,8 +7,20 @@ namespace Backend2
     {
         public static void Main(string[] args)
         {
+/*            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";*/
+
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                        policy =>
+                        {
+                            policy.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                        });
+            });
             // Add services to the container.
             builder.Services.AddDbContext<PetCareContext>();
             builder.Services.AddControllers();
@@ -26,7 +38,9 @@ namespace Backend2
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+          /*  app.UseHttpsRedirection();*/
+
+            app.UseCors();
 
             app.UseAuthorization();
 

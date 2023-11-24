@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231124104343_AddedCalculation")]
+    partial class AddedCalculation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,21 +253,20 @@ namespace BackendASP.Migrations
                         new
                         {
                             Id = 2,
-                            Count = 4,
-                            Duration = 30,
-                            TreatmentTimeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
                             Duration = 15,
                             TreatmentTimeId = 2
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 3,
                             Count = 4,
                             Duration = 30,
+                            TreatmentTimeId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Duration = 15,
                             TreatmentTimeId = 3
                         },
                         new
@@ -277,29 +279,9 @@ namespace BackendASP.Migrations
                         new
                         {
                             Id = 6,
-                            Duration = 15,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 7,
                             Count = 4,
-                            Duration = 45,
-                            TreatmentTimeId = 4
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Count = 3,
-                            Duration = 45,
-                            PetTypeId = 9,
-                            TreatmentTimeId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
                             Duration = 30,
-                            TreatmentTimeId = 4
+                            TreatmentTimeId = 3
                         });
                 });
 
@@ -562,7 +544,7 @@ namespace BackendASP.Migrations
                         .HasForeignKey("PetTypeId");
 
                     b.HasOne("BackendASP.Models.TreatmentTime", "TreatmentTime")
-                        .WithMany("Calculation")
+                        .WithMany("Calculations")
                         .HasForeignKey("TreatmentTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -600,7 +582,7 @@ namespace BackendASP.Migrations
                 {
                     b.Navigation("AppointmentType");
 
-                    b.Navigation("Calculation");
+                    b.Navigation("Calculations");
                 });
 #pragma warning restore 612, 618
         }

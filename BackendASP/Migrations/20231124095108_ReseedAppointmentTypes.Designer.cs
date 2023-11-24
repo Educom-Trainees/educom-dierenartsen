@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231124095108_ReseedAppointmentTypes")]
+    partial class ReseedAppointmentTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,97 +212,6 @@ namespace BackendASP.Migrations
                             Id = 10,
                             Name = "herhaal recept bestellen",
                             TreatmentTimeId = 1
-                        });
-                });
-
-            modelBuilder.Entity("BackendASP.Models.Calculation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PetTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TreatmentTimeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetTypeId");
-
-                    b.HasIndex("TreatmentTimeId");
-
-                    b.ToTable("Calculations");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Duration = 15,
-                            TreatmentTimeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Count = 4,
-                            Duration = 30,
-                            TreatmentTimeId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Duration = 15,
-                            TreatmentTimeId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Count = 4,
-                            Duration = 30,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Count = 3,
-                            Duration = 30,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Duration = 15,
-                            TreatmentTimeId = 3
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Count = 4,
-                            Duration = 45,
-                            TreatmentTimeId = 4
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Count = 3,
-                            Duration = 45,
-                            PetTypeId = 9,
-                            TreatmentTimeId = 4
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Duration = 30,
-                            TreatmentTimeId = 4
                         });
                 });
 
@@ -547,27 +459,10 @@ namespace BackendASP.Migrations
             modelBuilder.Entity("BackendASP.Models.AppointmentType", b =>
                 {
                     b.HasOne("BackendASP.Models.TreatmentTime", "TreatmentTime")
-                        .WithMany("AppointmentType")
+                        .WithMany("AppointmentTypes")
                         .HasForeignKey("TreatmentTimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("TreatmentTime");
-                });
-
-            modelBuilder.Entity("BackendASP.Models.Calculation", b =>
-                {
-                    b.HasOne("BackendASP.Models.PetType", "PetType")
-                        .WithMany()
-                        .HasForeignKey("PetTypeId");
-
-                    b.HasOne("BackendASP.Models.TreatmentTime", "TreatmentTime")
-                        .WithMany("Calculation")
-                        .HasForeignKey("TreatmentTimeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PetType");
 
                     b.Navigation("TreatmentTime");
                 });
@@ -598,9 +493,7 @@ namespace BackendASP.Migrations
 
             modelBuilder.Entity("BackendASP.Models.TreatmentTime", b =>
                 {
-                    b.Navigation("AppointmentType");
-
-                    b.Navigation("Calculation");
+                    b.Navigation("AppointmentTypes");
                 });
 #pragma warning restore 612, 618
         }

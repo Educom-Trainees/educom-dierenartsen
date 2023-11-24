@@ -1,8 +1,9 @@
 ﻿```mermaid
 erDiagram
-    appointments }|--|| petTypes : Contains
-    appointments }|--|| appointmentTypes : Contains
+    appointments }|--|| petTypes : Uses
+    appointments }|--|| appointmentTypes : Uses
     appointments ||--|{ appointmentPets : Contains
+    appointments }|--|| time-slots : Uses
     appointments {
         int    id        PK
         int number
@@ -17,6 +18,7 @@ erDiagram
         int preference 
         int status
     }    
+    
     petTypes
     petTypes {
         int    id                PK
@@ -26,17 +28,11 @@ erDiagram
         int parentid FK
     } 
 
-    appointmentTypes ||--|{ calculations : Contains
-    appointmentTypes {
-        int    id                PK
-        string name
-        int calculation 
-    } 
-
     time-slots {
         int    id                PK
         time time
         int doctor    
+        int days "Flags"
     }
 
     users ||--|{ appointments : Makes
@@ -58,12 +54,26 @@ erDiagram
         int appointmentId FK
     }
 
-    calculations ||--o{ petTypes : contains 
+    appointmentTypes }o--|| treatmentTime : Uses
+    appointmentTypes {
+        int    id                PK
+        string name
+        int treatmentTimeId         FK
+    } 
+
+    treatmentTime ||--|{ calculations : Contains
+    treatmentTime {
+        int id PK
+        string name
+        int calculationsId FK
+    }
+
+    calculations }|--o| petTypes : Uses 
     calculations {
         int id              PK
         int duration
-        nullable_int count
-        nullable_int petTypeId         FK
+        int count "NULL"
+        int petTypeId         FK "NULL"
         int appointmentTypeId          FK
     }
 ```

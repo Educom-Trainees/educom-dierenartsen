@@ -15,6 +15,26 @@ namespace BackendASP
 
             CreateMap<PetType, PetTypeDTO>();
             CreateMap<PetTypeDTO, PetType>();
+
+            CreateMap<AppointmentType, AppointmentTypeDTO>();
+            CreateMap<AppointmentTypeDTO, AppointmentType>();
+
+            CreateMap<TreatmentTime, TreatmentTimeDTO>();
+            CreateMap<TreatmentTimeDTO, TreatmentTime>();
+
+            CreateMap<Calculation, CalculationDTO>();
+            CreateMap<CalculationDTO, Calculation>();
+
+            // Flattens AppointmentType>TreatmentTime>Calculation
+            CreateMap<AppointmentType, AppointmentTypeDTO>()
+               .ForMember(dest => dest.Calculation, opt => opt.MapFrom(src => src.TreatmentTime.Calculation));
+
+            CreateMap<TreatmentTime, TreatmentTimeDTO>()
+                .ForMember(dest => dest.Calculation, opt => opt.MapFrom(src => src.Calculation));
+
+            CreateMap<Calculation, CalculationDTO>();
+
+
         }
     }
 }
