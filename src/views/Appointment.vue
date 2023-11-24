@@ -35,6 +35,13 @@
         <div v-if="name_animalError" class="error">{{ name_animalError }}</div>
           <select required v-model="type_consult" id="type_select">
             <option hidden value="">Selecteer type afspraak*</option>
+            <!-- <div v-for="appointment_type in appointment_types" :key="appointment_type.id">
+              <option value = "{{ appointment_type.id }}" >
+                {{ console.log('gaat goed') }}
+                {{ console.log(appointment_type.name) }}
+                {{ appointment_type.name }}
+              </option>
+            </div> -->
             <option value="1">consult</option>
             <option value="2">eerste consult</option>
             <option value="3">vaccinatie</option>
@@ -108,6 +115,7 @@ import { isLoggedIn, getUserDataFromSession } from '../composables/sessionManage
 import { getUserById } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
+import getAppointment_types from '../composables/getAppointment_types'
 import postAppointments from '../composables/postAppointments'
 import { displayFullDate, toDateString} from '../composables/datetime-utils.js'
 
@@ -141,6 +149,7 @@ export default {
           emailError: '',
           phoneError: '',
           animal_nameError: '',
+          appointment_types: [],
           displayFullDate: displayFullDate,
         }
     },
@@ -157,7 +166,9 @@ export default {
           }
           return {pet_type}
         })
-        
+
+        const { appointment_types, appointment_types_error } = getAppointment_types()
+        this.appointment_types = appointment_types
         this.type_animal = type.pet_type
       }
     },

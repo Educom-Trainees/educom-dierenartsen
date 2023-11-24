@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-6 result">
                     <p>Afspraaknummer</p>
-                    <p>Datum</p>
+                    <p>Datum</p><br>
                     <p>Tijd</p>
                     <p>Afspraak type</p>
                     <p>Clinici</p>
@@ -23,16 +23,11 @@
                     <p><b>{{ appointment.number }}</b></p>
                     <p><b>{{ displayFullDate(new Date(appointment.date)) }}</b></p>
                     <p><b>{{ appointment.time + ' - ' + addMinutes(appointment.time, appointment.duration) }}</b></p>
-                    <p><b v-if="appointment.type == 1">Consult</b></p>
-                    <p><b v-if="appointment.type == 2">Eerste consult</b></p>
-                    <p><b v-if="appointment.type == 3">Vaccinatie</b></p>
-                    <p><b v-if="appointment.type == 4">Anaal klieren legen</b></p>
-                    <p><b v-if="appointment.type == 5">Nagels knippen</b></p>
-                    <p><b v-if="appointment.type == 6">Bloed onderzoek</b></p>
-                    <p><b v-if="appointment.type == 7">Urine onderzoek</b></p>
-                    <p><b v-if="appointment.type == 8">Gebitscontrole</b></p>
-                    <p><b v-if="appointment.type == 9">Postoperatieve controle</b></p>
-                    <p><b v-if="appointment.type == 10">Herhaal recept bestellen</b></p>
+                    <div v-for="appointment_type in appointment_types" :key="appointment_type.id">
+                        <b><p v-if="appointment_type.id == appointment.type">
+                            {{ appointment_type.name }}
+                        </p></b>
+                    </div>
                     <b><p v-if="appointment.doctor == 1">karel lant</p></b>
                     <b><p v-if="appointment.doctor == 2">danique de beer</p></b>
                     <b><p v-if="appointment.pets[0].name != undefined">{{ appointment.pets[0].name }}</p></b>
@@ -54,10 +49,12 @@ import { getUserDataFromSession } from '../composables/sessionManager.js'
 import { getUserById } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
 import { displayFullDate } from '../composables/datetime-utils.js'
+import getAppointment_types from '../composables/getAppointment_types'
 export default {
     data() {
       return {
           appointments: [],
+          appointment_types: [],
           displayFullDate: displayFullDate
         }
     },
@@ -70,9 +67,12 @@ export default {
         })
 
         const { appointments, error, load } = getAppointments()
+        const { appointment_types, appointment_types_error } = getAppointment_types()
         await load()
+        this.appointment_types = appointment_types
         this.appointments = appointments
         this.appointments = this.appointments.filter(a => a.email == user.email)
+
     },
     methods: {
         addMinutes(time, minsToAdd) {

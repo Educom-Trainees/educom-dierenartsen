@@ -22,25 +22,16 @@
           <p>{{ appointment.customer }}</p>
           <p>{{ appointment.phoneNumber }}</p>
           <p>{{ appointment.email }}</p>
-          <p v-if="appointment.petType == 1">Hond</p>
-          <p v-if="appointment.petType == 2">Kat</p>
-          <p v-if="appointment.petType == 3">Konijn</p>
-          <p v-if="appointment.petType == 4">Cavia</p>
-          <p v-if="appointment.petType == 5">Hamster</p>
-          <p v-if="appointment.petType == 6">Rat</p>
-          <p v-if="appointment.petType == 7">Muis</p>
-          <p v-if="appointment.petType == 8">Kleine hond</p>
-          <p v-if="appointment.petType == 9">Grote hond</p>
-          <p v-if="appointment.type == 1">Consult</p>
-          <p v-if="appointment.type == 2">Eerste consult</p>
-          <p v-if="appointment.type == 3">Vaccinatie</p>
-          <p v-if="appointment.type == 4">Anaal klieren legen</p>
-          <p v-if="appointment.type == 5">Nagels knippen</p>
-          <p v-if="appointment.type == 6">Bloed onderzoek</p>
-          <p v-if="appointment.type == 7">Urine onderzoek</p>
-          <p v-if="appointment.type == 8">Gebitscontrole</p>
-          <p v-if="appointment.type == 9">Postoperatieve controle</p>
-          <p v-if="appointment.type == 10">Herhaal recept bestellen</p>
+          <div v-for="pet_type in pet_types" :key="pet_type.id">
+            <p v-if="pet_type.id == appointment.petType">
+              {{ pet_type.name }}
+            </p>
+          </div>
+          <div v-for="appointment_type in appointment_types" :key="appointment_type.id">
+            <p v-if="appointment_type.id == appointment.type">
+              {{ appointment_type.name }}
+            </p>
+          </div>
           <p>{{ displayFullDate(new Date(appointment.date)) }}</p>
           <p>{{ appointment.time }}</p>
           <p v-if="appointment.doctor == 1">karel lant</p>
@@ -57,6 +48,8 @@
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
 import getAppointment from '../composables/getAppointment'
+import getPet_Types from '../composables/getPet_Types'
+import getAppointment_types from '../composables/getAppointment_types'
 import { displayFullDate } from '../composables/datetime-utils.js'
 
 export default {
@@ -72,10 +65,15 @@ export default {
   props: ['id'],
   setup(props) {
     const { appointment, error, load } = getAppointment(props.id)
+    const { pet_types, pet_types_error } = getPet_Types()
+    const { appointment_types, appointment_types_error } = getAppointment_types()
 
     load()
 
-    return { appointment, error }
+    console.log(pet_types.id)
+    console.log(appointment)
+
+    return { appointment, error, pet_types, pet_types_error, appointment_types, appointment_types_error }
   }
 }
 </script>
