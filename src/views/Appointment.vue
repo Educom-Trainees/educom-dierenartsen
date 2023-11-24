@@ -61,7 +61,7 @@
     </div>
     <div class="test" v-if="showForm == 'showDateForm'">
     <h2><img src="../assets/balk2.png"></h2>
-    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" :time="time" v-if="showForm == 'showDateForm'" />
+    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" :oldtime="time" v-if="showForm == 'showDateForm'" />
     </div>
     <div class="button_div" v-if="showForm == 'showDateForm'">
       <h2 id="removetext">.</h2>

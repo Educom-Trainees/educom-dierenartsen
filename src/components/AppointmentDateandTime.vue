@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handledateSubmit" class="appointment_form">
+  <form @submit.prevent="emitShowForm('showContactForm')" class="appointment_form">
       <label>Kies een tijdstip </label><br>
         <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
             <div class="btn-group" role="group" aria-label="datepicker">
@@ -61,7 +61,7 @@ import getAppointments from '../composables/getAppointments'
 export default {
     props: [
         'duration',
-        'time'
+        'oldtime'
     ],
     data() {
         return {
@@ -86,22 +86,21 @@ export default {
       }
     },
     created() {
+        this.time = this.oldtime
         this.preparesetup()
     },
     methods: {
         emitShowForm(form) {
             this.emitArray = [form, this.doctor, this.time, this.preference]
             this.$emit('showForm', this.emitArray)
-            // this.$emit('showForm', this.doctor)
-            // this.$emit('showForm', this.time)
         },
-        handledateSubmit() {
-            this.$emit('showForm', ['showContactForm', this.doctor, this.time, this.preference])
-        },
-        backtoform(){
-            this.$emit('showdateForm', false)
-            this.$emit('showForm', true)
-        },
+        // handledateSubmit() {
+        //     this.$emit('showForm', ['showContactForm', this.doctor, this.time, this.preference])
+        // },
+        // backtoform(){
+        //     this.$emit('showForm', ['showForm', this.doctor, this.time, this.preference])
+        //     this.$emit('showdateForm', false)
+        // },
         changepreference(preference){
             this.preference = preference
         },
