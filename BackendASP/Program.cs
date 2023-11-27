@@ -16,7 +16,7 @@ namespace Backend2
                 options.AddDefaultPolicy(
                         policy =>
                         {
-                            policy.AllowAnyOrigin()
+                            policy.AllowAnyOrigin() // nog verder specificeren voor beveiligingpurposes
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                         });
