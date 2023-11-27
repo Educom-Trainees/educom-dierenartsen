@@ -68,6 +68,7 @@ export default {
             showForm: false,
             showdateForm: true,
             today: new Date(),
+            maxdate: new Date(),
             preference: 0,
             time: '',
             doctor: '',
@@ -86,6 +87,7 @@ export default {
       }
     },
     created() {
+        this.maxdate = new Date(this.today.setMonth(this.today.getMonth()+2)),
         this.time = this.oldtime
         this.preparesetup()
     },
@@ -109,7 +111,9 @@ export default {
             this.doctor = doctor
         },
         nextDate() {
-            this.date = nextDate(this.date)
+            if(this.date < this.maxdate){
+                this.date = nextDate(this.date)
+            }
         },
         previousDate() {
             this.date = previousDate(this.date)
@@ -170,6 +174,10 @@ export default {
             this.date = skipSundayAndMonday(this.date)
             const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
             var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
+            var maxdate = new Date(this.today.setMonth(this.today.getMonth()+2));
+            console.log(maxdate)
+            var filteredTimeslot = newTimeslot.filter(n => n.date < maxdate)
+            console.log(newTimeslot)
             var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
 
             if(this.preference == 0){
