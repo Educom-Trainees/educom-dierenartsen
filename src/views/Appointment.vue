@@ -33,25 +33,11 @@
           <button @click="changeamount(4)" type="button" value="4" id="small" :class="{selected: amount == 4}">4</button>
         <br>
         <div v-if="name_animalError" class="error">{{ name_animalError }}</div>
-          <select required v-model="type_consult" id="type_select">
+        <select required v-model="type_consult" id="type_select">
             <option hidden value="">Selecteer type afspraak*</option>
-            <!-- <div v-for="appointment_type in appointment_types" :key="appointment_type.id">
-              <option value = "{{ appointment_type.id }}" >
-                {{ console.log('gaat goed') }}
-                {{ console.log(appointment_type.name) }}
-                {{ appointment_type.name }}
-              </option>
-            </div> -->
-            <option value="1">consult</option>
-            <option value="2">eerste consult</option>
-            <option value="3">vaccinatie</option>
-            <option value="4">anaal klieren legen</option>
-            <option value="5">nagels knippen</option>
-            <option value="6">bloed onderzoek</option>
-            <option value="7">urine onderzoek</option>
-            <option value="8">gebitscontrole</option>
-            <option value="9">postoperatieve controle</option>
-            <option value="10">herhaal recept bestellen</option>
+            <option :value = appointment_type.id v-for="appointment_type in appointment_types" :key="appointment_type.id">
+              {{ appointment_type.name }}
+            </option>
           </select><br>
         <button v-if="type_animal != 1" class="submit">volgende</button>
     </form>
