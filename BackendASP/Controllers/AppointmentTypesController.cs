@@ -44,13 +44,16 @@ namespace BackendASP.Controllers
 
         // GET: api/AppointmentTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppointmentType>> GetAppointmentType(int id)
+        public async Task<ActionResult<AppointmentTypeDTO>> GetAppointmentType(int id)
         {
           if (_context.AppointmentTypes == null)
           {
               return NotFound();
           }
-            var appointmentType = await _context.AppointmentTypes.FindAsync(id);
+            var appointmentType = await _mapper.ProjectTo<AppointmentTypeDTO>(_context.AppointmentTypes
+                  .Include(a => a.TreatmentTime)
+                      .ThenInclude(t => t.Calculation))
+                   .FirstOrDefaultAsync(a => a.Id == id);
 
             if (appointmentType == null)
             {
