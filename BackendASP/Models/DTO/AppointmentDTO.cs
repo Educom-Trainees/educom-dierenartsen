@@ -20,6 +20,8 @@ namespace BackendASP.Models.DTO
         public required string Email { get; set; }
 
         // FK's
+        [JsonPropertyName("type")]
+        public required int AppointmentTypeId { get; set; }
         [JsonPropertyName("petType")]
         public required int PetTypeId { get; set; }
 
