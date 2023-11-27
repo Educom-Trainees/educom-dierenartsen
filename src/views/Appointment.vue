@@ -226,21 +226,23 @@ export default {
         }
         this.showForm = 'showDateForm'
       },
+      async handledateSubmit() {
+        this.showdateForm = false
+        this.showcontactForm = true
+      },
       async Result() {
-        var { appointments, error, load } = getAppointments()
+        const { appointments, error, load } = getAppointments()
         await load()
         this.appointments = appointments
+
 
         this.nameError = this.name.length < 30 ?
         '' : 'je naam mag niet langer zijn dan 30 letters'
         this.emailError = this.email.length < 75 ?
         '' : 'je email mag niet langer zijn dan 75 letters'
+        this.phoneError = this.phone.length > 10 ?
+        '' : 'je nummer mag niet korter zijn dan 10 nummers'
 
-        // dit werkt niet met de -
-        // const validationPhone = /^\d{10}$/;
-
-        // this.phoneError = this.phone.match(validationPhone) ?
-        // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
         // laat deze staan
         // for (let i = 0; i < 4;) { 
         //   console.log(this.name_animal[i].length)
@@ -256,96 +258,17 @@ export default {
         // }
         // tot hier
 
-      const { appointment_type, type_error, load_type } = getAppointment_type(this.type_consult)
-      await load_type()
-      for(let i=0; i < appointment_type.value.calculation.length; i++){
-        const app_type = appointment_type.value.calculation[i];
-        if (app_type.count && app_type.count != this.amount) { 
-          continue
-        }
-        if(app_type.type && app_type.type != this.type_animal){
-          continue
-        }
-        this.duration = app_type.duration
-        break
-      }
+        if(!this.nameError && !this.emailError && !this.phoneError){
+          const lastappointment = this.appointments[this.appointments.length - 1]
+          this.number = lastappointment.id
+          this.number++
 
-        // const { time_slots, timeslot_error } = await this.gettimeslots()
-        // const { appointments, appointments_error } = await this.getappointments()
+          await postAppointments(this.number, toDateString(this.date), this.time, this.duration, this.name, this.phone, 
+          this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
 
-        // this.date = skipSundayAndMonday(this.date)
-
-        // const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
-        // var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
-        // var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
-
-        // if(this.preference == 0){
-        //   var prefDoctor = 0
-        //   var sumdoctor1 = 0
-        //   var sumdoctor2 = 0
-        //   for (let i = 0; i < freeTimeslots.length; i++) {
-        //     if(freeTimeslots[i] != undefined){
-        //       if(freeTimeslots[i].doctor == 1){
-        //         sumdoctor1++
-        //       }else if(freeTimeslots[i].doctor == 2){
-        //         sumdoctor2++
-        //       }
-        //     }
-        //   }
-        //   if(sumdoctor1 >= sumdoctor2){
-        //     prefDoctor = 1
-        //   }else if(sumdoctor1 < sumdoctor2){
-        //     prefDoctor = 2
-        //   }
-
-        //   var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
-
-
-        //   this.freeTimeslots = list
-        // }else {
-        //   this.freeTimeslots = freeTimeslots
-        // }
-          this.showForm2 = 'showDateForm'
-        this.showForm = false
-        this.showdateForm = true
-        return { 
-          appointment_type,
-          error,
-          type_error
+          this.$router.push('/result/' + this.number)
         }
       },
-      async handledateSubmit() {
-        this.showdateForm = false
-        this.showcontactForm = true
-      },
-      async Result() {
-        const { appointments, error, load } = getAppointments()
-        await load()
-        this.appointments = appointments
-
-
-      this.nameError = this.name.length < 30 ?
-      '' : 'je naam mag niet langer zijn dan 30 letters'
-      this.emailError = this.email.length < 75 ?
-      '' : 'je email mag niet langer zijn dan 75 letters'
-
-      // dit werkt niet met de -
-      // const validationPhone = /^\d{10}$/;
-
-      // this.phoneError = this.phone.match(validationPhone) ?
-      // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
-
-      if(!this.nameError && !this.emailError){
-        const lastappointment = this.appointments[this.appointments.length - 1]
-        this.number = lastappointment.id
-        this.number++
-
-        await postAppointments(this.number, toDateString(this.date), this.time, this.duration, this.name, this.phone, 
-        this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
-
-        this.$router.push('/result/' + this.number)
-      }
-    },
   }
 }
 </script>

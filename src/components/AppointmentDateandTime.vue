@@ -3,7 +3,7 @@
       <label>Kies een tijdstip </label><br>
         <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
             <div class="btn-group" role="group" aria-label="datepicker">
-                <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
+                <button @click="previousDate()" type="button" class="btn btn-secondary active">&lt;</button>
                 <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
                 <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
             </div>
@@ -87,7 +87,7 @@ export default {
       }
     },
     created() {
-        this.maxdate = new Date(this.today.setMonth(this.today.getMonth()+2)),
+        this.maxdate.setMonth(this.maxdate.getMonth()+2)
         this.time = this.oldtime
         this.preparesetup()
     },
@@ -116,7 +116,9 @@ export default {
             }
         },
         previousDate() {
-            this.date = previousDate(this.date)
+            if(this.date > this.today ){
+                this.date = previousDate(this.date)
+            }
         }, 
         getFreeSlots(time_slots, duration){
             const result = []
@@ -174,10 +176,6 @@ export default {
             this.date = skipSundayAndMonday(this.date)
             const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
             var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
-            var maxdate = new Date(this.today.setMonth(this.today.getMonth()+2));
-            console.log(maxdate)
-            var filteredTimeslot = newTimeslot.filter(n => n.date < maxdate)
-            console.log(newTimeslot)
             var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
 
             if(this.preference == 0){

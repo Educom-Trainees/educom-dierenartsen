@@ -2358,6 +2358,144 @@
       "doctor": 1,
       "status": 0,
       "id": 235
+    },
+    {
+      "number": 236,
+      "date": "2023-11-27",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "123456",
+      "email": "henk.vries@gmail.com",
+      "petType": "2",
+      "type": 6,
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 236
+    },
+    {
+      "number": 237,
+      "date": "2023-11-27",
+      "time": "09:15",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "123456",
+      "email": "henk.vries@gmail.com",
+      "petType": "2",
+      "type": 7,
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 2,
+      "status": 0,
+      "id": 237
+    },
+    {
+      "number": 238,
+      "date": "2023-11-27",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "12345678910",
+      "email": "henk.vries@gmail.com",
+      "petType": "2",
+      "type": 7,
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": "",
+      "status": 0,
+      "id": 238
+    },
+    {
+      "number": 239,
+      "date": "2023-11-27",
+      "time": "17:15",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "12345678910",
+      "email": "henk.vries@gmail.com",
+      "petType": "2",
+      "type": 5,
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 1,
+      "doctor": 1,
+      "status": 0,
+      "id": 239
+    },
+    {
+      "number": 240,
+      "date": "2023-11-27",
+      "time": "12:00",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "12345678910",
+      "email": "henk.vries@gmail.com",
+      "petType": "2",
+      "type": 5,
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 240
+    },
+    {
+      "number": 241,
+      "date": "2023-11-27",
+      "time": "14:15",
+      "duration": 15,
+      "customer": "henk de vries",
+      "phoneNumber": "12345678910",
+      "email": "henk.vries@gmail.com",
+      "petType": "2",
+      "type": 7,
+      "pets": [
+        {
+          "name": "pablo"
+        },
+        {},
+        {},
+        {}
+      ],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 241
     }
   ],
   "pet-types": [
@@ -2860,7 +2998,7 @@
       "firstName": "henk",
       "lastName": "de vries",
       "email": "henk.vries@gmail.com",
-      "phone": "123456",
+      "phone": "12345678910",
       "passwordHash": "$2a$10$6gY3Jfx9UWIBEK9s8ZsFKO2foBbgl8oUNb4RluF7qSI6.TouR31zi",
       "role": 0,
       "id": 13,
