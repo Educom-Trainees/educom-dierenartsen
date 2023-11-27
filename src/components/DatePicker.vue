@@ -1,23 +1,24 @@
 <template>
-    <div class="box">
+    <div id="box" :class="{select: toDateString(date) == toDateString(day)}">
         <div class="w-100 stat-row">
             <div id="stat" class=""></div>
         </div>
         <div class="displayDate">
-            {{ shortDateDisplay(date) }}
+            {{ shortDateDisplay(day) }}
         </div>
     </div>
 </template>
 
 <script>
-import { shortDateDisplay } from '../composables/datetime-utils.js'
+import { shortDateDisplay, toDateString } from '../composables/datetime-utils.js'
 
 export default {
     name: 'DatePicker',
-    props: ['date'],
+    props: ['day', 'date', 'select'],
     data() {
         return {
-            shortDateDisplay: shortDateDisplay
+            shortDateDisplay: shortDateDisplay,
+            toDateString: toDateString,
         }
     }
 }

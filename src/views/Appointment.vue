@@ -117,7 +117,7 @@ import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
 import getAppointment_types from '../composables/getAppointment_types'
 import postAppointments from '../composables/postAppointments'
-import { displayFullDate, toDateString} from '../composables/datetime-utils.js'
+import { displayFullDate, toDateString, skipSundayAndMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
 
 export default {
   name: 'app',
@@ -241,7 +241,7 @@ export default {
         this.showForm = 'showDateForm'
       },
       async Result() {
-        const { appointments, error, load } = getAppointments()
+        var { appointments, error, load } = getAppointments()
         await load()
         this.appointments = appointments
 
@@ -269,6 +269,84 @@ export default {
         //   }
         // }
         // tot hier
+
+      const { appointment_type, error, load } = getAppointment_type(this.type_consult)
+      await load()
+      for(let i=0; i < appointment_type.value.calculation.length; i++){
+        const app_type = appointment_type.value.calculation[i];
+        if (app_type.count && app_type.count != this.amount) { 
+          continue
+        }
+        if(app_type.type && app_type.type != this.type_animal){
+          continue
+        }
+        this.duration = app_type.duration
+        break
+      }
+
+        // const { time_slots, timeslot_error } = await this.gettimeslots()
+        // const { appointments, appointments_error } = await this.getappointments()
+
+        // this.date = skipSundayAndMonday(this.date)
+
+        // const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
+        // var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
+        // var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
+
+        // if(this.preference == 0){
+        //   var prefDoctor = 0
+        //   var sumdoctor1 = 0
+        //   var sumdoctor2 = 0
+        //   for (let i = 0; i < freeTimeslots.length; i++) {
+        //     if(freeTimeslots[i] != undefined){
+        //       if(freeTimeslots[i].doctor == 1){
+        //         sumdoctor1++
+        //       }else if(freeTimeslots[i].doctor == 2){
+        //         sumdoctor2++
+        //       }
+        //     }
+        //   }
+        //   if(sumdoctor1 >= sumdoctor2){
+        //     prefDoctor = 1
+        //   }else if(sumdoctor1 < sumdoctor2){
+        //     prefDoctor = 2
+        //   }
+
+        //   var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
+
+
+        //   this.freeTimeslots = list
+        // }else {
+        //   this.freeTimeslots = freeTimeslots
+        // }
+          this.showForm2 = 'showDateForm'
+        this.showForm = false
+        this.showdateForm = true
+        return { 
+          appointment_type,
+          error
+        }
+      },
+      async handledateSubmit() {
+        this.showdateForm = false
+        this.showcontactForm = true
+      },
+      async Result() {
+        const { appointments, error, load } = getAppointments()
+        await load()
+        this.appointments = appointments
+
+
+      this.nameError = this.name.length < 30 ?
+      '' : 'je naam mag niet langer zijn dan 30 letters'
+      this.emailError = this.email.length < 75 ?
+      '' : 'je email mag niet langer zijn dan 75 letters'
+
+      // dit werkt niet met de -
+      // const validationPhone = /^\d{10}$/;
+
+      // this.phoneError = this.phone.match(validationPhone) ?
+      // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
 
       if(!this.nameError && !this.emailError){
         const lastappointment = this.appointments[this.appointments.length - 1]

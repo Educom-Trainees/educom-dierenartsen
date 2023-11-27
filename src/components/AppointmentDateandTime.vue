@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { displayFullDate, toDateString, skipSundayandMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
+import { displayFullDate, toDateString, skipSundayAndMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
 import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import getTime_slots from '../composables/getTime_slots'
 import getAppointments from '../composables/getAppointments'
@@ -167,37 +167,37 @@ export default {
             const { appointments, appointments_error } = await this.getappointments()
 
 
-            this.date = skipSundayandMonday(this.date)
+            this.date = skipSundayAndMonday(this.date)
             const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
             var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
             var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
 
             if(this.preference == 0){
-            var prefDoctor = 0
-            var sumdoctor1 = 0
-            var sumdoctor2 = 0
-            for (let i = 0; i < freeTimeslots.length; i++) {
-                if(freeTimeslots[i] != undefined){
-                if(freeTimeslots[i].doctor == 1){
-                    sumdoctor1++
-                }else if(freeTimeslots[i].doctor == 2){
-                    sumdoctor2++
+                var prefDoctor = 0
+                var sumdoctor1 = 0
+                var sumdoctor2 = 0
+                for (let i = 0; i < freeTimeslots.length; i++) {
+                    if(freeTimeslots[i] != undefined){
+                        if(freeTimeslots[i].doctor == 1){
+                            sumdoctor1++
+                        }else if(freeTimeslots[i].doctor == 2){
+                            sumdoctor2++
+                        }
+                    }
                 }
+                if(sumdoctor1 >= sumdoctor2){
+                    prefDoctor = 1
+                }else if(sumdoctor1 < sumdoctor2){
+                    prefDoctor = 2
                 }
-            }
-            if(sumdoctor1 >= sumdoctor2){
-                prefDoctor = 1
-            }else if(sumdoctor1 < sumdoctor2){
-                prefDoctor = 2
-            }
-            
+                
 
-            var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
+                var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
 
 
-            this.freeTimeslots = list
+                this.freeTimeslots = list
             }else {
-            this.freeTimeslots = freeTimeslots
+                this.freeTimeslots = freeTimeslots
             }
             console.log('einde setup')
         }

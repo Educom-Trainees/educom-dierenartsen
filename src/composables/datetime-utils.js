@@ -92,11 +92,8 @@ export function toDateString(date) {
  * @returns {Date} Returns the next date.
  */
 export function nextDate(date) {
-    console.log('test')
-    console.log(date)
     var newDate = new Date(date)
     newDate.setDate(newDate.getDate() + 1)
-    console.log(newDate)
     return newDate
 }
 /**
@@ -116,12 +113,27 @@ export function previousDate(date) {
  * @param {Date} date - The current date object.
  * @returns Returns the next valid date.
  */
-export function skipSundayandMonday(date) {
+export function skipSundayAndMonday(date) {
     if(date.getDay() == 0){
         date.setDate(date.getDate() + 2)
     }
     if(date.getDay() == 1){
         date.setDate(date.getDate() + 1)
+    }
+    return date
+}
+/**
+ * Get previous valid date if date is Sunday or Monday.
+ * 
+ * @param {Date} date - The current date object.
+ * @returns Returns the previous valid date.
+ */
+export function skipMondayAndSunday(date) {
+    if(date.getDay() == 0){
+        date.setDate(date.getDate() - 1)
+    }
+    if(date.getDay() == 1){
+        date.setDate(date.getDate() - 2)
     }
     return date
 }
@@ -135,8 +147,7 @@ export function skipSundayandMonday(date) {
 export function addDays(date, day) {
     var newDate = new Date(date)
     newDate.setDate(newDate.getDate() + day)
-    const newestDate = skipSundayandMonday(newDate)
-    return newestDate
+    return newDate
 }
 /**
  * Get the date as a string in 'day mm dd' format.

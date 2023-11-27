@@ -7,10 +7,8 @@ export async function GetAllTimeslots() {
     try {
         const response = await axios.get(baseUrlTimeslots)
         if (Array.isArray(response.data) && response.data.length === 0) {
-            console.log('Timeslots not found.')
             return []
         } else {
-            console.log('Timeslots found.')
             return response.data
         }
     }
@@ -25,10 +23,8 @@ export async function GetTimeslotsByDate(date) {
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {
-            console.log('Timeslots not found.')
             return []
         } else {
-            console.log('Timeslots found.')
             return response.data
         }
     }

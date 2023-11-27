@@ -77,7 +77,6 @@ export default {
             petTypes: [],
             displayDate: displayDate,
             displayTimeslot: displayTimeslot,
-            movingAppointment: false,
         }
     },
     methods: {
@@ -99,7 +98,6 @@ export default {
             location.reload()
         },
         moveAppointment(appointmentId) {
-            this.moveAppointment = true
             router.push({name: 'change-appointment', params: {id: appointmentId}})
         },
     },
@@ -110,6 +108,11 @@ export default {
                 'Klant': this.appointment.customer,
                 'Telefoonnummer': this.appointment.phoneNumber,
                 'Email': this.appointment.email,
+                'Voorkeur': this.appointment.preference == 0
+                            ? 'Geen'
+                            : this.appointment.preference == 1
+                                ? 'Karel Lant'
+                                : 'Danique de Beer'
             }
         },
         petType() {

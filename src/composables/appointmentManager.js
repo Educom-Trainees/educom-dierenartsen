@@ -14,10 +14,8 @@ export async function GetActiveAppointmentsByDate(date) {
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {
-            console.log('Appointments not found.')
             return []
         } else {
-            console.log('appointments found.')
             return response.data
         }
     }
@@ -37,15 +35,34 @@ export async function getAppoinmentById(id) {
     try {
         const response = await axios.get(url) 
         if (Array.isArray(response.data) && response.data.length === 0) {
-            console.log('Appointment not found.')
             return []
         } else {
-            console.log('appointment found.')
             return response.data
         }
     }
     catch (error) {
         console.error('Error getting appointment from database.')
+        throw error
+    }
+}
+
+export async function cancelAppointmentByDoctor(appointment) {
+    const url = baseUrlAppointmentById + String(appointment.id)
+    const cancelledAppointment = {...appointment, 'status': 1}
+    try {
+        const response = await axios.put(url, cancelledAppointment) 
+    }
+    catch (error) {
+        throw error
+    }
+}
+
+export async function updateAppoinment(updatedAppointment) {
+    const url = baseUrlAppointmentById + String(updatedAppointment.id)
+    try {
+        const response = await axios.put(url, updatedAppointment) 
+    }
+    catch (error) {
         throw error
     }
 }
