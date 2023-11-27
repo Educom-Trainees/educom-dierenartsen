@@ -256,8 +256,8 @@ export default {
         // }
         // tot hier
 
-      const { appointment_type, error, load } = getAppointment_type(this.type_consult)
-      await load()
+      const { appointment_type, type_error, load_type } = getAppointment_type(this.type_consult)
+      await load_type()
       for(let i=0; i < appointment_type.value.calculation.length; i++){
         const app_type = appointment_type.value.calculation[i];
         if (app_type.count && app_type.count != this.amount) { 
@@ -310,7 +310,8 @@ export default {
         this.showdateForm = true
         return { 
           appointment_type,
-          error
+          error,
+          type_error
         }
       },
       async handledateSubmit() {
