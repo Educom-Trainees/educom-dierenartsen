@@ -105,12 +105,21 @@ namespace BackendASP.Controllers
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
             var appointments = _mapper.Map<Appointment>(appointmentDTO);
+
             var petType = await _context.PetTypes.FindAsync(appointmentDTO.PetTypeId);
             if (petType == null)
             {
                 return NotFound("petType is unknown");
             }
             appointments.PetType = petType;
+
+            var appointmentType = await _context.AppointmentTypes.FindAsync(appointmentDTO.AppointmentTypeId);
+            if (appointmentType == null)
+            {
+                return NotFound("appointmentType is unknown");
+            }
+            appointments.AppointmentType = appointmentType;
+
             appointments.AppointmentNumber = DateTime.Now.Year * 10_000; // 20230000
 
             _context.Appointments.Add(appointments);
