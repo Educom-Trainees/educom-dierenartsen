@@ -96,13 +96,6 @@ export default {
             this.emitArray = [form, this.doctor, this.time, this.preference]
             this.$emit('showForm', this.emitArray)
         },
-        // handledateSubmit() {
-        //     this.$emit('showForm', ['showContactForm', this.doctor, this.time, this.preference])
-        // },
-        // backtoform(){
-        //     this.$emit('showForm', ['showForm', this.doctor, this.time, this.preference])
-        //     this.$emit('showdateForm', false)
-        // },
         changepreference(preference){
             this.preference = preference
         },
@@ -166,7 +159,6 @@ export default {
             return { appointments, error }
         },
         async preparesetup() {
-            console.log('setup')
             this.freeTimeslots = []
 
             const { time_slots, timeslot_error } = await this.gettimeslots()
@@ -196,11 +188,8 @@ export default {
                 }else if(sumdoctor1 < sumdoctor2){
                     prefDoctor = 2
                 }
-                
 
                 var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
-
-
                 this.freeTimeslots = list
             }else {
                 this.freeTimeslots = freeTimeslots

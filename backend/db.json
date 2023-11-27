@@ -3014,6 +3014,10 @@
         {
           "type": "2",
           "name": "pablo2"
+        },
+        {
+          "type": "8",
+          "name": "test"
         }
       ]
     },
@@ -3040,6 +3044,16 @@
           "name": "tijger"
         }
       ]
+    },
+    {
+      "salutation": "Meneer",
+      "firstName": "test.test@gmail.com",
+      "lastName": "test.test@gmail.com",
+      "email": "test.test@gmail.com",
+      "phone": "123",
+      "passwordHash": "$2a$10$SRueZp2mZ4dIUDeU2JvsousijtRLUo7FuPel4i8p98zW05081oSmK",
+      "role": 0,
+      "id": 15
     }
   ]
 }

@@ -85,10 +85,20 @@ export default {
     },
     methods: {
         async changeUser(){
-            const result = await changeUser(this.infoForm)
+            this.errors.firstNameErr = this.infoForm.firstName.length < 30 ?
+            '' : '❌ Je voornaam mag niet langer zijn dan 30 letters.'
+            this.errors.lastNameErr = this.infoForm.lastName.length < 30 ?
+            '' : '❌ Je achternaam mag niet langer zijn dan 30 letters.'
+            this.errors.emailErr = this.infoForm.email.length < 75 ?
+            '' : '❌ Je email mag niet langer zijn dan 75 letters.'
+            this.errors.phoneErr = this.infoForm.phone.length > 10 ?
+            '' : '❌ Je nummer mag niet korter zijn dan 10 nummers.'
 
-            if (result && typeof result === 'object') {
-                this.errors = result
+            if(!this.errors.firstNameErr && !this.errors.lastNameErr && !this.errors.emailErr && !this.errors.phoneErr){
+                const result = await changeUser(this.infoForm)
+                if (result && typeof result === 'object') {
+                    this.errors = result
+                }
             }
         }
     }

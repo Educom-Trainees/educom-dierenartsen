@@ -84,6 +84,7 @@
           <input type="text" v-model="name_animal[3]" placeholder="Naam vierde huisdier">
           <input type="text" v-model="info_animal[3]" placeholder="Reden voor afspraak">
         </div>
+        <div v-if="name_animalError" class="error">{{ name_animalError }}</div>
       <button @click.prevent="backtodateform" class="back">vorige</button>
       <button class="submit">bevestig afspraak</button>
     </form>
@@ -152,11 +153,10 @@ export default {
           }
           return {pet_type}
         })
-
-        const { appointment_types, appointment_types_error } = getAppointment_types()
-        this.appointment_types = appointment_types
         this.type_animal = type.pet_type
       }
+      const { appointment_types, appointment_types_error } = getAppointment_types()
+      this.appointment_types = appointment_types
     },
     methods: {
       showThisForm(array) {
@@ -237,28 +237,23 @@ export default {
 
 
         this.nameError = this.name.length < 30 ?
-        '' : 'je naam mag niet langer zijn dan 30 letters'
+        '' : '❌ Je naam mag niet langer zijn dan 30 letters.'
         this.emailError = this.email.length < 75 ?
-        '' : 'je email mag niet langer zijn dan 75 letters'
+        '' : '❌ Je email mag niet langer zijn dan 75 letters.'
         this.phoneError = this.phone.length > 10 ?
-        '' : 'je nummer mag niet korter zijn dan 10 nummers'
+        '' : '❌ Je nummer mag niet korter zijn dan 10 nummers.'
 
-        // laat deze staan
-        // for (let i = 0; i < 4;) { 
-        //   console.log(this.name_animal[i].length)
-        //   this.name_animalError = this.name_animal[i].length < 90 ?
-        //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
-        //   i++
-        // }
-        // console.log(this.name_animal[0].length)
-        // if(this.name_animalError){
-        //   return {
-        //     name_animalError
-        //   }
-        // }
-        // tot hier
+        for (let i = 0; i < this.amount; i++) { 
+          if(this.name_animal[i]){
+            this.name_animalError = this.name_animal[i].length < 90 ?
+            '' : '❌ Je huisdiernaam mag niet langer zijn dan 90 letters.'
+            if(this.name_animalError != ''){
+              break
+            }
+          }
+        }
 
-        if(!this.nameError && !this.emailError && !this.phoneError){
+        if(!this.nameError && !this.emailError && !this.phoneError && !this.name_animalError){
           const lastappointment = this.appointments[this.appointments.length - 1]
           this.number = lastappointment.id
           this.number++

@@ -21,6 +21,7 @@
                     <button type="submit">-</button>
                 </div> -->
             </div>
+            <div v-if="petnameErr" class="error">{{ petnameErr }}</div>
             <button @click.prevent="changeInput()" v-if="!showInput" class="btn submit-btn mt-1">Huisdier toevoegen</button>
             <form v-if="showInput" @submit.prevent="registerPet" id="register-form" class="d-flex flex-column align-items-center mt-4">
                 <div>
@@ -53,7 +54,8 @@ export default {
             pets: [],
             showInput: false,
             type_pet: '',
-            petname: ''
+            petname: '',
+            petnameErr: ''
         }
     },
     async created() {
@@ -61,7 +63,12 @@ export default {
     },
     methods: {
         async registerPet(){
-            await addPet(this.type_pet, this.petname)
+            this.petnameErr = this.petname.length < 90 ?
+            '' : '❌ Je huisdiernaam mag niet langer zijn dan 90 letters.'
+            
+            if(!this.petnameErr){
+                await addPet(this.type_pet, this.petname)
+            }
             this.showInput = !this.showInput
             this.pets = []
             await this.readyPage()
