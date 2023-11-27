@@ -6,7 +6,7 @@ const getAppointment_type = (id) => {
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/appointment-types/' + id)
+        let data = await fetch('http://localhost:5226/appointmenttypes/' + id)
         if(!data.ok){
           throw Error('no data found')
         }
