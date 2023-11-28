@@ -19,6 +19,9 @@
                 <li v-if="showOverview" class="nav-item">
                     <router-link  class="nav-link" to="/overview">Overzicht</router-link>
                 </li>
+                <li v-if="showVacation" class="nav-item">
+                    <router-link  class="nav-link" to="/vacation">Vakanties</router-link>
+                </li>
                 <li class="nav-item">
                     <router-link class="nav-link" to="/contact">Contact</router-link> 
                 </li>
@@ -52,11 +55,13 @@ export default {
         return {
             showOverview: false,
             isLoggedIn: false,
+            showVacation: false,
         }
     }, 
     beforeMount() {
         this.showOverview = hasRequiredRole([USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE])
         this.isLoggedIn = isLoggedIn('testing function isloggedin')
+        this.showVacation = hasRequiredRole([USER_ROLES.ADMIN])
     },
     methods: {
         logout() {
