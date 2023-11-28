@@ -15,6 +15,7 @@ erDiagram
         int appointmentTypeId      FK
         int petTypeId              FK       
         int timeslotId FK
+        int userId FK
         int preference 
         int status
     }    
@@ -44,6 +45,7 @@ erDiagram
     }
 
     users ||--|{ appointments : Makes
+    users ||--|{ vacations : Contains
     users {
         int    id                PK
         string salutation
@@ -53,6 +55,14 @@ erDiagram
         string phonenumber
         string passwordhash
         int role
+    }
+
+    vacations {
+        int id PK
+        int userid FK
+        date startDate
+        date endDate
+        string reason
     }
 
     appointmentPets {

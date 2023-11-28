@@ -25,6 +25,7 @@ namespace BackendASP.Models
         public required PetType PetType { get; set; }
         public required AppointmentType AppointmentType { get; set; }
         public required TimeSlot TimeSlot { get; set; }
+        public User? User { get; set; }
         virtual public ICollection<AppointmentPet> Pets { get; set; } = new List<AppointmentPet>();
     }
 }

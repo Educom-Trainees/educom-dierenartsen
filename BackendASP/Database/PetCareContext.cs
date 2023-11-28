@@ -17,10 +17,8 @@ namespace BackendASP.Database
         public DbSet<Calculation> Calculations { get; set; }
         public DbSet<TimeSlot> TimeSlots { get; set; }
         public DbSet<AvailableDays> AvailableDays { get; set; }
-
-
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Vacation> Vacations {  get; set; }
 
         public PetCareContext(IConfiguration config)
         {

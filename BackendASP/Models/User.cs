@@ -4,7 +4,6 @@ namespace BackendASP.Models
 {
     public class User
     {
-
         public int Id { get; set; }
         public required string Salutation { get; set; }
         public required string FirstName { get; set; }
@@ -13,5 +12,8 @@ namespace BackendASP.Models
         public string? PhoneNumber {  get; set; }
         public required string PasswordHash { get; set; }
         public UserRoles Role {  get; set; }
+
+        virtual public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+        virtual public ICollection<Vacation> Vacations { get; set; } = new List<Vacation>();
     }
 }
