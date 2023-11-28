@@ -1,12 +1,14 @@
 import { ref } from 'vue'
+import { API_URL } from '../utils/api'
+import { toDateString } from './datetime-utils'
 
-const getTime_slots = () => {
+const getTime_slots = (date) => {
     const time_slots = ref(null)
     const error = ref(null)
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/time-slots')
+        let data = await fetch(API_URL + 'timeslots?date=' + toDateString(date))
         if(!data.ok){
           throw Error('no data found')
         }

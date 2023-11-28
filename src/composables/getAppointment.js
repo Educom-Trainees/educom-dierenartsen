@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { API_URL } from '../utils/api'
 
 const getAppointment = (id) => {
     const appointment = ref(null)
@@ -6,7 +7,7 @@ const getAppointment = (id) => {
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/appointments/' + id)
+        let data = await fetch(API_URL + 'appointments/' + id)
         if(!data.ok){
           throw Error('no data found')
         }

@@ -60,6 +60,8 @@
                 <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
             </div>
         </div>
+        <div v-if="closed">De praktijk is vandaag gesloten...</div>
+        <div v-if="!closed">
       <label>Clinici</label><br>
         <button @click="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
         <button @click="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
@@ -100,6 +102,7 @@
                 </button> 
             </div>
         </div>
+      </div>
       <button @click="backtoform" class="back">vorige</button>
       <button class="submit">volgende</button>
     </form>
@@ -186,6 +189,7 @@ export default {
           timeslotdata: '',
           time: '',
           doctor: '',
+          closed: false,
           date: new Date(),
           today: new Date(),
           name_animalError: '',
@@ -261,10 +265,11 @@ export default {
       }
       console.log(this.duration)
 
-        const { time_slots, timeslot_error } = await this.gettimeslots()
+        const { time_slots, timeslot_error } = await this.gettimeslots(this.date)
         const { appointments, appointments_error } = await this.getappointments()
-
-        this.date = skipSundayandMonday(this.date)
+        this.closed = true
+        time_slots.value.forEach(t => { if (t.available > 0) this.closed = false; })
+//        this.date = skipSundayandMonday(this.date)
 
         const filteredapp = appointments.value.filter(a => a.date == this.date)
         var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
@@ -378,8 +383,8 @@ export default {
         });
         return result
       },
-    async gettimeslots(){
-      const { time_slots, error, load } = getTime_slots()
+    async gettimeslots(date){
+      const { time_slots, error, load } = getTime_slots(date)
       await load()
       return { time_slots, error }
       },
@@ -391,7 +396,7 @@ export default {
       getFreeSlots(time_slots, duration){
         const result = []
         time_slots.forEach((element, index) => {
-          if(element.show == true && time_slots[index].appointment == undefined){
+          if(element.show == true && time_slots[index].appointment == undefined && time_slots[index].available > 0) {
             if(duration == 15){
                 result.push(element)
             }else if(duration == 30 && time_slots[index + 1] != undefined){

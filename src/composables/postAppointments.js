@@ -1,10 +1,11 @@
 import { ref } from 'vue'
+import { API_URL } from '../utils/api'
 
 const getAppointments = async (number, date, time, duration, name, phone, email, type_animal, type_consult, name_animal, info_animal, preference, doctor, status) => {
     const appointments = ref([])
     const error = ref(null)
       try {
-        let data = await fetch('http://localhost:3000/appointments', 
+        let data = await fetch(API_URL + 'appointments', 
         {method: "POST", 
         headers: {
           'Accept': 'application/json',
