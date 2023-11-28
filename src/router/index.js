@@ -9,6 +9,7 @@ import Result from '../views/Result.vue'
 import Overview from '../views/Overview.vue'
 import Profile from '../views/Profile.vue'
 import ChangeAppointment from '../views/ChangeAppointment.vue'
+import Vacation from '../views/Vacation.vue'
 
 const routes = [
   {
@@ -64,6 +65,15 @@ const routes = [
     path: '/change-appointment/:id',
     name: 'change-appointment',
     component: ChangeAppointment,
+    meta: {
+      requiresAuth: true,
+      requiredRoles: [USER_ROLES.ADMIN]
+    }
+  },
+  {
+    path: '/vacation',
+    name: 'vacation',
+    component: Vacation,
     meta: {
       requiresAuth: true,
       requiredRoles: [USER_ROLES.ADMIN]
