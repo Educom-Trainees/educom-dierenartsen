@@ -24,7 +24,7 @@ body {
 h1 {
   color: var(--happyPaw3)
 }
-h2 {
+h2, h3 {
   color: var(--happyPaw4);
 }
 @media (min-width: 375px) {

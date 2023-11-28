@@ -31,6 +31,7 @@
 
 <script>
 import AppointmentDetail from './AppointmentDetail.vue'
+import { TIMESLOTS } from '../utils/timeSlots.js'
 import { calculateEndTime } from '../composables/datetime-utils.js'
 import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 
@@ -39,10 +40,10 @@ export default {
     components: {
         AppointmentDetail
     },
-    props: ['doctor', 'doctorId', 'timeslots', 'appointments', 'color'],
+    props: ['doctor', 'doctorId', 'appointments', 'color'],
     data() {
         return {
-            tslot: this.timeslots.map(t => { return {'time': t, 'doctor': this.doctorId }}),
+            tslot: TIMESLOTS.map(t => { return {'time': t, 'doctor': this.doctorId }}),
             calculateEndTime: calculateEndTime,
         }
     },

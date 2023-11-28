@@ -20,7 +20,7 @@
             </div>
             <div class="row">
                 <div class="col-sm">
-                    <span class="btn btn-action action-move" @click="changeAppointment(appointment.id, '2023-11-17', '16:15')">Verplaatsen</span>
+                    <span @click="moveAppointment(appointment.id)" class="btn btn-action action-move">Verplaatsen</span>
                 </div>
                 <div class="col-sm">
                     <span @click="cancelAppointment(appointment)" class="btn btn-action action-cancel">Annuleren</span>
@@ -61,8 +61,8 @@
 
 <script>
 import axios from 'axios'
+import router from '../router/index.js'
 import { displayTimeslot, displayDate } from '../composables/datetime-utils.js'
-import putAppointment from '../composables/putAppointment'
 
 const baseUrlPetTypes = 'http://localhost:3000/pet-types'
 
@@ -96,7 +96,10 @@ export default {
                 .catch(error => console.log('Error updating appointments:', error))
 
             location.reload()
-        }
+        },
+        moveAppointment(appointmentId) {
+            router.push({name: 'change-appointment', params: {id: appointmentId}})
+        },
     },
     computed: {
         customerDetails() {
@@ -105,6 +108,11 @@ export default {
                 'Klant': this.appointment.customer,
                 'Telefoonnummer': this.appointment.phoneNumber,
                 'Email': this.appointment.email,
+                'Voorkeur': this.appointment.preference == 0
+                            ? 'Geen'
+                            : this.appointment.preference == 1
+                                ? 'Karel Lant'
+                                : 'Danique de Beer'
             }
         },
         petType() {

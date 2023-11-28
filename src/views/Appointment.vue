@@ -2,23 +2,29 @@
   <TopNavigation />
   <div class="planning">
     <h1 class="appointment_header">Afspraak maken</h1>
-    <div class="test" v-if="showForm">
+    <div class="test" v-if="showForm == 'showForm'">
       <h2><img src="../assets/balk1.png"></h2>
-      <form @submit.prevent="handleSubmit" v-if="showForm" class="appointment_form">
-        <!-- <div class="test"> -->
+      <form @submit.prevent="handleSubmit" v-if="showForm == 'showForm'" class="appointment_form">
         <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
         <label>Selecteer diersoort* </label><br>
           <button v-if="type_animal != 1 && type_animal != 8 && type_animal != 9" @click="changetype_animal(1)" type="button" id="big" value="1" :class="{selected_animal: type_animal == 1}"><img src="../assets/dog.png"><br>hond</button>
-          <button @click="changetype_animal(2)" type="button" id="big" value="2" :class="{selected_animal: type_animal == 2}"><img src="../assets/black-cat.png"><br>kat</button>
-          <button @click="changetype_animal(3)" type="button" id="big" value="3" :class="{selected_animal: type_animal == 3}"><img src="../assets/rabbit.png"><br>konijn</button>
-          <button @click="changetype_animal(4)" type="button" id="big" value="4" :class="{selected_animal: type_animal == 4}"><img src="../assets/guinea-pig.png"><br>cavia</button>
-          <button @click="changetype_animal(5)" type="button" id="big" value="5" :class="{selected_animal: type_animal == 5}"><img src="../assets/hamster.png"><br>hamster</button>
-          <button @click="changetype_animal(6)" type="button" id="big" value="6" :class="{selected_animal: type_animal == 6}"><img src="../assets/rat.png"><br>rat</button>
-          <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}"><img src="../assets/muis.png"><br>muis</button>
-          <br>
+          <button @click="changetype_animal(2)" type="button" id="big" value="2" :class="{selected_animal: type_animal == 2}">
+            <img v-if="type_animal == 2" src="../assets/inverted-black-cat.png"><img v-if="type_animal != 2" src="../assets/black-cat.png"><br>kat</button>
+          <button @click="changetype_animal(3)" type="button" id="big" value="3" :class="{selected_animal: type_animal == 3}">
+            <img v-if="type_animal == 3" src="../assets/inverted-rabbit.png"><img v-if="type_animal != 3" src="../assets/rabbit.png"><br>konijn</button>
+          <button @click="changetype_animal(4)" type="button" id="big" value="4" :class="{selected_animal: type_animal == 4}">
+            <img v-if="type_animal == 4" src="../assets/inverted-guinea-pig.png"><img v-if="type_animal != 4" src="../assets/guinea-pig.png"><br>cavia</button>
+          <button @click="changetype_animal(5)" type="button" id="big" value="5" :class="{selected_animal: type_animal == 5}">
+            <img v-if="type_animal == 5" src="../assets/inverted-hamster.png"><img v-if="type_animal != 5" src="../assets/hamster.png"><br>hamster</button>
+          <button @click="changetype_animal(6)" type="button" id="big" value="6" :class="{selected_animal: type_animal == 6}">
+            <img v-if="type_animal == 6" src="../assets/inverted-rat.png"><img v-if="type_animal != 6" src="../assets/rat.png"><br>rat</button>
+          <button @click="changetype_animal(7)" type="button" id="big" value="7" :class="{selected_animal: type_animal == 7}">
+            <img v-if="type_animal == 7" src="../assets/inverted-muis.png"><img v-if="type_animal != 7" src="../assets/muis.png"><br>muis</button><br>
           <div v-if="type_animal == 1 || type_animal == 8 || type_animal == 9">
-            <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}"><img src="../assets/dog.png"><br>kleine hond</button>
-            <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}"><img src="../assets/dog.png"><br>grote hond</button>
+            <button @click="changetype_animal(8)" type="button" id="big" value="8" :class="{selected_animal: type_animal == 8}">
+              <img v-if="type_animal == 8" src="../assets/inverted-dog.png"><img v-if="type_animal != 8" src="../assets/dog.png"><br>kleine hond</button>
+            <button @click="changetype_animal(9)" type="button" id="big" value="9" :class="{selected_animal: type_animal == 9}">
+              <img v-if="type_animal == 9" src="../assets/inverted-dog.png"><img v-if="type_animal != 9" src="../assets/dog.png"><br>grote hond</button>
           </div>
         <label>Aantal huisdieren* </label><br>
           <button @click="changeamount(1)" type="button" value="1" id="small" :class="{selected: amount == 1}">1</button>
@@ -27,93 +33,29 @@
           <button @click="changeamount(4)" type="button" value="4" id="small" :class="{selected: amount == 4}">4</button>
         <br>
         <div v-if="name_animalError" class="error">{{ name_animalError }}</div>
-          <select required v-model="type_consult" id="type_select">
+        <select required v-model="type_consult" id="type_select">
             <option hidden value="">Selecteer type afspraak*</option>
-            <option value="1">consult</option>
-            <option value="2">eerste consult</option>
-            <option value="3">vaccinatie</option>
-            <option value="4">anaal klieren legen</option>
-            <option value="5">nagels knippen</option>
-            <option value="6">bloed onderzoek</option>
-            <option value="7">urine onderzoek</option>
-            <option value="8">gebitscontrole</option>
-            <option value="9">postoperatieve controle</option>
-            <option value="10">herhaal recept bestellen</option>
+            <option :value = appointment_type.id v-for="appointment_type in appointment_types" :key="appointment_type.id">
+              {{ appointment_type.name }}
+            </option>
           </select><br>
-            <button v-if="type_animal != 1" class="submit">volgende</button>
-        <!-- </div> -->
+        <button v-if="type_animal != 1" class="submit">volgende</button>
     </form>
-    
     </div>
-    <div class="button_div" v-if="showForm">
+    <div class="button_div" v-if="showForm == 'showForm'">
       <h2 id="removetext">.</h2>
     </div>
-    <div class="test" v-if="showdateForm">
+    <div class="test" v-if="showForm == 'showDateForm'">
     <h2><img src="../assets/balk2.png"></h2>
-    <form @submit.prevent="handledateSubmit" v-if="showdateForm" class="appointment_form">
-      <label>Kies een tijdstip </label><br>
-        <!-- <input type="date" required v-model="date"><br> -->
-        <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
-            <div class="btn-group" role="group" aria-label="datepicker">
-                <button @click="()=>{ if (date > today) { previousDate() } }" type="button" class="btn btn-secondary active">&lt;</button>
-                <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
-                <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
-            </div>
-        </div>
-        <div v-if="closed">De praktijk is vandaag gesloten...</div>
-        <div v-if="!closed">
-      <label>Clinici</label><br>
-        <button @click="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
-        <button @click="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
-        <button @click="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
-      <label>Ochtend</label><br>
-        <div v-if="date">
-            <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-            <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button>
-            </div>
-            <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-        </div>
-      <label>Namiddag</label><br>
-        <div v-if="date">
-            <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-            <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button>
-            </div>
-            <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-        </div>
-      </div>
-      <button @click="backtoform" class="back">vorige</button>
-      <button class="submit">volgende</button>
-    </form>
+    <AppointmentDateandTime @showForm="showThisForm" :duration="duration" :oldtime="time" v-if="showForm == 'showDateForm'" />
     </div>
-    <div class="button_div" v-if="showdateForm">
-      <h2 id="removetext">test</h2>
+    <div class="button_div" v-if="showForm == 'showDateForm'">
+      <h2 id="removetext">.</h2>
     </div>
-    <div class="test" v-if="showcontactForm">
+    <div class="test" v-if="showForm == 'showContactForm'">
       <h2><img src="../assets/balk3.png"></h2>
       <h3><img id="agenda" src="../assets/agenda.png">{{ displayFullDate(date) }} {{ time }}</h3>
-    <form @submit.prevent="Result" v-if="showcontactForm" class="appointment_form">
+    <form @submit.prevent="Result" v-if="showForm == 'showContactForm'" class="appointment_form">
       <h4>Persoonlijke gegevens</h4>
       <label>Uw contactgegevens</label><br>
       <input type="email" required v-model="email" placeholder="Email adres*"><br>
@@ -142,29 +84,33 @@
           <input type="text" v-model="name_animal[3]" placeholder="Naam vierde huisdier">
           <input type="text" v-model="info_animal[3]" placeholder="Reden voor afspraak">
         </div>
-      <button @click="backtodateform" class="back">vorige</button>
+        <div v-if="name_animalError" class="error">{{ name_animalError }}</div>
+      <button @click.prevent="backtodateform" class="back">vorige</button>
       <button class="submit">bevestig afspraak</button>
     </form>
   </div>
   </div>
-  <div class="button_div" v-if="showcontactForm">
-    <h2 id="removetext">test</h2>
+  <div class="button_div" v-if="showForm == 'showContactForm'">
+    <h2 id="removetext">.</h2>
   </div>
 </template>
 
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
-import getTime_slots from '../composables/getTime_slots'
+import AppointmentDateandTime from '../components/AppointmentDateandTime.vue'
+import { isLoggedIn, getUserDataFromSession } from '../composables/sessionManager.js'
+import { getUserById } from '../composables/userManager.js'
 import getAppointments from '../composables/getAppointments'
 import getAppointment_type from '../composables/getAppointment_type'
-  import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
+import getAppointment_types from '../composables/getAppointment_types'
 import postAppointments from '../composables/postAppointments'
-import { displayFullDate, skipSundayandMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
+import { displayFullDate, toDateString, skipSundayAndMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
 
 export default {
   name: 'app',
   components: {
-    TopNavigation
+    TopNavigation,
+    AppointmentDateandTime
   },
   data() {
       return {
@@ -176,153 +122,110 @@ export default {
           name_animal: [],
           info_animal: [],
           type_consult: '',
-          showForm: true,
-          showdateForm: false,
-          showcontactForm: false,
+          showForm: 'showForm',
           duration: 0,
           preference: 0,
           status: 0,
           number: 0,
           appointments: '',
-          freeTimeslots: '',
-          time_slots: '',
-          timeslotdata: '',
           time: '',
           doctor: '',
           closed: false,
           date: new Date(),
-          today: new Date(),
           name_animalError: '',
           nameError: '',
           emailError: '',
           phoneError: '',
           animal_nameError: '',
+          appointment_types: [],
           displayFullDate: displayFullDate,
         }
     },
-    watch: {
-      date() {
-        this.handleSubmit()
-      },
-      preference() {
-        this.handleSubmit()
+    async created() {
+      if(isLoggedIn()){
+        const user = getUserDataFromSession()
+        var userdata = getUserById(user.userId)
+
+        const type = await userdata.then(function(result) {
+          if(result.pets){
+            var pet_type = result.pets[0].type
+          }else{
+            var pet_type = ''
+          }
+          return {pet_type}
+        })
+        this.type_animal = type.pet_type
       }
+      const { appointment_types, appointment_types_error } = getAppointment_types()
+      this.appointment_types = appointment_types
     },
     methods: {
+      showThisForm(array) {
+        this.showForm = array[0]
+        this.doctor = array[1]
+        this.time = array[2]
+        this.preference = array[3]
+      },
       changeamount(amount){
         this.amount = amount
       },
       changetype_animal(animal){
         this.type_animal = animal
       },
-      changepreference(preference){
-        this.preference = preference
-      },
-      changetimeANDdoctor(time, doctor){
-        this.time = time
-        this.doctor = doctor
-      },
-      backtoform(){
-        this.showForm = true
-        this.showdateForm = false
-      },
       backtodateform(){
-        this.showdateForm = true
-        this.showcontactForm = false
+        this.showForm = 'showDateForm'
       },
-      nextDate() {
-        this.date = nextDate(this.date)
-      },
-      previousDate() {
-        this.date = previousDate(this.date)
-      }, 
       async handleSubmit() {
-        // for (let i = 0; i < 4;) { 
-        //   console.log(this.name_animal[i].length)
-        //   this.name_animalError = this.name_animal[i].length < 90 ?
-        //   '' : 'je huisdiernaam mag niet langer zijn dan 90 letters'
-        //   i++
-        // }
-
-      // console.log(this.name_animal[0].length)
-      // if(this.name_animalError){
-      //   return {
-      //     name_animalError
-      //   }
-      // }
-      const { appointment_type, error, load } = getAppointment_type(this.type_consult)
-      await load()
-      for(let i=0; i < appointment_type.value.calculation.length; i++){
-        const app_type = appointment_type.value.calculation[i];
-        if (app_type.count && app_type.count != this.amount) { 
-          continue
-        }
-        if(app_type.type && app_type.type != this.type_animal){
-          continue
-        }
-        this.duration = app_type.duration
-        break
-      }
-      console.log(this.duration)
-
-        const { time_slots, timeslot_error } = await this.gettimeslots(this.date)
-        const { appointments, appointments_error } = await this.getappointments()
-        this.closed = true
-        time_slots.value.forEach(t => { if (t.available > 0) this.closed = false; })
-//        this.date = skipSundayandMonday(this.date)
-
-        const filteredapp = appointments.value.filter(a => a.date == this.date)
-        var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
-        var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
-
-        console.log('uit de loop')
-        console.log(freeTimeslots)
-
-        if(this.preference == 0){
-          var prefDoctor = 0
-          var sumdoctor1 = 0
-          var sumdoctor2 = 0
-          for (let i = 0; i < freeTimeslots.length; i++) {
-            if(freeTimeslots[i] != undefined){
-              if(freeTimeslots[i].doctor == 1){
-                sumdoctor1++
-              }else if(freeTimeslots[i].doctor == 2){
-                sumdoctor2++
-              }
+        if(isLoggedIn()){
+          const user = getUserDataFromSession()
+          var userdata = getUserById(user.userId)
+          var pet_type = this.type_animal
+          
+          const value = await userdata.then(function(result) {
+            var name = result.firstName + ' ' + result.lastName
+            var phone = result.phone
+            var email = result.email
+            if(result.pets){
+              var samepets = result.pets.filter(p => p.type == pet_type)
+            }else{
+              var samepets = 0
             }
+            return {name, phone, email, samepets}
+          })
+
+          if(value.samepets.length > this.amount){
+            var loop = this.amount
+          }else {
+            var loop = value.samepets.length
           }
-          if(sumdoctor1 >= sumdoctor2){
-            prefDoctor = 1
-          }else if(sumdoctor1 < sumdoctor2){
-            prefDoctor = 2
+          for (let i = 0; i < loop; i++) { 
+            console.log('loop')
+              const pets = await userdata.then(function(result) {
+                var pet_name = value.samepets[i].name
+                return {pet_name}
+              })
+            this.name_animal[i] = pets.pet_name
           }
 
-          console.log('sum1')
-          console.log(sumdoctor1)
-
-          console.log('sum2')
-          console.log(sumdoctor2)
-
-          console.log('voordat hij dubbele verwijdert')
-          console.log(freeTimeslots)
-
-          var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
-
-          console.log('nadat hij dubble verwijdert')
-          console.log(list)
-
-          this.freeTimeslots = list
-        }else {
-          this.freeTimeslots = freeTimeslots
+          this.email = value.email
+          this.name = value.name
+          this.phone = value.phone
         }
 
-        this.showForm = false
-        this.showdateForm = true
-        return { 
-          appointment_type, 
-          freeTimeslots, 
-          error
+        const { appointment_type, error, load } = getAppointment_type(this.type_consult)
+        await load()
+        for(let i=0; i < appointment_type.value.calculation.length; i++){
+          const app_type = appointment_type.value.calculation[i];
+          if (app_type.count && app_type.count != this.amount) { 
+            continue
+          }
+          if(app_type.type && app_type.type != this.type_animal){
+            continue
+          }
+          this.duration = app_type.duration
+          break
         }
+        this.showForm = 'showDateForm'
       },
       async handledateSubmit() {
         this.showdateForm = false
@@ -334,84 +237,34 @@ export default {
         this.appointments = appointments
 
 
-      this.nameError = this.name.length < 30 ?
-      '' : 'je naam mag niet langer zijn dan 30 letters'
-      this.emailError = this.email.length < 75 ?
-      '' : 'je email mag niet langer zijn dan 75 letters'
+        this.nameError = this.name.length < 30 ?
+        '' : '❌ Je naam mag niet langer zijn dan 30 letters.'
+        this.emailError = this.email.length < 75 ?
+        '' : '❌ Je email mag niet langer zijn dan 75 letters.'
+        this.phoneError = this.phone.length > 10 ?
+        '' : '❌ Je nummer mag niet korter zijn dan 10 nummers.'
 
-      // dit werkt niet met de -
-      // const validationPhone = /^\d{10}$/;
-
-      // this.phoneError = this.phone.match(validationPhone) ?
-      // '' : 'je telefoonnummer moet bestaan uit 10 nummers'
-
-      if(!this.nameError && !this.emailError){
-        const lastappointment = this.appointments[this.appointments.length - 1]
-        this.number = lastappointment.id
-        this.number++
-
-        await postAppointments(this.number, this.date, this.time, this.duration, this.name, this.phone, 
-        this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
-
-        console.log('de afspraak is gepost')
-        this.$router.push('/result/' + this.number)
-      }
-    },
-      RemoveDuplicate(array, prefDoctor){
-        console.log('array:')
-        console.log(array)
-        console.log('voorkeur:')
-        console.log(prefDoctor)
-        const result = []
-        array.forEach((element, index) => {
-          if(element == undefined){}
-            else if(array[index + 1] != undefined && element.time == array[index + 1].time || 
-               array[index - 1] != undefined && element.time == array[index - 1].time ){
-              if(element.doctor != prefDoctor){
-                console.log('deze worden geskipt')
-                console.log(element)
-              }else {
-                console.log('de voorkeur dokter')
-                console.log(element)
-                result.push(element)
-              }
-            }else {
-              console.log('de enige tijd')
-              console.log(element)
-              result.push(element)
-            }
-        });
-        return result
-      },
-    async gettimeslots(date){
-      const { time_slots, error, load } = getTime_slots(date)
-      await load()
-      return { time_slots, error }
-      },
-      async getappointments(){
-        const { appointments, error, load } = getAppointments()
-        await load()
-        return { appointments, error }
-      },
-      getFreeSlots(time_slots, duration){
-        const result = []
-        time_slots.forEach((element, index) => {
-          if(element.show == true && time_slots[index].appointment == undefined && time_slots[index].available > 0) {
-            if(duration == 15){
-                result.push(element)
-            }else if(duration == 30 && time_slots[index + 1] != undefined){
-              if(time_slots[index + 1].show == true && time_slots[index + 1].appointment == undefined){
-                result.push(element)
-              }
-            }else if(duration == 45 && time_slots[index+2] != undefined){
-              if(time_slots[index + 2].show == true && time_slots[index + 2].appointment == undefined){
-                result.push(element)
-              }
+        for (let i = 0; i < this.amount; i++) { 
+          if(this.name_animal[i]){
+            this.name_animalError = this.name_animal[i].length < 90 ?
+            '' : '❌ Je huisdiernaam mag niet langer zijn dan 90 letters.'
+            if(this.name_animalError != ''){
+              break
             }
           }
-        });
-        return result
-    }
+        }
+
+        if(!this.nameError && !this.emailError && !this.phoneError && !this.name_animalError){
+          const lastappointment = this.appointments[this.appointments.length - 1]
+          this.number = lastappointment.id
+          this.number++
+
+          await postAppointments(this.number, toDateString(this.date), this.time, this.duration, this.name, this.phone, 
+          this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
+
+          this.$router.push('/result/' + this.number)
+        }
+      },
   }
 }
 </script>
@@ -465,7 +318,6 @@ export default {
   width: 20%;
 }
 select{
-  /* float: left; */
   background-color: white;
   border-radius: 12px;
 }
@@ -554,9 +406,9 @@ img {
 h4 {
   margin-left: 10px;
 }
-/* #agenda{
+#agenda{
   margin-right: 10px;
   height: 4%;
   width: 4%;
-} */
+}
 </style>

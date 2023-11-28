@@ -3,6 +3,12 @@ import { USER_ROLES } from '../utils/userRoles.js'
 import { sanitizeAndValidateEmail, validatePassword } from './userValidator.js'
 import { getUser, authenticateUser } from './userManager.js'
 
+/**
+ * Login user.
+ * 
+ * @param {String} email - The user login.
+ * @param {String} password - The user password.
+ */
 export async function loginUser(email, password) {
 
     const { processedEmail, emailErr } = sanitizeAndValidateEmail(email)
