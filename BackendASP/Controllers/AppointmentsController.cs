@@ -19,14 +19,6 @@ namespace BackendASP.Controllers
         {
             _context = context;
             _mapper = mapper;
-
-          /*  DayTypes days = DayTypes.WORKING_DAYS;
-            DayTypes today = DayTypes.SUNDAY;
-
-            bool avaliable = (days & today) != 0;
-
-            int value = (int)days;*/
-
         }
 
         // GET: api/Appointments
@@ -104,35 +96,48 @@ namespace BackendASP.Controllers
             {
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
-            var appointments = _mapper.Map<Appointment>(appointmentDTO);
+            var appointment = _mapper.Map<Appointment>(appointmentDTO);
+
+            appointment.Id = 0;
+            foreach(var pet in appointment.Pets)
+            {
+                pet.Id = 0;
+            }
 
             var petType = await _context.PetTypes.FindAsync(appointmentDTO.PetTypeId);
             if (petType == null)
             {
                 return NotFound("petType is unknown");
             }
-            appointments.PetType = petType;
+            appointment.PetType = petType;
 
             var appointmentType = await _context.AppointmentTypes.FindAsync(appointmentDTO.AppointmentTypeId);
             if (appointmentType == null)
             {
                 return NotFound("appointmentType is unknown");
             }
-            appointments.AppointmentType = appointmentType;
+            appointment.AppointmentType = appointmentType;
 
-            appointments.AppointmentNumber = DateTime.Now.Year * 10_000; // 20230000
+            var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime && t.Doctor == appointmentDTO.Doctor);
+            if (timeSlot == null)
+            {
+                return NotFound("timeSlot is unknown");
+            }
+            appointment.TimeSlot = timeSlot;
 
-            _context.Appointments.Add(appointments);
+            appointment.AppointmentNumber = DateTime.Now.Year * 10_000; // 20230000
+
+            _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
             
             // Find max number
             var maxAppointment = await _context.Appointments.MaxAsync(x => x.AppointmentNumber);
             
             // update with one
-            appointments.AppointmentNumber = maxAppointment + 1;
+            appointment.AppointmentNumber = maxAppointment + 1;
             await _context.SaveChangesAsync();
             
-            return CreatedAtAction("GetAppointments", new { id = appointments.Id }, _mapper.Map<AppointmentDTO>(appointments));
+            return CreatedAtAction("GetAppointments", new { id = appointment.Id }, _mapper.Map<AppointmentDTO>(appointment));
         }
 
         // DELETE: api/Appointments/5

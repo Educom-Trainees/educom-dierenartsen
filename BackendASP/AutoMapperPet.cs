@@ -25,6 +25,9 @@ namespace BackendASP
             CreateMap<Calculation, CalculationDTO>();
             CreateMap<CalculationDTO, Calculation>();
 
+            CreateMap<TimeSlot, TimeSlotDTO>();
+            CreateMap<TimeSlotDTO, TimeSlot>();
+
             // Flattens AppointmentType>TreatmentTime>Calculation
             CreateMap<AppointmentType, AppointmentTypeDTO>()
                .ForMember(dest => dest.Calculation, opt => opt.MapFrom(src => src.TreatmentTime.Calculation));

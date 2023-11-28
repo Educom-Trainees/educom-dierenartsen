@@ -28,11 +28,19 @@ erDiagram
         int parentid FK
     } 
 
+    time-slots ||--|{ available-days : Contains
     time-slots {
         int    id                PK
         time time
         int doctor    
+    }
+
+    available-days {
+        int id              PK
+        int timeSlotId      FK
         int days "Flags"
+        date startDate
+        date endDate
     }
 
     users ||--|{ appointments : Makes

@@ -9,6 +9,8 @@ namespace BackendASP.Models.DTO
         public int Id { get; set; }
         [JsonPropertyName("number")]
         public string AppointmentNumber { get; set; } = "";
+        [JsonPropertyName("time")]
+        public required string TimeSlotTime {  get; set; }
         public DateOnly Date { get; set; }
         public int Duration { get; set; }
         [JsonPropertyName("customer")]

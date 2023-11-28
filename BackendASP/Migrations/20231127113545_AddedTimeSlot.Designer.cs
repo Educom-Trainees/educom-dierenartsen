@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231127113545_AddedTimeSlot")]
+    partial class AddedTimeSlot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,16 +72,11 @@ namespace BackendASP.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeSlotId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AppointmentTypeId");
 
                     b.HasIndex("PetTypeId");
-
-                    b.HasIndex("TimeSlotId");
 
                     b.ToTable("Appointments");
 
@@ -96,8 +94,7 @@ namespace BackendASP.Migrations
                             PetTypeId = 4,
                             PhoneNumber = "0611330161",
                             Preference = 1,
-                            Status = 0,
-                            TimeSlotId = 6
+                            Status = 0
                         });
                 });
 
@@ -243,372 +240,6 @@ namespace BackendASP.Migrations
                     b.HasIndex("TimeSlotId");
 
                     b.ToTable("AvailableDays");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 6
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 7
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 8
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 9
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 10
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 11
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 12
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 13
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 14
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 15
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 16
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 17
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 18
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 19
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 20
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 21
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 22
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 23
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 24
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 25
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 26
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 27
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 28
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 29
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 30
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 31
-                        },
-                        new
-                        {
-                            Id = 32,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 32
-                        },
-                        new
-                        {
-                            Id = 33,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 33
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 34
-                        },
-                        new
-                        {
-                            Id = 35,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 35
-                        },
-                        new
-                        {
-                            Id = 36,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 36
-                        },
-                        new
-                        {
-                            Id = 37,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 37
-                        },
-                        new
-                        {
-                            Id = 38,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 38
-                        },
-                        new
-                        {
-                            Id = 39,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 39
-                        },
-                        new
-                        {
-                            Id = 40,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 40
-                        },
-                        new
-                        {
-                            Id = 41,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 41
-                        },
-                        new
-                        {
-                            Id = 42,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 42
-                        },
-                        new
-                        {
-                            Id = 43,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 43
-                        },
-                        new
-                        {
-                            Id = 44,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 44
-                        },
-                        new
-                        {
-                            Id = 45,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 45
-                        },
-                        new
-                        {
-                            Id = 46,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 46
-                        },
-                        new
-                        {
-                            Id = 47,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 47
-                        },
-                        new
-                        {
-                            Id = 48,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 48
-                        },
-                        new
-                        {
-                            Id = 49,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 49
-                        },
-                        new
-                        {
-                            Id = 50,
-                            Days = 0,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 50
-                        },
-                        new
-                        {
-                            Id = 51,
-                            Days = 124,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 51
-                        },
-                        new
-                        {
-                            Id = 52,
-                            Days = 0,
-                            StartDate = new DateOnly(2023, 11, 1),
-                            TimeSlotId = 52
-                        });
                 });
 
             modelBuilder.Entity("BackendASP.Models.Calculation", b =>
@@ -1118,19 +749,7 @@ namespace BackendASP.Migrations
                         new
                         {
                             Id = 50,
-                            Doctor = 2,
-                            Time = "17:00"
-                        },
-                        new
-                        {
-                            Id = 51,
                             Doctor = 1,
-                            Time = "17:15"
-                        },
-                        new
-                        {
-                            Id = 52,
-                            Doctor = 2,
                             Time = "17:15"
                         });
                 });
@@ -1261,17 +880,9 @@ namespace BackendASP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackendASP.Models.TimeSlot", "TimeSlot")
-                        .WithMany("Appointments")
-                        .HasForeignKey("TimeSlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("AppointmentType");
 
                     b.Navigation("PetType");
-
-                    b.Navigation("TimeSlot");
                 });
 
             modelBuilder.Entity("BackendASP.Models.AppointmentPet", b =>
@@ -1350,8 +961,6 @@ namespace BackendASP.Migrations
 
             modelBuilder.Entity("BackendASP.Models.TimeSlot", b =>
                 {
-                    b.Navigation("Appointments");
-
                     b.Navigation("AvailableDays");
                 });
 
