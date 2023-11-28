@@ -8,46 +8,49 @@
                 <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
             </div>
         </div>
-      <label>Clinici</label><br>
-        <button @click.prevent="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
-        <button @click.prevent="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
-        <button @click.prevent="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
-      <label>Ochtend</label><br>
-        <div v-if="date">
-            <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-            <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button>
-            </div>
-            <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-        </div>
-      <label>Namiddag</label><br>
-        <div v-if="date">
-            <div v-if="this.preference == 0">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-            <div v-if="this.preference == 1">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button>
-            </div>
-            <div v-if="this.preference == 2">
-                <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
-                  <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                </button> 
-            </div>
-        </div>
+        <div v-if="closed">De praktijk is vandaag gesloten...</div>
+        <div v-if="!closed">
+            <label>Clinici</label><br>
+                <button @click.prevent="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
+                <button @click.prevent="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
+                <button @click.prevent="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
+            <label>Ochtend</label><br>
+                <div v-if="date">
+                    <div v-if="this.preference == 0">
+                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
+                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                        </button> 
+                    </div>
+                    <div v-if="this.preference == 1">
+                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
+                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                        </button>
+                    </div>
+                    <div v-if="this.preference == 2">
+                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
+                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                        </button> 
+                    </div>
+                </div>
+            <label>Namiddag</label><br>
+                <div v-if="date">
+                    <div v-if="this.preference == 0">
+                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
+                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                        </button> 
+                    </div>
+                    <div v-if="this.preference == 1">
+                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
+                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                        </button>
+                    </div>
+                    <div v-if="this.preference == 2">
+                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
+                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
+                        </button> 
+                    </div>
+                </div>
+        </div> 
       <button @click.prevent="emitShowForm('showForm')" class="back">vorige</button>
       <button class="submit">volgende</button>
     </form>
@@ -72,6 +75,7 @@ export default {
             preference: 0,
             time: '',
             doctor: '',
+            closed: false,
             date: new Date(),
             freeTimeslots: '',
             emitArray: [],
@@ -116,7 +120,7 @@ export default {
         getFreeSlots(time_slots, duration){
             const result = []
             time_slots.forEach((element, index) => {
-            if(element.show == true && time_slots[index].appointment == undefined){
+            if(element.show == true && time_slots[index].appointment == undefined && time_slots[index].available > 0){
                 if(duration == 15){
                     result.push(element)
                 }else if(duration == 30 && time_slots[index + 1] != undefined){
@@ -148,8 +152,8 @@ export default {
             });
             return result
         },
-        async gettimeslots(){
-            const { time_slots, error, load } = getTime_slots()
+        async gettimeslots(date){
+            const { time_slots, error, load } = getTime_slots(date)
             await load()
             return { time_slots, error }
         },
@@ -161,11 +165,13 @@ export default {
         async preparesetup() {
             this.freeTimeslots = []
 
-            const { time_slots, timeslot_error } = await this.gettimeslots()
+            const { time_slots, timeslot_error } = await this.gettimeslots(this.date)
             const { appointments, appointments_error } = await this.getappointments()
 
+            this.closed = true
+            time_slots.value.forEach(t => { if (t.available > 0) this.closed = false; })
+            // this.date = skipSundayandMonday(this.date)
 
-            this.date = skipSundayAndMonday(this.date)
             const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
             var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
             var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
