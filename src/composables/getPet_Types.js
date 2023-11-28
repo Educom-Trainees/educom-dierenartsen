@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { API_URL } from '../utils/api'
 
 const getPet_Types = () => {
     const pet_types = ref(null)
@@ -6,7 +7,7 @@ const getPet_Types = () => {
 
     const load = async () => {
       try {
-        let data = await fetch('http://localhost:3000/pet-types')
+        let data = await fetch(API_URL + 'pettypes')
         if(!data.ok){
           throw Error('no data found')
         }

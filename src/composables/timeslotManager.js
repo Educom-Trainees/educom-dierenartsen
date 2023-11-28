@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrlTimeslots = 'http://localhost:3000/time-slots'
-const baseUrlTimeslotsByDate = 'http://localhost:3000/time-slots?date='
+const baseUrlTimeslots = 'http://localhost:5226/timeslots'
+const baseUrlTimeslotsByDate = 'http://localhost:5226/timeslots?date='
 
 export async function GetAllTimeslots() {
     try {

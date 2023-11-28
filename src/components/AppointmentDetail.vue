@@ -64,7 +64,7 @@ import axios from 'axios'
 import router from '../router/index.js'
 import { displayTimeslot, displayDate } from '../composables/datetime-utils.js'
 
-const baseUrlPetTypes = 'http://localhost:3000/pet-types'
+const baseUrlPetTypes = 'http://localhost:5226/pettypes'
 
 export default {
     name: 'AppointmentDetail',
@@ -86,7 +86,7 @@ export default {
                 .catch(error => console.log('Error getting pet-types:', error))
         },
         cancelAppointment(appointment) {
-            const baseUrlAppointment = 'http://localhost:3000/appointments/'
+            const baseUrlAppointment = 'http://localhost:5226/appointments/'
             const url = baseUrlAppointment + String(appointment.id)
 
             const cancelledAppointment = {...appointment, 'status': 1}
