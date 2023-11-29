@@ -102,19 +102,25 @@ export default {
     },
     methods: {
         async getDoctors() {
-            const doctors = [await getUserById(2), await getUserById(6)]
+            try {
+                const doctors = [await getUserById(2), await getUserById(6)]
 
-            for (const doctor of doctors) {
-                const fullName = [doctor.firstName, doctor.lastName].join(' ')
+                for (const doctor of doctors) {
+                    const fullName = [doctor.firstName, doctor.lastName].join(' ')
 
-                this.doctors.push({
-                    fullName: fullName,
-                    vacations: doctor.vacations
-                })
-                this.options.push({
-                    value: doctor.id, 
-                    text: fullName
-                })
+                    this.doctors.push({
+                        fullName: fullName,
+                        vacations: doctor.vacations
+                    })
+                    this.options.push({
+                        value: doctor.id, 
+                        text: fullName
+                    })
+                }
+            }
+            catch (error) {
+                this.errors.genericError = 'Er is iets fout gegaan. Probeer het later opnieuw.'
+                console.error(error)
             }
         },
         saveVacation() {
