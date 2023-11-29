@@ -42,7 +42,7 @@ namespace Backend2
 
             app.UseCors();
 
-            app.UseAuthorization();
+            /*app.UseAuthorization();*/
 
 
             app.MapControllers();
