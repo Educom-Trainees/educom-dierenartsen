@@ -96,6 +96,9 @@ namespace BackendASP.Controllers
             {
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
+
+/*            appointmentDTO.Pets = appointmentDTO.Pets.Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
+*/
             var appointment = _mapper.Map<Appointment>(appointmentDTO);
 
             appointment.Id = 0;
@@ -118,6 +121,7 @@ namespace BackendASP.Controllers
             }
             appointment.AppointmentType = appointmentType;
 
+            // werkt momenteel alleen met doctor 1 en 2 door deze regel
             var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime && t.Doctor == appointmentDTO.Doctor);
             if (timeSlot == null)
             {
