@@ -198,8 +198,7 @@ export default {
           }else {
             var loop = value.samepets.length
           }
-          for (let i = 0; i < loop; i++) { 
-            console.log('loop')
+          for (let i = 0; i < loop; i++) {
               const pets = await userdata.then(function(result) {
                 var pet_name = value.samepets[i].name
                 return {pet_name}
@@ -241,7 +240,7 @@ export default {
         '' : '❌ Je naam mag niet langer zijn dan 30 letters.'
         this.emailError = this.email.length < 75 ?
         '' : '❌ Je email mag niet langer zijn dan 75 letters.'
-        this.phoneError = this.phone.length > 10 ?
+        this.phoneError = this.phone.length >= 10 ?
         '' : '❌ Je nummer mag niet korter zijn dan 10 nummers.'
 
         for (let i = 0; i < this.amount; i++) { 

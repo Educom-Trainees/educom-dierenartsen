@@ -187,6 +187,14 @@ export default {
                 const timeslotAppointments = combineTimeslotAppointments(timeslots, appointments)
                 const allFreeTimeslots = findFreeTimeslots(timeslotAppointments, this.appointment.duration)
 
+                //dit zorgt ervoor dat als het dezelfde dag is als de appointment die je wilt verplaatsen je dan die tijd erbij doet
+                if(this.appointment.date == nextValidDate){
+                    console.log('adding current appointment')
+                    const currentAppointment = {time: this.time, appointment: undefined, doctor: this.doctor, show: true}
+                    allFreeTimeslots.push(currentAppointment)
+                    allFreeTimeslots.sort((a, b) => a.time.localeCompare(b.time))
+                }
+
                 this.preference === 0
                 ? this.freeTimeslots = RemoveDuplicates(allFreeTimeslots, getPreferredDoctor(timeslotAppointments))
                 : this.freeTimeslots = allFreeTimeslots.filter(t => t.doctor == this.preference)
