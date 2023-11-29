@@ -97,8 +97,8 @@ namespace BackendASP.Controllers
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
 
-/*            appointmentDTO.Pets = appointmentDTO.Pets.Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
-*/
+            appointmentDTO.Pets = appointmentDTO.Pets.Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
+
             var appointment = _mapper.Map<Appointment>(appointmentDTO);
 
             appointment.Id = 0;

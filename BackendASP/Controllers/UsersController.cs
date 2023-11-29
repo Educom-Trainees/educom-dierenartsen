@@ -37,14 +37,15 @@ namespace BackendASP.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
-            var user = await _context.Users.FindAsync(id);
+            var user = await _mapper.ProjectTo<UserDTO>(_context.Users)
+                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -53,6 +54,26 @@ namespace BackendASP.Controllers
 
             return user;
         }
+/*
+        // GET: api/Users?email=karel@happypaw.nl
+        [HttpGet]
+        public async Task<ActionResult<UserDTO>> GetUserByEmail([FromQuery] string email)
+        {
+
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            var user = await _mapper.ProjectTo<UserDTO>(_context.Users)
+                 .FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }*/
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
