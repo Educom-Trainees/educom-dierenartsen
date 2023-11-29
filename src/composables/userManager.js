@@ -15,7 +15,6 @@ const saltRounds = 10
 export async function storeUser(newUser) {
     try {
         const response = await axios.post(baseUrlPostUser, newUser)
-        console.log('User storage successful.')
         return true
     }
     catch(error) {
@@ -33,9 +32,7 @@ export async function storeUser(newUser) {
 export async function putUser(newUser) {
     try {
         const response = await axios.patch(
-            'http://localhost:3000/users/' + newUser.id, 
-            newUser)
-        console.log('User change successful.')
+            'http://localhost:3000/users/' + newUser.id, newUser)
         return true
     }
     catch(error) {
@@ -55,10 +52,8 @@ export async function getUser(userEmail) {
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {
-            console.log('User not found.')
             return null
         } else {
-            console.log('User found.')
             return response.data
         }
     }
@@ -79,10 +74,8 @@ export async function getUserById(userid) {
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {
-            console.log('User not found.')
             return null
         } else {
-            console.log('User found.')
             return response.data
         }
     }
