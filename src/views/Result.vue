@@ -70,9 +70,6 @@ export default {
 
     load()
 
-    console.log(pet_types.id)
-    console.log(appointment)
-
     return { appointment, error, pet_types, pet_types_error, appointment_types, appointment_types_error }
   }
 }

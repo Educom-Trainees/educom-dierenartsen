@@ -200,7 +200,6 @@ export default {
             }else {
                 this.freeTimeslots = freeTimeslots
             }
-            console.log('einde setup')
         }
     }
 }

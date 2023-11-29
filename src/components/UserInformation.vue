@@ -91,7 +91,7 @@ export default {
             '' : '❌ Je achternaam mag niet langer zijn dan 30 letters.'
             this.errors.emailErr = this.infoForm.email.length < 75 ?
             '' : '❌ Je email mag niet langer zijn dan 75 letters.'
-            this.errors.phoneErr = this.infoForm.phone.length > 10 ?
+            this.errors.phoneErr = this.infoForm.phone.length >= 10 ?
             '' : '❌ Je nummer mag niet korter zijn dan 10 nummers.'
 
             if(!this.errors.firstNameErr && !this.errors.lastNameErr && !this.errors.emailErr && !this.errors.phoneErr){
