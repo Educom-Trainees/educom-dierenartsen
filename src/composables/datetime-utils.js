@@ -162,3 +162,14 @@ export function shortDateDisplay(date) {
     const day = String(date.getDate()).padStart(2, '0')
     return [weekday, month, day].join(' ')
 }
+
+export function displayDateTime(datetime) {
+    const ts = new Date(datetime) 
+    const day = String(ts.getDate()).padStart(2, '0')
+    const month = shortMonthts[ts.getMonth()]
+    const year = String(ts.getFullYear())
+    const hour = String(ts.getHours()).padStart(2, '0')
+    const min = String(ts.getMinutes()).padStart(2, '0')
+    const am_pm = ts.getHours() < 12? 'am' : 'pm'
+    return `${day} ${month} ${year}, ${hour}:${min} ${am_pm}`
+}
