@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using BackendASP.Database;
 using BackendASP.Models;
+using BackendASP.Models.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
@@ -15,31 +12,38 @@ namespace BackendASP.Controllers
     public class UsersController : ControllerBase
     {
         private readonly PetCareContext _context;
+        private readonly IMapper _mapper;
 
-        public UsersController(PetCareContext context)
+        public UsersController(PetCareContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
-            return await _context.Users.ToListAsync();
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
+            var user = await _mapper.ProjectTo<UserDTO>(_context.Users
+                  .Include(u => u.Vacations)
+                  .Include(u => u.Appointments))
+                  .ToListAsync();
+
+            return user;
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -86,10 +90,10 @@ namespace BackendASP.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'PetCareContext.Users'  is null.");
-          }
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'PetCareContext.Users'  is null.");
+            }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

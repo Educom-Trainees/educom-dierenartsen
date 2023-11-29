@@ -28,6 +28,9 @@ namespace BackendASP
             CreateMap<TimeSlot, TimeSlotDTO>();
             CreateMap<TimeSlotDTO, TimeSlot>();
 
+            CreateMap<User, UserDTO>();
+            CreateMap<UserDTO, User>();
+
             CreateMap<Vacation, VacationDTO>();
             CreateMap<VacationDTO, Vacation>();
 

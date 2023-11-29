@@ -224,6 +224,7 @@ namespace BackendASP.Database
                      Email = "brandon@gmail.com",
                      PhoneNumber = "067890456",
                      PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
+                     Doctor = DoctorTypes.NO_PREFERENCE, 
                      Role = UserRoles.GUEST
                  },
                  new
@@ -235,6 +236,7 @@ namespace BackendASP.Database
                      Email = "s123s12dass@s.com",
                      PhoneNumber = "123321",
                      PasswordHash = "$2a$10$gPUJzQBPvMNpuHU2C337n.bmKeTgjjX9PVRFUTVi624lShT3A263u",
+                     Doctor = DoctorTypes.NO_PREFERENCE,
                      Role = UserRoles.GUEST
                  },
                  new
@@ -245,6 +247,7 @@ namespace BackendASP.Database
                      LastName = "Lant",
                      Email = "karel@happypaw.nl",
                      PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+                     Doctor = DoctorTypes.KAREL_LANT,
                      Role = UserRoles.EMPLOYEE
                  });
             base.OnModelCreating(modelBuilder);
