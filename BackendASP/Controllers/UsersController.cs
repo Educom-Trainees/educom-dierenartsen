@@ -37,7 +37,7 @@ namespace BackendASP.Controllers
         }
 
         // GET: api/Users/5
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
             if (_context.Users == null)
@@ -54,9 +54,9 @@ namespace BackendASP.Controllers
 
             return user;
         }
-/*
+
         // GET: api/Users?email=karel@happypaw.nl
-        [HttpGet]
+        [HttpGet("ByEmail")]
         public async Task<ActionResult<UserDTO>> GetUserByEmail([FromQuery] string email)
         {
 
@@ -73,19 +73,29 @@ namespace BackendASP.Controllers
             }
 
             return user;
-        }*/
+        }
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUser(int id, UserDTO userDTO)
         {
-            if (id != user.Id)
+            if (id != userDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            var existingUser = await _context.Users.FindAsync(id);
+
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+
+            // Update existingUser properties with values from userDTO
+            _mapper.Map(userDTO, existingUser);
+
+            _context.Entry(existingUser).State = EntityState.Modified;
 
             try
             {
@@ -109,16 +119,18 @@ namespace BackendASP.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(UserDTO userDTO)
         {
             if (_context.Users == null)
             {
                 return Problem("Entity set 'PetCareContext.Users'  is null.");
             }
+            var user = _mapper.Map<User>(userDTO);
+
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUser", new { id = user.Id }, _mapper.Map<UserDTO>(user));
         }
 
         // DELETE: api/Users/5
