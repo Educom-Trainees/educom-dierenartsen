@@ -2,15 +2,12 @@ import { validatePersonalInfo, sanitizeAndValidateEmail } from './userValidator.
 import { getUserById, putUser } from './userManager.js'
 import { getUserDataFromSession } from '../composables/sessionManager.js'
 
-
 /**
  * change a user.
  * 
  * @param {Object} changeForm - The change form with data input from user.
  */
 export async function changeUser(infoForm) {
-    console.log('in de changuser')
-    
     const { 
         processedSalutation, processedFirstName, processedLastName, processedPhone,
         salutationErr, firstNameErr, lastNameErr, phoneErr
@@ -26,8 +23,8 @@ export async function changeUser(infoForm) {
         'genericErr': ''
     }
 
-    if (salutationErr.length === 0 && firstNameErr.length === 0 && lastNameErr.length === 0 && phoneErr.length === 0
-        && emailErr.length === 0) {
+    if (salutationErr.length === 0 && firstNameErr.length === 0 && lastNameErr.length === 0 
+        && phoneErr.length === 0 && emailErr.length === 0) {
         try {
             try {
                 const user = getUserDataFromSession()
@@ -79,18 +76,15 @@ export async function changeUser(infoForm) {
  * @param {Object} petForm - The pet form with data input from user.
  */
 export async function addPet(type, name) {
-
-    console.log('addpet')
     const user = getUserDataFromSession()
     const userDataFromDatabase = await getUserById(user.userId)
     if (userDataFromDatabase !== null && userDataFromDatabase.pets) {
         const changedUser = {
             "id": userDataFromDatabase.id,
-            "pets": [...userDataFromDatabase.pets, 
-                {
-                    "type": type,
-                    "name": name
-                }]
+            "pets": [...userDataFromDatabase.pets, {
+                "type": type,
+                "name": name
+            }]
         }
         try {
             const userStored = await putUser(changedUser)
