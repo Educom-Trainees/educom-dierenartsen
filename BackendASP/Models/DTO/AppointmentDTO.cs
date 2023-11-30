@@ -10,7 +10,7 @@ namespace BackendASP.Models.DTO
         [JsonPropertyName("number")]
         public int AppointmentNumber { get; set; }
         [JsonPropertyName("time")]
-        public required string TimeSlotTime {  get; set; }
+        public required string TimeSlotTime { get; set; }
         public DateOnly Date { get; set; }
         public int Duration { get; set; }
         [JsonPropertyName("customer")]
@@ -26,7 +26,7 @@ namespace BackendASP.Models.DTO
         public required int AppointmentTypeId { get; set; }
         [JsonPropertyName("petType")]
         public required int PetTypeId { get; set; }
-
+        public int? UserId { get; set; }
         public List<AppointmentPetDTO> Pets { get; set; } = new List<AppointmentPetDTO>();
 
         public DoctorTypes Preference { get; set; }
