@@ -2517,6 +2517,39 @@
       "doctor": 1,
       "status": 0,
       "id": 242
+    },
+    {
+      "number": 243,
+      "date": "2023-11-30",
+      "time": "09:30",
+      "duration": 15,
+      "customer": "stijn engelmoer",
+      "phoneNumber": "1234567890",
+      "email": "test.achtnaam@gmail.com",
+      "petType": 3,
+      "type": 3,
+      "pets": [],
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 243
+    },
+    {
+      "number": 244,
+      "date": "2023-11-30",
+      "time": "09:45",
+      "duration": 30,
+      "customer": "voornaam",
+      "phoneNumber": "1234567890",
+      "email": "voor.achternaam@gmail.com",
+      "petType": 3,
+      "type": 4,
+      "pets": [],
+      "amount": 1,
+      "preference": 0,
+      "doctor": 1,
+      "status": 0,
+      "id": 244
     }
   ],
   "pet-types": [
@@ -2960,7 +2993,7 @@
       "firstName": "Danique",
       "lastName": "de Beer",
       "passwordHash": "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
-      "doctor": 2,  
+      "doctor": 2,
       "role": 1,
       "id": 6,
       "vacations": [
