@@ -21,6 +21,31 @@
         </button>
     </div>
 </template>
+<script>
+//dit was voor het automatisering van de carousel maar het breekt elke pagina behalve de de homepagina en het ziet er niet zo mooi 
+//uit als normaal maar misschien kunnen jullie hier nog iets mee
+
+// document.addEventListener("DOMContentLoaded", function() {
+//     let i = 0;
+//     showSlides();
+
+//     function showSlides() {
+//         if(i == 3){
+//             i = 0
+//         }
+//         let slides = document.getElementsByClassName("carousel-item");
+//         slides[i].className = slides[i].className.replace(" active", "")
+
+//         if(i+1 == 3){
+//             slides[0].className += " active"
+//         }else{
+//             slides[i+1].className += " active"
+//         }
+//         i++
+//         setTimeout(showSlides, 5000); // Change image every 3 seconds
+//     }
+// });
+</script>
 
 <style>
     .carousel-item img {
