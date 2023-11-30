@@ -246,6 +246,7 @@ namespace BackendASP.Database
                      FirstName = "Karel",
                      LastName = "Lant",
                      Email = "karel@happypaw.nl",
+                     PhoneNumber = "0611223344",
                      PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
                      Doctor = DoctorTypes.KAREL_LANT,
                      Role = UserRoles.EMPLOYEE
