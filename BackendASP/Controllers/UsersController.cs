@@ -44,8 +44,10 @@ namespace BackendASP.Controllers
             {
                 return NotFound();
             }
-            var user = await _mapper.ProjectTo<UserDTO>(_context.Users)
-                 .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _mapper.ProjectTo<UserDTO>(_context.Users
+                .Include(u => u.Vacations)
+                .Include(u => u.Appointments))
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
