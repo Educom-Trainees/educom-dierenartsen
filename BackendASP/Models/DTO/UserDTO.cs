@@ -1,4 +1,5 @@
 ﻿using BackendASP.Models.Enums;
+using System.Text.Json.Serialization;
 
 namespace BackendASP.Models.DTO
 {
@@ -9,11 +10,13 @@ namespace BackendASP.Models.DTO
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Email { get; set; }
-        public string? PhoneNumber { get; set; }
+        [JsonPropertyName("phone")]
+        public required string PhoneNumber { get; set; }
         public required string PasswordHash { get; set; }
         public DoctorTypes Doctor { get; set; }
         public UserRoles Role { get; set; }
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
         public List<VacationDTO> Vacations { get; set; } = new List<VacationDTO>();
     }
+
 }
