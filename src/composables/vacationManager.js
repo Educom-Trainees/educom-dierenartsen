@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrlVacations = 'http://localhost:3000/vacations'
+const baseUrlVacations = 'http://localhost:5226/vacations'
 
 // export async function getVacations() {
 //     try {

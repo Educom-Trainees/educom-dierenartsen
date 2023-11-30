@@ -123,12 +123,13 @@ export default {
                 console.error(error)
             }
         },
-        saveVacation() {
+        async saveVacation() {
             console.log('opslaan')
             const validForm = this.validateForm()
             if (validForm) {
                 console.log('form', this.newVacation)
-                // router.go(0)
+                await postNewVacation(this.newVacation)
+                router.go(0)
             }
         },
         validateForm() {
