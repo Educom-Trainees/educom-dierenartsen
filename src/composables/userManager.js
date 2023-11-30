@@ -31,8 +31,8 @@ export async function storeUser(newUser) {
  */
 export async function putUser(newUser) {
     try {
-        const response = await axios.patch(
-            'http://localhost:3000/users/' + newUser.id, newUser)
+        const response = await axios.put(
+            'http://localhost:5226/users/' + newUser.id, newUser)
         return true
     }
     catch(error) {
