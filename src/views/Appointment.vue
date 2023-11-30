@@ -259,7 +259,7 @@ export default {
           this.number++
 
           await postAppointments(this.number, toDateString(this.date), this.time, this.duration, this.name, this.phone, 
-          this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.preference, this.doctor, this.status)
+          this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.amount, this.preference, this.doctor, this.status)
 
           this.$router.push('/result/' + this.number)
         }
