@@ -103,7 +103,7 @@ export default {
     methods: {
         async getDoctors() {
             try {
-                const doctors = [await getUserById(2), await getUserById(6)]
+                const doctors = [await getUserById(22), await getUserById(3)]
 
                 for (const doctor of doctors) {
                     const fullName = [doctor.firstName, doctor.lastName].join(' ')
