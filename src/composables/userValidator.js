@@ -122,7 +122,7 @@ export function validatePersonalInfo(salutation,firstName,lastName,phone) {
     if (processedPhone.length === 0) {
         phoneErr = '❌ Telefoonnummer mag niet leeg zijn.'
     }
-    if (processedPhone.length <= 10) {
+    if (processedPhone.length < 10) {
         phoneErr = '❌ Je nummer mag niet korter zijn dan 10 nummers.'
     }
     return { 
