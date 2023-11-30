@@ -96,13 +96,17 @@ namespace BackendASP.Controllers
             {
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
-
+    
             appointmentDTO.Pets = appointmentDTO.Pets.Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
 
             var appointment = _mapper.Map<Appointment>(appointmentDTO);
 
             appointment.Id = 0;
-            foreach(var pet in appointment.Pets)
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == appointmentDTO.Email);
+            appointment.User = user;
+
+            foreach (var pet in appointment.Pets)
             {
                 pet.Id = 0;
             }
