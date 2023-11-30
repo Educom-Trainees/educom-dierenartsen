@@ -29,7 +29,7 @@ export async function loginUser(email, password) {
                     return errors
                 }
                 else {
-                    const user = userDataFromDatabase[0]
+                    const user = userDataFromDatabase
                     try {
                         const isAuthenticated = await authenticateUser(processedPassword, user.passwordHash)
                         if (isAuthenticated) {
