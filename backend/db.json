@@ -3143,6 +3143,16 @@
       "passwordHash": "$2a$10$SRueZp2mZ4dIUDeU2JvsousijtRLUo7FuPel4i8p98zW05081oSmK",
       "role": 0,
       "id": 15
+    },
+    {
+      "salutation": "Meneer",
+      "firstName": "john2",
+      "lastName": "achternaam",
+      "email": "john.achter@gmail.com",
+      "phone": "1234567890",
+      "passwordHash": "$2a$10$MWd7.JPkNzWKgggvdoP1o.J2xhen9pRmtatKOAle5h/sg/qzDbf06",
+      "role": 0,
+      "id": 16
     }
   ]
 }

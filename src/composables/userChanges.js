@@ -39,7 +39,8 @@ export async function changeUser(infoForm) {
                         "firstName": processedFirstName,
                         "lastName": processedLastName,
                         "email": processedEmail,
-                        "phone": processedPhone
+                        "phone": processedPhone,
+                        "passwordHash": userDataFromDatabase.passwordHash
                     }
                     try {
                         const userStored = await putUser(changedUser)
