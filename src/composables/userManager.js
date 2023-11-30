@@ -1,9 +1,9 @@
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
 
-const baseUrlPostUser = 'http://localhost:3000/users'
-const baseUrlGetUser = 'http://localhost:3000/users?email='
-const baseUrlGetUserById = 'http://localhost:3000/users/'
+const baseUrlPostUser = 'http://localhost:5226/users'
+const baseUrlGetUser = 'http://localhost:5226/users/ByEmail?email='
+const baseUrlGetUserById = 'http://localhost:5226/users/'
 const saltRounds = 10
 
 /**
@@ -56,10 +56,14 @@ export async function getUser(userEmail) {
         } else {
             return response.data
         }
-    }
-    catch(error) {
-        console.error('Error getting user from database.')
-        throw error
+   } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.log('User not found.');
+            return null;
+        }
+
+        console.error('Error getting user from the database.', error);
+        throw error;
     }
 }
 
