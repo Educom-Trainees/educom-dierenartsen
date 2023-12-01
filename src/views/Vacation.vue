@@ -64,9 +64,8 @@
 
 <script>
 import router from '../router/index.js'
-// import { EMPLOYEES } from '../utils/Employees.js'
 import TopNavigation from '../components/TopNavigation.vue'
-import { postNewVacation } from '../composables/vacationManager.js'
+import { bookNewVacation } from '../composables/vacationManager.js'
 import { getUserById } from '../composables/userManager.js'
 import { displayDateTime } from '../composables/datetime-utils.js'
 
@@ -124,12 +123,17 @@ export default {
             }
         },
         async saveVacation() {
-            console.log('opslaan')
             const validForm = this.validateForm()
             if (validForm) {
-                console.log('form', this.newVacation)
-                await postNewVacation(this.newVacation)
-                router.go(0)
+                try {
+                    console.log('vacation', this.newVacation)
+                    await bookNewVacation(this.newVacation)
+                    router.go(0)
+                }
+                catch (error) {
+                    console.error(error)
+                    this.errors.genericError = 'Er is iets fout gegaan. Probeer het later opnieuw.'
+                }
             }
         },
         validateForm() {

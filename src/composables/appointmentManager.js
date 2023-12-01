@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const baseUrlActiveAppointmentsByDate = 'http://localhost:5226/appointments?status=0&date='
-const baseUrlAppointmentById = 'http://localhost:5226/appointments/'
+const baseUrlActiveAppointmentsByDate = 'http://localhost:3000/appointments?status=0&date='
+const baseUrlAppointmentById = 'http://localhost:3000/appointments/'
 
 /**
  * Get the active appointments for given date.
