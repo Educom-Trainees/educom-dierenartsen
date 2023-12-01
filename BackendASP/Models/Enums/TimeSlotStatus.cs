@@ -3,6 +3,9 @@
     public enum TimeSlotStatus
     {
         UNAVAILABLE,
-        AVAILABLE
+        AVAILABLE,
+        BOOKED,
+        VACATION
+
     }
 }

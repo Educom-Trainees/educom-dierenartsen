@@ -5,7 +5,6 @@ using BackendASP.Models.DTO;
 using BackendASP.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BackendASP.Controllers
 {
@@ -44,15 +43,25 @@ namespace BackendASP.Controllers
                 .Include(t => t.AvailableDays.Where(d => d.StartDate <= requestedDate && (d.EndDate == null || d.EndDate > requestedDate)))
                 .ToListAsync();
 
+            var bookedTimeSlots = await _context.Appointments
+                .Where(a => a.Date == requestedDate)
+                .Select(a => new
+                {
+                    TimeSlot = a.TimeSlot,
+                    Duration = a.Duration
+                })
+                .ToListAsync();
+
             List<TimeSlotDTO> results = new List<TimeSlotDTO>();
             int mask = 1 << (int)requestedDate.DayOfWeek;
             foreach (var timeSlot in timeSlots)
             {
+                var appointment = bookedTimeSlots.FirstOrDefault(a => a.TimeSlot == timeSlot);
                 var timeslotDTO = new TimeSlotDTO
                 {
                     Time = timeSlot.Time,
                     Doctor = timeSlot.Doctor,
-                    Available = CalculateAvailable(timeSlot, mask),
+                    Available = CalculateAvailable(timeSlot, mask, appointment),
                 };
                 results.Add(timeslotDTO);
             }
@@ -60,10 +69,12 @@ namespace BackendASP.Controllers
             return results;
         }
 
-        private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask)
+       /* private static SlotAvailable CheckBooked(TimeSlot timeSlot, bookedTimeSlots)*/
+
+        private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment)
         {
             int days = timeSlot.AvailableDays.FirstOrDefault()?.Days ?? 0;
-           
+
             if ((days & mask) == 0)
             {
                 return SlotAvailable.NOT_AVAILABLE;

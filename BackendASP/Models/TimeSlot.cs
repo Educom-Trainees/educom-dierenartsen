@@ -11,5 +11,6 @@ namespace BackendASP.Models
         [JsonIgnore]
         virtual public List<Appointment>? Appointments { get; set; }
         virtual public ICollection<AvailableDays> AvailableDays { get; set; } = new List<AvailableDays>();
+        public TimeSlot? PreviousTimeSlot { get; set; }
     }
 }
