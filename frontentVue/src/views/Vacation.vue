@@ -66,7 +66,7 @@
 import router from '../router/index.js'
 import TopNavigation from '../components/TopNavigation.vue'
 import { bookNewVacation } from '../composables/vacationManager.js'
-import { getUserById } from '../composables/userManager.js'
+import { getUser } from '../composables/userManager.js'
 import { displayDateTime } from '../composables/datetime-utils.js'
 
 export default {
@@ -102,7 +102,7 @@ export default {
     methods: {
         async getDoctors() {
             try {
-                const doctors = [await getUserById(22), await getUserById(3)]
+                const doctors = [await getUser("karel@happypaw.nl"), await getUser("danique@happypaw.nl")]
 
                 for (const doctor of doctors) {
                     const fullName = [doctor.firstName, doctor.lastName].join(' ')
