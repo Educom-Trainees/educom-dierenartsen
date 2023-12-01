@@ -22,18 +22,24 @@ namespace BackendASP.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] string? email)
         {
             if (_context.Users == null)
             {
                 return NotFound();
             }
-            var user = await _mapper.ProjectTo<UserDTO>(_context.Users
+            var query = _context.Users
                   .Include(u => u.Vacations)
-                  .Include(u => u.Appointments))
-                  .ToListAsync();
+                  .Include(u => u.Appointments);
 
-            return user;
+            List<UserDTO> users; 
+            if (email != null) {
+                users = await _mapper.ProjectTo<UserDTO>(query.Where(u => u.Email == email)).ToListAsync();
+            } else {
+                users = await _mapper.ProjectTo<UserDTO>(query).ToListAsync();
+            }
+
+            return users;
         }
 
         // GET: api/Users/5

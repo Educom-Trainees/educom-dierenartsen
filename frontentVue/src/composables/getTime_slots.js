@@ -1,25 +1,26 @@
 import { ref } from 'vue'
 import { API_URL } from '../utils/api'
+import { toDateString } from './datetime-utils'
 
-const getPet_Types = () => {
-    const pet_types = ref(null)
+const getTime_slots = (date) => {
+    const time_slots = ref(null)
     const error = ref(null)
 
     const load = async () => {
       try {
-        let data = await fetch(API_URL + 'pettypes')
+        let data = await fetch(API_URL + 'time-slots?date=' + toDateString(date))
         if(!data.ok){
           throw Error('no data found')
         }
-        pet_types.value = await data.json()
+        time_slots.value = await data.json()
       }
       catch (err) {
         error.value = err.message
         console.log(error.value)
       }
     }
-    load()
-    return { pet_types, error}
+
+    return { time_slots, error, load}
 }
 
-export default getPet_Types
+export default getTime_slots

@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231201142119_AddedDoctors")]
+    partial class AddedDoctors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -817,16 +820,11 @@ namespace BackendASP.Migrations
                     b.Property<int>("Doctor")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PreviousTimeSlotId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Time")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PreviousTimeSlotId");
 
                     b.ToTable("TimeSlots");
 
@@ -847,350 +845,300 @@ namespace BackendASP.Migrations
                         {
                             Id = 3,
                             Doctor = 1,
-                            PreviousTimeSlotId = 1,
                             Time = "09:15"
                         },
                         new
                         {
                             Id = 4,
                             Doctor = 2,
-                            PreviousTimeSlotId = 2,
                             Time = "09:15"
                         },
                         new
                         {
                             Id = 5,
                             Doctor = 1,
-                            PreviousTimeSlotId = 3,
                             Time = "09:30"
                         },
                         new
                         {
                             Id = 6,
                             Doctor = 2,
-                            PreviousTimeSlotId = 4,
                             Time = "09:30"
                         },
                         new
                         {
                             Id = 7,
                             Doctor = 1,
-                            PreviousTimeSlotId = 5,
                             Time = "09:45"
                         },
                         new
                         {
                             Id = 8,
                             Doctor = 2,
-                            PreviousTimeSlotId = 6,
                             Time = "09:45"
                         },
                         new
                         {
                             Id = 9,
                             Doctor = 1,
-                            PreviousTimeSlotId = 7,
                             Time = "10:00"
                         },
                         new
                         {
                             Id = 10,
                             Doctor = 2,
-                            PreviousTimeSlotId = 8,
                             Time = "10:00"
                         },
                         new
                         {
                             Id = 11,
                             Doctor = 1,
-                            PreviousTimeSlotId = 9,
                             Time = "10:15"
                         },
                         new
                         {
                             Id = 12,
                             Doctor = 2,
-                            PreviousTimeSlotId = 10,
                             Time = "10:15"
                         },
                         new
                         {
                             Id = 13,
                             Doctor = 1,
-                            PreviousTimeSlotId = 11,
                             Time = "10:30"
                         },
                         new
                         {
                             Id = 14,
                             Doctor = 2,
-                            PreviousTimeSlotId = 12,
                             Time = "10:30"
                         },
                         new
                         {
                             Id = 15,
                             Doctor = 1,
-                            PreviousTimeSlotId = 13,
                             Time = "10:45"
                         },
                         new
                         {
                             Id = 16,
                             Doctor = 2,
-                            PreviousTimeSlotId = 14,
                             Time = "10:45"
                         },
                         new
                         {
                             Id = 17,
                             Doctor = 1,
-                            PreviousTimeSlotId = 15,
                             Time = "11:00"
                         },
                         new
                         {
                             Id = 18,
                             Doctor = 2,
-                            PreviousTimeSlotId = 16,
                             Time = "11:00"
                         },
                         new
                         {
                             Id = 19,
                             Doctor = 1,
-                            PreviousTimeSlotId = 17,
                             Time = "11:15"
                         },
                         new
                         {
                             Id = 20,
                             Doctor = 2,
-                            PreviousTimeSlotId = 18,
                             Time = "11:15"
                         },
                         new
                         {
                             Id = 21,
                             Doctor = 1,
-                            PreviousTimeSlotId = 19,
                             Time = "11:30"
                         },
                         new
                         {
                             Id = 22,
                             Doctor = 2,
-                            PreviousTimeSlotId = 20,
                             Time = "11:30"
                         },
                         new
                         {
                             Id = 23,
                             Doctor = 1,
-                            PreviousTimeSlotId = 21,
                             Time = "11:45"
                         },
                         new
                         {
                             Id = 24,
                             Doctor = 2,
-                            PreviousTimeSlotId = 22,
                             Time = "11:45"
                         },
                         new
                         {
                             Id = 25,
                             Doctor = 1,
-                            PreviousTimeSlotId = 23,
                             Time = "12:00"
                         },
                         new
                         {
                             Id = 26,
                             Doctor = 2,
-                            PreviousTimeSlotId = 24,
                             Time = "12:00"
                         },
                         new
                         {
                             Id = 27,
                             Doctor = 1,
-                            PreviousTimeSlotId = 25,
                             Time = "14:15"
                         },
                         new
                         {
                             Id = 28,
                             Doctor = 2,
-                            PreviousTimeSlotId = 26,
                             Time = "14:15"
                         },
                         new
                         {
                             Id = 29,
                             Doctor = 1,
-                            PreviousTimeSlotId = 27,
                             Time = "14:30"
                         },
                         new
                         {
                             Id = 30,
                             Doctor = 2,
-                            PreviousTimeSlotId = 28,
                             Time = "14:30"
                         },
                         new
                         {
                             Id = 31,
                             Doctor = 1,
-                            PreviousTimeSlotId = 29,
                             Time = "14:45"
                         },
                         new
                         {
                             Id = 32,
                             Doctor = 2,
-                            PreviousTimeSlotId = 30,
                             Time = "14:45"
                         },
                         new
                         {
                             Id = 33,
                             Doctor = 1,
-                            PreviousTimeSlotId = 31,
                             Time = "15:00"
                         },
                         new
                         {
                             Id = 34,
                             Doctor = 2,
-                            PreviousTimeSlotId = 32,
                             Time = "15:00"
                         },
                         new
                         {
                             Id = 35,
                             Doctor = 1,
-                            PreviousTimeSlotId = 33,
                             Time = "15:15"
                         },
                         new
                         {
                             Id = 36,
                             Doctor = 2,
-                            PreviousTimeSlotId = 34,
                             Time = "15:15"
                         },
                         new
                         {
                             Id = 37,
                             Doctor = 1,
-                            PreviousTimeSlotId = 35,
                             Time = "15:30"
                         },
                         new
                         {
                             Id = 38,
                             Doctor = 2,
-                            PreviousTimeSlotId = 36,
                             Time = "15:30"
                         },
                         new
                         {
                             Id = 39,
                             Doctor = 1,
-                            PreviousTimeSlotId = 37,
                             Time = "15:45"
                         },
                         new
                         {
                             Id = 40,
                             Doctor = 2,
-                            PreviousTimeSlotId = 38,
                             Time = "15:45"
                         },
                         new
                         {
                             Id = 41,
                             Doctor = 1,
-                            PreviousTimeSlotId = 39,
                             Time = "16:00"
                         },
                         new
                         {
                             Id = 42,
                             Doctor = 2,
-                            PreviousTimeSlotId = 40,
                             Time = "16:00"
                         },
                         new
                         {
                             Id = 43,
                             Doctor = 1,
-                            PreviousTimeSlotId = 41,
                             Time = "16:15"
                         },
                         new
                         {
                             Id = 44,
                             Doctor = 2,
-                            PreviousTimeSlotId = 42,
                             Time = "16:15"
                         },
                         new
                         {
                             Id = 45,
                             Doctor = 1,
-                            PreviousTimeSlotId = 43,
                             Time = "16:30"
                         },
                         new
                         {
                             Id = 46,
                             Doctor = 2,
-                            PreviousTimeSlotId = 44,
                             Time = "16:30"
                         },
                         new
                         {
                             Id = 47,
                             Doctor = 1,
-                            PreviousTimeSlotId = 45,
                             Time = "16:45"
                         },
                         new
                         {
                             Id = 48,
                             Doctor = 2,
-                            PreviousTimeSlotId = 46,
                             Time = "16:45"
                         },
                         new
                         {
                             Id = 49,
                             Doctor = 1,
-                            PreviousTimeSlotId = 47,
                             Time = "17:00"
                         },
                         new
                         {
                             Id = 50,
                             Doctor = 2,
-                            PreviousTimeSlotId = 48,
                             Time = "17:00"
                         },
                         new
                         {
                             Id = 51,
                             Doctor = 1,
-                            PreviousTimeSlotId = 49,
                             Time = "17:15"
                         },
                         new
                         {
                             Id = 52,
                             Doctor = 2,
-                            PreviousTimeSlotId = 50,
                             Time = "17:15"
                         });
                 });
@@ -1457,15 +1405,6 @@ namespace BackendASP.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("BackendASP.Models.TimeSlot", b =>
-                {
-                    b.HasOne("BackendASP.Models.TimeSlot", "PreviousTimeSlot")
-                        .WithMany()
-                        .HasForeignKey("PreviousTimeSlotId");
-
-                    b.Navigation("PreviousTimeSlot");
                 });
 
             modelBuilder.Entity("BackendASP.Models.Vacation", b =>

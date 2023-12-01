@@ -12,7 +12,7 @@ using AutoMapper;
 
 namespace BackendASP.Controllers
 {
-    [Route("appointmenttypes")]
+    [Route("appointment-types")]
     [ApiController]
     public class AppointmentTypesController : ControllerBase
     {

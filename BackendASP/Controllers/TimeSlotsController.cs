@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
-    [Route("timeslots")]
+    [Route("time-slots")]
     [ApiController]
     public class TimeSlotsController : ControllerBase
     {
@@ -19,15 +19,6 @@ namespace BackendASP.Controllers
         {
             _context = context;
             _mapper = mapper;
-
-            DayTypes days = DayTypes.WORKING_DAYS;
-            DayTypes today = (DayTypes)(1 << (int)DateTime.Now.DayOfWeek);
-            DayTypes monday = DayTypes.MONDAY;
-
-            bool avaliable = (days & today) != 0;
-            bool avaliable2 = (days & monday) != 0;
-
-            int value = (int)days;
         }
 
         // GET: api/TimeSlots

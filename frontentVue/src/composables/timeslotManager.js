@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { API_URL } from '../utils/api'
 
-const baseUrlTimeslots = 'http://localhost:3000/time-slots'
-const baseUrlTimeslotsByDate = 'http://localhost:3000/time-slots?date='
 
-export async function GetAllTimeslots() {
+const baseUrlTimeslots = API_URL + 'time-slots'
+const baseUrlTimeslotsByDate = baseUrlTimeslots + '?date='
+
+export async function GetAllTimeslots() { // This function gets todays timeslots
     try {
         const response = await axios.get(baseUrlTimeslots)
         if (Array.isArray(response.data) && response.data.length === 0) {

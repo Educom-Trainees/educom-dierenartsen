@@ -1,10 +1,9 @@
 import axios from 'axios'
-
-const baseUrlPetTypes = 'http://localhost:3000/pet-types'
+import { API_URL } from '../utils/api'
 
 export async function getPetTypes() {
     try {
-        const response = await axios.get(baseUrlPetTypes) 
+        const response = await axios.get(API_URL + "pet-types") 
         if (Array.isArray(response.data) && response.data.length === 0) {
             return []
         } else {

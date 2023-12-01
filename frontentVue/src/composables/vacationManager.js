@@ -1,6 +1,7 @@
 import axios from 'axios'
+import { API_URL } from '../utils/api'
 
-const baseUrlVacations = 'http://localhost:5226/vacations'
+const baseUrlVacations = API_URL + '/vacations'
 
 export async function bookNewVacation(newVacation) {
     try {
