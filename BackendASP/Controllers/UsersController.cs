@@ -31,12 +31,15 @@ namespace BackendASP.Controllers
             var query = _context.Users
                   .Include(u => u.Vacations)
                   .Include(u => u.Appointments);
-            if (email != null) {
-                query.Where(u => u.Email == email);
-            }
-            var user = await _mapper.ProjectTo<UserDTO>(query).ToListAsync();
 
-            return user;
+            List<UserDTO> users; 
+            if (email != null) {
+                users = await _mapper.ProjectTo<UserDTO>(query.Where(u => u.Email == email)).ToListAsync();
+            } else {
+                users = await _mapper.ProjectTo<UserDTO>(query).ToListAsync();
+            }
+
+            return users;
         }
 
         // GET: api/Users/5
