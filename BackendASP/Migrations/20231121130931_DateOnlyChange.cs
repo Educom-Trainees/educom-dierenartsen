@@ -17,7 +17,7 @@ namespace BackendASP.Migrations
                 type: "date",
                 nullable: false,
                 oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+                oldType: "datetime");
 
             migrationBuilder.UpdateData(
                 table: "Appointments",
@@ -33,7 +33,7 @@ namespace BackendASP.Migrations
             migrationBuilder.AlterColumn<DateTime>(
                 name: "Date",
                 table: "Appointments",
-                type: "datetime2",
+                type: "datetime",
                 nullable: false,
                 oldClrType: typeof(DateOnly),
                 oldType: "date");

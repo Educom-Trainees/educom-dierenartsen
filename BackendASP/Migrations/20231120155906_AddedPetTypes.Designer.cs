@@ -36,12 +36,12 @@ namespace BackendASP.Migrations
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
@@ -49,7 +49,7 @@ namespace BackendASP.Migrations
                     b.Property<string>("Plural")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 

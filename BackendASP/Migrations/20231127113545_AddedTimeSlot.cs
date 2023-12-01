@@ -19,7 +19,7 @@ namespace BackendASP.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Time = table.Column<string>(type: "varchar(256)", nullable: false),
                     Doctor = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

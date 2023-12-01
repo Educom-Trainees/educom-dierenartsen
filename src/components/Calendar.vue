@@ -53,29 +53,6 @@ export default {
             return combineTimeslotAppointments(this.tslot, app)
 
         }
-        // old computed method, deprecated: 13-11-2023
-        // calculatedTimeslots() {
-        //     const array = this.timeslots.map(t => {
-        //         const a = this.appointments.filter(a => a.time == t && (a.doctor == this.doctorId || a.doctor == 3))
-        //         return {
-        //             "timeslot": t,
-        //             "doctor": this.doctorId,
-        //             "appointment": a? a[0] : undefined,
-        //             "show": true,
-        //         }
-        //     })
-        //     for (var i = 0; i < array.length; i++) { 
-        //         if (array[i].appointment) {
-        //             if (array[i].appointment.duration > 15) {
-        //                 const r = array[i].appointment.duration / 15
-        //                 for (var n = 1; n < r; n++) {
-        //                     array[i+n].show = false
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     return array
-        // }
     }
 }
 </script>

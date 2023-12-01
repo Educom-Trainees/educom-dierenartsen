@@ -1,1 +1,0 @@
-export const EMPLOYEES = ['Karel Lant', 'Danique de Beer']

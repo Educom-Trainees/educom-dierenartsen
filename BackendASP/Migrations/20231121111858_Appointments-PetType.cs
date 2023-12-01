@@ -18,10 +18,10 @@ namespace BackendASP.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AppointmentNumber = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CustomerName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime", nullable: false),
+                    CustomerName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false),
+                    Email = table.Column<string>(type: "varchar(254)", maxLength: 254, nullable: false),
                     Preference = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     PetTypeId = table.Column<int>(type: "int", nullable: true)

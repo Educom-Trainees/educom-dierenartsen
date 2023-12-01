@@ -39,7 +39,7 @@ namespace BackendASP.Migrations
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
@@ -53,7 +53,7 @@ namespace BackendASP.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
+                        .HasColumnType("varchar(254)");
 
                     b.Property<int>("PetTypeId")
                         .HasColumnType("int");
@@ -61,7 +61,7 @@ namespace BackendASP.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("varchar(15)");
 
                     b.Property<int>("Preference")
                         .HasColumnType("int");
@@ -104,11 +104,11 @@ namespace BackendASP.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ExtraInfo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -136,12 +136,12 @@ namespace BackendASP.Migrations
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
@@ -149,7 +149,7 @@ namespace BackendASP.Migrations
                     b.Property<string>("Plural")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
 

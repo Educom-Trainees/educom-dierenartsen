@@ -60,11 +60,10 @@
 </template>
 
 <script>
-import axios from 'axios'
 import router from '../router/index.js'
 import { displayTimeslot, displayDate } from '../composables/datetime-utils.js'
-
-const baseUrlPetTypes = 'http://localhost:5226/pettypes'
+import { cancelAppointmentByDoctor } from '../composables/appointmentManager.js'
+import { getPetTypes } from '../composables/PetManager.js'
 
 export default {
     name: 'AppointmentDetail',
@@ -80,22 +79,22 @@ export default {
         }
     },
     methods: {
-        getPetTypes() {
-            axios.get(baseUrlPetTypes)
-                .then(response => this.petTypes = response.data)
-                .catch(error => console.log('Error getting pet-types:', error))
+        async getPetTypes() {
+            try {
+                this.petTypes = await getPetTypes()
+            }
+            catch (error) {
+                console.error(error)
+            }
         },
-        cancelAppointment(appointment) {
-            const baseUrlAppointment = 'http://localhost:5226/appointments/'
-            const url = baseUrlAppointment + String(appointment.id)
-
-            const cancelledAppointment = {...appointment, 'status': 1}
-
-            axios.put(url, cancelledAppointment)
-                .then(response => console.log('Appointment cancelled successfully.'))
-                .catch(error => console.log('Error updating appointments:', error))
-
-            location.reload()
+        async cancelAppointment(appointment) {
+            try {
+                await cancelAppointmentByDoctor(appointment)
+                router.go(0)
+            }
+            catch (error) {
+                console.error(error)
+            }
         },
         moveAppointment(appointmentId) {
             router.push({name: 'change-appointment', params: {id: appointmentId}})

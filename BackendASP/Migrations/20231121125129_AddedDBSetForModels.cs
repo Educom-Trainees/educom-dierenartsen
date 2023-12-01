@@ -16,8 +16,8 @@ namespace BackendASP.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    ExtraInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    ExtraInfo = table.Column<string>(type: "varchar(256)", nullable: true),
                     AppointmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

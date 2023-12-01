@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import router from '../router/index.js'
 import { USER_ROLES } from '../utils/userRoles.js'
 import { hasRequiredRole, isLoggedIn, logoutUser } from '../composables/sessionManager.js'
 
@@ -60,13 +61,14 @@ export default {
     }, 
     beforeMount() {
         this.showOverview = hasRequiredRole([USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE])
-        this.isLoggedIn = isLoggedIn('testing function isloggedin')
+        this.isLoggedIn = isLoggedIn()
         this.showVacation = hasRequiredRole([USER_ROLES.ADMIN])
     },
     methods: {
         logout() {
             logoutUser()
-            location.reload()
+            // location.reload()
+            router.go(0)
         }
     }
 }

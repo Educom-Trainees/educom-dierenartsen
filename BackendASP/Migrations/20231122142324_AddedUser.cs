@@ -15,11 +15,11 @@ namespace BackendASP.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Image",
                 table: "PetTypes",
-                type: "nvarchar(30)",
+                type: "varchar(30)",
                 maxLength: 30,
                 nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(30)",
+                oldType: "varchar(30)",
                 oldMaxLength: 30);
 
             migrationBuilder.CreateTable(
@@ -28,12 +28,12 @@ namespace BackendASP.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Salutation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Salutation = table.Column<string>(type: "varchar(256)", nullable: false),
+                    FirstName = table.Column<string>(type: "varchar(256)", nullable: false),
+                    LastName = table.Column<string>(type: "varchar(256)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(256)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(256)", nullable: true),
+                    PasswordHash = table.Column<string>(type: "varchar(256)", nullable: false),
                     Role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -60,12 +60,12 @@ namespace BackendASP.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "Image",
                 table: "PetTypes",
-                type: "nvarchar(30)",
+                type: "varchar(30)",
                 maxLength: 30,
                 nullable: false,
                 defaultValue: "",
                 oldClrType: typeof(string),
-                oldType: "nvarchar(30)",
+                oldType: "varchar(30)",
                 oldMaxLength: 30,
                 oldNullable: true);
         }
