@@ -23,15 +23,21 @@ namespace BackendASP.Controllers
 
         // GET: api/Appointments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments()
+        public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status)
         {
             if (_context.Appointments == null)
             {
                 return NotFound();
             }
-            var appointments = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments
-                .Include(a => a.PetType))
-                .ToListAsync();
+
+            IQueryable<Appointment> query = _context.Appointments.Include(a => a.Pets).Include(a => a.TimeSlot);
+            if (date != null) {
+                query = query.Where(a => a.Date == date);
+            }
+            if (status != null) {
+                query = query.Where(a => a.Status == status);
+            }
+            var appointments = await _mapper.ProjectTo<AppointmentDTO>(query).ToListAsync();
 
             return appointments;
         }
@@ -45,7 +51,7 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
             var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments
-                .Include(a => a.PetType))
+                .Include(a => a.Pets).Include(a => a.TimeSlot))
                 .FirstOrDefaultAsync(a => a.Id == id);            
 
             if (appointment == null)
@@ -121,8 +127,8 @@ namespace BackendASP.Controllers
             }
             appointment.AppointmentType = appointmentType;
 
-            // werkt momenteel alleen met doctor 1 en 2 door deze regel
-            var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime && t.Doctor == appointmentDTO.Doctor);
+            var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime && 
+                                                                        (appointmentDTO.Doctor == DoctorTypes.BOTH || t.Doctor == appointmentDTO.Doctor));
             if (timeSlot == null)
             {
                 return NotFound("timeSlot is unknown");
