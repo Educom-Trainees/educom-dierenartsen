@@ -43,20 +43,15 @@ namespace BackendASP.Controllers
                 .Include(t => t.AvailableDays.Where(d => d.StartDate <= requestedDate && (d.EndDate == null || d.EndDate > requestedDate)))
                 .ToListAsync();
 
-            var bookedTimeSlots = await _context.Appointments
+            var bookedAppointments = await _context.Appointments
                 .Where(a => a.Date == requestedDate)
-                .Select(a => new
-                {
-                    TimeSlot = a.TimeSlot,
-                    Duration = a.Duration
-                })
                 .ToListAsync();
 
             List<TimeSlotDTO> results = new List<TimeSlotDTO>();
             int mask = 1 << (int)requestedDate.DayOfWeek;
             foreach (var timeSlot in timeSlots)
             {
-                var appointment = bookedTimeSlots.FirstOrDefault(a => a.TimeSlot == timeSlot);
+                var appointment = bookedAppointments.FirstOrDefault(a => a.TimeSlot == timeSlot);
                 var timeslotDTO = new TimeSlotDTO
                 {
                     Time = timeSlot.Time,
@@ -69,8 +64,6 @@ namespace BackendASP.Controllers
             return results;
         }
 
-       /* private static SlotAvailable CheckBooked(TimeSlot timeSlot, bookedTimeSlots)*/
-
         private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment)
         {
             int days = timeSlot.AvailableDays.FirstOrDefault()?.Days ?? 0;
@@ -79,11 +72,31 @@ namespace BackendASP.Controllers
             {
                 return SlotAvailable.NOT_AVAILABLE;
             }
+            else if (appointment != null)
+            {
+                return SlotAvailable.BOOKED;
+            }
             else
             {
+                TimeSlot currentSlot = timeSlot;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    currentSlot = currentSlot?.PreviousTimeSlot;
+
+                    if (currentSlot?.Appointments != null)
+                    {
+                        if (currentSlot.Appointments[0].Duration > 15 * (i + 1))
+                        {
+                            return SlotAvailable.BOOKED;
+                        }
+                    }
+                }
+
                 return SlotAvailable.AVAILABLE;
             }
         }
+
 
         // GET: api/TimeSlots/5
         [HttpGet("{id}")]
