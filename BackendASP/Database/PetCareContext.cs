@@ -225,7 +225,7 @@ namespace BackendASP.Database
                      Email = "brandon@gmail.com",
                      PhoneNumber = "067890456",
                      PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
-                     Doctor = DoctorTypes.NO_PREFERENCE, 
+                     Doctor = DoctorTypes.NO_PREFERENCE,
                      Role = UserRoles.GUEST
                  },
                  new
@@ -251,7 +251,32 @@ namespace BackendASP.Database
                      PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
                      Doctor = DoctorTypes.KAREL_LANT,
                      Role = UserRoles.EMPLOYEE
-                 });
+                 },
+                new
+                {
+                    Id = 4,
+                    Salutation = "Mevrou",
+                    FirstName = "Danique",
+                    LastName = "de Beer",
+                    Email = "danique@happypaw.nl",
+                    PhoneNumber = "0687654321",
+                    PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
+                    Doctor = DoctorTypes.DANIQUE_DE_BEER,
+                    Role = UserRoles.EMPLOYEE
+                },
+                new
+                {
+                    Id = 5,
+                    Salutation = "Mevrouw",
+                    FirstName = "Admin",
+                    LastName = "Secretaresse",
+                    Email = "admin@happypaw.nl",
+                    PhoneNumber = "0623445443",
+                    PasswordHash = "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
+                    Doctor = DoctorTypes.NO_PREFERENCE,
+                    Role = UserRoles.ADMIN
+                }
+                );
             base.OnModelCreating(modelBuilder);
         }
     }
