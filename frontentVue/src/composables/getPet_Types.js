@@ -7,7 +7,7 @@ const getPet_Types = () => {
 
     const load = async () => {
       try {
-        let data = await fetch(API_URL + 'pettypes')
+        let data = await fetch(API_URL + 'pet-types')
         if(!data.ok){
           throw Error('no data found')
         }

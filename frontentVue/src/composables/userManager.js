@@ -1,9 +1,8 @@
 import axios from 'axios'
 import bcrypt from 'bcryptjs'
+import { API_URL } from '../utils/api'
 
-const baseUrlPostUser = 'http://localhost:5226/users'
-const baseUrlGetUser = 'http://localhost:5226/users/ByEmail?email='
-const baseUrlGetUserById = 'http://localhost:5226/users/'
+const baseUrlUser = API_URL + 'users'
 const saltRounds = 10
 
 /**
@@ -14,7 +13,7 @@ const saltRounds = 10
  */
 export async function storeUser(newUser) {
     try {
-        const response = await axios.post(baseUrlPostUser, newUser)
+        const response = await axios.post(baseUrlUser, newUser)
         return true
     }
     catch(error) {
@@ -32,7 +31,7 @@ export async function storeUser(newUser) {
 export async function putUser(newUser) {
     try {
         const response = await axios.put(
-            'http://localhost:5226/users/' + newUser.id, newUser)
+            baseUrlUser + '/' + newUser.id, newUser)
         return true
     }
     catch(error) {
@@ -48,13 +47,13 @@ export async function putUser(newUser) {
  * @returns Returns user object if user found, otherwise null.
  */
 export async function getUser(userEmail) {
-    const url = baseUrlGetUser + userEmail
+    const url = baseUrlUser + "?email=" + userEmail
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {
             return null
         } else {
-            return response.data
+            return response.data[0]
         }
    } catch (error) {
         if (error.response && error.response.status === 404) {
@@ -74,7 +73,7 @@ export async function getUser(userEmail) {
  * @returns Returns user object if user found, otherwise null.
  */
 export async function getUserById(userid) {
-    const url = baseUrlGetUserById + userid
+    const url = baseUrlUser + "/" + userid
     try {
         const response = await axios.get(url)
         if (Array.isArray(response.data) && response.data.length === 0) {

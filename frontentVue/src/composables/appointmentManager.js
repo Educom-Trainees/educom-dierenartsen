@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { API_URL } from '../utils/api'
 
-const baseUrlActiveAppointmentsByDate = 'http://localhost:3000/appointments?status=0&date='
-const baseUrlAppointmentById = 'http://localhost:3000/appointments/'
+const baseUrlAppointment = API_URL + 'appointments'
+const baseUrlActiveAppointmentsByDate = baseUrlAppointment + '?status=0&date='
 
 /**
  * Get the active appointments for given date.
@@ -31,7 +32,7 @@ export async function GetActiveAppointmentsByDate(date) {
  * @returns Returns the appointment if found, otherwise empty array.
  */
 export async function getAppoinmentById(id) {
-    const url = baseUrlAppointmentById + String(id)
+    const url = baseUrlAppointment + "/" + String(id)
     try {
         const response = await axios.get(url) 
         if (Array.isArray(response.data) && response.data.length === 0) {
@@ -47,7 +48,7 @@ export async function getAppoinmentById(id) {
 }
 
 export async function cancelAppointmentByDoctor(appointment) {
-    const url = baseUrlAppointmentById + String(appointment.id)
+    const url = baseUrlAppointment + "/ " + String(appointment.id)
     const cancelledAppointment = {...appointment, 'status': 1}
     try {
         const response = await axios.put(url, cancelledAppointment) 
@@ -58,7 +59,7 @@ export async function cancelAppointmentByDoctor(appointment) {
 }
 
 export async function updateAppoinment(updatedAppointment) {
-    const url = baseUrlAppointmentById + String(updatedAppointment.id)
+    const url = baseUrlAppointment + "/" + String(updatedAppointment.id)
     try {
         const response = await axios.put(url, updatedAppointment) 
     }

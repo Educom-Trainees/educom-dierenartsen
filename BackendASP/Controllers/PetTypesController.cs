@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
-    [Route("pettypes")]
+    [Route("pet-types")]
     [ApiController]
     public class PetTypesController : ControllerBase
     {

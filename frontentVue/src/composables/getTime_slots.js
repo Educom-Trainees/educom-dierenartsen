@@ -8,7 +8,7 @@ const getTime_slots = (date) => {
 
     const load = async () => {
       try {
-        let data = await fetch(API_URL + 'timeslots?date=' + toDateString(date))
+        let data = await fetch(API_URL + 'time-slots?date=' + toDateString(date))
         if(!data.ok){
           throw Error('no data found')
         }
