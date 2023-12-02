@@ -165,30 +165,17 @@ namespace BackendASP.Controllers
             {
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
-<<<<<<< HEAD
-
-=======
             /* DO NOT remove pets without a name or store the number of pets somewhere!
->>>>>>> Added Swagger documentation for the appointments controller
             appointmentDTO.Pets = appointmentDTO.Pets.Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
             */
             var appointment = _mapper.Map<Appointment>(appointmentDTO);
 
             // ignore id, number and status
             appointment.Id = 0;
-<<<<<<< HEAD
-            foreach(var pet in appointment.Pets)
-            {
-=======
             appointment.AppointmentNumber = 0;
             appointment.Status = StatusTypes.ACTIVE;
-
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == appointmentDTO.Email);
-            appointment.User = user;
-
             foreach (var pet in appointment.Pets)
-            { 
->>>>>>> Added Swagger documentation for the appointments controller
+            {
                 pet.Id = 0;
             }
             // TODO: put this in a service or logic class
