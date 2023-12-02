@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
+    /// <summary>
+    /// Get the appointments made by customers
+    /// </summary>
     [Route("appointments")]
     [ApiController]
     public class AppointmentsController : ControllerBase
@@ -21,8 +24,18 @@ namespace BackendASP.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get The first 100 appointments (of a certain date or state)
+        /// </summary>
+        /// <param name="date">(optional) appointments of this specific date</param>
+        /// <param name="status">(optional) appointments that have this status (0 = active, 1 = cancelled by doctor, 2 = cancelled by customer)</param>
+        /// <returns>200 + The appointment</returns>
+        /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Appointments
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status)
         {
             if (_context.Appointments == null)
@@ -30,7 +43,7 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
 
-            IQueryable<Appointment> query = _context.Appointments.Include(a => a.Pets).Include(a => a.TimeSlot);
+            IQueryable<Appointment> query = _context.Appointments.Take(100);
             if (date != null) {
                 query = query.Where(a => a.Date == date);
             }
@@ -42,17 +55,25 @@ namespace BackendASP.Controllers
             return appointments;
         }
 
+        /// <summary>
+        /// Get the appointment details of one appointment
+        /// </summary>
+        /// <param name="id">The id of the appointment</param>
+        /// <returns>the appointment</returns>
+        /// <remarks>returns 404 when the database or the appointment were not found</remarks>
         // GET: api/Appointments/5
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AppointmentDTO>> GetAppointmentById(int id)
         {
             if (_context.Appointments == null)
             {
                 return NotFound();
             }
-            var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments
-                .Include(a => a.Pets).Include(a => a.TimeSlot))
-                .FirstOrDefaultAsync(a => a.Id == id);            
+            var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments)
+                                           .FirstOrDefaultAsync(a => a.Id == id);            
 
             if (appointment == null)
             {
@@ -64,12 +85,29 @@ namespace BackendASP.Controllers
 
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Modify an appointment
+        /// </summary>
+        /// <param name="id">The id of the appointment</param>
+        /// <param name="appointments">The updated appointment</param>
+        /// <returns>201 on success</returns>
+        /// <remarks>returns 400 on a bad request
+        /// returns 404 when the database was not found</remarks>
         [HttpPut("{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutAppointments(int id, Appointment appointments)
         {
             if (id != appointments.Id)
             {
                 return BadRequest();
+            }
+            if (_context.Appointments == null)
+            {
+                return NotFound();
             }
 
             _context.Entry(appointments).State = EntityState.Modified;
@@ -95,22 +133,72 @@ namespace BackendASP.Controllers
 
         // POST: api/Appointments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a new appointment
+        /// </summary>
+        /// <remarks>        
+        /// <ul>
+        /// <li>id, number and status are ignored</li>
+        /// <li>time - (format: hh:mm) must be an available timeslot</li>
+        /// <li>date - (format: yyyy-mm-dd)</li>
+        /// <li>duration - must be 15, 30, 45 or 60 (minutes)</li> 
+        /// <li>userId - (optional) the id of the user when a user is logged in</li>
+        /// <li>preference - can only be 0 for no-preference, 1 for Karel or 2 for Danique</li>
+        /// <li>doctor - can only be 1 for Karel, 2 for Danique or 3 for both</li>
+        /// <li>pet names and extraInfo are both optional, when both absent still send the object as it is needed for the count</li>
+        /// </ul><ul>
+        /// <li>returns 400 on a incorrect or incomplete request</li>
+        /// <li>returns 404 when the database, pet-type, doctor-type, type or timeslot could not be found</li>
+        /// </ul>
+        /// </remarks>
+        /// <param name="appointmentDTO">The new appointment</param>
+        /// <returns>The created appointment on success</returns>
         [HttpPost]
-        public async Task<ActionResult<Appointment>> PostAppointments(AppointmentDTO appointmentDTO)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AppointmentDTO>> PostAppointments(AppointmentDTO appointmentDTO)
         {
             if (_context.Appointments == null)
             {
                 return Problem("Entity set 'PetCareContext.Appointments' is null.");
             }
+<<<<<<< HEAD
 
+=======
+            /* DO NOT remove pets without a name or store the number of pets somewhere!
+>>>>>>> Added Swagger documentation for the appointments controller
             appointmentDTO.Pets = appointmentDTO.Pets.Where(p => !string.IsNullOrEmpty(p.Name)).ToList();
-
+            */
             var appointment = _mapper.Map<Appointment>(appointmentDTO);
 
+            // ignore id, number and status
             appointment.Id = 0;
+<<<<<<< HEAD
             foreach(var pet in appointment.Pets)
             {
+=======
+            appointment.AppointmentNumber = 0;
+            appointment.Status = StatusTypes.ACTIVE;
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == appointmentDTO.Email);
+            appointment.User = user;
+
+            foreach (var pet in appointment.Pets)
+            { 
+>>>>>>> Added Swagger documentation for the appointments controller
                 pet.Id = 0;
+            }
+            // TODO: put this in a service or logic class
+            if (appointment.Doctor == DoctorTypes.NO_PREFERENCE)
+            {
+                return BadRequest("Doctor cannot be 0");
+            }
+            if (appointment.Preference == DoctorTypes.BOTH)
+            {
+                return BadRequest("Preference cannot be 3");
             }
 
             var petType = await _context.PetTypes.FindAsync(appointmentDTO.PetTypeId);
@@ -150,8 +238,16 @@ namespace BackendASP.Controllers
             return CreatedAtAction("GetAppointments", new { id = appointment.Id }, _mapper.Map<AppointmentDTO>(appointment));
         }
 
+        /// <summary>
+        /// Remove an appointment (better is to change the status to cancelled)
+        /// </summary>
+        /// <param name="id">The id of the appointment</param>
+        /// <returns>204 when deleted</returns>
+        /// <remarks>returns 404 when the database or appointment were not found</remarks>
         // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAppointments(int id)
         {
             if (_context.Appointments == null)
