@@ -34,6 +34,11 @@ namespace BackendASP.Controllers
                 .Include(t => t.AvailableDays.Where(d => d.StartDate <= requestedDate && (d.EndDate == null || d.EndDate > requestedDate)))
                 .ToListAsync();
 
+            var vacationsOnDate = await _context.Vacations
+                .Include(v => v.User)
+                .Where(v => DateOnly.FromDateTime(v.StartDateTime) <= requestedDate && DateOnly.FromDateTime(v.EndDateTime) >= requestedDate)
+                .ToListAsync();
+
             var bookedAppointments = await _context.Appointments
                 .Where(a => a.Date == requestedDate)
                 .ToListAsync();
@@ -43,11 +48,13 @@ namespace BackendASP.Controllers
             foreach (var timeSlot in timeSlots)
             {
                 var appointment = bookedAppointments.FirstOrDefault(a => a.TimeSlot == timeSlot);
+                var vacation = vacationsOnDate.FirstOrDefault(v => v.User.Doctor == timeSlot.Doctor);
+
                 var timeslotDTO = new TimeSlotDTO
                 {
                     Time = timeSlot.Time,
                     Doctor = timeSlot.Doctor,
-                    Available = CalculateAvailable(timeSlot, mask, appointment),
+                    Available = CalculateAvailable(timeSlot, mask, appointment, vacation, requestedDate),
                 };
                 results.Add(timeslotDTO);
             }
@@ -55,7 +62,7 @@ namespace BackendASP.Controllers
             return results;
         }
 
-        private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment)
+        private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment, Vacation? vacation, DateOnly requestedDate)
         {
             int days = timeSlot.AvailableDays.FirstOrDefault()?.Days ?? 0;
 
@@ -63,24 +70,36 @@ namespace BackendASP.Controllers
             {
                 return SlotAvailable.NOT_AVAILABLE;
             }
-            else if (appointment != null)
+
+            TimeOnly timeSlotTime = TimeOnly.Parse(timeSlot.Time);
+
+            if (vacation != null)
+            {
+                DateOnly vacationStart = DateOnly.FromDateTime(vacation.StartDateTime);
+                DateOnly vacationEnd = DateOnly.FromDateTime(vacation.EndDateTime);
+
+                if ((requestedDate >= vacationStart && requestedDate <= vacationEnd) &&
+                    (requestedDate != vacationStart || timeSlotTime >= TimeOnly.FromDateTime(vacation.StartDateTime)) &&
+                    (requestedDate != vacationEnd || timeSlotTime <= TimeOnly.FromDateTime(vacation.EndDateTime)))
+                {
+                    return SlotAvailable.VACATION;
+                }
+            }
+
+            if (appointment != null)
             {
                 return SlotAvailable.BOOKED;
             }
+
             else
             {
                 TimeSlot currentSlot = timeSlot;
-
                 for (int i = 0; i < 3; i++)
                 {
                     currentSlot = currentSlot?.PreviousTimeSlot;
-
-                    if (currentSlot?.Appointments != null)
+                    if (currentSlot?.Appointments != null && currentSlot.Appointments[0].Duration > 15 * (i + 1))
                     {
-                        if (currentSlot.Appointments[0].Duration > 15 * (i + 1))
-                        {
-                            return SlotAvailable.BOOKED;
-                        }
+                        return SlotAvailable.BOOKED;
                     }
                 }
 
