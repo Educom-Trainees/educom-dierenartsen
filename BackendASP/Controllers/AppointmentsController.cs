@@ -178,6 +178,9 @@ namespace BackendASP.Controllers
             {
                 pet.Id = 0;
             }
+
+            appointment.User = await _context.Users.FindAsync(appointmentDTO.UserId);
+
             // TODO: put this in a service or logic class
             if (appointment.Doctor == DoctorTypes.NO_PREFERENCE)
             {
