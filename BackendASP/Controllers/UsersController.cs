@@ -30,7 +30,8 @@ namespace BackendASP.Controllers
             }
             var query = _context.Users
                   .Include(u => u.Vacations)
-                  .Include(u => u.Appointments);
+                  .Include(u => u.Appointments)
+                  .Include(u => u.UserPets);
 
             List<UserDTO> users; 
             if (email != null) {
@@ -52,7 +53,8 @@ namespace BackendASP.Controllers
             }
             var user = await _mapper.ProjectTo<UserDTO>(_context.Users
                 .Include(u => u.Vacations)
-                .Include(u => u.Appointments))
+                .Include(u => u.Appointments)
+                .Include(u => u.UserPets))
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
