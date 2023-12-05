@@ -114,7 +114,7 @@ export default {
   },
   data() {
       return {
-          userid: '',
+          userid: null,
           name: '',
           email: '',
           phone: '',
@@ -146,35 +146,21 @@ export default {
       if(isLoggedIn()){
         const user = getUserDataFromSession()
         var userdata = getUserById(user.userId)
-        console.log(userdata)
+        this.userid = user.userId
 
-      await userdata.then((result) => {
-        this.userid = result.id;
-
-        if (result.pets) {
-          var pet_type = result.pets[0].type;
-        } else {
-          var pet_type = '';
-        }
-
-        const type = { pet_type };
-        this.type_animal = type.pet_type;
-      });
-
-      //   const type = await userdata.then(function(result) {
-      //     if(result.pets){
-      //       var pet_type = result.pets[0].type
-      //     }else{
-      //       var pet_type = ''
-      //     }
-      //     return {pet_type}
-      //   })
-      //   this.type_animal = type.pet_type
-      // }
+        const type = await userdata.then(function(result) {
+          if(result.pets){
+            var pet_type = result.pets[0].type
+          }else{
+            var pet_type = ''
+          }
+          return {pet_type}
+        })
+        this.type_animal = type.pet_type
+      }
 
       const { appointment_types, appointment_types_error } = getAppointment_types()
       this.appointment_types = appointment_types
-      }
     },
     methods: {
       showThisForm(array) {
