@@ -114,6 +114,7 @@ export default {
   },
   data() {
       return {
+          userid: '',
           name: '',
           email: '',
           phone: '',
@@ -145,19 +146,35 @@ export default {
       if(isLoggedIn()){
         const user = getUserDataFromSession()
         var userdata = getUserById(user.userId)
+        console.log(userdata)
 
-        const type = await userdata.then(function(result) {
-          if(result.pets){
-            var pet_type = result.pets[0].type
-          }else{
-            var pet_type = ''
-          }
-          return {pet_type}
-        })
-        this.type_animal = type.pet_type
-      }
+      await userdata.then((result) => {
+        this.userid = result.id;
+
+        if (result.pets) {
+          var pet_type = result.pets[0].type;
+        } else {
+          var pet_type = '';
+        }
+
+        const type = { pet_type };
+        this.type_animal = type.pet_type;
+      });
+
+      //   const type = await userdata.then(function(result) {
+      //     if(result.pets){
+      //       var pet_type = result.pets[0].type
+      //     }else{
+      //       var pet_type = ''
+      //     }
+      //     return {pet_type}
+      //   })
+      //   this.type_animal = type.pet_type
+      // }
+
       const { appointment_types, appointment_types_error } = getAppointment_types()
       this.appointment_types = appointment_types
+      }
     },
     methods: {
       showThisForm(array) {
@@ -259,7 +276,7 @@ export default {
           this.number++
 
           await postAppointments(this.number, toDateString(this.date), this.time, this.duration, this.name, this.phone, 
-          this.email, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.amount, this.preference, this.doctor, this.status)
+          this.email, this.userid, this.type_animal, this.type_consult, this.name_animal, this.info_animal, this.amount, this.preference, this.doctor, this.status)
 
           this.$router.push('/result/' + this.number)
         }

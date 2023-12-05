@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { API_URL } from '../utils/api'
 
-const postAppointments = async (number, date, time, duration, name, phone, email, 
+const postAppointments = async (number, date, time, duration, name, phone, email, userid, 
   type_animal, type_consult, name_animal, info_animal, amount, preference, doctor, status) => {
   const appointments = ref([])
   const error = ref(null)
@@ -17,7 +17,7 @@ const postAppointments = async (number, date, time, duration, name, phone, email
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          number: number, date: date, time: time, duration: duration, customer: name, phoneNumber: phone, email: email, 
+          number: number, date: date, time: time, duration: duration, customer: name, phoneNumber: phone, email: email, userId: userid, 
           petType: type_animal, type: type_consult, pets: pets, amount: amount, preference: preference, doctor: doctor, status: status
         })
       })
