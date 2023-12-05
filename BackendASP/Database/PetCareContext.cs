@@ -19,6 +19,7 @@ namespace BackendASP.Database
         public DbSet<AvailableDays> AvailableDays { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vacation> Vacations { get; set; }
+        public DbSet<UserPet> UserPets { get; set; }
 
         public PetCareContext(IConfiguration config)
         {
@@ -27,8 +28,8 @@ namespace BackendASP.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
-            optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
+            //optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
             optionsBuilder.LogTo(System.Console.WriteLine, minimumLevel: LogLevel.Information); // turn on logging
             base.OnConfiguring(optionsBuilder);
         }

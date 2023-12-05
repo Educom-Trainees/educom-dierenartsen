@@ -34,6 +34,9 @@ namespace BackendASP
             CreateMap<Vacation, VacationDTO>();
             CreateMap<VacationDTO, Vacation>();
 
+            CreateMap<UserPet, UserPetDTO>();
+            CreateMap<UserPetDTO, UserPet>();
+
             // Flattens AppointmentType>TreatmentTime>Calculation
             CreateMap<AppointmentType, AppointmentTypeDTO>()
                .ForMember(dest => dest.Calculation, opt => opt.MapFrom(src => src.TreatmentTime.Calculation));

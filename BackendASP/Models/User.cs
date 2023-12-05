@@ -15,5 +15,6 @@ namespace BackendASP.Models
         public UserRoles Role {  get; set; }
         virtual public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         virtual public ICollection<Vacation> Vacations { get; set; } = new List<Vacation>();
+        virtual public ICollection<UserPet> UserPets { get; set; } = new List<UserPet>();
     }
 }

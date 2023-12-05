@@ -17,6 +17,8 @@ namespace BackendASP.Models.DTO
         public UserRoles Role { get; set; }
         public List<Appointment> Appointments { get; set; } = new List<Appointment>();
         public List<VacationDTO> Vacations { get; set; } = new List<VacationDTO>();
+        [JsonPropertyName("pets")]
+        public List<UserPetDTO> UserPets { get; set; } = new List<UserPetDTO>();
     }
 
 }
