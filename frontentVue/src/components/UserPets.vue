@@ -25,7 +25,7 @@
             <button @click.prevent="changeInput()" v-if="!showInput" class="btn submit-btn mt-1">Huisdier toevoegen</button>
             <form v-if="showInput" @submit.prevent="registerPet" id="register-form" class="d-flex flex-column align-items-center mt-4">
                 <div>
-                <select required v-model="type_pet" class="type_select">
+                <select required v-model="newPet.type" class="type_select">
                     <option hidden value="">Type dier*</option>
                     <option value="2">kat</option>
                     <option value="3">konijn</option>
@@ -36,7 +36,7 @@
                     <option value="8">kleine hond</option>
                     <option value="9">grote hond</option>
                 </select>
-                <input required v-model="petname" type="text" placeholder="naam*">
+                <input required v-model="newPet.name" type="text" placeholder="naam*">
                 </div>
                 <button type="submit" class="btn submit-btn mt-4">Opslaan</button>
             </form>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { addPet } from '../composables/userChanges.js'
+import { addPet } from '../composables/petsManager.js'
 import { getUserById } from '../composables/userManager.js'
 import { getUserDataFromSession } from '../composables/sessionManager.js'
 export default {
@@ -53,8 +53,11 @@ export default {
         return {
             pets: [],
             showInput: false,
-            type_pet: '',
-            petname: '',
+            newPet: {
+                userId: undefined,
+                type: undefined,
+                name: undefined,
+            },
             petnameErr: ''
         }
     },
@@ -62,41 +65,42 @@ export default {
         await this.readyPage()
     },
     methods: {
-        async registerPet(){
-            this.petnameErr = this.petname.length < 90 ?
+        async registerPet() {
+            this.petnameErr = this.newPet.name.length < 90 ?
             '' : '❌ Je huisdiernaam mag niet langer zijn dan 90 letters.'
-            
-            if(!this.petnameErr){
-                await addPet(this.type_pet, this.petname)
+
+            if (!this.petnameErr) {
+            const user = getUserDataFromSession();
+            this.newPet.userId = user.userId;
+
+                try {
+                    await addPet(this.newPet);
+                } catch (error) {
+                    console.error('Error adding pet:', error);
+                    // Handle the error as needed
+                }
             }
-            this.showInput = !this.showInput
-            this.pets = []
-            await this.readyPage()
+
+        this.showInput = !this.showInput;
+        this.pets = [];
+        await this.readyPage();
         },
         changeInput(){
             this.showInput = !this.showInput
         },
         async readyPage(){
             const user = getUserDataFromSession()
-            var userdata = getUserById(user.userId)
+            const userdata = await getUserById(user.userId)
 
-            const length = await userdata.then(function(result) {
-                if(result.pets){
-                    var length = result.pets.length
-                    return {length}
-                }else {
-                    return 0
+            try {
+                const length = userdata.pets ? userdata.pets.length : 0;
+
+                for (let i = 0; i < length; i++) {
+                const result = userdata.pets[i];
+                this.pets.push(result);
                 }
-            })
-
-            for (let i = 0; i < length.length; i++) {
-                const value = await userdata.then(function(result) {
-                    var id = result.pets[i].id
-                    var type = result.pets[i].type
-                    var name = result.pets[i].name
-                    return {id, type, name}
-                })
-                this.pets.push(value)
+            } catch (error) {
+                console.error('Error fetching user data:', error);
             }
         }
     }

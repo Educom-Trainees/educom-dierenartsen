@@ -78,6 +78,7 @@ export async function changeUser(infoForm) {
 export async function addPet(type, name) {
     const user = getUserDataFromSession()
     const userDataFromDatabase = await getUserById(user.userId)
+    console.log(userDataFromDatabase)
     if (userDataFromDatabase !== null && userDataFromDatabase.pets) {
         const changedUser = {
             "id": userDataFromDatabase.id,
