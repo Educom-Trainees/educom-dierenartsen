@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231205131449_ChangeToObjectUserPet")]
+    partial class ChangeToObjectUserPet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,7 +88,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments", (string)null);
+                    b.ToTable("Appointments");
 
                     b.HasData(
                         new
@@ -128,7 +131,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("AppointmentPets", (string)null);
+                    b.ToTable("AppointmentPets");
 
                     b.HasData(
                         new
@@ -158,7 +161,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("TreatmentTimeId");
 
-                    b.ToTable("AppointmentTypes", (string)null);
+                    b.ToTable("AppointmentTypes");
 
                     b.HasData(
                         new
@@ -247,7 +250,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("TimeSlotId");
 
-                    b.ToTable("AvailableDays", (string)null);
+                    b.ToTable("AvailableDays");
 
                     b.HasData(
                         new
@@ -642,7 +645,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("TreatmentTimeId");
 
-                    b.ToTable("Calculations", (string)null);
+                    b.ToTable("Calculations");
 
                     b.HasData(
                         new
@@ -736,7 +739,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("PetTypes", (string)null);
+                    b.ToTable("PetTypes");
 
                     b.HasData(
                         new
@@ -828,7 +831,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("PreviousTimeSlotId");
 
-                    b.ToTable("TimeSlots", (string)null);
+                    b.ToTable("TimeSlots");
 
                     b.HasData(
                         new
@@ -1209,7 +1212,7 @@ namespace BackendASP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TreatmentTimes", (string)null);
+                    b.ToTable("TreatmentTimes");
 
                     b.HasData(
                         new
@@ -1274,7 +1277,7 @@ namespace BackendASP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
@@ -1363,7 +1366,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPets", (string)null);
+                    b.ToTable("UserPets");
                 });
 
             modelBuilder.Entity("BackendASP.Models.Vacation", b =>
@@ -1391,7 +1394,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Vacations", (string)null);
+                    b.ToTable("Vacations");
                 });
 
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
