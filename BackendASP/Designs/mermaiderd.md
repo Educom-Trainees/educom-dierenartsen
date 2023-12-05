@@ -45,7 +45,8 @@ erDiagram
     }
 
     users ||--|{ appointments : Makes
-    users ||--|{ vacations : Contains
+    users ||--o{ vacations : Contains
+    users ||--o{ pets : Contains
     users {
         int    id                PK
         string salutation
@@ -57,9 +58,17 @@ erDiagram
         int role
     }
 
+    pets }|--|| petTypes : Uses
+    pets {
+        int id PK
+        int userId FK
+        int petTypeId FK
+        string name
+    }
+
     vacations {
         int id PK
-        int userid FK
+        int userId FK
         date startDate
         date endDate
         string reason
@@ -94,4 +103,5 @@ erDiagram
         int petTypeId         FK "NULL"
         int appointmentTypeId          FK
     }
+
 ```
