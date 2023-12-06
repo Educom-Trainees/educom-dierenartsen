@@ -29,6 +29,7 @@ namespace BackendASP.Controllers
         /// </summary>
         /// <param name="date">(optional) appointments of this specific date</param>
         /// <param name="status">(optional) appointments that have this status (0 = active, 1 = cancelled by doctor, 2 = cancelled by customer)</param>
+        /// <param name="userId">(optional) appointments that have this userId</param>
         /// <returns>200 + The appointment</returns>
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Appointments
@@ -36,7 +37,7 @@ namespace BackendASP.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status)
+        public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status, [FromQuery] int? userId)
         {
             if (_context.Appointments == null)
             {
@@ -49,6 +50,9 @@ namespace BackendASP.Controllers
             }
             if (status != null) {
                 query = query.Where(a => a.Status == status);
+            }
+            if (userId != null) {
+                query = query.Where(a => a.User != null && a.User.Id == userId);
             }
             var appointments = await _mapper.ProjectTo<AppointmentDTO>(query).ToListAsync();
 
@@ -83,13 +87,14 @@ namespace BackendASP.Controllers
             return appointment;
         }
 
+
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         /// <summary>
         /// Modify an appointment
         /// </summary>
         /// <param name="id">The id of the appointment</param>
-        /// <param name="appointments">The updated appointment</param>
+        /// <param name="appointmentDTO">The updated appointment</param>
         /// <returns>201 on success</returns>
         /// <remarks>returns 400 on a bad request
         /// returns 404 when the database was not found</remarks>
@@ -99,18 +104,24 @@ namespace BackendASP.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PutAppointments(int id, Appointment appointments)
+        public async Task<IActionResult> PutAppointments(int id, AppointmentDTO appointmentDTO)
         {
-            if (id != appointments.Id)
+            if (id != appointmentDTO.Id)
             {
                 return BadRequest();
             }
-            if (_context.Appointments == null)
+
+            var existingAppointment = await _context.Appointments.FindAsync(id);
+
+            if (existingAppointment == null)
             {
                 return NotFound();
             }
 
-            _context.Entry(appointments).State = EntityState.Modified;
+            // Update existingAppointment properties with values from appointmentDTO
+            _mapper.Map(appointmentDTO, existingAppointment);
+
+            _context.Entry(existingAppointment).State = EntityState.Modified;
 
             try
             {
