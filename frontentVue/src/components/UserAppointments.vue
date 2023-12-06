@@ -10,14 +10,14 @@
                     <p>Tijd</p>
                     <p>Afspraak type</p>
                     <p>Clinici</p>
-                    <p v-if="appointment.pets[0].name != undefined">Huisdier</p>
-                    <p v-if="appointment.pets[0].extra != undefined">Extra info</p>
-                    <p v-if="appointment.pets[1].name != undefined">Tweede Huisdier</p>
-                    <p v-if="appointment.pets[1].extra != undefined">Extra info</p>
-                    <p v-if="appointment.pets[2].name != undefined">Derde Huisdier</p>
-                    <p v-if="appointment.pets[2].extra != undefined">Extra info</p>
-                    <p v-if="appointment.pets[3].name != undefined">Vierde Huisdier</p>
-                    <p v-if="appointment.pets[3].extra != undefined">Extra info</p>
+                    <p v-if="appointment.pets[0] && appointment.pets[0].name != undefined">Huisdier</p>
+                    <p v-if="appointment.pets[0] && appointment.pets[0].extra != undefined">Extra info</p>
+                    <p v-if="appointment.pets[1] && appointment.pets[1].name != undefined">Tweede Huisdier</p>
+                    <p v-if="appointment.pets[1] && appointment.pets[1].extra != undefined">Extra info</p>
+                    <p v-if="appointment.pets[2] && appointment.pets[2].name != undefined">Derde Huisdier</p>
+                    <p v-if="appointment.pets[2] && appointment.pets[2].extra != undefined">Extra info</p>
+                    <p v-if="appointment.pets[3] && appointment.pets[3].name != undefined">Vierde Huisdier</p>
+                    <p v-if="appointment.pets[3] && appointment.pets[3].extra != undefined">Extra info</p>
                 </div>
                 <div class="col-sm-6 result">
                     <p><b>{{ appointment.number }}</b></p>
@@ -30,14 +30,12 @@
                     </div>
                     <b><p v-if="appointment.doctor == 1">karel lant</p></b>
                     <b><p v-if="appointment.doctor == 2">danique de beer</p></b>
-                    <b><p v-if="appointment.pets[0].name != undefined">{{ appointment.pets[0].name }}</p></b>
-                    <b><p v-if="appointment.pets[0].extra != undefined">{{ appointment.pets[0].extra }}</p></b>
-                    <b><p v-if="appointment.pets[1].name != undefined">{{ appointment.pets[1].name }}</p></b>
-                    <b><p v-if="appointment.pets[1].extra != undefined">{{ appointment.pets[1].extra }}</p></b>
-                    <b><p v-if="appointment.pets[2].name != undefined">{{ appointment.pets[2].name }}</p></b>
-                    <b><p v-if="appointment.pets[2].extra != undefined">{{ appointment.pets[2].extra }}</p></b>
-                    <b><p v-if="appointment.pets[3].name != undefined">{{ appointment.pets[3].name }}</p></b>
-                    <b><p v-if="appointment.pets[3].extra != undefined">{{ appointment.pets[3].extra }}</p></b>
+                    <template v-for="index in 4">
+                        <div :key="index" v-if="shouldRenderPet(appointment.pets[index - 1])">
+                            <p v-if="appointment.pets[index - 1].name !== undefined">{{ appointment.pets[index - 1].name }}</p>
+                            <p v-if="appointment.pets[index - 1].extra !== undefined">{{ appointment.pets[index - 1].extra }}</p>
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -61,12 +59,13 @@ export default {
     async created() {
         const olduser = getUserDataFromSession()
         const userdata = getUserById(olduser.userId)
+        console.log(olduser.userId)
         const user = await userdata.then(function(result) {
             var email = result.email
             return {email}
         })
 
-        const { appointments, error, load } = getAppointments()
+        const { appointments, error, load } = getAppointments(null, null, olduser.userId)
         const { appointment_types, appointment_types_error } = getAppointment_types()
         await load()
         this.appointment_types = appointment_types
@@ -81,6 +80,9 @@ export default {
             var mins = piece[0]*60 + +piece[1] + +minsToAdd;
 
             return D(mins%(24*60)/60 | 0) + ':' + D(mins%60);  
+        },
+        shouldRenderPet(pet) {
+            return pet && pet.name !== undefined;
         }
     }
 }
