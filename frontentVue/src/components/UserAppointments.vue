@@ -59,7 +59,6 @@ export default {
     async created() {
         const olduser = getUserDataFromSession()
         const userdata = getUserById(olduser.userId)
-        console.log(olduser.userId)
         const user = await userdata.then(function(result) {
             var email = result.email
             return {email}
