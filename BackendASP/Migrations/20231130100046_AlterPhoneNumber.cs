@@ -13,11 +13,11 @@ namespace BackendASP.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "PhoneNumber",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "varchar(255)",
                 nullable: false,
                 defaultValue: "",
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
+                oldType: "varchar(max)",
                 oldNullable: true);
 
             migrationBuilder.UpdateData(
@@ -34,10 +34,10 @@ namespace BackendASP.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "PhoneNumber",
                 table: "Users",
-                type: "nvarchar(max)",
+                type: "varchar(255)",
                 nullable: true,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldType: "varchar(ma)");
 
             migrationBuilder.UpdateData(
                 table: "Users",
