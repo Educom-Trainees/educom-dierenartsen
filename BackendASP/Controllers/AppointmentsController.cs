@@ -45,13 +45,16 @@ namespace BackendASP.Controllers
             }
 
             IQueryable<Appointment> query = _context.Appointments.Take(100);
-            if (date != null) {
+            if (date != null)
+            {
                 query = query.Where(a => a.Date == date);
             }
-            if (status != null) {
+            if (status != null)
+            {
                 query = query.Where(a => a.Status == status);
             }
-            if (userId != null) {
+            if (userId != null)
+            {
                 query = query.Where(a => a.User != null && a.User.Id == userId);
             }
             var appointments = await _mapper.ProjectTo<AppointmentDTO>(query).ToListAsync();
@@ -77,7 +80,7 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
             var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments)
-                                           .FirstOrDefaultAsync(a => a.Id == id);            
+                                           .FirstOrDefaultAsync(a => a.Id == id);
 
             if (appointment == null)
             {
@@ -119,6 +122,21 @@ namespace BackendASP.Controllers
 
             // Update existingAppointment properties with values from appointmentDTO
             _mapper.Map(appointmentDTO, existingAppointment);
+
+            if (appointmentDTO.TimeSlotTime != null)
+            {
+                var timeSlotInDatabase = await _context.TimeSlots
+                    .FirstOrDefaultAsync(ts => ts.Time == appointmentDTO.TimeSlotTime);
+
+                if (timeSlotInDatabase != null)
+                {
+                    existingAppointment.TimeSlot = timeSlotInDatabase;
+                }
+                else
+                {
+                    return NotFound("time-slot is unknown");
+                }
+            }
 
             _context.Entry(existingAppointment).State = EntityState.Modified;
 
@@ -215,7 +233,7 @@ namespace BackendASP.Controllers
             }
             appointment.AppointmentType = appointmentType;
 
-            var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime && 
+            var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime &&
                                                                         (appointmentDTO.Doctor == DoctorTypes.BOTH || t.Doctor == appointmentDTO.Doctor));
             if (timeSlot == null)
             {
@@ -227,14 +245,14 @@ namespace BackendASP.Controllers
 
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
-            
+
             // Find max number
             var maxAppointment = await _context.Appointments.MaxAsync(x => x.AppointmentNumber);
-            
+
             // update with one
             appointment.AppointmentNumber = maxAppointment + 1;
             await _context.SaveChangesAsync();
-            
+
             return CreatedAtAction("GetAppointments", new { id = appointment.Id }, _mapper.Map<AppointmentDTO>(appointment));
         }
 
