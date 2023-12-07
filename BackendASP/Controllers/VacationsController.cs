@@ -77,7 +77,7 @@ namespace BackendASP.Controllers
         /// Modify a vacation
         /// </summary>
         /// <param name="id">The id of the vacation</param>
-        /// <param name="userDTO">The updated vacation</param>
+        /// <param name="vacationDTO">The updated vacation</param>
         /// <returns>201 on success</returns>
         /// <remarks>returns 400 on a bad request
         /// returns 404 when the database was not found</remarks>
