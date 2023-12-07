@@ -2550,6 +2550,28 @@
       "doctor": 1,
       "status": 0,
       "id": 244
+    },
+    {
+      "number": 245,
+      "date": "2023-12-07",
+      "time": "11:15",
+      "duration": 30,
+      "customer": "Anja Bulstronk",
+      "phoneNumber": "0612345678",
+      "email": "Anja@Bullie.nl",
+      "userId": null,
+      "petType": 5,
+      "type": 4,
+      "pets": [
+        {
+          "name": "Sjamonky"
+        }
+      ],
+      "amount": 1,
+      "preference": 1,
+      "doctor": 1,
+      "status": 0,
+      "id": 245
     }
   ],
   "pet-types": [

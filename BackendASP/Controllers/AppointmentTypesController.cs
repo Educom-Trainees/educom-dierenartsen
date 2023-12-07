@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using BackendASP.Database;
+using BackendASP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BackendASP.Database;
-using BackendASP.Models;
-using BackendASP.Models.DTO;
-using AutoMapper;
 
 namespace BackendASP.Controllers
 {
+    /// <summary>
+    /// Get the appointment-types of the veterinary
+    /// </summary>
     [Route("appointment-types")]
     [ApiController]
     public class AppointmentTypesController : ControllerBase
@@ -25,31 +22,48 @@ namespace BackendASP.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a list of appointment-types
+        /// </summary>
+        /// <returns>200 + List of appointment types</returns>
+        /// <remarks>returns 404 when the database was not found</remarks>
         // GET: api/AppointmentTypes
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<AppointmentTypeDTO>>> GetAppointmentTypes()
         {
-          if (_context.AppointmentTypes == null)
-          {
-              return NotFound();
-          }
+            if (_context.AppointmentTypes == null)
+            {
+                return NotFound();
+            }
 
-          var appointmentTypes = await _mapper.ProjectTo<AppointmentTypeDTO>(_context.AppointmentTypes
-                .Include(a => a.TreatmentTime)
-                    .ThenInclude(t => t.Calculation))
-                .ToListAsync();
+            var appointmentTypes = await _mapper.ProjectTo<AppointmentTypeDTO>(_context.AppointmentTypes
+                  .Include(a => a.TreatmentTime)
+                      .ThenInclude(t => t.Calculation))
+                  .ToListAsync();
 
             return appointmentTypes;
         }
 
+        /// <summary>
+        /// Get an appointment-type by id
+        /// </summary>
+        /// <param name="id">The id of the appointment type</param>
+        /// <returns>200 + Appointment type details</returns>
+        /// <remarks>returns 404 when the appointment type was not found or the database was not found</remarks>
         // GET: api/AppointmentTypes/5
         [HttpGet("{id}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AppointmentTypeDTO>> GetAppointmentType(int id)
         {
-          if (_context.AppointmentTypes == null)
-          {
-              return NotFound();
-          }
+            if (_context.AppointmentTypes == null)
+            {
+                return NotFound();
+            }
             var appointmentType = await _mapper.ProjectTo<AppointmentTypeDTO>(_context.AppointmentTypes
                   .Include(a => a.TreatmentTime)
                       .ThenInclude(t => t.Calculation))
@@ -63,17 +77,40 @@ namespace BackendASP.Controllers
             return appointmentType;
         }
 
+        /// <summary>
+        /// Modify an appointment-type
+        /// </summary>
+        /// <param name="id">The id of the appointment-type</param>
+        /// <param name="appointmentTypeDTO">The updated appointment-type</param>
+        /// <returns>201 on success</returns>
+        /// <remarks>returns 400 on a bad request
+        /// returns 404 when the database was not found</remarks>
         // PUT: api/AppointmentTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppointmentType(int id, AppointmentType appointmentType)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutAppointmentType(int id, AppointmentTypeDTO appointmentTypeDTO)
         {
-            if (id != appointmentType.Id)
+            if (id != appointmentTypeDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(appointmentType).State = EntityState.Modified;
+            var existingAppointmentType = await _context.AppointmentTypes.FindAsync(id);
+
+            if (existingAppointmentType == null)
+            {
+                return NotFound();
+            }
+
+            // Update existingAppointmentType with values from appointmentTypeDTO
+            _mapper.Map(appointmentTypeDTO, existingAppointmentType);
+
+            _context.Entry(existingAppointmentType).State = EntityState.Modified;
 
             try
             {
@@ -93,24 +130,39 @@ namespace BackendASP.Controllers
 
             return NoContent();
         }
+        /*
+                // POST: api/AppointmentTypes
+                // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+                [HttpPost]
+                [Consumes("application/json")]
+                [Produces("application/json")]
+                [ProducesResponseType(StatusCodes.Status201Created)]
+                [ProducesResponseType(StatusCodes.Status400BadRequest)]
+                [ProducesResponseType(StatusCodes.Status404NotFound)]
+                public async Task<ActionResult<AppointmentType>> PostAppointmentType(AppointmentTypeDTO appointmentTypeDTO)
+                {
+                    if (_context.AppointmentTypes == null)
+                    {
+                        return Problem("Entity set 'PetCareContext.AppointmentTypes'  is null.");
+                    }
+                    var appointmentType = _mapper.Map<AppointmentType>(appointmentTypeDTO);
 
-        // POST: api/AppointmentTypes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<AppointmentType>> PostAppointmentType(AppointmentType appointmentType)
-        {
-          if (_context.AppointmentTypes == null)
-          {
-              return Problem("Entity set 'PetCareContext.AppointmentTypes'  is null.");
-          }
-            _context.AppointmentTypes.Add(appointmentType);
-            await _context.SaveChangesAsync();
+                    _context.AppointmentTypes.Add(appointmentType);
+                    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAppointmentType", new { id = appointmentType.Id }, appointmentType);
-        }
+                    return CreatedAtAction("GetAppointmentType", new { id = appointmentType.Id },_mapper.Map<AppointmentTypeDTO>(appointmentType));
+                }*/
 
+        /// <summary>
+        /// Remove an appointment-type
+        /// </summary>
+        /// <param name="id">The id of the appointment-type</param>
+        /// <returns>204 when deleted</returns>
+        /// <remarks>returns 404 when the database or appointment-type were not found</remarks>
         // DELETE: api/AppointmentTypes/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAppointmentType(int id)
         {
             if (_context.AppointmentTypes == null)

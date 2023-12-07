@@ -64,7 +64,7 @@ namespace BackendASP.Controllers
         /// </summary>
         /// <param name="id">The id of the appointment</param>
         /// <returns>the appointment</returns>
-        /// <remarks>returns 404 when the database or the appointment were not found</remarks>
+        /// <remarks>returns 404 when the database or the appointment was not found</remarks>
         // GET: api/Appointments/5
         [HttpGet("{id}")]
         [Produces("application/json")]
@@ -87,9 +87,6 @@ namespace BackendASP.Controllers
             return appointment;
         }
 
-
-        // PUT: api/Appointments/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         /// <summary>
         /// Modify an appointment
         /// </summary>
@@ -98,6 +95,8 @@ namespace BackendASP.Controllers
         /// <returns>201 on success</returns>
         /// <remarks>returns 400 on a bad request
         /// returns 404 when the database was not found</remarks>
+        // PUT: api/Appointments/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Consumes("application/json")]
         [Produces("application/json")]
@@ -142,8 +141,6 @@ namespace BackendASP.Controllers
             return NoContent();
         }
 
-        // POST: api/Appointments
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         /// <summary>
         /// Create a new appointment
         /// </summary>
@@ -164,6 +161,8 @@ namespace BackendASP.Controllers
         /// </remarks>
         /// <param name="appointmentDTO">The new appointment</param>
         /// <returns>The created appointment on success</returns>
+        // POST: api/Appointments
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Consumes("application/json")]
         [Produces("application/json")]

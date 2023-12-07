@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
+    /// <summary>
+    /// Get the vacations
+    /// </summary>
     [Route("vacations")]
     [ApiController]
     public class VacationsController : ControllerBase
@@ -20,8 +23,16 @@ namespace BackendASP.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all vacations
+        /// </summary>
+        /// <returns>200 + The vacation</returns>
+        /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Vacations
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<VacationDTO>>> GetVacations()
         {
             if (_context.Vacations == null)
@@ -34,15 +45,25 @@ namespace BackendASP.Controllers
             return vacation;
         }
 
+        /// <summary>
+        /// Get the vacation details of one vacation
+        /// </summary>
+        /// <param name="id">The id of the vacation</param>
+        /// <returns>the vacation</returns>
+        /// <remarks>returns 404 when the database or the vacation was not found</remarks>
         // GET: api/Vacations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vacation>> GetVacation(int id)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<VacationDTO>> GetVacation(int id)
         {
             if (_context.Vacations == null)
             {
                 return NotFound();
             }
-            var vacation = await _context.Vacations.FindAsync(id);
+            var vacation = await _mapper.ProjectTo<VacationDTO>(_context.Vacations)
+                .FirstOrDefaultAsync(v => v.Id == id);
 
             if (vacation == null)
             {
@@ -52,17 +73,40 @@ namespace BackendASP.Controllers
             return vacation;
         }
 
+        /// <summary>
+        /// Modify a vacation
+        /// </summary>
+        /// <param name="id">The id of the vacation</param>
+        /// <param name="userDTO">The updated vacation</param>
+        /// <returns>201 on success</returns>
+        /// <remarks>returns 400 on a bad request
+        /// returns 404 when the database was not found</remarks>
         // PUT: api/Vacations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutVacation(int id, Vacation vacation)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutVacation(int id, VacationDTO vacationDTO)
         {
-            if (id != vacation.Id)
+            if (id != vacationDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vacation).State = EntityState.Modified;
+            var existingVacation = await _context.Vacations.FindAsync(id);
+
+            if (existingVacation == null)
+            {
+                return NotFound();
+            }
+
+            // Update existingVacation properties with values from vacationDTO
+            _mapper.Map(vacationDTO, existingVacation);
+
+            _context.Entry(existingVacation).State = EntityState.Modified;
 
             try
             {
@@ -83,9 +127,31 @@ namespace BackendASP.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create a new vacation
+        /// </summary>
+        /// <remarks>        
+        /// <ul>
+        /// <li>id is ignored</li>
+        /// <li>startDateTime - (format: yyyy-mm-ddThh:mm) as starting-point vacation</li>
+        /// <li>endDateTime - (format: yyyy-mm-ddThh:mm) as endpoint vacation</li>
+        /// <li>reason - reason for vacation (string)</li>
+        /// <li>userId - must be an existing userId</li>
+        /// </ul><ul>
+        /// <li>returns 400 on a incorrect or incomplete request</li>
+        /// <li>returns 404 when the database or user could not be found</li>
+        /// </ul>
+        /// </remarks>
+        /// <param name="vacationDTO">The new vacation</param>
+        /// <returns>The created vacation on success</returns>
         // POST: api/Vacations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Vacation>> PostVacation(VacationDTO vacationDTO)
         {
             if (_context.Vacations == null)
@@ -109,8 +175,16 @@ namespace BackendASP.Controllers
         }
 
 
+        /// <summary>
+        /// Remove a vacation
+        /// </summary>
+        /// <param name="id">The id of the vacation</param>
+        /// <returns>204 when deleted</returns>
+        /// <remarks>returns 404 when the database or vacation were not found</remarks>
         // DELETE: api/Vacations/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteVacation(int id)
         {
             if (_context.Vacations == null)

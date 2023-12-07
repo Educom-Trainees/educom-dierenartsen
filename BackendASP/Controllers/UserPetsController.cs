@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
+    /// <summary>
+    /// Get the pets of users
+    /// </summary>
     [Route("user-pets")]
     [ApiController]
     public class UserPetsController : ControllerBase
@@ -20,6 +23,11 @@ namespace BackendASP.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all user-pets
+        /// </summary>
+        /// <returns>200 + The user-pet</returns>
+        /// <remarks>returns 404 on missing database</remarks>
         // GET: api/UserPets
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserPetDTO>>> GetUserPets()
@@ -39,15 +47,25 @@ namespace BackendASP.Controllers
             return userPets;
         }
 
+        /// <summary>
+        /// Get the user-pet details of one user-pet
+        /// </summary>
+        /// <param name="id">The id of the user-pet</param>
+        /// <returns>the user-pet</returns>
+        /// <remarks>returns 404 when the database or the user-pet was not found</remarks>
         // GET: api/UserPets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserPet>> GetUserPet(int id)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UserPetDTO>> GetUserPet(int id)
         {
             if (_context.UserPets == null)
             {
                 return NotFound();
             }
-            var userPet = await _context.UserPets.FindAsync(id);
+            var userPet = await _mapper.ProjectTo<UserPetDTO>(_context.UserPets)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (userPet == null)
             {
@@ -57,17 +75,40 @@ namespace BackendASP.Controllers
             return userPet;
         }
 
+        /// <summary>
+        /// Modify an user-pet
+        /// </summary>
+        /// <param name="id">The id of the user-pet</param>
+        /// <param name="userPetDTO">The updated user-pet</param>
+        /// <returns>201 on success</returns>
+        /// <remarks>returns 400 on a bad request
+        /// returns 404 when the database was not found</remarks>
         // PUT: api/UserPets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserPet(int id, UserPet userPet)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutUserPet(int id, UserPetDTO userPetDTO)
         {
-            if (id != userPet.Id)
+            if (id != userPetDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userPet).State = EntityState.Modified;
+            var existingUserPet = await _context.UserPets.FindAsync(id);
+
+            if (existingUserPet == null)
+            {
+                return NotFound();
+            }
+
+            // Update existingUserPet properties with values from userPetDTO
+            _mapper.Map(userPetDTO, existingUserPet);
+
+            _context.Entry(existingUserPet).State = EntityState.Modified;
 
             try
             {
@@ -88,9 +129,32 @@ namespace BackendASP.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create a new user-pet
+        /// </summary>
+        /// <remarks>        
+        /// <ul>
+        /// <li>id is ignored</li>
+        /// <li>name - name of animal (string)</li>
+        /// <li>userId - must be an existing user's id </li>
+        /// <li>type - must be an existing pet-type id</li>
+        /// <li>role - can only be 0 for Guest, 1, for Employee, 2 for Admin</li>
+        /// <li>appointments, vacations, pets - keep these empty</li>
+        /// </ul><ul>
+        /// <li>returns 400 on a incorrect or incomplete request</li>
+        /// <li>returns 404 when the database, user or type could not be found</li>
+        /// </ul>
+        /// </remarks>
+        /// <param name="userPetDTO">The new user-pet</param>
+        /// <returns>The created user-pet on success</returns>
         // POST: api/UserPets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserPet>> PostUserPet(UserPetDTO userPetDTO)
         {
             if (_context.UserPets == null)
@@ -119,8 +183,16 @@ namespace BackendASP.Controllers
             return CreatedAtAction("GetUserPet", new { id = userPet.Id }, _mapper.Map<UserPetDTO>(userPetDTO));
         }
 
+        /// <summary>
+        /// Remove an users' pet
+        /// </summary>
+        /// <param name="id">The id of the user-pet</param>
+        /// <returns>204 when deleted</returns>
+        /// <remarks>returns 404 when the database or user-pet were not found</remarks>
         // DELETE: api/UserPets/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUserPet(int id)
         {
             if (_context.UserPets == null)

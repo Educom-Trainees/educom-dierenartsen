@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackendASP.Controllers
 {
+    /// <summary>
+    /// Get the time-slots
+    /// </summary>
     [Route("time-slots")]
     [ApiController]
     public class TimeSlotsController : ControllerBase
@@ -21,8 +24,17 @@ namespace BackendASP.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get all time-slots
+        /// </summary>
+        /// <param name="date">(optional) time-slot with this specific date</param>
+        /// <returns>200 + The time-slot</returns>
+        /// <remarks>returns 404 on missing database</remarks>
         // GET: api/TimeSlots
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<TimeSlotDTO>>> GetTimeSlots([FromQuery] DateOnly? date)
         {
             if (_context.TimeSlots == null)
@@ -107,16 +119,25 @@ namespace BackendASP.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Get the time-slot details of one time-slot
+        /// </summary>
+        /// <param name="id">The id of the time-slot</param>
+        /// <returns>the time-slot</returns>
+        /// <remarks>returns 404 when the database or the time-slot was not found</remarks>
         // GET: api/TimeSlots/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TimeSlot>> GetTimeSlot(int id)
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<TimeSlotDTO>> GetTimeSlot(int id)
         {
             if (_context.TimeSlots == null)
             {
                 return NotFound();
             }
-            var timeSlot = await _context.TimeSlots.FindAsync(id);
+            var timeSlot = await _mapper.ProjectTo<TimeSlotDTO>(_context.TimeSlots)
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             if (timeSlot == null)
             {
@@ -126,17 +147,40 @@ namespace BackendASP.Controllers
             return timeSlot;
         }
 
+        /// <summary>
+        /// Modify a time-slot
+        /// </summary>
+        /// <param name="id">The id of the time-slot</param>
+        /// <param name="timeSlotDTO">The updated time-slot</param>
+        /// <returns>201 on success</returns>
+        /// <remarks>returns 400 on a bad request
+        /// returns 404 when the database was not found</remarks>
         // PUT: api/TimeSlots/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTimeSlot(int id, TimeSlot timeSlot)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PutTimeSlot(int id, TimeSlotDTO timeSlotDTO)
         {
-            if (id != timeSlot.Id)
+            if (id != timeSlotDTO.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(timeSlot).State = EntityState.Modified;
+            var existingTimeSlot = await _context.TimeSlots.FindAsync(id);
+
+            if (existingTimeSlot == null)
+            {
+                return NotFound();
+            }
+
+            // Update existingTimeSlot properties with values from timeSlotDTO
+            _mapper.Map(timeSlotDTO, existingTimeSlot);
+
+            _context.Entry(existingTimeSlot).State = EntityState.Modified;
 
             try
             {
@@ -157,23 +201,54 @@ namespace BackendASP.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create a new time-slot
+        /// </summary>
+        /// <remarks>        
+        /// <ul>
+        /// <li>id is ignored</li>
+        /// <li>time - (format: hh:mm) string</li>
+        /// <li>doctor - can only be 1 for Karel, 2 for Danique or 3 for both</li>
+        /// <li>available - can only be 0 for Not_Available, 1 for Available, 2 for Booked or 3 for Vacation</li>
+        /// </ul><ul>
+        /// <li>returns 400 on a incorrect or incomplete request</li>
+        /// <li>returns 404 when the database could not be found</li>
+        /// </ul>
+        /// </remarks>
+        /// <param name="timeSlotDTO">The new time-slot</param>
+        /// <returns>The created time-slot on success</returns>
         // POST: api/TimeSlots
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<TimeSlot>> PostTimeSlot(TimeSlot timeSlot)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<TimeSlot>> PostTimeSlot(TimeSlotDTO timeSlotDTO)
         {
             if (_context.TimeSlots == null)
             {
                 return Problem("Entity set 'PetCareContext.TimeSlots'  is null.");
             }
+            var timeSlot = _mapper.Map<TimeSlot>(timeSlotDTO);
+
             _context.TimeSlots.Add(timeSlot);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTimeSlot", new { id = timeSlot.Id }, timeSlot);
         }
 
+        /// <summary>
+        /// Remove a time-slot
+        /// </summary>
+        /// <param name="id">The id of the time-slot</param>
+        /// <returns>204 when deleted</returns>
+        /// <remarks>returns 404 when the database or time-slot were not found</remarks>
         // DELETE: api/TimeSlots/5
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteTimeSlot(int id)
         {
             if (_context.TimeSlots == null)
