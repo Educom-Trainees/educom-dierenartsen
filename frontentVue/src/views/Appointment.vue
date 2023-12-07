@@ -149,7 +149,7 @@ export default {
         this.userid = user.userId
 
         const type = await userdata.then(function(result) {
-          if(result.pets){
+          if(result.pets && result.pets.length > 0){
             var pet_type = result.pets[0].type
           }else{
             var pet_type = ''
