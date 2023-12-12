@@ -9,7 +9,6 @@ namespace Backend2
     {
         public static void Main(string[] args)
         {
-/*            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";*/
 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +17,7 @@ namespace Backend2
                 options.AddDefaultPolicy(
                         policy =>
                         {
-                            policy.AllowAnyOrigin() // nog verder specificeren voor beveiligingpurposes
+                            policy.WithOrigins("http://localhost:8080") //allowwithanyorigins for debugging
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                         });
@@ -56,7 +55,7 @@ namespace Backend2
                 app.UseSwaggerUI();
             }
 
-          /*  app.UseHttpsRedirection();*/
+            app.UseHttpsRedirection();
 
             app.UseCors();
 
