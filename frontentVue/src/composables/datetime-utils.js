@@ -1,7 +1,7 @@
-const weekdays = ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag']
-const months = ['Januari','Februari','Maart','April','Mei','Juni','Juli','Augustus','September','Oktober','November','December']
-const shortWeekdays = ['Zon','Maa','Din','Woe','Don','Vrij','Zat']
-const shortMonthts = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Aug','Sep','Okt','Nov','Dec']
+const weekdays = ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag']
+const months = ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December']
+const shortWeekdays = ['Zon', 'Maa', 'Din', 'Woe', 'Don', 'Vrij', 'Zat']
+const shortMonthts = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec']
 
 /**
  * Get the end-time as a string, based on start-time and duration.
@@ -39,10 +39,8 @@ export function toTimeString(datetime) {
  * @example 9:30 am - 10:00 am
  */
 export function displayTimeslot(date, time, duration) {
-    const am_pm_start = new Date([date,time].join(' ')).getDate() < 12? 'am' : 'pm'
-    const endtime = calculateEndTime(date,time,duration)
-    const am_pm_end = new Date([date,endtime].join(' ')).getDate() < 12? 'am' : 'pm'
-    return `${time}${am_pm_start} - ${endtime}${am_pm_end}`
+    const endtime = calculateEndTime(date, time, duration)
+    return `${time} - ${endtime}`
 }
 /**
  * Get the date as a string in 'dd-MM-yyyy' format.
@@ -56,7 +54,7 @@ export function displayDate(date) {
     const day = String(ts.getDate()).padStart(2, '0')
     const month = shortMonthts[ts.getMonth()]
     const year = String(ts.getFullYear())
-    return [day,month,year].join('-')
+    return [day, month, year].join('-')
 }
 /**
  * Get the date as a string in 'day, dd MM yyyy' format.
@@ -114,10 +112,10 @@ export function previousDate(date) {
  * @returns Returns the next valid date.
  */
 export function skipSundayAndMonday(date) {
-    if(date.getDay() == 0){
+    if (date.getDay() == 0) {
         date.setDate(date.getDate() + 2)
     }
-    if(date.getDay() == 1){
+    if (date.getDay() == 1) {
         date.setDate(date.getDate() + 1)
     }
     return date
@@ -129,10 +127,10 @@ export function skipSundayAndMonday(date) {
  * @returns Returns the previous valid date.
  */
 export function skipMondayAndSunday(date) {
-    if(date.getDay() == 0){
+    if (date.getDay() == 0) {
         date.setDate(date.getDate() - 1)
     }
-    if(date.getDay() == 1){
+    if (date.getDay() == 1) {
         date.setDate(date.getDate() - 2)
     }
     return date
@@ -164,12 +162,12 @@ export function shortDateDisplay(date) {
 }
 
 export function displayDateTime(datetime) {
-    const ts = new Date(datetime) 
+    const ts = new Date(datetime)
     const day = String(ts.getDate()).padStart(2, '0')
     const month = shortMonthts[ts.getMonth()]
     const year = String(ts.getFullYear())
     const hour = String(ts.getHours()).padStart(2, '0')
     const min = String(ts.getMinutes()).padStart(2, '0')
-    const am_pm = ts.getHours() < 12? 'am' : 'pm'
+    const am_pm = ts.getHours() < 12 ? 'am' : 'pm'
     return `${day} ${month} ${year}, ${hour}:${min} ${am_pm}`
 }
