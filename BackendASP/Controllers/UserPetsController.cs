@@ -10,7 +10,7 @@ namespace BackendASP.Controllers
     /// <summary>
     /// Get the pets of users
     /// </summary>
-    [Route("user-pets")]
+    [Route("api/user-pets")]
     [ApiController]
     public class UserPetsController : ControllerBase
     {

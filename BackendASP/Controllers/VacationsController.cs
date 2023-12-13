@@ -10,7 +10,7 @@ namespace BackendASP.Controllers
     /// <summary>
     /// Get the vacations
     /// </summary>
-    [Route("vacations")]
+    [Route("api/vacations")]
     [ApiController]
     public class VacationsController : ControllerBase
     {

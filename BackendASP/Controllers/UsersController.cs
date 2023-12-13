@@ -10,7 +10,7 @@ namespace BackendASP.Controllers
     /// <summary>
     /// Get the users
     /// </summary>
-    [Route("users")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {

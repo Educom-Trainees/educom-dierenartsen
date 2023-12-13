@@ -11,7 +11,7 @@ namespace BackendASP.Controllers
     /// <summary>
     /// Get the appointments made by customers
     /// </summary>
-    [Route("appointments")]
+    [Route("api/appointments")]
     [ApiController]
     public class AppointmentsController : ControllerBase
     {

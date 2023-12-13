@@ -11,7 +11,7 @@ namespace BackendASP.Controllers
     /// <summary>
     /// Get the time-slots
     /// </summary>
-    [Route("time-slots")]
+    [Route("api/time-slots")]
     [ApiController]
     public class TimeSlotsController : ControllerBase
     {

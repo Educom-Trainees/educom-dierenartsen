@@ -9,7 +9,7 @@ namespace BackendASP.Controllers
     /// <summary>
     /// Get the appointment-types of the veterinary
     /// </summary>
-    [Route("appointment-types")]
+    [Route("api/appointment-types")]
     [ApiController]
     public class AppointmentTypesController : ControllerBase
     {
