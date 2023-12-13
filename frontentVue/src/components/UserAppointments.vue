@@ -6,7 +6,7 @@
       v-for="appointment in appointments"
       :key="appointment.id"
     >
-      <h2 class="usertitle">afspraken</h2>
+      <h2 class="usertitle">Afspraken</h2>
       <div class="row">
         <div class="col-sm-6 result">
           <p>Afspraaknummer</p>
@@ -97,7 +97,10 @@
           </template>
         </div>
       </div>
-      <button @click="cancelAppointment(appointment.id)">
+      <button
+        class="btn submit-btn mt-4"
+        @click="cancelAppointment(appointment.id)"
+      >
         Afspraak annuleren
       </button>
     </div>
