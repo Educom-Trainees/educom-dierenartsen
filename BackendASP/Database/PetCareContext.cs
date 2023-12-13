@@ -29,7 +29,18 @@ namespace BackendASP.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
-            optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
+            //optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
+
+            string connectionString = "Server=tcp:petcare-dbserver.database.windows.net,1433;Initial Catalog=PetCare;Persist Security Info=False;User ID=PetCareAdmin;Password=U9M63j3Bj~YadBD;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+            optionsBuilder.UseSqlServer(connectionString, options =>
+            {
+                // Additional configuration options, if needed
+                options.EnableRetryOnFailure();
+                options.CommandTimeout(60); // Set command timeout, if needed
+                options.UseDateOnlyTimeOnly(); // Use this for DateOnly and TimeOnly types
+            });
+
             optionsBuilder.LogTo(System.Console.WriteLine, minimumLevel: LogLevel.Information); // turn on logging
             base.OnConfiguring(optionsBuilder);
         }
