@@ -17,7 +17,7 @@ namespace Backend2
                 options.AddDefaultPolicy(
                         policy =>
                         {
-                            policy.WithOrigins("http://localhost:8080") //allowwithanyorigins for debugging
+                            policy.AllowAnyOrigin() // WithOrigins("http://localhost:8080")
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                         });
