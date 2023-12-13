@@ -1,210 +1,329 @@
 <template>
-  <form @submit.prevent="emitShowForm('showContactForm')" class="appointment_form">
-      <label>Kies een tijdstip </label><br>
-        <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
-            <div class="btn-group" role="group" aria-label="datepicker">
-                <button @click="previousDate()" type="button" class="btn btn-secondary active">&lt;</button>
-                <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
-                <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
-            </div>
+  <form
+    @submit.prevent="emitShowForm('showContactForm')"
+    class="appointment_form"
+  >
+    <label>Kies een tijdstip </label><br />
+    <div
+      id="datepicker-area"
+      class="d-flex justify-content-center align-items-center"
+    >
+      <div class="btn-group" role="group" aria-label="datepicker">
+        <button
+          @click="previousDate()"
+          type="button"
+          class="btn btn-secondary active"
+        >
+          &lt;
+        </button>
+        <button type="button" class="btn btn-secondary">
+          {{ displayFullDate(date) }}
+        </button>
+        <button
+          @click="nextDate()"
+          type="button"
+          class="btn btn-secondary active"
+        >
+          &gt;
+        </button>
+      </div>
+    </div>
+    <div v-if="closed">De praktijk is vandaag gesloten...</div>
+    <div v-if="!closed">
+      <label>Clinici</label><br />
+      <button
+        @click.prevent="changepreference(0)"
+        type="button"
+        value="0"
+        id="block"
+        :class="{ selectedblock: preference == 0 }"
+      >
+        geen voorkeur
+      </button>
+      <button
+        @click.prevent="changepreference(1)"
+        type="button"
+        value="1"
+        id="block"
+        :class="{ selectedblock: preference == 1 }"
+      >
+        karel lant
+      </button>
+      <button
+        @click.prevent="changepreference(2)"
+        type="button"
+        value="2"
+        id="block"
+        :class="{ selectedblock: preference == 2 }"
+      >
+        danique de beer</button
+      ><br />
+      <label>Ochtend</label><br />
+      <div v-if="date">
+        <div v-if="this.preference == 0">
+          <button
+            :class="{ selected_time: time == timeslot.time }"
+            id="smallblock"
+            @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
+            :value="timeslot"
+            v-for="timeslot in freeTimeslots.filter((t) => t.time <= '14:00')"
+            :key="timeslot.time"
+          >
+            <img class="time" src="/time.png" /> {{ timeslot.time }}
+          </button>
         </div>
-        <div v-if="closed">De praktijk is vandaag gesloten...</div>
-        <div v-if="!closed">
-            <label>Clinici</label><br>
-                <button @click.prevent="changepreference(0)" type="button" value="0" id="block" :class="{selectedblock: preference == 0}">geen voorkeur</button>
-                <button @click.prevent="changepreference(1)" type="button" value="1" id="block" :class="{selectedblock: preference == 1}">karel lant</button>
-                <button @click.prevent="changepreference(2)" type="button" value="2" id="block" :class="{selectedblock: preference == 2}">danique de beer</button><br>
-            <label>Ochtend</label><br>
-                <div v-if="date">
-                    <div v-if="this.preference == 0">
-                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time <= '14:00')" :key="timeslot.time">
-                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                        </button> 
-                    </div>
-                    <div v-if="this.preference == 1">
-                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time <= '14:00')" :key="timeslot.time">
-                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                        </button>
-                    </div>
-                    <div v-if="this.preference == 2">
-                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time <= '14:00')" :key="timeslot.time">
-                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                        </button> 
-                    </div>
-                </div>
-            <label>Namiddag</label><br>
-                <div v-if="date">
-                    <div v-if="this.preference == 0">
-                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.time >= '14:00')" :key="timeslot.time">
-                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                        </button> 
-                    </div>
-                    <div v-if="this.preference == 1">
-                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 1 && t.time >= '14:00')" :key="timeslot.time">
-                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                        </button>
-                    </div>
-                    <div v-if="this.preference == 2">
-                        <button :class="{selected_time: time == timeslot.time}" id="smallblock" @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)" :value="timeslot" v-for="timeslot in freeTimeslots.filter(t => t.doctor == 2 && t.time >= '14:00')" :key="timeslot.time">
-                        <img class="time" src="../assets/time.png"> {{ timeslot.time }}
-                        </button> 
-                    </div>
-                </div>
-        </div> 
-      <button @click.prevent="emitShowForm('showForm')" class="back">vorige</button>
-      <button class="submit">volgende</button>
-    </form>
+        <div v-if="this.preference == 1">
+          <button
+            :class="{ selected_time: time == timeslot.time }"
+            id="smallblock"
+            @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
+            :value="timeslot"
+            v-for="timeslot in freeTimeslots.filter(
+              (t) => t.doctor == 1 && t.time <= '14:00'
+            )"
+            :key="timeslot.time"
+          >
+            <img class="time" src="/time.png" /> {{ timeslot.time }}
+          </button>
+        </div>
+        <div v-if="this.preference == 2">
+          <button
+            :class="{ selected_time: time == timeslot.time }"
+            id="smallblock"
+            @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
+            :value="timeslot"
+            v-for="timeslot in freeTimeslots.filter(
+              (t) => t.doctor == 2 && t.time <= '14:00'
+            )"
+            :key="timeslot.time"
+          >
+            <img class="time" src="/time.png" /> {{ timeslot.time }}
+          </button>
+        </div>
+      </div>
+      <label>Namiddag</label><br />
+      <div v-if="date">
+        <div v-if="this.preference == 0">
+          <button
+            :class="{ selected_time: time == timeslot.time }"
+            id="smallblock"
+            @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
+            :value="timeslot"
+            v-for="timeslot in freeTimeslots.filter((t) => t.time >= '14:00')"
+            :key="timeslot.time"
+          >
+            <img class="time" src="/time.png" /> {{ timeslot.time }}
+          </button>
+        </div>
+        <div v-if="this.preference == 1">
+          <button
+            :class="{ selected_time: time == timeslot.time }"
+            id="smallblock"
+            @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
+            :value="timeslot"
+            v-for="timeslot in freeTimeslots.filter(
+              (t) => t.doctor == 1 && t.time >= '14:00'
+            )"
+            :key="timeslot.time"
+          >
+            <img class="time" src="/time.png" /> {{ timeslot.time }}
+          </button>
+        </div>
+        <div v-if="this.preference == 2">
+          <button
+            :class="{ selected_time: time == timeslot.time }"
+            id="smallblock"
+            @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
+            :value="timeslot"
+            v-for="timeslot in freeTimeslots.filter(
+              (t) => t.doctor == 2 && t.time >= '14:00'
+            )"
+            :key="timeslot.time"
+          >
+            <img class="time" src="/time.png" /> {{ timeslot.time }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <button @click.prevent="emitShowForm('showForm')" class="back">
+      vorige
+    </button>
+    <button class="submit">volgende</button>
+  </form>
 </template>
 
 <script>
-import { displayFullDate, toDateString, skipSundayAndMonday, previousDate, nextDate } from '../composables/datetime-utils.js'
-import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
-import getTime_slots from '../composables/getTime_slots'
-import getAppointments from '../composables/getAppointments'
+import {
+  displayFullDate,
+  toDateString,
+  skipSundayAndMonday,
+  previousDate,
+  nextDate,
+} from "../composables/datetime-utils.js";
+import { combineTimeslotAppointments } from "../composables/arrayTransfromer.js";
+import getTime_slots from "../composables/getTime_slots";
+import getAppointments from "../composables/getAppointments";
 export default {
-    props: [
-        'duration',
-        'oldtime'
-    ],
-    data() {
-        return {
-            showForm: false,
-            showdateForm: true,
-            today: new Date(),
-            maxdate: new Date(),
-            preference: 0,
-            time: '',
-            doctor: '',
-            closed: false,
-            date: new Date(),
-            freeTimeslots: '',
-            emitArray: [],
-            displayFullDate: displayFullDate,
-        }
+  props: ["duration", "oldtime"],
+  data() {
+    return {
+      showForm: false,
+      showdateForm: true,
+      today: new Date(),
+      maxdate: new Date(),
+      preference: 0,
+      time: "",
+      doctor: "",
+      closed: false,
+      date: new Date(),
+      freeTimeslots: "",
+      emitArray: [],
+      displayFullDate: displayFullDate,
+    };
+  },
+  watch: {
+    date() {
+      this.preparesetup();
     },
-    watch: {
-      date() {
-        this.preparesetup()
-      },
-      preference() {
-        this.preparesetup()
+    preference() {
+      this.preparesetup();
+    },
+  },
+  created() {
+    this.maxdate.setMonth(this.maxdate.getMonth() + 2);
+    this.time = this.oldtime;
+    this.preparesetup();
+  },
+  methods: {
+    emitShowForm(form) {
+      this.emitArray = [form, this.doctor, this.time, this.preference];
+      this.$emit("showForm", this.emitArray);
+    },
+    changepreference(preference) {
+      this.preference = preference;
+    },
+    changetimeANDdoctor(time, doctor) {
+      this.time = time;
+      this.doctor = doctor;
+    },
+    nextDate() {
+      if (this.date < this.maxdate) {
+        this.date = nextDate(this.date);
       }
     },
-    created() {
-        this.maxdate.setMonth(this.maxdate.getMonth()+2)
-        this.time = this.oldtime
-        this.preparesetup()
+    previousDate() {
+      if (this.date > this.today) {
+        this.date = previousDate(this.date);
+      }
     },
-    methods: {
-        emitShowForm(form) {
-            this.emitArray = [form, this.doctor, this.time, this.preference]
-            this.$emit('showForm', this.emitArray)
-        },
-        changepreference(preference){
-            this.preference = preference
-        },
-        changetimeANDdoctor(time, doctor){
-            this.time = time
-            this.doctor = doctor
-        },
-        nextDate() {
-            if(this.date < this.maxdate){
-                this.date = nextDate(this.date)
+    getFreeSlots(time_slots, duration) {
+      const result = [];
+      time_slots.forEach((element, index) => {
+        if (
+          element.show == true &&
+          time_slots[index].appointment == undefined &&
+          time_slots[index].available > 0
+        ) {
+          if (duration == 15) {
+            result.push(element);
+          } else if (duration == 30 && time_slots[index + 1] != undefined) {
+            if (
+              time_slots[index + 1].show == true &&
+              time_slots[index + 1].appointment == undefined
+            ) {
+              result.push(element);
             }
-        },
-        previousDate() {
-            if(this.date > this.today ){
-                this.date = previousDate(this.date)
+          } else if (duration == 45 && time_slots[index + 2] != undefined) {
+            if (
+              time_slots[index + 2].show == true &&
+              time_slots[index + 2].appointment == undefined
+            ) {
+              result.push(element);
             }
-        }, 
-        getFreeSlots(time_slots, duration){
-            const result = []
-            time_slots.forEach((element, index) => {
-            if(element.show == true && time_slots[index].appointment == undefined && time_slots[index].available > 0){
-                if(duration == 15){
-                    result.push(element)
-                }else if(duration == 30 && time_slots[index + 1] != undefined){
-                if(time_slots[index + 1].show == true && time_slots[index + 1].appointment == undefined){
-                    result.push(element)
-                }
-                }else if(duration == 45 && time_slots[index+2] != undefined){
-                if(time_slots[index + 2].show == true && time_slots[index + 2].appointment == undefined){
-                    result.push(element)
-                }
-                }
-            }
-            });
-            return result
-        },
-        RemoveDuplicate(array, prefDoctor){
-            const result = []
-            array.forEach((element, index) => {
-            if(element == undefined){}
-                else if(array[index + 1] != undefined && element.time == array[index + 1].time || 
-                array[index - 1] != undefined && element.time == array[index - 1].time ){
-                if(element.doctor != prefDoctor){
-                }else {
-                    result.push(element)
-                }
-                }else {
-                result.push(element)
-                }
-            });
-            return result
-        },
-        async gettimeslots(date){
-            const { time_slots, error, load } = getTime_slots(date)
-            await load()
-            return { time_slots, error }
-        },
-        async getappointments(){
-            const { appointments, error, load } = getAppointments()
-            await load()
-            return { appointments, error }
-        },
-        async preparesetup() {
-            this.freeTimeslots = []
-
-            const { time_slots, timeslot_error } = await this.gettimeslots(this.date)
-            const { appointments, appointments_error } = await this.getappointments()
-
-            this.closed = true
-            time_slots.value.forEach(t => { if (t.available > 0) this.closed = false; })
-            // this.date = skipSundayandMonday(this.date)
-
-            const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
-            var newTimeslot = combineTimeslotAppointments(time_slots.value, filteredapp)
-            var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration)
-
-            if(this.preference == 0){
-                var prefDoctor = 0
-                var sumdoctor1 = 0
-                var sumdoctor2 = 0
-                for (let i = 0; i < freeTimeslots.length; i++) {
-                    if(freeTimeslots[i] != undefined){
-                        if(freeTimeslots[i].doctor == 1){
-                            sumdoctor1++
-                        }else if(freeTimeslots[i].doctor == 2){
-                            sumdoctor2++
-                        }
-                    }
-                }
-                if(sumdoctor1 >= sumdoctor2){
-                    prefDoctor = 1
-                }else if(sumdoctor1 < sumdoctor2){
-                    prefDoctor = 2
-                }
-
-                var list = this.RemoveDuplicate(freeTimeslots, prefDoctor)
-                this.freeTimeslots = list
-            }else {
-                this.freeTimeslots = freeTimeslots
-            }
+          }
         }
-    }
-}
+      });
+      return result;
+    },
+    RemoveDuplicate(array, prefDoctor) {
+      const result = [];
+      array.forEach((element, index) => {
+        if (element == undefined) {
+        } else if (
+          (array[index + 1] != undefined &&
+            element.time == array[index + 1].time) ||
+          (array[index - 1] != undefined &&
+            element.time == array[index - 1].time)
+        ) {
+          if (element.doctor != prefDoctor) {
+          } else {
+            result.push(element);
+          }
+        } else {
+          result.push(element);
+        }
+      });
+      return result;
+    },
+    async gettimeslots(date) {
+      const { time_slots, error, load } = getTime_slots(date);
+      await load();
+      return { time_slots, error };
+    },
+    async getappointments() {
+      const { appointments, error, load } = getAppointments();
+      await load();
+      return { appointments, error };
+    },
+    async preparesetup() {
+      this.freeTimeslots = [];
+
+      const { time_slots, timeslot_error } = await this.gettimeslots(this.date);
+      const { appointments, appointments_error } = await this.getappointments();
+
+      this.closed = true;
+      time_slots.value.forEach((t) => {
+        if (t.available > 0) this.closed = false;
+      });
+      // this.date = skipSundayandMonday(this.date)
+
+      const filteredapp = appointments.value.filter(
+        (a) => a.date == toDateString(this.date)
+      );
+      var newTimeslot = combineTimeslotAppointments(
+        time_slots.value,
+        filteredapp
+      );
+      var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration);
+
+      if (this.preference == 0) {
+        var prefDoctor = 0;
+        var sumdoctor1 = 0;
+        var sumdoctor2 = 0;
+        for (let i = 0; i < freeTimeslots.length; i++) {
+          if (freeTimeslots[i] != undefined) {
+            if (freeTimeslots[i].doctor == 1) {
+              sumdoctor1++;
+            } else if (freeTimeslots[i].doctor == 2) {
+              sumdoctor2++;
+            }
+          }
+        }
+        if (sumdoctor1 >= sumdoctor2) {
+          prefDoctor = 1;
+        } else if (sumdoctor1 < sumdoctor2) {
+          prefDoctor = 2;
+        }
+
+        var list = this.RemoveDuplicate(freeTimeslots, prefDoctor);
+        this.freeTimeslots = list;
+      } else {
+        this.freeTimeslots = freeTimeslots;
+      }
+    },
+  },
+};
 </script>
 
 <style>
-
 </style>

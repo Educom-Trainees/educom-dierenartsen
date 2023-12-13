@@ -4,184 +4,278 @@
     <div class="planning">
       <h1 class="appointment_header">Afspraak maken</h1>
       <div class="test" v-if="showForm == 'showForm'">
-        <h2><img src="../assets/balk1.png" /></h2>
+        <h2><img src="/balk1.png" /></h2>
         <form
           @submit.prevent="handleSubmit"
           v-if="showForm == 'showForm'"
           class="appointment_form"
         >
           <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
-          <label>Selecteer diersoort* </label><br />
-          <button
-            v-if="type_animal != 1 && type_animal != 8 && type_animal != 9"
-            @click="changetype_animal(1)"
-            type="button"
-            id="big"
-            value="1"
-            :class="{ selected_animal: type_animal == 1 }"
-          >
-            <img src="../assets/dog.png" /><br />hond
-          </button>
-          <button
-            @click="changetype_animal(2)"
-            type="button"
-            id="big"
-            value="2"
-            :class="{ selected_animal: type_animal == 2 }"
-          >
-            <img
-              v-if="type_animal == 2"
-              src="../assets/inverted-black-cat.png"
-            /><img
-              v-if="type_animal != 2"
-              src="../assets/black-cat.png"
-            /><br />kat
-          </button>
-          <button
-            @click="changetype_animal(3)"
-            type="button"
-            id="big"
-            value="3"
-            :class="{ selected_animal: type_animal == 3 }"
-          >
-            <img
-              v-if="type_animal == 3"
-              src="../assets/inverted-rabbit.png"
-            /><img
-              v-if="type_animal != 3"
-              src="../assets/rabbit.png"
-            /><br />konijn
-          </button>
-          <button
-            @click="changetype_animal(4)"
-            type="button"
-            id="big"
-            value="4"
-            :class="{ selected_animal: type_animal == 4 }"
-          >
-            <img
-              v-if="type_animal == 4"
-              src="../assets/inverted-guinea-pig.png"
-            /><img
-              v-if="type_animal != 4"
-              src="../assets/guinea-pig.png"
-            /><br />cavia
-          </button>
-          <button
-            @click="changetype_animal(5)"
-            type="button"
-            id="big"
-            value="5"
-            :class="{ selected_animal: type_animal == 5 }"
-          >
-            <img
-              v-if="type_animal == 5"
-              src="../assets/inverted-hamster.png"
-            /><img
-              v-if="type_animal != 5"
-              src="../assets/hamster.png"
-            /><br />hamster
-          </button>
-          <button
-            @click="changetype_animal(6)"
-            type="button"
-            id="big"
-            value="6"
-            :class="{ selected_animal: type_animal == 6 }"
-          >
-            <img v-if="type_animal == 6" src="../assets/inverted-rat.png" /><img
-              v-if="type_animal != 6"
-              src="../assets/rat.png"
-            /><br />rat
-          </button>
-          <button
-            @click="changetype_animal(7)"
-            type="button"
-            id="big"
-            value="7"
-            :class="{ selected_animal: type_animal == 7 }"
-          >
-            <img
-              v-if="type_animal == 7"
-              src="../assets/inverted-muis.png"
-            /><img
-              v-if="type_animal != 7"
-              src="../assets/muis.png"
-            /><br />muis</button
-          ><br />
-          <div v-if="type_animal == 1 || type_animal == 8 || type_animal == 9">
+          <input
+            type="radio"
+            name="select-type"
+            id="select-animal-type"
+            value="select-animal-type"
+            @click="toggleSelectType"
+            :checked="select_type === 'select-animal-type'"
+          /><label for="select-animal-type">Selecteer diersoort* </label><br />
+
+          <div v-if="select_type === 'select-animal-type'">
             <button
-              @click="changetype_animal(8)"
+              v-if="type_animal != 1 && type_animal != 8 && type_animal != 9"
+              @click="changetype_animal(1)"
               type="button"
               id="big"
-              value="8"
-              :class="{ selected_animal: type_animal == 8 }"
+              value="1"
+              :class="{ selected_animal: type_animal == 1 }"
             >
-              <img
-                v-if="type_animal == 8"
-                src="../assets/inverted-dog.png"
-              /><img
-                v-if="type_animal != 8"
-                src="../assets/dog.png"
-              /><br />kleine hond
+              <img src="/dog.png" /><br />hond
             </button>
             <button
-              @click="changetype_animal(9)"
+              @click="changetype_animal(2)"
               type="button"
               id="big"
-              value="9"
-              :class="{ selected_animal: type_animal == 9 }"
+              value="2"
+              :class="{ selected_animal: type_animal == 2 }"
             >
-              <img
-                v-if="type_animal == 9"
-                src="../assets/inverted-dog.png"
-              /><img
-                v-if="type_animal != 9"
-                src="../assets/dog.png"
-              /><br />grote hond
+              <img v-if="type_animal == 2" src="/inverted-black-cat.png" /><img
+                v-if="type_animal != 2"
+                src="/black-cat.png"
+              /><br />kat
             </button>
+            <button
+              @click="changetype_animal(3)"
+              type="button"
+              id="big"
+              value="3"
+              :class="{ selected_animal: type_animal == 3 }"
+            >
+              <img v-if="type_animal == 3" src="/inverted-rabbit.png" /><img
+                v-if="type_animal != 3"
+                src="/rabbit.png"
+              /><br />konijn
+            </button>
+            <button
+              @click="changetype_animal(4)"
+              type="button"
+              id="big"
+              value="4"
+              :class="{ selected_animal: type_animal == 4 }"
+            >
+              <img v-if="type_animal == 4" src="/inverted-guinea-pig.png" /><img
+                v-if="type_animal != 4"
+                src="/guinea-pig.png"
+              /><br />cavia
+            </button>
+            <button
+              @click="changetype_animal(5)"
+              type="button"
+              id="big"
+              value="5"
+              :class="{ selected_animal: type_animal == 5 }"
+            >
+              <img v-if="type_animal == 5" src="/inverted-hamster.png" /><img
+                v-if="type_animal != 5"
+                src="/hamster.png"
+              /><br />hamster
+            </button>
+            <button
+              @click="changetype_animal(6)"
+              type="button"
+              id="big"
+              value="6"
+              :class="{ selected_animal: type_animal == 6 }"
+            >
+              <img v-if="type_animal == 6" src="/inverted-rat.png" /><img
+                v-if="type_animal != 6"
+                src="/rat.png"
+              /><br />rat
+            </button>
+            <button
+              @click="changetype_animal(7)"
+              type="button"
+              id="big"
+              value="7"
+              :class="{ selected_animal: type_animal == 7 }"
+            >
+              <img v-if="type_animal == 7" src="/inverted-muis.png" /><img
+                v-if="type_animal != 7"
+                src="/muis.png"
+              /><br />muis</button
+            ><br />
+            <div
+              v-if="type_animal == 1 || type_animal == 8 || type_animal == 9"
+            >
+              <button
+                @click="changetype_animal(8)"
+                type="button"
+                id="big"
+                value="8"
+                :class="{ selected_animal: type_animal == 8 }"
+              >
+                <img v-if="type_animal == 8" src="/inverted-dog.png" /><img
+                  v-if="type_animal != 8"
+                  src="/dog.png"
+                /><br />kleine hond
+              </button>
+              <button
+                @click="changetype_animal(9)"
+                type="button"
+                id="big"
+                value="9"
+                :class="{ selected_animal: type_animal == 9 }"
+              >
+                <img v-if="type_animal == 9" src="/inverted-dog.png" /><img
+                  v-if="type_animal != 9"
+                  src="/dog.png"
+                /><br />grote hond
+              </button>
+            </div>
+            <div v-if="type_animal !== ''">
+              <label>Aantal huisdieren* </label><br />
+              <button
+                @click="changeamount(1)"
+                type="button"
+                value="1"
+                id="small"
+                :class="{ selected: amount == 1 }"
+              >
+                1
+              </button>
+              <button
+                @click="changeamount(2)"
+                type="button"
+                value="2"
+                id="small"
+                :class="{ selected: amount == 2 }"
+              >
+                2
+              </button>
+              <button
+                @click="changeamount(3)"
+                type="button"
+                value="3"
+                id="small"
+                :class="{ selected: amount == 3 }"
+              >
+                3
+              </button>
+              <button
+                @click="changeamount(4)"
+                type="button"
+                value="4"
+                id="small"
+                :class="{ selected: amount == 4 }"
+              >
+                4
+              </button>
+            </div>
+            <br />
+            <div v-if="name_animalError" class="error">
+              {{ name_animalError }}
+            </div>
           </div>
-          <label>Aantal huisdieren* </label><br />
-          <button
-            @click="changeamount(1)"
-            type="button"
-            value="1"
-            id="small"
-            :class="{ selected: amount == 1 }"
-          >
-            1
-          </button>
-          <button
-            @click="changeamount(2)"
-            type="button"
-            value="2"
-            id="small"
-            :class="{ selected: amount == 2 }"
-          >
-            2
-          </button>
-          <button
-            @click="changeamount(3)"
-            type="button"
-            value="3"
-            id="small"
-            :class="{ selected: amount == 3 }"
-          >
-            3
-          </button>
-          <button
-            @click="changeamount(4)"
-            type="button"
-            value="4"
-            id="small"
-            :class="{ selected: amount == 4 }"
-          >
-            4
-          </button>
+
+          <!-- If user has pets, they show here -->
+
+          <div v-if="pets.length > 0">
+            <input
+              type="radio"
+              name="select-type"
+              id="select-pet"
+              value="select-pet"
+              @click="toggleSelectType"
+            /><label for="select-pet">Selecteer uw huisdier* </label><br />
+
+            <div v-if="select_type === 'select-pet'">
+              <button
+                v-for="pet in pets"
+                :key="pet.id"
+                @click="addOrRemovePet(pet.name)"
+                type="button"
+                id="big"
+                :class="{
+                  selected_animal: this.name_animal.includes(pet.name),
+                }"
+              >
+                <img
+                  v-if="pet.type == 1"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-dog.png'
+                      : '/dog.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 2"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-black-cat.png'
+                      : '/black-cat.png'
+                  "
+                />
+                <img
+                  v-if="pet.type === 3"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-rabbit.png'
+                      : '/rabbit.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 4"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-guinea-pig.png'
+                      : '/guinea-pig.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 5"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-hamster.png'
+                      : '/hamster.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 6"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-rat.png'
+                      : '/rat.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 7"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-muis.png'
+                      : '/muis.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 8"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-dog.png'
+                      : '/dog.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 9"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-dog.png'
+                      : '/dog.png'
+                  "
+                />
+                <br />{{ pet.name }}
+              </button>
+            </div>
+          </div>
+          <!-- // -->
           <br />
-          <div v-if="name_animalError" class="error">
-            {{ name_animalError }}
-          </div>
           <select required v-model="type_consult" id="type_select">
             <option hidden value="">Selecteer type afspraak*</option>
             <option
@@ -192,14 +286,16 @@
               {{ appointment_type.name }}
             </option></select
           ><br />
-          <button v-if="type_animal != 1" class="submit">volgende</button>
+          <button v-if="type_animal != 1 && amount > 0" class="submit">
+            volgende
+          </button>
         </form>
       </div>
       <div class="button_div" v-if="showForm == 'showForm'">
         <h2 id="removetext">.</h2>
       </div>
       <div class="test" v-if="showForm == 'showDateForm'">
-        <h2><img src="../assets/balk2.png" /></h2>
+        <h2><img src="/balk2.png" /></h2>
         <AppointmentDateandTime
           @showForm="showThisForm"
           :duration="duration"
@@ -211,11 +307,9 @@
         <h2 id="removetext">.</h2>
       </div>
       <div class="test" v-if="showForm == 'showContactForm'">
-        <h2><img src="../assets/balk3.png" /></h2>
+        <h2><img src="/balk3.png" /></h2>
         <h3>
-          <img id="agenda" src="../assets/agenda.png" />{{
-            displayFullDate(date)
-          }}
+          <img id="agenda" src="/agenda.png" />{{ displayFullDate(date) }}
           {{ time }}
         </h3>
         <form
@@ -353,7 +447,7 @@ export default {
       email: "",
       phone: "",
       type_animal: "",
-      amount: 1,
+      amount: 0,
       name_animal: [],
       info_animal: [],
       type_consult: "",
@@ -374,23 +468,16 @@ export default {
       animal_nameError: "",
       appointment_types: [],
       displayFullDate: displayFullDate,
+      pets: [],
+      select_type: "select-animal-type",
     };
   },
   async created() {
     if (isLoggedIn()) {
       const user = getUserDataFromSession();
-      var userdata = getUserById(user.userId);
+      const userdata = await getUserById(user.userId);
       this.userid = user.userId;
-
-      const type = await userdata.then(function (result) {
-        if (result.pets && result.pets.length > 0) {
-          var pet_type = result.pets[0].type;
-        } else {
-          var pet_type = "";
-        }
-        return { pet_type };
-      });
-      this.type_animal = type.pet_type;
+      this.pets = userdata.pets;
     }
 
     const { appointment_types, appointment_types_error } =
@@ -412,6 +499,21 @@ export default {
     },
     backtodateform() {
       this.showForm = "showDateForm";
+    },
+    addOrRemovePet(petName) {
+      if (this.name_animal.includes(petName)) {
+        this.name_animal = this.name_animal.filter((name) => name !== petName);
+        this.amount -= 1;
+      } else {
+        this.name_animal.push(petName);
+        this.amount += 1;
+      }
+    },
+    toggleSelectType(event) {
+      this.select_type = event.target.value;
+      this.name_animal = [];
+      this.amount = 0;
+      this.type_animal = "";
     },
     async handleSubmit() {
       if (isLoggedIn()) {

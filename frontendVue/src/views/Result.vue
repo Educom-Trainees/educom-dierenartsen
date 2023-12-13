@@ -2,7 +2,7 @@
   <TopNavigation />
   <h1 class="appointment_header">Afspraak maken</h1>
   <div class="test">
-    <h2><img src="../assets/balk4.png"></h2>
+    <h2><img src="/balk4.png" /></h2>
     <div v-if="appointment" class="appointment_form">
       <h3>Afspraak bevestiging</h3>
       <div class="row">
@@ -27,7 +27,10 @@
               {{ pet_type.name }}
             </p>
           </div>
-          <div v-for="appointment_type in appointment_types" :key="appointment_type.id">
+          <div
+            v-for="appointment_type in appointment_types"
+            :key="appointment_type.id"
+          >
             <p v-if="appointment_type.id == appointment.type">
               {{ appointment_type.name }}
             </p>
@@ -38,7 +41,7 @@
           <p v-if="appointment.doctor == 2">danique de beer</p>
         </div>
         <div class="appointment_result_pic">
-          <img id="computer" src="../assets/dog-computer.jpg">
+          <img id="computer" src="/dog-computer.jpg" />
         </div>
       </div>
     </div>
@@ -46,33 +49,41 @@
 </template>
 
 <script>
-import TopNavigation from '../components/TopNavigation.vue'
-import getAppointment from '../composables/getAppointment'
-import getPet_Types from '../composables/getPet_Types'
-import getAppointment_types from '../composables/getAppointment_types'
-import { displayFullDate } from '../composables/datetime-utils.js'
+import TopNavigation from "../components/TopNavigation.vue";
+import getAppointment from "../composables/getAppointment";
+import getPet_Types from "../composables/getPet_Types";
+import getAppointment_types from "../composables/getAppointment_types";
+import { displayFullDate } from "../composables/datetime-utils.js";
 
 export default {
-  name: 'Result',
+  name: "Result",
   components: {
-    TopNavigation
+    TopNavigation,
   },
   data() {
     return {
       displayFullDate: displayFullDate,
-    }
+    };
   },
-  props: ['id'],
+  props: ["id"],
   setup(props) {
-    const { appointment, error, load } = getAppointment(props.id)
-    const { pet_types, pet_types_error } = getPet_Types()
-    const { appointment_types, appointment_types_error } = getAppointment_types()
+    const { appointment, error, load } = getAppointment(props.id);
+    const { pet_types, pet_types_error } = getPet_Types();
+    const { appointment_types, appointment_types_error } =
+      getAppointment_types();
 
-    load()
+    load();
 
-    return { appointment, error, pet_types, pet_types_error, appointment_types, appointment_types_error }
-  }
-}
+    return {
+      appointment,
+      error,
+      pet_types,
+      pet_types_error,
+      appointment_types,
+      appointment_types_error,
+    };
+  },
+};
 </script>
 
 <style>
@@ -85,7 +96,7 @@ export default {
   background-color: white;
   flex: 30%;
 }
-#computer{
+#computer {
   margin-top: 40%;
   border-radius: 30%;
   height: 60%;
