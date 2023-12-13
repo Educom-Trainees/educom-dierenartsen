@@ -46,8 +46,12 @@ namespace Backend2
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
 
+            // Enable serving static files from the wwwroot folder
+            builder.Services.AddDirectoryBrowser();
+
             var app = builder.Build();
 
+            // Enable Swagger
             app.UseSwagger();
             app.UseSwaggerUI();
 
@@ -63,6 +67,10 @@ namespace Backend2
 
             app.UseAuthorization();
 
+            // Enable serving static files
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseDirectoryBrowser();
 
             app.MapControllers();
 
