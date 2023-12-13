@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "restored": true,
+      "restoreTime": "2023-12-12T15:06:18.0561599Z"
+    },
+    "secrets1": {
+      "restored": true,
+      "restoreTime": "2023-12-12T15:05:57.2573624Z"
+    }
+  },
+  "parameters": {
+    "mssql1.subscriptionId": {
+      "Name": "mssql1.subscriptionId",
+      "Type": "subscription",
+      "Value": "30cb032a-c3e9-4afd-9129-ff13b2fc79c9"
+    },
+    "mssql1.resourceGroupName": {
+      "Name": "mssql1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "HappyPawsResourceGroup"
+    }
+  }
+}
