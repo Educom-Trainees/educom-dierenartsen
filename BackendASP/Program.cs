@@ -71,6 +71,7 @@ namespace Backend2
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseDirectoryBrowser();
+            app.MapFallbackToFile("index.html");
 
             app.MapControllers();
 
