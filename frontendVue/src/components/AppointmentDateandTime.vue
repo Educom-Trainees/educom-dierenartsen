@@ -120,7 +120,7 @@ export default {
         getFreeSlots(time_slots, duration){
             const result = []
             time_slots.forEach((element, index) => {
-            if(element.show == true && time_slots[index].appointment == undefined && time_slots[index].available > 0){
+            if(element.show == true && time_slots[index].appointment == undefined && time_slots[index].available == 1){
                 if(duration == 15){
                     result.push(element)
                 }else if(duration == 30 && time_slots[index + 1] != undefined){
@@ -169,7 +169,7 @@ export default {
             const { appointments, appointments_error } = await this.getappointments()
 
             this.closed = true
-            time_slots.value.forEach(t => { if (t.available > 0) this.closed = false; })
+            time_slots.value.forEach(t => { if (t.available == 1) this.closed = false; })
             // this.date = skipSundayandMonday(this.date)
 
             const filteredapp = appointments.value.filter(a => a.date == toDateString(this.date))
