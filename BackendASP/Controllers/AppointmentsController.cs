@@ -3,6 +3,7 @@ using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
 using BackendASP.Models.Enums;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -89,6 +90,99 @@ namespace BackendASP.Controllers
 
             return appointment;
         }
+
+        /// <summary>
+        /// Modify an appointment
+        /// </summary>
+        /// <param name="id">The id of the appointment</param>
+        /// <param name="patchDocument">The JSON Patch document with the updates</param>
+        /// <returns>204 on success</returns>
+        /// <remarks>returns 400 on a bad request
+        /// returns 404 when the database was not found</remarks>
+        // PATCH: api/Appointments/5
+        [HttpPatch("{id}")]
+        [Consumes("application/json-patch+json")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> PatchAppointment(int id, [FromBody] JsonPatchDocument<AppointmentPatchDTO> patchDocument)
+        {
+            if (patchDocument == null)
+            {
+                return BadRequest();
+            }
+
+            var existingAppointment = await _context.Appointments
+                .Include(a => a.TimeSlot)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (existingAppointment == null)
+            {
+                return NotFound();
+            }
+
+            var appointmentPatchDTO = _mapper.Map<AppointmentPatchDTO>(existingAppointment);
+
+            // Apply the patch document to the existing appointment DTO
+            patchDocument.ApplyTo(appointmentPatchDTO, (patchError) =>
+            {
+                ModelState.AddModelError("JsonPatch", patchError.ErrorMessage);
+            });
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Validate and update the TimeSlot if specified in the patch
+            if (appointmentPatchDTO.TimeSlotTime != null)
+            {
+                var timeSlotInDatabase = await _context.TimeSlots
+                    .FirstOrDefaultAsync(ts => ts.Time == appointmentPatchDTO.TimeSlotTime);
+
+                if (timeSlotInDatabase != null)
+                {
+                    existingAppointment.TimeSlot = timeSlotInDatabase;
+                }
+                else
+                {
+                    return NotFound("time-slot is unknown");
+                }
+            }
+
+            // Update other appointment properties if needed
+            if (appointmentPatchDTO.Date != null)
+            {
+                existingAppointment.Date = (DateOnly)appointmentPatchDTO.Date;
+            }
+
+            if (appointmentPatchDTO.Doctor != null)
+            {
+                existingAppointment.Doctor = (DoctorTypes)appointmentPatchDTO.Doctor;
+            }
+
+            _context.Entry(existingAppointment).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AppointmentsExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+  
 
         /// <summary>
         /// Modify an appointment
