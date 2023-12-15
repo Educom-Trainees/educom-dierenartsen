@@ -222,7 +222,7 @@ export default {
         if (
           element.show == true &&
           time_slots[index].appointment == undefined &&
-          time_slots[index].available > 0
+          time_slots[index].available == 1
         ) {
           if (duration == 15) {
             result.push(element);
@@ -283,7 +283,7 @@ export default {
 
       this.closed = true;
       time_slots.value.forEach((t) => {
-        if (t.available > 0) this.closed = false;
+        if (t.available == 1) this.closed = false;
       });
       // this.date = skipSundayandMonday(this.date)
 

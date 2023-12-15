@@ -9,6 +9,8 @@ namespace BackendASP
         public AutoMapperPet() {
             CreateMap<Appointment, AppointmentDTO>();
             CreateMap<AppointmentDTO, Appointment>();
+            CreateMap<Appointment, AppointmentPatchDTO>();
+            CreateMap<AppointmentPatchDTO, Appointment>();
 
             CreateMap<AppointmentPet, AppointmentPetDTO>();
             CreateMap<AppointmentPetDTO, AppointmentPet>();
