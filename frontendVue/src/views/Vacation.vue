@@ -106,7 +106,10 @@ import router from "../router/index.js";
 import TopNavigation from "../components/TopNavigation.vue";
 import { bookNewVacation } from "../composables/vacationManager.js";
 import { getUser } from "../composables/userManager.js";
-import { displayDateTime } from "../composables/datetime-utils.js";
+import {
+  displayDateTime,
+  formatForDatePickerLocal,
+} from "../composables/datetime-utils.js";
 
 export default {
   name: "Vacation",
@@ -117,13 +120,22 @@ export default {
     this.getDoctors();
   },
   data() {
+    const todayStartOfDay = new Date();
+    todayStartOfDay.setHours(9);
+    todayStartOfDay.setMinutes(0);
+
+    const tomorrowStartOfDay = new Date();
+    tomorrowStartOfDay.setDate(new Date().getDate() + 1);
+    tomorrowStartOfDay.setHours(9);
+    tomorrowStartOfDay.setMinutes(0);
+
     return {
       doctors: [],
       options: [{ value: undefined, text: "Kies medewerker" }],
       newVacation: {
         userId: undefined,
-        startDateTime: undefined,
-        endDateTime: undefined,
+        startDateTime: formatForDatePickerLocal(todayStartOfDay),
+        endDateTime: formatForDatePickerLocal(tomorrowStartOfDay),
         reason: undefined,
       },
       errors: {

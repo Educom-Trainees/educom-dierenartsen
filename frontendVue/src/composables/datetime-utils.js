@@ -171,3 +171,18 @@ export function displayDateTime(datetime) {
     const am_pm = ts.getHours() < 12 ? 'am' : 'pm'
     return `${day} ${month} ${year}, ${hour}:${min} ${am_pm}`
 }
+
+/**
+ * Convert date to format YYYY-MM-DDTHH:mm for HTML datepicker-local element.
+ *  
+ * @example '2023-12-15T09:00'
+ * @param {Date} date - The current date object.
+ * @returns Returns the formatted date.
+ */
+export function formatForDatePickerLocal(date) {
+    date.setMinutes(
+        date.getMinutes() - date.getTimezoneOffset()
+    );
+
+    return date.toISOString().slice(0, -8);
+}
