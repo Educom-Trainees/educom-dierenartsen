@@ -167,6 +167,32 @@ namespace BackendASP.Controllers
             }
             vacation.User = user;
 
+            // Logic to filter out appointments that fall in the vacation period
+
+            var activeAppointmentsDuringVacation = await _context.Appointments
+                .Include(a => a.TimeSlot)
+                .Where(a => a.Doctor == vacation.User.Doctor &&
+                             a.Status == Models.Enums.StatusTypes.ACTIVE &&
+                             a.Date >= DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                             a.Date <= DateOnly.FromDateTime(vacation.EndDateTime.Date))
+                .ToListAsync();
+
+            activeAppointmentsDuringVacation = activeAppointmentsDuringVacation
+                .Where(a => (a.Date != DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                             a.Date != DateOnly.FromDateTime(vacation.EndDateTime.Date)) ||
+                             (a.Date == DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                             TimeOnly.Parse(a.TimeSlot.Time) >= TimeOnly.FromDateTime(vacation.StartDateTime)) ||
+                             (a.Date == DateOnly.FromDateTime(vacation.EndDateTime.Date) &&
+                             TimeOnly.Parse(a.TimeSlot.Time) <= TimeOnly.FromDateTime(vacation.EndDateTime)))
+                .ToList();
+
+            var appointmentsToChange = activeAppointmentsDuringVacation
+                .Select(a =>
+                {
+                    a.Status = Models.Enums.StatusTypes.DURING_VACATION;
+                    return a;
+                })
+                .ToList();
 
             _context.Vacations.Add(vacation);
             await _context.SaveChangesAsync();
@@ -192,12 +218,34 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
             var vacation = await _context.Vacations.FindAsync(id);
+        
             if (vacation == null)
             {
                 return NotFound();
             }
 
+            await _context.Entry(vacation)
+                .Reference(v => v.User)
+                .LoadAsync();
+
+            // Retrieve appointments during the vacation period with status "DURING_VACATION"
+            var appointmentsDuringVacation = await _context.Appointments
+               .Where(a => a.Doctor == vacation.User.Doctor &&
+                           a.Status == Models.Enums.StatusTypes.DURING_VACATION &&
+                           a.Date >= DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                           a.Date <= DateOnly.FromDateTime(vacation.EndDateTime.Date))
+               .ToListAsync();
+
+
             _context.Vacations.Remove(vacation);
+            await _context.SaveChangesAsync();
+
+            // Update the status of appointments back to "ACTIVE"
+            foreach (var appointment in appointmentsDuringVacation)
+            {
+                appointment.Status = Models.Enums.StatusTypes.ACTIVE;
+            }
+
             await _context.SaveChangesAsync();
 
             return NoContent();

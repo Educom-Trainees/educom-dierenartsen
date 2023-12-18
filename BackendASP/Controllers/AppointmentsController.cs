@@ -29,7 +29,7 @@ namespace BackendASP.Controllers
         /// Get The first 100 appointments (of a certain date or state)
         /// </summary>
         /// <param name="date">(optional) appointments of this specific date</param>
-        /// <param name="status">(optional) appointments that have this status (0 = active, 1 = cancelled by doctor, 2 = cancelled by customer)</param>
+        /// <param name="status">(optional) appointments that have this status (0 = active, 1 = cancelled by doctor, 2 = cancelled by customer, 3 = during vacation)</param>
         /// <param name="userId">(optional) appointments that have this userId</param>
         /// <returns>200 + The appointment</returns>
         /// <remarks>returns 404 on missing database</remarks>
