@@ -104,8 +104,10 @@
         <Modal
           :header="header"
           :text="text"
+          :acceptPropositionText="acceptPropositionText"
+          :declinePropositionText="declinePropositionText"
           @close="toggleModal"
-          @cancel="cancelAppointment(appointment.id)"
+          @accept="cancelAppointment(appointment.id)"
         />
       </div>
     </div>
@@ -127,6 +129,8 @@ export default {
       header: "Weet u zeker dat u deze afspraak wil annuleren?",
       text: "Er zullen kosten in rekening gebracht worden",
       showModal: false,
+      acceptPropositionText: "Annuleren",
+      declinePropositionText: "Terug",
       appointments: [],
       appointment_types: [],
       displayFullDate: displayFullDate,
@@ -169,6 +173,7 @@ export default {
       const { _error, load } = deleteAppointment(appointmentId);
       await load();
       this.loadAppointments();
+      this.toggleModal();
     },
     toggleModal() {
       this.showModal = !this.showModal;
