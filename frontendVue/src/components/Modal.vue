@@ -4,8 +4,10 @@
       <a href="#" class="custom-close" @click="closeModal"></a>
       <h1>{{ header }}</h1>
       <p>{{ text }}</p>
-      <button @click="closeModal">Terug</button>
-      <button>Afspraak annuleren</button>
+      <button class="btn submit-btn w-25 m-2" @click="closeModal">Terug</button>
+      <button class="btn submit-btn w-25 m-2" @click="cancelAppointment">
+        Annuleren
+      </button>
     </div>
   </div>
 </template>
@@ -17,8 +19,8 @@ export default {
     closeModal() {
       this.$emit("close");
     },
-    data() {
-      return {};
+    cancelAppointment() {
+      this.$emit("cancel");
     },
   },
 };
@@ -26,15 +28,14 @@ export default {
 
 <style>
 .custom-modal {
-  width: 400px;
-  padding: 20px;
-  /* margin: 100px auto; */
+  width: 600px;
   background: white;
   border-radius: 10px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  padding: 60px;
 }
 
 .modal-backdrop {

@@ -101,7 +101,12 @@
         Afspraak annuleren
       </button>
       <div v-if="showModal">
-        <Modal :header="header" :text="text" @close="toggleModal" />
+        <Modal
+          :header="header"
+          :text="text"
+          @close="toggleModal"
+          @cancel="cancelAppointment(appointment.id)"
+        />
       </div>
     </div>
   </div>
@@ -119,8 +124,8 @@ export default {
   components: { Modal },
   data() {
     return {
-      header: "Weet u zeker dat u uw afspraak wil annuleren?",
-      text: "Omdat de afspraak over minder dan 24 uur gepland was, zullen er kosten in rekening worden gebracht.",
+      header: "Weet u zeker dat u deze afspraak wil annuleren?",
+      text: "Er zullen kosten in rekening gebracht worden",
       showModal: false,
       appointments: [],
       appointment_types: [],
