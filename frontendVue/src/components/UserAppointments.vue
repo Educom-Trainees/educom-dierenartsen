@@ -97,12 +97,17 @@
           </template>
         </div>
       </div>
-      <button
-        class="btn submit-btn mt-4"
-        @click="cancelAppointment(appointment.id)"
-      >
+      <button class="btn submit-btn mt-4" @click="toggleModal">
         Afspraak annuleren
       </button>
+      <div v-if="showModal">
+        <Modal
+          :header="header"
+          :text="text"
+          @close="toggleModal"
+          @cancel="cancelAppointment(appointment.id)"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -114,9 +119,14 @@ import getAppointments from "../composables/getAppointments";
 import { displayFullDate } from "../composables/datetime-utils.js";
 import getAppointment_types from "../composables/getAppointment_types";
 import deleteAppointment from "../composables/deleteAppointment";
+import Modal from "./Modal.vue";
 export default {
+  components: { Modal },
   data() {
     return {
+      header: "Weet u zeker dat u deze afspraak wil annuleren?",
+      text: "Er zullen kosten in rekening gebracht worden",
+      showModal: false,
       appointments: [],
       appointment_types: [],
       displayFullDate: displayFullDate,
@@ -134,13 +144,6 @@ export default {
     async loadAppointments() {
       const olduser = getUserDataFromSession();
 
-      //De code hieronder is volgens mij niet nodig, dus uitgecommment.
-      //   const userdata = getUserById(olduser.userId);
-      //   const user = await userdata.then(function (result) {
-      //     var email = result.email;
-      //     return { email };
-      //   });
-
       const { appointments, _error, load } = getAppointments(
         null,
         null,
@@ -149,9 +152,6 @@ export default {
       await load();
 
       this.appointments = appointments;
-      //   this.appointments = this.appointments.filter(
-      //     (a) => a.email == user.email
-      //   );
     },
     addMinutes(time, minsToAdd) {
       function D(J) {
@@ -169,6 +169,9 @@ export default {
       const { _error, load } = deleteAppointment(appointmentId);
       await load();
       this.loadAppointments();
+    },
+    toggleModal() {
+      this.showModal = !this.showModal;
     },
   },
 };
