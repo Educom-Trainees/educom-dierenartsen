@@ -165,9 +165,9 @@ export default {
     shouldRenderPet(pet) {
       return pet && pet.name !== undefined;
     },
-    cancelAppointment(appointmentId) {
+    async cancelAppointment(appointmentId) {
       const { _error, load } = deleteAppointment(appointmentId);
-      load();
+      await load();
       this.loadAppointments();
     },
   },
