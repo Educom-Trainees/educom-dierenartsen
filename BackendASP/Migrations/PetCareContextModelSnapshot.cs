@@ -88,7 +88,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
 
                     b.HasData(
                         new
@@ -131,7 +131,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("AppointmentId");
 
-                    b.ToTable("AppointmentPets");
+                    b.ToTable("AppointmentPets", (string)null);
 
                     b.HasData(
                         new
@@ -161,7 +161,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("TreatmentTimeId");
 
-                    b.ToTable("AppointmentTypes");
+                    b.ToTable("AppointmentTypes", (string)null);
 
                     b.HasData(
                         new
@@ -250,7 +250,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("TimeSlotId");
 
-                    b.ToTable("AvailableDays");
+                    b.ToTable("AvailableDays", (string)null);
 
                     b.HasData(
                         new
@@ -645,7 +645,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("TreatmentTimeId");
 
-                    b.ToTable("Calculations");
+                    b.ToTable("Calculations", (string)null);
 
                     b.HasData(
                         new
@@ -739,7 +739,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("PetTypes");
+                    b.ToTable("PetTypes", (string)null);
 
                     b.HasData(
                         new
@@ -831,7 +831,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("PreviousTimeSlotId");
 
-                    b.ToTable("TimeSlots");
+                    b.ToTable("TimeSlots", (string)null);
 
                     b.HasData(
                         new
@@ -1212,7 +1212,7 @@ namespace BackendASP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TreatmentTimes");
+                    b.ToTable("TreatmentTimes", (string)null);
 
                     b.HasData(
                         new
@@ -1277,7 +1277,7 @@ namespace BackendASP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -1366,7 +1366,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserPets");
+                    b.ToTable("UserPets", (string)null);
                 });
 
             modelBuilder.Entity("BackendASP.Models.Vacation", b =>
@@ -1394,7 +1394,7 @@ namespace BackendASP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Vacations");
+                    b.ToTable("Vacations", (string)null);
                 });
 
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
