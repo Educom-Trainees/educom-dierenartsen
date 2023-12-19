@@ -97,15 +97,17 @@
           </template>
         </div>
       </div>
-      <button class="btn submit-btn mt-4" @click="toggleModal">
+      <button class="btn submit-btn mt-4" @click="openModal(appointment)">
         Afspraak annuleren
       </button>
       <div v-if="showModal">
         <Modal
           :header="header"
           :text="text"
-          @close="toggleModal"
-          @cancel="cancelAppointment(appointment.id)"
+          :acceptPropositionText="acceptPropositionText"
+          :declinePropositionText="declinePropositionText"
+          @close="toggleModal()"
+          @accept="cancelAppointment(appointment)"
         />
       </div>
     </div>
@@ -114,19 +116,20 @@
 
 <script>
 import { getUserDataFromSession } from "../composables/sessionManager.js";
-import { getUserById } from "../composables/userManager.js";
 import getAppointments from "../composables/getAppointments";
 import { displayFullDate } from "../composables/datetime-utils.js";
 import getAppointment_types from "../composables/getAppointment_types";
-import deleteAppointment from "../composables/deleteAppointment";
+import { updateAppoinment } from "../composables/appointmentManager";
 import Modal from "./Modal.vue";
 export default {
   components: { Modal },
   data() {
     return {
       header: "Weet u zeker dat u deze afspraak wil annuleren?",
-      text: "Er zullen kosten in rekening gebracht worden",
+      text: "U kunt de afspraak nu nog kosteloos annuleren. Dit kan tot 24 uur vantevoren.",
       showModal: false,
+      acceptPropositionText: "Annuleren",
+      declinePropositionText: "Terug",
       appointments: [],
       appointment_types: [],
       displayFullDate: displayFullDate,
@@ -165,13 +168,33 @@ export default {
     shouldRenderPet(pet) {
       return pet && pet.name !== undefined;
     },
-    async cancelAppointment(appointmentId) {
-      const { _error, load } = deleteAppointment(appointmentId);
-      await load();
+    async cancelAppointment(appointment) {
+      const updatedAppoinment = {
+        ...appointment,
+        status: 2,
+        isLateCancellation: this.isLateCancellation(appointment.date),
+      };
+
+      updateAppoinment(updatedAppoinment);
       this.loadAppointments();
+      this.toggleModal();
+    },
+    openModal(appointment) {
+      console.log(appointment);
+      if (this.isLateCancellation(appointment.date)) {
+        this.text =
+          "Er zullen kosten in rekening gebracht worden, omdat deze afspraak binnen 24 uur zou plaatsvinden.";
+      }
+      this.toggleModal();
     },
     toggleModal() {
       this.showModal = !this.showModal;
+    },
+    isLateCancellation(appointmentDate) {
+      const date = new Date(appointmentDate);
+      const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
+
+      return date < tomorrow;
     },
   },
 };

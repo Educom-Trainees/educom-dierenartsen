@@ -10,6 +10,7 @@ import Overview from '../views/Overview.vue'
 import Profile from '../views/Profile.vue'
 import ChangeAppointment from '../views/ChangeAppointment.vue'
 import Vacation from '../views/Vacation.vue'
+import CanceledAppointments from '../views/CanceledAppointments.vue'
 
 const routes = [
   {
@@ -49,7 +50,7 @@ const routes = [
     component: Overview,
     meta: {
       requiresAuth: true,
-      requiredRoles:[USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
+      requiredRoles: [USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
     }
   },
   {
@@ -78,6 +79,15 @@ const routes = [
       requiresAuth: true,
       requiredRoles: [USER_ROLES.ADMIN]
     }
+  },
+  {
+    path: '/canceled-appointments',
+    name: 'canceled-appointments',
+    component: CanceledAppointments,
+    meta: {
+      requiresAuth: true,
+      requiredRoles: [USER_ROLES.ADMIN]
+    }
   }
 ]
 
@@ -94,7 +104,7 @@ router.beforeEach((to, from, next) => {
 
     if (userData === null) {
       next('/login')
-    } 
+    }
     else {
       const hasRequiredRole = to.meta.requiredRoles.includes(userData.userRole)
 

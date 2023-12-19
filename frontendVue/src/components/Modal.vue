@@ -1,12 +1,14 @@
 <template>
-  <div class="modal-backdrop" @click.self="closeModal">
+  <div class="modal-backdrop" @click.self="declineProposition">
     <div class="custom-modal">
-      <a href="#" class="custom-close" @click="closeModal"></a>
+      <a href="#" class="custom-close" @click="declineProposition"></a>
       <h1>{{ header }}</h1>
       <p>{{ text }}</p>
-      <button class="btn submit-btn w-25 m-2" @click="closeModal">Terug</button>
-      <button class="btn submit-btn w-25 m-2" @click="cancelAppointment">
-        Annuleren
+      <button class="btn submit-btn w-25 m-2" @click="acceptProposition">
+        {{ acceptPropositionText }}
+      </button>
+      <button class="btn submit-btn w-25 m-2" @click="declineProposition">
+        {{ declinePropositionText }}
       </button>
     </div>
   </div>
@@ -14,13 +16,13 @@
 
 <script>
 export default {
-  props: ["header", "text"],
+  props: ["header", "text", "acceptPropositionText", "declinePropositionText"],
   methods: {
-    closeModal() {
+    declineProposition() {
       this.$emit("close");
     },
-    cancelAppointment() {
-      this.$emit("cancel");
+    acceptProposition() {
+      this.$emit("accept");
     },
   },
 };
@@ -41,7 +43,7 @@ export default {
 .modal-backdrop {
   top: 0;
   position: fixed;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
   width: 100%;
   height: 100%;
 }
