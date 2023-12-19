@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20231219100152_VarToNvar")]
+    partial class VarToNvar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +57,6 @@ namespace BackendASP.Migrations
                         .IsRequired()
                         .HasMaxLength(254)
                         .HasColumnType("nvarchar(254)");
-
-                    b.Property<bool?>("IsLateCancellation")
-                        .HasColumnType("bit");
 
                     b.Property<int>("PetTypeId")
                         .HasColumnType("int");
