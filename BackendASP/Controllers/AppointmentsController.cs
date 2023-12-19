@@ -18,11 +18,13 @@ namespace BackendASP.Controllers
     {
         private readonly PetCareContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public AppointmentsController(PetCareContext context, IMapper mapper)
+        public AppointmentsController(PetCareContext context, IMapper mapper, IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -258,7 +260,7 @@ namespace BackendASP.Controllers
         /// </summary>
         /// <remarks>        
         /// <ul>
-        /// <li>id, number and status are ignored</li>
+        /// <li>id, number, status and islatecancellation are ignored</li>
         /// <li>time - (format: hh:mm) must be an available timeslot</li>
         /// <li>date - (format: yyyy-mm-dd)</li>
         /// <li>duration - must be 15, 30, 45 or 60 (minutes)</li> 
@@ -292,10 +294,11 @@ namespace BackendASP.Controllers
             */
             var appointment = _mapper.Map<Appointment>(appointmentDTO);
 
-            // ignore id, number and status
+            // ignore id, number, status and islatecancellation
             appointment.Id = 0;
             appointment.AppointmentNumber = 0;
             appointment.Status = StatusTypes.ACTIVE;
+            appointment.IsLateCancellation = null;
             foreach (var pet in appointment.Pets)
             {
                 pet.Id = 0;
@@ -347,7 +350,45 @@ namespace BackendASP.Controllers
             appointment.AppointmentNumber = maxAppointment + 1;
             await _context.SaveChangesAsync();
 
+            // Send email after successfully creating a new appointment
+            await SendAppointmentConfirmationEmail(appointmentDTO);
+
             return CreatedAtAction("GetAppointments", new { id = appointment.Id }, _mapper.Map<AppointmentDTO>(appointment));
+        }
+        private async Task SendAppointmentConfirmationEmail(AppointmentDTO appointmentDTO)
+        {
+            try
+            {
+                // Replace these values with your actual email details
+                string toEmail = "corbijn.bulsink@hotmail.com"; // Use the email address of the customer
+                string subject = $"Afspraak bevestiging voor {appointmentDTO.Date}";
+                string body = $@"
+                    Beste {appointmentDTO.CustomerName},
+
+                    We bevestigen graag dat uw afspraak is gepland voor:
+
+                    Datum: {appointmentDTO.Date}
+                    Tijd: {appointmentDTO.TimeSlotTime}
+
+                    Dierenarts: {appointmentDTO.Doctor}
+
+                    We kijken ernaar uit om [Naam van het Huisdier] te ontmoeten en ervoor te zorgen dat ze de best mogelijke zorg krijgen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.
+
+                    Tot ziens in de praktijk!
+
+                    Met vriendelijke groeten,
+
+                    Karel en Danique van Dierenpraktijk HappyPaws
+                    ";
+
+                // Send the confirmation email
+                await _emailService.SendEmailAsync(toEmail, subject, body);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log or throw as needed)
+                Console.WriteLine($"Error sending appointment confirmation email: {ex.Message}");
+            }
         }
 
         /// <summary>
