@@ -300,6 +300,8 @@
           @showForm="showThisForm"
           :duration="duration"
           :oldtime="time"
+          :appointmentDate="date"
+          :initialPreference="preference"
           v-if="showForm == 'showDateForm'"
         />
       </div>
@@ -490,6 +492,7 @@ export default {
       this.doctor = array[1];
       this.time = array[2];
       this.preference = array[3];
+      this.date = array[4];
     },
     changeamount(amount) {
       this.amount = amount;
