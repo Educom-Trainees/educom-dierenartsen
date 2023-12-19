@@ -1,4 +1,5 @@
 
+using BackendASP;
 using BackendASP.Database;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -29,7 +30,6 @@ namespace Backend2
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddAutoMapper(typeof(Program));
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -46,6 +46,10 @@ namespace Backend2
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
+
+            builder.Services.AddAutoMapper(typeof(Program));
+
+            builder.Services.AddTransient<IEmailService, EmailService>();
 
             // Enable serving static files from the wwwroot folder
             builder.Services.AddDirectoryBrowser();
