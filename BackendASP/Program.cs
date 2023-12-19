@@ -1,6 +1,7 @@
 
 using BackendASP;
 using BackendASP.Database;
+using JsonPatchSample;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
@@ -25,8 +26,11 @@ namespace Backend2
             });
             // Add services to the container.
             builder.Services.AddDbContext<PetCareContext>();
-            builder.Services.AddControllers()
-                .AddNewtonsoftJson();
+            builder.Services.AddControllers(options =>
+            {
+                options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

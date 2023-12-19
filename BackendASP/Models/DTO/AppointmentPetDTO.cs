@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
+
 namespace BackendASP.Models.DTO
 {
     public class AppointmentPetDTO
