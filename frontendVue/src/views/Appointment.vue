@@ -178,7 +178,7 @@
 
           <!-- If user has pets, they show here -->
 
-          <div v-if="pets.length > 0">
+          <div v-if="pets?.length > 0">
             <input
               type="radio"
               name="select-type"
@@ -199,7 +199,7 @@
                 }"
               >
                 <img
-                  v-if="pet.type == 1"
+                  v-if="pet.petTypeId == 1"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-dog.png'
@@ -207,7 +207,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 2"
+                  v-if="pet.petTypeId == 2"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-black-cat.png'
@@ -215,7 +215,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type === 3"
+                  v-if="pet.petTypeId === 3"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-rabbit.png'
@@ -223,7 +223,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 4"
+                  v-if="pet.petTypeId == 4"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-guinea-pig.png'
@@ -231,7 +231,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 5"
+                  v-if="pet.petTypeId == 5"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-hamster.png'
@@ -239,7 +239,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 6"
+                  v-if="pet.petTypeId == 6"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-rat.png'
@@ -247,7 +247,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 7"
+                  v-if="pet.petTypeId == 7"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-muis.png'
@@ -255,7 +255,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 8"
+                  v-if="pet.petTypeId == 8"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-dog.png'
@@ -263,7 +263,7 @@
                   "
                 />
                 <img
-                  v-if="pet.type == 9"
+                  v-if="pet.petTypeId == 9"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-dog.png'
@@ -477,7 +477,7 @@ export default {
       const user = getUserDataFromSession();
       const userdata = await getUserById(user.userId);
       this.userid = user.userId;
-      this.pets = userdata.pets;
+      this.pets = userdata.userPets;
     }
 
     const { appointment_types, appointment_types_error } =
