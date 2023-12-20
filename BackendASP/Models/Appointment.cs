@@ -28,5 +28,6 @@ namespace BackendASP.Models
         public required ICollection<TimeSlot> TimeSlots { get; set; } = new List<TimeSlot>();
         public User? User { get; set; }
         virtual public ICollection<AppointmentPet> Pets { get; set; } = new List<AppointmentPet>();
+        public required int PetCount { get; set; }
     }
 }

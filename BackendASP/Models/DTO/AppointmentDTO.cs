@@ -28,6 +28,8 @@ namespace BackendASP.Models.DTO
         public required int PetTypeId { get; set; }
         public int? UserId { get; set; }
         public List<AppointmentPetDTO> Pets { get; set; } = new List<AppointmentPetDTO>();
+        [JsonPropertyName("amount")]
+        public required int PetCount { get; set; }
 
         public DoctorTypes Preference { get; set; }
         public DoctorTypes Doctor { get; set; }
