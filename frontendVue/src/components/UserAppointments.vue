@@ -106,9 +106,8 @@
           :text="text"
           :acceptPropositionText="acceptPropositionText"
           :declinePropositionText="declinePropositionText"
-          :appointment="appointment"
-          @close="toggleModal"
-          @accept="console.log(appointment)"
+          @close="closeModal"
+          @accept="cancelAppointment()"
         />
       </div>
     </div>
@@ -133,6 +132,7 @@ export default {
       declinePropositionText: "Terug",
       appointments: [],
       appointment_types: [],
+      selectedAppointment: null,
       displayFullDate: displayFullDate,
     };
   },
@@ -169,20 +169,24 @@ export default {
     shouldRenderPet(pet) {
       return pet && pet.name !== undefined;
     },
-    async cancelAppointment(appointment) {
-      const updatedAppointment = {
-        ...appointment,
-        status: 2,
-        isLateCancellation: this.isLateCancellation(appointment.date),
-      };
+    async cancelAppointment() {
+      const selectedAppointment = this.selectedAppointment;
 
-      console.log(updatedAppointment);
+      if (selectedAppointment) {
+        const updatedAppointment = {
+          ...selectedAppointment,
+          status: 2,
+          isLateCancellation: this.isLateCancellation(selectedAppointment.date),
+        };
 
-      //  updateAppoinment(updatedAppointment);
-      this.loadAppointments();
-      this.toggleModal();
+        updateAppoinment(updatedAppointment);
+        this.loadAppointments();
+      }
+
+      this.closeModal();
     },
     openModal(appointment) {
+      this.selectedAppointment = appointment;
       if (this.isLateCancellation(appointment.date)) {
         this.text =
           "Er zullen kosten in rekening gebracht worden, omdat deze afspraak binnen 24 uur zou plaatsvinden.";
@@ -190,10 +194,11 @@ export default {
         this.text =
           "U kunt de afspraak nu nog kosteloos annuleren. Dit kan tot 24 uur vantevoren.";
       }
-      this.toggleModal();
+      this.showModal = true;
     },
-    toggleModal() {
-      this.showModal = !this.showModal;
+    closeModal() {
+      this.selectedAppointment = null;
+      this.showModal = false;
     },
     isLateCancellation(appointmentDate) {
       const date = new Date(appointmentDate);
