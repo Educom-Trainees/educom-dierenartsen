@@ -164,18 +164,18 @@ import { combineTimeslotAppointments } from "../composables/arrayTransfromer.js"
 import getTime_slots from "../composables/getTime_slots";
 import getAppointments from "../composables/getAppointments";
 export default {
-  props: ["duration", "oldtime"],
+  props: ["duration", "oldtime", "appointmentDate", "initialPreference"],
   data() {
     return {
       showForm: false,
       showdateForm: true,
       today: new Date(),
       maxdate: new Date(),
-      preference: 0,
+      preference: this.initialPreference,
       time: "",
       doctor: "",
       closed: false,
-      date: new Date(),
+      date: this.appointmentDate,
       freeTimeslots: "",
       emitArray: [],
       displayFullDate: displayFullDate,
@@ -196,7 +196,13 @@ export default {
   },
   methods: {
     emitShowForm(form) {
-      this.emitArray = [form, this.doctor, this.time, this.preference];
+      this.emitArray = [
+        form,
+        this.doctor,
+        this.time,
+        this.preference,
+        this.date,
+      ];
       this.$emit("showForm", this.emitArray);
     },
     changepreference(preference) {

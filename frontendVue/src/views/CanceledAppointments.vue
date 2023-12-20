@@ -1,18 +1,89 @@
 <template>
   <div>
     <TopNavigation />
+    <div
+      class="row justify-content-center align-items-center register-row mb-4"
+    >
+      <h1>Te laat geannuleerde afspraken</h1>
+      <div
+        class="col-sm-3 col-md-5 col-10 change-area"
+        v-for="appointment in appointments"
+        :key="appointment.id"
+      >
+        <h3 class="canceled">Geannuleerde afspraak</h3>
+        <div class="row">
+          <div class="col-sm-6 result">
+            <p>Afspraaknummer</p>
+            <p>Klant</p>
+            <p>Datum</p>
+            <p>Tijd</p>
+          </div>
+          <div class="col-sm-6 result">
+            <p>
+              <b>{{ appointment.number }}</b>
+            </p>
+            <p>
+              <b>{{ appointment.customer }}</b>
+            </p>
+            <p>
+              <b>{{ displayFullDate(new Date(appointment.date)) }}</b>
+            </p>
+            <p>
+              <b>{{
+                appointment.time +
+                " - " +
+                addMinutes(appointment.time, appointment.duration)
+              }}</b>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
+
 <script>
 import TopNavigation from "../components/TopNavigation.vue";
+import getAppointments from "../composables/getAppointments.js";
+import { displayFullDate } from "../composables/datetime-utils.js";
+import UserAppointments from "../components/UserAppointments.vue";
+
 export default {
   name: "CanceledAppointments",
   components: {
     TopNavigation,
   },
+  async created() {
+    const { appointments, error, load } = getAppointments();
+    await load();
+    this.appointments = appointments?.value.filter((appointment) => {
+      return appointment.isLateCancellation === true;
+    });
+  },
+  data() {
+    return {
+      appointments: [],
+      displayFullDate: displayFullDate,
+    };
+  },
+  methods: {
+    addMinutes(time, minsToAdd) {
+      function D(J) {
+        return (J < 10 ? "0" : "") + J;
+      }
+      var piece = time.split(":");
+      var mins = piece[0] * 60 + +piece[1] + +minsToAdd;
+
+      return D(((mins % (24 * 60)) / 60) | 0) + ":" + D(mins % 60);
+    },
+  },
 };
 </script>
 
 <style>
+.canceled {
+  color: red;
+  padding: 10px;
+}
 </style>
