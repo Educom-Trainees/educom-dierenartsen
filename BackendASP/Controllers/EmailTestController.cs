@@ -22,7 +22,7 @@ public class EmailTestController : ControllerBase
             // Replace these values with your actual test email details
             string toEmail = "corbijn.bulsink@hotmail.com";
             string subject = "Test Subject";
-            string body = "This is a test email body.";
+            string body = "This is \n a test<br /> email body.";
 
             await _emailService.SendEmailAsync(toEmail, subject, body);
 
