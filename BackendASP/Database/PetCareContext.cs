@@ -268,7 +268,7 @@ namespace BackendASP.Database
                 new
                 {
                     Id = 4,
-                    Salutation = "Mevrou",
+                    Salutation = "Mevrouw",
                     FirstName = "Danique",
                     LastName = "de Beer",
                     Email = "danique@happypaw.nl",
