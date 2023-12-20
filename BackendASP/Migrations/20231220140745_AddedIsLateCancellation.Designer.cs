@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    [Migration("20231219100318_IsLateCancellation")]
-    partial class IsLateCancellation
+    [Migration("20231220140745_AddedIsLateCancellation")]
+    partial class AddedIsLateCancellation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace BackendASP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AppointmentTimeSlot", b =>
+                {
+                    b.Property<int>("AppointmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeSlotsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppointmentsId", "TimeSlotsId");
+
+                    b.HasIndex("TimeSlotsId");
+
+                    b.ToTable("AppointmentTimeSlot");
+                });
 
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
                 {
@@ -75,9 +90,6 @@ namespace BackendASP.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeSlotId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -86,8 +98,6 @@ namespace BackendASP.Migrations
                     b.HasIndex("AppointmentTypeId");
 
                     b.HasIndex("PetTypeId");
-
-                    b.HasIndex("TimeSlotId");
 
                     b.HasIndex("UserId");
 
@@ -107,8 +117,7 @@ namespace BackendASP.Migrations
                             PetTypeId = 4,
                             PhoneNumber = "0611330161",
                             Preference = 1,
-                            Status = 0,
-                            TimeSlotId = 6
+                            Status = 0
                         });
                 });
 
@@ -1329,7 +1338,7 @@ namespace BackendASP.Migrations
                             PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
                             PhoneNumber = "0687654321",
                             Role = 1,
-                            Salutation = "Mevrou"
+                            Salutation = "Mevrouw"
                         },
                         new
                         {
@@ -1400,6 +1409,21 @@ namespace BackendASP.Migrations
                     b.ToTable("Vacations");
                 });
 
+            modelBuilder.Entity("AppointmentTimeSlot", b =>
+                {
+                    b.HasOne("BackendASP.Models.Appointment", null)
+                        .WithMany()
+                        .HasForeignKey("AppointmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackendASP.Models.TimeSlot", null)
+                        .WithMany()
+                        .HasForeignKey("TimeSlotsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
                 {
                     b.HasOne("BackendASP.Models.AppointmentType", "AppointmentType")
@@ -1414,12 +1438,6 @@ namespace BackendASP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackendASP.Models.TimeSlot", "TimeSlot")
-                        .WithMany("Appointments")
-                        .HasForeignKey("TimeSlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BackendASP.Models.User", "User")
                         .WithMany("Appointments")
                         .HasForeignKey("UserId");
@@ -1427,8 +1445,6 @@ namespace BackendASP.Migrations
                     b.Navigation("AppointmentType");
 
                     b.Navigation("PetType");
-
-                    b.Navigation("TimeSlot");
 
                     b.Navigation("User");
                 });
@@ -1548,8 +1564,6 @@ namespace BackendASP.Migrations
 
             modelBuilder.Entity("BackendASP.Models.TimeSlot", b =>
                 {
-                    b.Navigation("Appointments");
-
                     b.Navigation("AvailableDays");
                 });
 

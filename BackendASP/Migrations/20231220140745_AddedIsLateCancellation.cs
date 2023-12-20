@@ -5,7 +5,7 @@
 namespace BackendASP.Migrations
 {
     /// <inheritdoc />
-    public partial class IsLateCancellation : Migration
+    public partial class AddedIsLateCancellation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
