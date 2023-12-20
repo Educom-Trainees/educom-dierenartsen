@@ -74,7 +74,8 @@ namespace BackendASP.Database
                     Status = StatusTypes.ACTIVE,
                     PetTypeId = 4,
                     AppointmentTypeId = 5,
-                    TimeSlotId = 6
+                    TimeSlotId = 6,
+                    PetCount = 1
                 });
 
             modelBuilder.Entity<AppointmentPet>().HasData(
