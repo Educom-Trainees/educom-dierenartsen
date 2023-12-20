@@ -7,9 +7,13 @@ namespace BackendASP
     public class AutoMapperPet : Profile
     {
         public AutoMapperPet() {
-            CreateMap<Appointment, AppointmentDTO>();
+            CreateMap<Appointment, AppointmentDTO>()
+                .ForMember(dest => dest.TimeSlotTime, 
+                           opt => opt.MapFrom(src => src.TimeSlots.First().Time));
             CreateMap<AppointmentDTO, Appointment>();
-            CreateMap<Appointment, AppointmentPatchDTO>();
+            CreateMap<Appointment, AppointmentPatchDTO>()
+                .ForMember(dest => dest.TimeSlotTime,
+                           opt => opt.MapFrom(src => src.TimeSlots.First().Time));
             CreateMap<AppointmentPatchDTO, Appointment>();
 
             CreateMap<AppointmentPet, AppointmentPetDTO>();

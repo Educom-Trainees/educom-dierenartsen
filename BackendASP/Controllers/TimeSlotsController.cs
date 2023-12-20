@@ -51,15 +51,15 @@ namespace BackendASP.Controllers
                 .Where(v => DateOnly.FromDateTime(v.StartDateTime) <= requestedDate && DateOnly.FromDateTime(v.EndDateTime) >= requestedDate)
                 .ToListAsync();
 
-            var bookedAppointments = await _context.Appointments
-                .Where(a => a.Date == requestedDate)
+            var bookedAppointments = await _context.Appointments.Include(a => a.TimeSlots)
+                .Where(a => a.Date == requestedDate && a.Status == StatusTypes.ACTIVE)
                 .ToListAsync();
 
             List<TimeSlotDTO> results = new List<TimeSlotDTO>();
             int mask = 1 << (int)requestedDate.DayOfWeek;
             foreach (var timeSlot in timeSlots)
             {
-                var appointment = bookedAppointments.FirstOrDefault(a => a.TimeSlot == timeSlot);
+                var appointment = bookedAppointments.FirstOrDefault(a => a.TimeSlots.Contains(timeSlot));
                 var vacation = vacationsOnDate.FirstOrDefault(v => v.User.Doctor == timeSlot.Doctor);
 
                 var timeslotDTO = new TimeSlotDTO

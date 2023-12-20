@@ -6,6 +6,7 @@ using BackendASP.Models.Enums;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 
 namespace BackendASP.Controllers
 {
@@ -114,7 +115,7 @@ namespace BackendASP.Controllers
             }
 
             var existingAppointment = await _context.Appointments
-                .Include(a => a.TimeSlot)
+                .Include(a => a.TimeSlots)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             if (existingAppointment == null)
@@ -135,18 +136,16 @@ namespace BackendASP.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (appointmentPatchDTO.Doctor != null)
+            {
+                existingAppointment.Doctor = appointmentPatchDTO.Doctor.Value;
+            }
+
             // Validate and update the TimeSlot if specified in the patch
             if (appointmentPatchDTO.TimeSlotTime != null)
             {
-                var timeSlotInDatabase = await _context.TimeSlots
-                    .FirstOrDefaultAsync(ts => ts.Time == appointmentPatchDTO.TimeSlotTime);
-
-                if (timeSlotInDatabase != null)
-                {
-                    existingAppointment.TimeSlot = timeSlotInDatabase;
-                }
-                else
-                {
+                if (!await UpdateTimeSlots(appointmentPatchDTO.TimeSlotTime, existingAppointment))
+                {               
                     return NotFound("time-slot is unknown");
                 }
             }
@@ -154,13 +153,9 @@ namespace BackendASP.Controllers
             // Update other appointment properties if needed
             if (appointmentPatchDTO.Date != null)
             {
-                existingAppointment.Date = (DateOnly)appointmentPatchDTO.Date;
+                existingAppointment.Date = appointmentPatchDTO.Date.Value;
             }
 
-            if (appointmentPatchDTO.Doctor != null)
-            {
-                existingAppointment.Doctor = (DoctorTypes)appointmentPatchDTO.Doctor;
-            }
 
             _context.Entry(existingAppointment).State = EntityState.Modified;
 
@@ -207,7 +202,7 @@ namespace BackendASP.Controllers
                 return BadRequest();
             }
 
-            var existingAppointment = await _context.Appointments.FindAsync(id);
+            var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == id);
 
             if (existingAppointment == null)
             {
@@ -219,17 +214,14 @@ namespace BackendASP.Controllers
 
             if (appointmentDTO.TimeSlotTime != null)
             {
-                var timeSlotInDatabase = await _context.TimeSlots
-                    .FirstOrDefaultAsync(ts => ts.Time == appointmentDTO.TimeSlotTime);
-
-                if (timeSlotInDatabase != null)
+                if (!await UpdateTimeSlots(appointmentDTO.TimeSlotTime, existingAppointment))
                 {
-                    existingAppointment.TimeSlot = timeSlotInDatabase;
+                    return NotFound("time-slot is incorrect");
                 }
-                else
-                {
-                    return NotFound("time-slot is unknown");
-                }
+            }
+            else
+            {
+                return NotFound("time-slot is not entered");
             }
 
             _context.Entry(existingAppointment).State = EntityState.Modified;
@@ -251,6 +243,29 @@ namespace BackendASP.Controllers
             }
 
             return NoContent();
+        }
+
+        private async Task<bool> UpdateTimeSlots(string timeSlotTime, Appointment appointment)
+        {
+            var timeSlotsInDatabase = await _context.TimeSlots
+                .Where(ts => ts.Time == timeSlotTime).ToListAsync();
+
+            if (timeSlotsInDatabase == null || timeSlotsInDatabase.Count != 2)
+            {
+                return false;
+            }
+
+            appointment.TimeSlots.Clear();
+            if (appointment.Doctor == DoctorTypes.BOTH)
+            {
+                appointment.TimeSlots.AddRange(timeSlotsInDatabase);
+            }
+            else
+            {
+                appointment.TimeSlots.Add(timeSlotsInDatabase.First(ts => ts.Doctor == appointment.Doctor));
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -327,13 +342,10 @@ namespace BackendASP.Controllers
             }
             appointment.AppointmentType = appointmentType;
 
-            var timeSlot = await _context.TimeSlots.FirstOrDefaultAsync(t => t.Time == appointmentDTO.TimeSlotTime &&
-                                                                        (appointmentDTO.Doctor == DoctorTypes.BOTH || t.Doctor == appointmentDTO.Doctor));
-            if (timeSlot == null)
+            if (!await UpdateTimeSlots(appointmentDTO.TimeSlotTime, appointment))
             {
                 return NotFound("timeSlot is unknown");
             }
-            appointment.TimeSlot = timeSlot;
 
             appointment.AppointmentNumber = DateTime.Now.Year * 10_000; // 20230000
 
