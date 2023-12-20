@@ -2,6 +2,7 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
+using BackendASP.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -170,7 +171,7 @@ namespace BackendASP.Controllers
             // Logic to filter out appointments that fall in the vacation period
 
             var activeAppointmentsDuringVacation = await _context.Appointments
-                .Include(a => a.TimeSlot)
+                .Include(a => a.TimeSlots)
                 .Where(a => a.Doctor == vacation.User.Doctor &&
                              a.Status == Models.Enums.StatusTypes.ACTIVE &&
                              a.Date >= DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
@@ -181,18 +182,14 @@ namespace BackendASP.Controllers
                 .Where(a => (a.Date != DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
                              a.Date != DateOnly.FromDateTime(vacation.EndDateTime.Date)) ||
                              (a.Date == DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
-                             TimeOnly.Parse(a.TimeSlot.Time) >= TimeOnly.FromDateTime(vacation.StartDateTime)) ||
+                             TimeOnly.Parse(a.TimeSlots.First().Time) >= TimeOnly.FromDateTime(vacation.StartDateTime)) ||
                              (a.Date == DateOnly.FromDateTime(vacation.EndDateTime.Date) &&
-                             TimeOnly.Parse(a.TimeSlot.Time) <= TimeOnly.FromDateTime(vacation.EndDateTime)))
+                             TimeOnly.Parse(a.TimeSlots.First().Time) <= TimeOnly.FromDateTime(vacation.EndDateTime)))
                 .ToList();
 
-            var appointmentsToChange = activeAppointmentsDuringVacation
-                .Select(a =>
-                {
-                    a.Status = Models.Enums.StatusTypes.DURING_VACATION;
-                    return a;
-                })
-                .ToList();
+            foreach (var appointment in activeAppointmentsDuringVacation) {
+               appointment.Status = StatusTypes.DURING_VACATION;
+            }
 
             _context.Vacations.Add(vacation);
             await _context.SaveChangesAsync();
