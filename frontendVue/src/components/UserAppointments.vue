@@ -106,8 +106,9 @@
           :text="text"
           :acceptPropositionText="acceptPropositionText"
           :declinePropositionText="declinePropositionText"
-          @close="toggleModal()"
-          @accept="cancelAppointment(appointment)"
+          :appointment="appointment"
+          @close="toggleModal"
+          @accept="console.log(appointment)"
         />
       </div>
     </div>
@@ -169,21 +170,25 @@ export default {
       return pet && pet.name !== undefined;
     },
     async cancelAppointment(appointment) {
-      const updatedAppoinment = {
+      const updatedAppointment = {
         ...appointment,
         status: 2,
         isLateCancellation: this.isLateCancellation(appointment.date),
       };
 
-      updateAppoinment(updatedAppoinment);
+      console.log(updatedAppointment);
+
+      //  updateAppoinment(updatedAppointment);
       this.loadAppointments();
       this.toggleModal();
     },
     openModal(appointment) {
-      console.log(appointment);
       if (this.isLateCancellation(appointment.date)) {
         this.text =
           "Er zullen kosten in rekening gebracht worden, omdat deze afspraak binnen 24 uur zou plaatsvinden.";
+      } else {
+        this.text =
+          "U kunt de afspraak nu nog kosteloos annuleren. Dit kan tot 24 uur vantevoren.";
       }
       this.toggleModal();
     },
