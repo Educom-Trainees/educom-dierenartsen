@@ -34,18 +34,48 @@ import AppointmentDetail from './AppointmentDetail.vue'
 import { TIMESLOTS } from '../utils/timeSlots.js'
 import { calculateEndTime } from '../composables/datetime-utils.js'
 import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
+import { GetTimeslotsByDate } from "../composables/timeslotManager.js";
 
 export default {
     name: 'Calendar',
     components: {
         AppointmentDetail
     },
-    props: ['doctor', 'doctorId', 'appointments', 'color'],
+    props: ['doctor', 'doctorId', 'appointments', 'date', 'color'],
     data() {
         return {
             tslot: TIMESLOTS.map(t => { return {'time': t, 'doctor': this.doctorId }}),
             calculateEndTime: calculateEndTime,
+            availableTimeslots: [],
+            unavailableTimeslots: [],
+            vacationTimeslots: [],
         }
+    },
+    methods: {
+        // async sortTimeslotAvailability() {
+        //     try {
+        //         // Transform date to correct format for backend (YYYY-MM-DD)
+        //         const year = this.date.getFullYear();
+        //         const month = String(this.date.getMonth() + 1).padStart(2, "0");
+        //         const day = String(this.date.getDate()).padStart(2, "0");
+        //         const formattedDate = `${year}-${month}-${day}`;
+
+        //         const allTimeslots = await GetTimeslotsByDate(this.date)
+        //         console.log(allTimeslots);
+        //     } catch (error) {
+        //         console.error('Error fetching timeslots: ', error);
+        //     }
+        // }
+
+    },
+    watch: {
+        date: {
+            immediate: true,
+            handler(newValue) {
+                this.sortTimeslotAvailability();
+                console.log('New value of date prop:', newValue);
+            },
+        },
     },
     computed: {
         calculatedTimeslots() {
