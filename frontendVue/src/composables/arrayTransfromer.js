@@ -29,35 +29,40 @@ export function combineTimeslotAppointments(timeslots, appointments) {
  * @param {*} appointmentDuration - The appointment duration.
  * @returns Returns the free timeslots.
  */
-export function findFreeTimeslots(timeslotAppointments, appointmentDuration) {
-    var freeTimeslots = []
 
-    switch (appointmentDuration) {
-        case 15:
-            for (var i = 0; i < timeslotAppointments.length; i++) { 
-                if (!timeslotAppointments[i].appointment && timeslotAppointments[i].show) {
-                    freeTimeslots.push(timeslotAppointments[i])
-                }
-            }
-            return freeTimeslots
-        case 30:
-            for (var i = 0; i < timeslotAppointments.length; i++) { 
-                if ((!timeslotAppointments[i].appointment && timeslotAppointments[i].show) && 
-                    (timeslotAppointments[i+1] && !timeslotAppointments[i+1].appointment && timeslotAppointments[i+1].show)) {
-                        freeTimeslots.push(timeslotAppointments[i])
-                }
-            }
-            return freeTimeslots
-        case 45:
-            for (var i = 0; i < timeslotAppointments.length; i++) { 
-                if ((timeslotAppointments[i].appointment === undefined && timeslotAppointments[i].show === true) &&
-                    (timeslotAppointments[i+1] && !timeslotAppointments[i+1].appointment && timeslotAppointments[i+1].show) && 
-                    (timeslotAppointments[i+2] && !timeslotAppointments[i+2].appointment && timeslotAppointments[i+2].show)) {
-                        freeTimeslots.push(timeslotAppointments[i])
-                }
-            }
-    }
+export function findFreeTimeslots(timeslots) {
+    return timeslots.filter(timeslot => timeslot.available === 1);
 }
+
+// export function findFreeTimeslots(timeslotAppointments, appointmentDuration) {
+//     var freeTimeslots = []
+
+//     switch (appointmentDuration) {
+//         case 15:
+//             for (var i = 0; i < timeslotAppointments.length; i++) { 
+//                 if (!timeslotAppointments[i].appointment && timeslotAppointments[i].show) {
+//                     freeTimeslots.push(timeslotAppointments[i])
+//                 }
+//             }
+//             return freeTimeslots
+//         case 30:
+//             for (var i = 0; i < timeslotAppointments.length; i++) { 
+//                 if ((!timeslotAppointments[i].appointment && timeslotAppointments[i].show) && 
+//                     (timeslotAppointments[i+1] && !timeslotAppointments[i+1].appointment && timeslotAppointments[i+1].show)) {
+//                         freeTimeslots.push(timeslotAppointments[i])
+//                 }
+//             }
+//             return freeTimeslots
+//         case 45:
+//             for (var i = 0; i < timeslotAppointments.length; i++) { 
+//                 if ((timeslotAppointments[i].appointment === undefined && timeslotAppointments[i].show === true) &&
+//                     (timeslotAppointments[i+1] && !timeslotAppointments[i+1].appointment && timeslotAppointments[i+1].show) && 
+//                     (timeslotAppointments[i+2] && !timeslotAppointments[i+2].appointment && timeslotAppointments[i+2].show)) {
+//                         freeTimeslots.push(timeslotAppointments[i])
+//                 }
+//             }
+//     }
+// }
 /**
  * Remove the duplicate timeslots.
  * 

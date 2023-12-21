@@ -119,7 +119,7 @@ import {
   GetActiveAppointmentsByDate,
   updateAppoinment,
 } from "../composables/appointmentManager.js";
-import { GetAllTimeslots } from "../composables/timeslotManager.js";
+import { GetTimeslotsByDate } from "../composables/timeslotManager.js";
 import {
   previousDate,
   nextDate,
@@ -226,23 +226,21 @@ export default {
       this.time = time;
       this.doctor = doctor;
     },
+
     async getFreeTimeslots() {
       try {
-        const timeslots = await GetAllTimeslots();
+        // Transform date to correct format for backend (YYYY-MM-DD)
+        const year = this.date.getFullYear();
+        const month = String(this.date.getMonth() + 1).padStart(2, "0");
+        const day = String(this.date.getDate()).padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+
+        const timeslots = await GetTimeslotsByDate(formattedDate);
         const nextValidDate = toDateString(skipSundayAndMonday(this.date));
-        const appointments = await GetActiveAppointmentsByDate(nextValidDate);
-        const timeslotAppointments = combineTimeslotAppointments(
-          timeslots,
-          appointments
-        );
-        const allFreeTimeslots = findFreeTimeslots(
-          timeslotAppointments,
-          this.appointment.duration
-        );
+        const allFreeTimeslots = findFreeTimeslots(timeslots);
 
         //dit zorgt ervoor dat als het dezelfde dag is als de appointment die je wilt verplaatsen je dan die tijd erbij doet
         if (this.appointment.date == nextValidDate) {
-          console.log("adding current appointment");
           const currentAppointment = {
             time: this.time,
             appointment: undefined,
