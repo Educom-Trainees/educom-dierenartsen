@@ -45,7 +45,7 @@
         </div>
       </div>
       <div class="row no-padding">
-        <div class="col-6">
+        <div class="col-sm">
           <button
             :disabled="appointment.preference !== 0"
             @click="changeDoctor(appointment)"
@@ -70,6 +70,13 @@
               />
             </svg>
           </button>
+        </div>
+        <div class="col-sm">
+          <span
+            @click="assignBothDoctors(appointment)"
+            class="btn btn-action action-move"
+            >Beide doctoren</span
+          >
         </div>
       </div>
 
@@ -160,6 +167,10 @@ export default {
         updateAppoinment(appointment);
       }
     },
+    assignBothDoctors(appointment) {
+      appointment.doctor = 3;
+      updateAppoinment(appointment);
+    }
   },
   computed: {
     customerDetails() {
