@@ -68,6 +68,7 @@ namespace BackendASP
                 <br />
                 Bij deze bevestigen wij dat uw afspraak gepland is voor:
                 <br />
+                <br />
                 Datum: {appointmentDTO.Date}
                 <br />
                 Tijd: {appointmentDTO.TimeSlotTime}
