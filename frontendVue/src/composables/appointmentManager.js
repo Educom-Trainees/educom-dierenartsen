@@ -10,7 +10,7 @@ const baseUrlActiveAppointmentsByDate = baseUrlAppointment + '?status=0&date='
  * @param {String} date - The date for which to fetch appointments.
  * @returns Returns an array of appointments if found, otherwise empty array.
  */
-export async function GetActiveAppointmentsByDate(date) {
+export async function getActiveAppointmentsByDate(date) {
     const url = baseUrlActiveAppointmentsByDate + date
     try {
         const response = await axios.get(url)
