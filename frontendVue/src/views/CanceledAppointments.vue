@@ -10,31 +10,39 @@
         v-for="appointment in appointments"
         :key="appointment.id"
       >
-        <h3 class="canceled">Geannuleerde afspraak</h3>
-        <div class="row">
-          <div class="col-sm-6 result">
-            <p>Afspraaknummer</p>
-            <p>Klant</p>
-            <p>Datum</p>
-            <p>Tijd</p>
-          </div>
-          <div class="col-sm-6 result">
-            <p>
-              <b>{{ appointment.number }}</b>
-            </p>
-            <p>
-              <b>{{ appointment.customer }}</b>
-            </p>
-            <p>
-              <b>{{ displayFullDate(new Date(appointment.date)) }}</b>
-            </p>
-            <p>
-              <b>{{
-                appointment.time +
-                " - " +
-                addMinutes(appointment.time, appointment.duration)
-              }}</b>
-            </p>
+        <div>
+          <h3 class="canceled">Geannuleerde afspraak</h3>
+          <div class="row">
+            <div class="col-sm-6 result">
+              <p>Afspraaknummer</p>
+              <p>Klant</p>
+              <p>Datum</p>
+              <p>Tijd</p>
+            </div>
+            <div class="col-sm-6 result">
+              <p>
+                <b>{{ appointment.number }}</b>
+              </p>
+              <p>
+                <b>{{ appointment.customer }}</b>
+              </p>
+              <p>
+                <b>{{ displayFullDate(new Date(appointment.date)) }}</b>
+              </p>
+              <p>
+                <b>{{
+                  appointment.time +
+                  " - " +
+                  addMinutes(appointment.time, appointment.duration)
+                }}</b>
+              </p>
+            </div>
+            <button
+              class="btn submit-btn mt-4"
+              @click="removeHandledAppointment(appointment)"
+            >
+              Afspraak verwijderen
+            </button>
           </div>
         </div>
       </div>
@@ -47,7 +55,7 @@
 import TopNavigation from "../components/TopNavigation.vue";
 import getAppointments from "../composables/getAppointments.js";
 import { displayFullDate } from "../composables/datetime-utils.js";
-import UserAppointments from "../components/UserAppointments.vue";
+import { updateAppoinment } from "../composables/appointmentManager";
 
 export default {
   name: "CanceledAppointments",
@@ -58,7 +66,7 @@ export default {
     const { appointments, error, load } = getAppointments();
     await load();
     this.appointments = appointments?.value.filter((appointment) => {
-      return appointment.isLateCancellation === true;
+      return appointment.lateStatus === "LATE";
     });
   },
   data() {
@@ -76,6 +84,20 @@ export default {
       var mins = piece[0] * 60 + +piece[1] + +minsToAdd;
 
       return D(((mins % (24 * 60)) / 60) | 0) + ":" + D(mins % 60);
+    },
+    async removeHandledAppointment(appointment) {
+      const updatedAppointment = {
+        ...appointment,
+        lateStatus: "LATE_HANDLED",
+      };
+
+      await updateAppoinment(updatedAppointment);
+      const { appointments, error, load } = getAppointments();
+      //load fetches the appointments
+      await load();
+      this.appointments = appointments?.value.filter((appointment) => {
+        return appointment.lateStatus === "LATE";
+      });
     },
   },
 };
