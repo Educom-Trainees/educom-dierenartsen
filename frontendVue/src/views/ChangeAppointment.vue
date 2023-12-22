@@ -1,109 +1,111 @@
 <template>
-  <TopNavigation />
-  <div class="container-fluid update-appo">
-    <div class="row">
-      <div class="col-12">
-        <h1>{{ header }}</h1>
-      </div>
-      <div v-if="showGenericError" class="error text-md">
-        <span>{{ genericError }}</span>
-      </div>
-      <div class="col-12 col-lg-9 ml-2">
-        <div class="chooseDate choose-group">
-          <h2 class="subhead">{{ subHeaders[0] }}</h2>
-          <div class="d-flex justify-content-between choose">
-            <div class="d-flex justify-content-around dates-box">
-              <div
-                @click="previousDate"
-                class="box d-flex justify-content-center align-items-center"
-              >
-                <button class="btn btn-gt-lt">&lt;</button>
+  <div>
+    <TopNavigation />
+    <div class="container-fluid update-appo">
+      <div class="row">
+        <div class="col-12">
+          <h1>{{ header }}</h1>
+        </div>
+        <div v-if="showGenericError" class="error text-md">
+          <span>{{ genericError }}</span>
+        </div>
+        <div class="col-12 col-lg-9 ml-2">
+          <div class="chooseDate choose-group">
+            <h2 class="subhead">{{ subHeaders[0] }}</h2>
+            <div class="d-flex justify-content-between choose">
+              <div class="d-flex justify-content-around dates-box">
+                <div
+                  @click="previousDate"
+                  class="box d-flex justify-content-center align-items-center"
+                >
+                  <button class="btn btn-gt-lt">&lt;</button>
+                </div>
+                <div
+                  v-for="day in upcomingDays"
+                  @click="changeDate(day)"
+                  :class="{ select: date == day }"
+                >
+                  <DatePicker :day="day" :date="date" />
+                </div>
+                <div
+                  @click="nextDate"
+                  class="box d-flex justify-content-center align-items-center"
+                >
+                  <button class="btn btn-gt-lt">&gt;</button>
+                </div>
               </div>
-              <div
-                v-for="day in upcomingDays"
-                @click="changeDate(day)"
-                :class="{ select: date == day }"
-              >
-                <DatePicker :day="day" :date="date" />
-              </div>
-              <div
-                @click="nextDate"
-                class="box d-flex justify-content-center align-items-center"
-              >
-                <button class="btn btn-gt-lt">&gt;</button>
+              <div class="agenda-box d-flex align-items-center">
+                <AgendaBox />
               </div>
             </div>
-            <div class="agenda-box d-flex align-items-center">
-              <AgendaBox />
-            </div>
           </div>
-        </div>
-        <!---->
-        <div class="chooseDoctor choose-group">
-          <h2 class="subhead">{{ subHeaders[1] }}</h2>
-          <div class="choose">
-            <button
-              @click="changeDoctorPreference(0)"
-              type="button"
-              :class="{ select: preference == 0 }"
-            >
-              Geen voorkeur
-            </button>
-            <button
-              @click="changeDoctorPreference(1)"
-              type="button"
-              :class="{ select: preference == 1 }"
-            >
-              Karel Lant
-            </button>
-            <button
-              @click="changeDoctorPreference(2)"
-              type="button"
-              :class="{ select: preference == 2 }"
-            >
-              Danique de Beer
-            </button>
-          </div>
-        </div>
-        <!---->
-        <div class="chooseTime choose-group">
-          <h3 class="subhead">{{ subHeaders[2] }}</h3>
-          <div class="choose">
-            <div class="w-70 d-flex flex-wrap">
+          <!---->
+          <div class="chooseDoctor choose-group">
+            <h2 class="subhead">{{ subHeaders[1] }}</h2>
+            <div class="choose">
               <button
-                v-for="timeslot in freeTimeslots.filter(
-                  (t) => t.time < '14:00'
-                )"
-                :class="{ select: time == timeslot.time }"
-                @click="changeTimeslot(timeslot.time, timeslot.doctor)"
+                @click="changeDoctorPreference(0)"
+                type="button"
+                :class="{ select: preference == 0 }"
               >
-                <img style="width: 20%" src="/time.png" />
-                {{ timeslot.time }}
+                Geen voorkeur
+              </button>
+              <button
+                @click="changeDoctorPreference(1)"
+                type="button"
+                :class="{ select: preference == 1 }"
+              >
+                Karel Lant
+              </button>
+              <button
+                @click="changeDoctorPreference(2)"
+                type="button"
+                :class="{ select: preference == 2 }"
+              >
+                Danique de Beer
               </button>
             </div>
           </div>
-          <h3 class="subhead">{{ subHeaders[3] }}</h3>
-          <div class="choose">
-            <div class="w-70 d-flex flex-wrap">
-              <button
-                v-for="timeslot in freeTimeslots.filter(
-                  (t) => t.time >= '14:00'
-                )"
-                :class="{ select: time == timeslot.time }"
-                @click="changeTimeslot(timeslot.time, timeslot.doctor)"
-              >
-                <img style="width: 20%" src="/time.png" /> {{ timeslot.time }}
-              </button>
+          <!---->
+          <div class="chooseTime choose-group">
+            <h3 class="subhead">{{ subHeaders[2] }}</h3>
+            <div class="choose">
+              <div class="w-70 d-flex flex-wrap">
+                <button
+                  v-for="timeslot in freeTimeslots.filter(
+                    (t) => t.time < '14:00'
+                  )"
+                  :class="{ select: time == timeslot.time }"
+                  @click="changeTimeslot(timeslot.time, timeslot.doctor)"
+                >
+                  <img style="width: 20%" src="/time.png" />
+                  {{ timeslot.time }}
+                </button>
+              </div>
+            </div>
+            <h3 class="subhead">{{ subHeaders[3] }}</h3>
+            <div class="choose">
+              <div class="w-70 d-flex flex-wrap">
+                <button
+                  v-for="timeslot in freeTimeslots.filter(
+                    (t) => t.time >= '14:00'
+                  )"
+                  :class="{ select: time == timeslot.time }"
+                  @click="changeTimeslot(timeslot.time, timeslot.doctor)"
+                >
+                  <img style="width: 20%" src="/time.png" /> {{ timeslot.time }}
+                </button>
+              </div>
+            </div>
+            <div class="d-flex justify-content-end align-items-center p-2">
+              <div class="button-group">
+                <button @click="backToOverview" class="btn">Terug</button>
+                <button @click="saveChanges" class="btn">Opslaan</button>
+              </div>
             </div>
           </div>
-          <div class="d-flex justify-content-end align-items-center p-2">
-            <div class="button-group">
-              <button @click="backToOverview" class="btn">Terug</button>
-              <button @click="saveChanges" class="btn">Opslaan</button>
-            </div>
-          </div>
+          <!---->
         </div>
-        <!---->
       </div>
     </div>
   </div>
@@ -116,10 +118,10 @@ import DatePicker from "../components/DatePicker.vue";
 import AgendaBox from "../components/AgendaBox.vue";
 import {
   getAppoinmentById,
-  GetActiveAppointmentsByDate,
   updateAppoinment,
+  getActiveAppointmentsByDate,
 } from "../composables/appointmentManager.js";
-import { GetTimeslotsByDate } from "../composables/timeslotManager.js";
+import { getTimeslotsByDate } from "../composables/timeslotManager.js";
 import {
   previousDate,
   nextDate,
@@ -129,9 +131,9 @@ import {
   toDateString,
 } from "../composables/datetime-utils.js";
 import {
-  combineTimeslotAppointments,
   findFreeTimeslots,
   RemoveDuplicates,
+  combineTimeslotAppointments,
 } from "../composables/arrayTransfromer.js";
 import { getPreferredDoctor } from "../composables/doctorPreferenceService.js";
 
@@ -229,15 +231,15 @@ export default {
 
     async getFreeTimeslots() {
       try {
-        // Transform date to correct format for backend (YYYY-MM-DD)
-        const year = this.date.getFullYear();
-        const month = String(this.date.getMonth() + 1).padStart(2, "0");
-        const day = String(this.date.getDate()).padStart(2, "0");
-        const formattedDate = `${year}-${month}-${day}`;
-
-        const timeslots = await GetTimeslotsByDate(formattedDate);
+        const timeslots = await getTimeslotsByDate(this.date);
         const nextValidDate = toDateString(skipSundayAndMonday(this.date));
         const allFreeTimeslots = findFreeTimeslots(timeslots);
+
+        const appointments = await getActiveAppointmentsByDate(nextValidDate);
+        const timeslotAppointments = combineTimeslotAppointments(
+          timeslots,
+          appointments
+        );
 
         //dit zorgt ervoor dat als het dezelfde dag is als de appointment die je wilt verplaatsen je dan die tijd erbij doet
         if (this.appointment.date == nextValidDate) {

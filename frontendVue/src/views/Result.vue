@@ -1,47 +1,49 @@
 <template>
+  <div>
   <TopNavigation />
-  <h1 class="appointment_header">Afspraak maken</h1>
-  <div class="test">
-    <h2><img src="/balk4.png" /></h2>
-    <div v-if="appointment" class="appointment_form">
-      <h3>Afspraak bevestiging</h3>
-      <div class="row">
-        <div class="appointment_result">
-          <p>Afspraak nummer</p>
-          <p>Klant</p>
-          <p>Mobiel nummer</p>
-          <p>Email adres</p>
-          <p>Diersoort</p>
-          <p>Afspraak type</p>
-          <p>Datum</p>
-          <p>Tijd</p>
-          <p>Dokter</p>
-        </div>
-        <div class="appointment_result">
-          <p>{{ appointment.number }}</p>
-          <p>{{ appointment.customer }}</p>
-          <p>{{ appointment.phoneNumber }}</p>
-          <p>{{ appointment.email }}</p>
-          <div v-for="pet_type in pet_types" :key="pet_type.id">
-            <p v-if="pet_type.id == appointment.petType">
-              {{ pet_type.name }}
-            </p>
+    <h1 class="appointment_header">Afspraak maken</h1>
+    <div class="test">
+      <h2><img src="/balk4.png" /></h2>
+      <div v-if="appointment" class="appointment_form">
+        <h3>Afspraak bevestiging</h3>
+        <div class="row">
+          <div class="appointment_result">
+            <p>Afspraak nummer</p>
+            <p>Klant</p>
+            <p>Mobiel nummer</p>
+            <p>Email adres</p>
+            <p>Diersoort</p>
+            <p>Afspraak type</p>
+            <p>Datum</p>
+            <p>Tijd</p>
+            <p>Dokter</p>
           </div>
-          <div
-            v-for="appointment_type in appointment_types"
-            :key="appointment_type.id"
-          >
-            <p v-if="appointment_type.id == appointment.type">
-              {{ appointment_type.name }}
-            </p>
+          <div class="appointment_result">
+            <p>{{ appointment.number }}</p>
+            <p>{{ appointment.customer }}</p>
+            <p>{{ appointment.phoneNumber }}</p>
+            <p>{{ appointment.email }}</p>
+            <div v-for="pet_type in pet_types" :key="pet_type.id">
+              <p v-if="pet_type.id == appointment.petType">
+                {{ pet_type.name }}
+              </p>
+            </div>
+            <div
+              v-for="appointment_type in appointment_types"
+              :key="appointment_type.id"
+            >
+              <p v-if="appointment_type.id == appointment.type">
+                {{ appointment_type.name }}
+              </p>
+            </div>
+            <p>{{ displayFullDate(new Date(appointment.date)) }}</p>
+            <p>{{ appointment.time }}</p>
+            <p v-if="appointment.doctor == 1">karel lant</p>
+            <p v-if="appointment.doctor == 2">danique de beer</p>
           </div>
-          <p>{{ displayFullDate(new Date(appointment.date)) }}</p>
-          <p>{{ appointment.time }}</p>
-          <p v-if="appointment.doctor == 1">karel lant</p>
-          <p v-if="appointment.doctor == 2">danique de beer</p>
-        </div>
-        <div class="appointment_result_pic">
-          <img id="computer" src="/dog-computer.jpg" />
+          <div class="appointment_result_pic">
+            <img id="computer" src="/dog-computer.jpg" />
+          </div>
         </div>
       </div>
     </div>
