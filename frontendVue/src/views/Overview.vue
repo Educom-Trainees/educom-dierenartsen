@@ -1,35 +1,40 @@
 <template>
-    <TopNavigation />
-    <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <h1 class="text-lg text-left">Overzicht afspraken</h1>
-
-            <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
-                <div class="btn-group" role="group" aria-label="datepicker">
-                    <button @click="previousDate()" type="button" class="btn btn-secondary active">&lt;</button>
-                    <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
-                    <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
+    <div>
+        <TopNavigation />
+        <div class="container-fluid">
+            <!-- Header Section -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-lg-10 text-center">
+                    <h1 class="text-lg">Overzicht afspraken</h1>
+                    <div id="datepicker-area" class="d-flex justify-content-center align-items-center">
+                        <div class="btn-group" role="group" aria-label="datepicker">
+                            <button @click="previousDate()" type="button" class="btn btn-secondary active">&lt;</button>
+                            <button type="button" class="btn btn-secondary">{{ displayFullDate(date) }}</button>
+                            <button @click="nextDate()" type="button" class="btn btn-secondary active">&gt;</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Calendar Section -->
+            <div class="row d-flex justify-content-center pb-5">
+                <div class="col-12 col-lg-5">
+                    <Calendar doctor='Karel Lant' doctorId="1" :appointments="appointments" :date="date" color="#A0E9FF" />
+                </div>
+                <div class="col-12 col-lg-5">
+                    <Calendar doctor='Danique de Beer' doctorId="2" :appointments="appointments" :date="date" color="#C1FF72" />
                 </div>
             </div>
         </div>
     </div>
-    <div class="row flex-column flex-lg-row">
-        <div class="col-12 col-lg-6">
-            <Calendar doctor='Karel Lant' doctorId="1" :appointments="appointments" :date="date" color="#A0E9FF" />
-        </div>
-        <div class="col-12 col-lg-6">
-            <Calendar doctor='Danique de Beer' doctorId="2" :appointments="appointments" color="#C1FF72" />
-        </div>
-    </div>
-  </div>
 </template>
+  
 
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
 import Calendar from '../components/Calendar.vue'
 import { displayFullDate, toDateString, nextDate, previousDate } from '../composables/datetime-utils.js'
-import { GetActiveAppointmentsByDate } from '../composables/appointmentManager.js'
+import { getActiveAppointmentsByDate } from '../composables/appointmentManager.js'
 
 export default {
     name: 'Overview',
@@ -64,7 +69,7 @@ export default {
             }
         }, 
         async getAppointments(date) {
-            this.appointments = await GetActiveAppointmentsByDate(date)
+            this.appointments = await getActiveAppointmentsByDate(date)
         },
     }, 
 }
