@@ -160,9 +160,8 @@ import {
   previousDate,
   nextDate,
 } from "../composables/datetime-utils.js";
-import { combineTimeslotAppointments } from "../composables/arrayTransfromer.js";
-import getTime_slots from "../composables/getTime_slots";
-import getAppointments from "../composables/getAppointments";
+import { findFreeTimeslots } from "../composables/arrayTransfromer.js";
+import { getTimeslotsByDate } from "../composables/timeslotManager.js";
 export default {
   props: ["duration", "oldtime", "appointmentDate", "initialPreference"],
   data() {
@@ -222,35 +221,6 @@ export default {
         this.date = previousDate(this.date);
       }
     },
-    getFreeSlots(time_slots, duration) {
-      const result = [];
-      time_slots.forEach((element, index) => {
-        if (
-          element.show == true &&
-          time_slots[index].appointment == undefined &&
-          time_slots[index].available == 1
-        ) {
-          if (duration == 15) {
-            result.push(element);
-          } else if (duration == 30 && time_slots[index + 1] != undefined) {
-            if (
-              time_slots[index + 1].show == true &&
-              time_slots[index + 1].appointment == undefined
-            ) {
-              result.push(element);
-            }
-          } else if (duration == 45 && time_slots[index + 2] != undefined) {
-            if (
-              time_slots[index + 2].show == true &&
-              time_slots[index + 2].appointment == undefined
-            ) {
-              result.push(element);
-            }
-          }
-        }
-      });
-      return result;
-    },
     RemoveDuplicate(array, prefDoctor) {
       const result = [];
       array.forEach((element, index) => {
@@ -271,36 +241,17 @@ export default {
       });
       return result;
     },
-    async gettimeslots(date) {
-      const { time_slots, error, load } = getTime_slots(date);
-      await load();
-      return { time_slots, error };
-    },
-    async getappointments() {
-      const { appointments, error, load } = getAppointments();
-      await load();
-      return { appointments, error };
-    },
     async preparesetup() {
       this.freeTimeslots = [];
 
-      const { time_slots, timeslot_error } = await this.gettimeslots(this.date);
-      const { appointments, appointments_error } = await this.getappointments();
+      const timeslots = await getTimeslotsByDate(this.date);
 
       this.closed = true;
-      time_slots.value.forEach((t) => {
+      timeslots.forEach((t) => {
         if (t.available == 1) this.closed = false;
       });
-      // this.date = skipSundayandMonday(this.date)
 
-      const filteredapp = appointments.value.filter(
-        (a) => a.date == toDateString(this.date)
-      );
-      var newTimeslot = combineTimeslotAppointments(
-        time_slots.value,
-        filteredapp
-      );
-      var freeTimeslots = this.getFreeSlots(newTimeslot, this.duration);
+      const freeTimeslots = findFreeTimeslots(timeslots);
 
       if (this.preference == 0) {
         var prefDoctor = 0;
