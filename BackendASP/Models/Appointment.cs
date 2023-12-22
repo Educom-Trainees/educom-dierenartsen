@@ -20,7 +20,7 @@ namespace BackendASP.Models
         public DoctorTypes Preference { get; set; }
         public DoctorTypes Doctor { get; set; }
         public StatusTypes Status { get; set; }
-        public bool? IsLateCancellation { get; set; }
+        public LateStatus LateStatus { get; set; }
 
         // FK's
         public required PetType PetType { get; set; }

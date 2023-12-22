@@ -72,6 +72,7 @@ namespace BackendASP.Database
                     Preference = DoctorTypes.KAREL_LANT,
                     Doctor = DoctorTypes.KAREL_LANT,
                     Status = StatusTypes.ACTIVE,
+                    LateStatus = LateStatus.NOT_LATE,
                     PetTypeId = 4,
                     AppointmentTypeId = 5,
                     TimeSlotId = 6,

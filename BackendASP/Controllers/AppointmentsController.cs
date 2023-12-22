@@ -313,7 +313,7 @@ namespace BackendASP.Controllers
             appointment.Id = 0;
             appointment.AppointmentNumber = 0;
             appointment.Status = StatusTypes.ACTIVE;
-            appointment.IsLateCancellation = null;
+            appointment.LateStatus = LateStatus.NOT_LATE;
             foreach (var pet in appointment.Pets)
             {
                 pet.Id = 0;

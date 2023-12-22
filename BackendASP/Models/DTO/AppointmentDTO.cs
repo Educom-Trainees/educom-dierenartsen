@@ -34,7 +34,7 @@ namespace BackendASP.Models.DTO
         public DoctorTypes Preference { get; set; }
         public DoctorTypes Doctor { get; set; }
         public StatusTypes Status { get; set; }
-        public bool? IsLateCancellation { get; set; }
+        public LateStatus LateStatus { get; set; }
 
     }
 }
