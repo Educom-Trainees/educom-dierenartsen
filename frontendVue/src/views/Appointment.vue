@@ -199,7 +199,7 @@
                 }"
               >
                 <img
-                  v-if="pet.petTypeId == 1"
+                  v-if="pet.type == 1"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-dog.png'
@@ -207,7 +207,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 2"
+                  v-if="pet.type == 2"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-black-cat.png'
@@ -215,7 +215,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId === 3"
+                  v-if="pet.type === 3"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-rabbit.png'
@@ -223,7 +223,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 4"
+                  v-if="pet.type == 4"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-guinea-pig.png'
@@ -231,7 +231,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 5"
+                  v-if="pet.type == 5"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-hamster.png'
@@ -239,7 +239,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 6"
+                  v-if="pet.type == 6"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-rat.png'
@@ -247,7 +247,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 7"
+                  v-if="pet.type == 7"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-muis.png'
@@ -255,7 +255,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 8"
+                  v-if="pet.type == 8"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-dog.png'
@@ -263,7 +263,7 @@
                   "
                 />
                 <img
-                  v-if="pet.petTypeId == 9"
+                  v-if="pet.type == 9"
                   :src="
                     name_animal.includes(pet.name)
                       ? '/inverted-dog.png'
@@ -479,7 +479,7 @@ export default {
       const user = getUserDataFromSession();
       const userdata = await getUserById(user.userId);
       this.userid = user.userId;
-      this.pets = userdata.userPets;
+      this.pets = userdata.pets;
     }
 
     const { appointment_types, appointment_types_error } =
