@@ -176,7 +176,9 @@ export default {
         const updatedAppointment = {
           ...selectedAppointment,
           status: 2,
-          isLateCancellation: this.isLateCancellation(selectedAppointment.date),
+          lateStatus: this.isLateCancellation(selectedAppointment.date)
+            ? "LATE"
+            : "NOT_LATE",
         };
 
         updateAppoinment(updatedAppointment);
