@@ -124,10 +124,9 @@ export default {
     todayStartOfDay.setHours(9);
     todayStartOfDay.setMinutes(0);
 
-    const tomorrowStartOfDay = new Date();
-    tomorrowStartOfDay.setDate(new Date().getDate() + 1);
-    tomorrowStartOfDay.setHours(9);
-    tomorrowStartOfDay.setMinutes(0);
+    const todayEndOfDay = new Date();
+    todayEndOfDay.setHours(17);
+    todayEndOfDay.setMinutes(30);
 
     return {
       doctors: [],
@@ -135,7 +134,7 @@ export default {
       newVacation: {
         userId: undefined,
         startDateTime: formatForDatePickerLocal(todayStartOfDay),
-        endDateTime: formatForDatePickerLocal(tomorrowStartOfDay),
+        endDateTime: formatForDatePickerLocal(todayEndOfDay),
         reason: undefined,
       },
       errors: {
