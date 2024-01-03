@@ -97,8 +97,19 @@
           </template>
         </div>
       </div>
-      <button class="btn submit-btn mt-4" @click="openModal(appointment)">
+      <button
+        v-if="appointment.status === 0"
+        class="btn submit-btn mt-4"
+        @click="openModal(appointment)"
+      >
         Afspraak annuleren
+      </button>
+      <button
+        v-if="appointment.status !== 0"
+        class="btn submit-btn mt-4 text-danger"
+        disabled="true"
+      >
+        Afspraak is geannuleerd
       </button>
       <div v-if="showModal">
         <Modal
@@ -176,7 +187,9 @@ export default {
         const updatedAppointment = {
           ...selectedAppointment,
           status: 2,
-          isLateCancellation: this.isLateCancellation(selectedAppointment.date),
+          lateStatus: this.isLateCancellation(selectedAppointment.date)
+            ? "LATE"
+            : "NOT_LATE",
         };
 
         updateAppoinment(updatedAppointment);

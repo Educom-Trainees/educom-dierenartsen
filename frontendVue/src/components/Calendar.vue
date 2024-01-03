@@ -103,30 +103,30 @@ td {
     margin: 0;
 }
 .table #th-clock i {
-    background-color: var(--darkGrey);
+  background-color: var(--darkGrey);
 }
 .table #th-clock {
-    text-align: center;
-    font-size: 2rem;
-    border-right: 1px solid var(--bs-border-color);
-    background-color: var(--darkGrey);
+  text-align: center;
+  font-size: 2rem;
+  border-right: 1px solid var(--bs-border-color);
+  background-color: var(--darkGrey);
 }
 .table th #doctor {
-    background-color: var(--lightGrey);
-    float: left;
-    padding: 8px;
+  background-color: var(--lightGrey);
+  float: left;
+  padding: 8px;
 }
 .table th #nr-appointment {
-    float: right;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    padding: 0;
-    min-width: 40px;
-    min-height: 40px;
-    background-color: var(--happyPaw1);
-    color: white;
+  float: right;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0;
+  min-width: 40px;
+  min-height: 40px;
+  background-color: var(--happyPaw1);
+  color: white;
 }
 .table .timeslot {
     border: none;
@@ -138,33 +138,33 @@ td {
     padding: 5px;
 }
 .table .has-event .dropdown {
-    padding: 0;
+  padding: 0;
 }
 .table .has-event .dropdown-menu {
-    padding: 0;
+  padding: 0;
 }
 .table .has-event .btn {
-    color: black !important;
-    padding: 0 16px !important;
-    margin: 0 6px;
-    border-radius: 20px;
-    min-height: 25px;
-    border: none;
-    width: 93%;
+  color: black !important;
+  padding: 0 16px !important;
+  margin: 0 6px;
+  border-radius: 20px;
+  min-height: 25px;
+  border: none;
+  width: 93%;
 }
 .table .appointment-info {
-    padding: 8px;
+  padding: 8px;
 }
 #h-2 {
-    min-height: 50px;
+  min-height: 50px;
 }
 #h-3 {
-    min-height: 75px;
+  min-height: 75px;
 }
 #h-2 {
-    min-height: px;
+  min-height: px;
 }
 .col-lg-6 {
-    padding: 0;
+  padding: 0;
 }
 </style>
