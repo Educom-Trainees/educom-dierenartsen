@@ -16,11 +16,13 @@ namespace BackendASP.Controllers
     {
         private readonly PetCareContext _context;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public UsersController(PetCareContext context, IMapper mapper)
+        public UsersController(PetCareContext context, IMapper mapper, IEmailService emailService)
         {
             _context = context;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         /// <summary>
@@ -176,6 +178,10 @@ namespace BackendASP.Controllers
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            // Send email after successfully creating a new user
+
+            await _emailService.SendRegisterConfirmationEmailAsync(userDTO);
 
             return CreatedAtAction("GetUser", new { id = user.Id }, _mapper.Map<UserDTO>(user));
         }

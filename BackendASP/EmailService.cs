@@ -11,6 +11,7 @@ namespace BackendASP
     {
         Task SendEmailAsync(string toEmail, string subject, string body);
         Task SendAppointmentConfirmationEmailAsync(AppointmentDTO appointmentDTO);
+        Task SendRegisterConfirmationEmailAsync(UserDTO userDTO);
     }
 
     public class EmailService : IEmailService
@@ -80,6 +81,46 @@ namespace BackendASP
                 <br />
                 <br />
                 Tot ziens in de praktijk!
+                <br />
+                <br />
+                Met vriendelijke groeten,
+                <br />
+                <br />
+                Karel en Danique van Dierenpraktijk HappyPaws
+                ";
+
+                // Send the confirmation email
+                await SendEmailAsync(toEmail, subject, body);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log or throw as needed)
+                Console.WriteLine($"Error sending appointment confirmation email: {ex.Message}");
+            }
+        }
+
+        public async Task SendRegisterConfirmationEmailAsync(UserDTO userDTO)
+        {
+            try
+            {
+                // Replace these values with your actual email details
+                string toEmail = "test@hotmail.com"; // Use the email address of the customer
+                string subject = $"Accountbevestiging - HappyPaws Dierenartspraktijk";
+                string body = $@"
+                Beste {userDTO.FirstName} {userDTO.LastName},
+                <br />
+                <br />
+                Welkom bij Dierenpraktijk HappyPaws! Jouw account is succesvol geactiveerd. Hier zijn je inloggegevens:
+                <br />
+                <br />
+                E-mailadres: {userDTO.Email}
+                <br />
+                <br />
+                Met jouw account kun je afspraken plannen en de medische geschiedenis van jouw huisdier(en) volgen. 
+                Voor vragen staan we altijd klaar.
+                <br />
+                <br />
+                Bedankt voor het vertrouwen in HappyPaws.
                 <br />
                 <br />
                 Met vriendelijke groeten,
