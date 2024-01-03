@@ -188,8 +188,8 @@ export default {
           ...selectedAppointment,
           status: 2,
           lateStatus: this.isLateCancellation(selectedAppointment.date)
-            ? "LATE"
-            : "NOT_LATE",
+            ? 1 // is LATE
+            : 0, // is NOT_LATE
         };
 
         updateAppoinment(updatedAppointment);
