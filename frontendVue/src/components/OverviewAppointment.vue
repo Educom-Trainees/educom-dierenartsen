@@ -9,7 +9,7 @@
             aria-expanded="false"
             :style="{ 
                 'width': '100%', 
-                'height': (20 * (appointment.duration/15)) + 'px', 
+                'height': (32 * (appointment.duration/15)) + 'px', 
                 'background-color': color + '!important',
                 'border-top-right-radius': (appointment.doctor === 3 && doctorId == 1)? 0 : 20 + 'px',
                 'border-bottom-right-radius': (appointment.doctor === 3 && doctorId == 1)? 0 : 20 + 'px',
