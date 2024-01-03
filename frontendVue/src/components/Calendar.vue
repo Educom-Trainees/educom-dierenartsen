@@ -11,9 +11,9 @@
         </tr>
         <tr v-for="(timeslot, index) in calculatedTimeslots" :data-id="timeslot.id" :key="timeslot.id">
             <td class="timeslot" v-if="index % 2 === 0">{{ timeslot.time }}</td>
-            <td class="timeslot sr-only" v-else-if="index % 2 != 0">{{ timeslot.time }}</td>
+            <td class="timeslot sr-only" v-else>&nbsp;</td>
 
-            <td v-if="timeslot.appointment" class="has-event" :attr="{ 'rowspan': timeslot.appointment.duration/15 }">
+            <td v-if="timeslot.appointment" class="has-event" :rowspan="timeslot.appointment.duration/15">
                 <div class="dropdown">
                     <button class="btn btn-primary mx-auto text-center" 
                         type="button" 
@@ -22,7 +22,7 @@
                         data-bs-toggle="dropdown" 
                         aria-haspopup="true" 
                         aria-expanded="false"
-                        :style="{ 'width': '100%', 'height': (25 * (timeslot.appointment.duration/15)) + 'px', 'background-color': color + '!important' }">
+                        :style="{ 'width': '100%', 'height': (20 * (timeslot.appointment.duration/15)) + 'px', 'background-color': color + '!important' }">
                         <span class="appointment-info">{{ timeslot.appointment.customer }} &mdash; {{ timeslot.appointment.time }} - {{ 
                         calculateEndTime(timeslot.appointment.date,timeslot.appointment.time,timeslot.appointment.duration) }}</span>
                     </button>
@@ -91,6 +91,11 @@ export default {
 <style>
 #overview-calendar {
     margin-bottom: 0 !important;
+    border-collapse:collapse;
+}
+td {
+    padding: 0;
+    margin: 0;
 }
 .table #th-doc {
     background-color: var(--lightGrey);
