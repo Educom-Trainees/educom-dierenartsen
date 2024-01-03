@@ -11,7 +11,7 @@
         </tr>
         <tr v-for="(timeslot, index) in calculatedTimeslots" :data-id="timeslot.id" :key="timeslot.id">
             <td class="timeslot" v-if="index % 2 === 0">{{ timeslot.time }}</td>
-            <td class="timeslot sr-only" v-else>&nbsp;</td>
+            <td class="timeslot" v-else>&nbsp;</td>
 
             <td v-if="timeslot.appointment" class="has-event" :rowspan="timeslot.appointment.duration/15">
                 <div class="dropdown">
