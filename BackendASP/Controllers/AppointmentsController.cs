@@ -211,6 +211,9 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
 
+            var oldLateStatus = existingAppointment.LateStatus;
+            var newLateStatus = appointmentDTO.LateStatus;
+
             // Update existingAppointment properties with values from appointmentDTO
             _mapper.Map(appointmentDTO, existingAppointment);
 
@@ -231,6 +234,11 @@ namespace BackendASP.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+
+                if (oldLateStatus == LateStatus.NOT_LATE && newLateStatus == LateStatus.LATE)
+                {
+                    await _emailService.SendAppointmentCancelledEmailAsync(appointmentDTO);
+                }
             }
             catch (DbUpdateConcurrencyException)
             {

@@ -12,6 +12,7 @@ namespace BackendASP
         Task SendEmailAsync(string toEmail, string subject, string body);
         Task SendAppointmentConfirmationEmailAsync(AppointmentDTO appointmentDTO);
         Task SendRegisterConfirmationEmailAsync(UserDTO userDTO);
+        Task SendAppointmentCancelledEmailAsync(AppointmentDTO appointmentDTO);
     }
 
     public class EmailService : IEmailService
@@ -121,6 +122,53 @@ namespace BackendASP
                 <br />
                 <br />
                 Bedankt voor het vertrouwen in HappyPaws.
+                <br />
+                <br />
+                Met vriendelijke groeten,
+                <br />
+                <br />
+                Karel en Danique van Dierenpraktijk HappyPaws
+                ";
+
+                // Send the confirmation email
+                await SendEmailAsync(toEmail, subject, body);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (log or throw as needed)
+                Console.WriteLine($"Error sending appointment confirmation email: {ex.Message}");
+            }
+        }
+
+        public async Task SendAppointmentCancelledEmailAsync(AppointmentDTO appointmentDTO)
+        {
+            try
+            {
+                // Replace these values with your actual email details
+                string toEmail = "test@hotmail.com"; // Use the email address of the customer
+                string subject = $"Geannuleerde Afspraak op {appointmentDTO.Date}";
+                string body = $@"
+                Beste {appointmentDTO.CustomerName},
+                <br />
+                <br />
+                Helaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. 
+                We begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.
+                <br />
+                <br />
+                Hier zijn de details van de geannuleerde afspraak:
+                <br />
+                <br />
+                Datum: {appointmentDTO.Date}
+                <br />
+                Tijd: {appointmentDTO.TimeSlotTime}
+                <br />
+                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}
+                <br />
+                <br />
+                Mocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. 
+                De gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                <br />
+                <br />
+                Bedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.
                 <br />
                 <br />
                 Met vriendelijke groeten,
