@@ -66,7 +66,7 @@ export default {
     const { appointments, error, load } = getAppointments();
     await load();
     this.appointments = appointments?.value.filter((appointment) => {
-      return appointment.lateStatus === "LATE";
+      return appointment.lateStatus === 1;
     });
   },
   data() {
@@ -88,7 +88,7 @@ export default {
     async removeHandledAppointment(appointment) {
       const updatedAppointment = {
         ...appointment,
-        lateStatus: "LATE_HANDLED",
+        lateStatus: 2,
       };
 
       await updateAppoinment(updatedAppointment);
@@ -96,7 +96,7 @@ export default {
       //load fetches the appointments
       await load();
       this.appointments = appointments?.value.filter((appointment) => {
-        return appointment.lateStatus === "LATE";
+        return appointment.lateStatus === 1;
       });
     },
   },
