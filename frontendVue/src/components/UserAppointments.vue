@@ -169,7 +169,7 @@ export default {
       this.appointments = appointments;
 
       this.appointments = this.appointments.sort((a, b) => {
-        return a.date > b.date ? 1 : -1;
+        return a.date < b.date ? 1 : -1;
       });
     },
     addMinutes(time, minsToAdd) {
