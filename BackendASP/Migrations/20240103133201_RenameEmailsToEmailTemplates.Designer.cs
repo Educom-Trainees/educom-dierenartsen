@@ -4,6 +4,7 @@ using BackendASP.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    partial class PetCareContextModelSnapshot : ModelSnapshot
+    [Migration("20240103133201_RenameEmailsToEmailTemplates")]
+    partial class RenameEmailsToEmailTemplates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -736,14 +739,11 @@ namespace BackendASP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmailType")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Subject")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TemplateName")
+                    b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -755,26 +755,9 @@ namespace BackendASP.Migrations
                         new
                         {
                             Id = 1,
-                            Body = "Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Bij deze bevestigen wij dat uw afspraak gepland is voor:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                We kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.\r\n                <br />\r\n                <br />\r\n                Tot ziens in de praktijk!\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
-                            EmailType = 1,
-                            Subject = "Afspraak bevestiging voor {appointmentDTO.Date}",
-                            TemplateName = "Afspraak bevestiging"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Body = "Beste {userDTO.FirstName} {userDTO.LastName},\r\n                <br />\r\n                <br />\r\n                Welkom bij Dierenpraktijk HappyPaws! Jouw account is succesvol geactiveerd. Hier zijn je inloggegevens:\r\n                <br />\r\n                <br />\r\n                E-mailadres: {userDTO.Email}\r\n                <br />\r\n                <br />\r\n                Met jouw account kun je afspraken plannen en de medische geschiedenis van jouw huisdier(en) volgen. \r\n                Voor vragen staan we altijd klaar.\r\n                <br />\r\n                <br />\r\n                Bedankt voor het vertrouwen in HappyPaws.\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
-                            EmailType = 0,
-                            Subject = "Aanmeldingsbevestiging - HappyPaws Dierenartspraktijk",
-                            TemplateName = "Aanmeldingsbevestiging"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Body = "Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Helaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. \r\n                We begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.\r\n                <br />\r\n                <br />\r\n                Hier zijn de details van de geannuleerde afspraak:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                Mocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. \r\n                De gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                <br />\r\n                <br />\r\n                Bedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
-                            EmailType = 1,
-                            Subject = "Geannuleerde Afspraak op {appointmentDTO.Date}",
-                            TemplateName = "Geannuleerde afspraak"
+                            Body = "\"\r\n                Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Bij deze bevestigen wij dat uw afspraak gepland is voor:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                We kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.\r\n                <br />\r\n                <br />\r\n                Tot ziens in de praktijk!\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws\r\n                \"",
+                            Name = "Appointment Confirmation",
+                            Subject = "Afspraak bevestiging voor {appointmentDTO.Date}"
                         });
                 });
 
