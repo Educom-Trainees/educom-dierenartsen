@@ -204,12 +204,18 @@ namespace BackendASP.Controllers
                 return BadRequest();
             }
 
-            var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == id);
+                var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == id);
 
             if (existingAppointment == null)
             {
                 return NotFound();
             }
+
+            var oldTimeSlot = existingAppointment.TimeSlots.FirstOrDefault()?.Time;
+            var newTimeSlot = appointmentDTO.TimeSlotTime;
+
+            var oldDate = existingAppointment.Date;
+            var newDate = appointmentDTO.Date;
 
             var oldLateStatus = existingAppointment.LateStatus;
             var newLateStatus = appointmentDTO.LateStatus;
@@ -237,7 +243,25 @@ namespace BackendASP.Controllers
 
                 if (oldLateStatus == LateStatus.NOT_LATE && newLateStatus == LateStatus.LATE)
                 {
-                    await _emailService.SendAppointmentCancelledEmailAsync(appointmentDTO);
+                    try
+                    {
+                        await _emailService.FormatAndSendEmailAsync(3, appointmentDTO);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
+                }
+                if (!(oldTimeSlot == newTimeSlot && oldDate == newDate))
+                {
+                    try
+                    {
+                        await _emailService.FormatAndSendEmailAsync(4, appointmentDTO);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error: {ex.Message}");
+                    }
                 }
             }
             catch (DbUpdateConcurrencyException)
@@ -371,8 +395,14 @@ namespace BackendASP.Controllers
             await _context.SaveChangesAsync();
 
             // Send email after successfully creating a new appointment
-
-            await _emailService.SendAppointmentConfirmationEmailAsync(appointmentDTO);
+            try
+            { 
+                await _emailService.FormatAndSendEmailAsync(1, appointmentDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
 
             return CreatedAtAction("GetAppointments", new { id = appointment.Id }, _mapper.Map<AppointmentDTO>(appointment));
         }

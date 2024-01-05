@@ -180,8 +180,14 @@ namespace BackendASP.Controllers
             await _context.SaveChangesAsync();
 
             // Send email after successfully creating a new user
-
-            await _emailService.SendRegisterConfirmationEmailAsync(userDTO);
+            try
+            {
+                await _emailService.FormatAndSendEmailAsync(2, userDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
 
             return CreatedAtAction("GetUser", new { id = user.Id }, _mapper.Map<UserDTO>(user));
         }
