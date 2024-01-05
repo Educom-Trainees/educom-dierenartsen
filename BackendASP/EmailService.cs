@@ -1,27 +1,32 @@
-﻿using BackendASP.Models.DTO;
+﻿using BackendASP.Database;
+using BackendASP.Models.DTO;
 using BackendASP.Models.Enums;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using MimeKit.Text;
+using System;
+using System.Runtime.Intrinsics.X86;
+using System.Threading.Tasks;
 
 namespace BackendASP
 {
     public interface IEmailService
     {
         Task SendEmailAsync(string toEmail, string subject, string body);
-        Task SendAppointmentConfirmationEmailAsync(AppointmentDTO appointmentDTO);
-        Task SendRegisterConfirmationEmailAsync(UserDTO userDTO);
-        Task SendAppointmentCancelledEmailAsync(AppointmentDTO appointmentDTO);
+        Task FormatAndSendEmailAsync<T>(int emailTemplateId, T dto);
     }
 
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _configuration;
+        private readonly PetCareContext _context;
 
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration, PetCareContext petCareContext)
         {
             _configuration = configuration;
+            _context = petCareContext;
         }
 
         public async Task SendEmailAsync(string toEmail, string subject, string body)
@@ -57,38 +62,46 @@ namespace BackendASP
                 await client.DisconnectAsync(true);
             }
         }
-        public async Task SendAppointmentConfirmationEmailAsync(AppointmentDTO appointmentDTO)
+
+        public async Task<(string subject, string body, EmailTypes emailType)> GetEmailTemplateAsync(int emailTemplateId)
+        {
+            var template = await _context.EmailTemplates
+                .Where(t => t.Id == emailTemplateId)
+                .FirstOrDefaultAsync();
+            if (template != null)
+            {
+                return (template.Subject ?? string.Empty, template.Body ?? string.Empty, template.EmailType);
+            }
+            else
+            {
+                return (string.Empty, string.Empty, EmailTypes.USER);
+            }
+        }
+
+        public async Task FormatAndSendEmailAsync<T>(int emailTemplateId, T dto)
         {
             try
             {
-                // Replace these values with your actual email details
                 string toEmail = "test@hotmail.com"; // Use the email address of the customer
-                string subject = $"Afspraak bevestiging voor {appointmentDTO.Date}";
-                string body = $@"
-                Beste {appointmentDTO.CustomerName},
-                <br />
-                <br />
-                Bij deze bevestigen wij dat uw afspraak gepland is voor:
-                <br />
-                <br />
-                Datum: {appointmentDTO.Date}
-                <br />
-                Tijd: {appointmentDTO.TimeSlotTime}
-                <br />
-                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}
-                <br />
-                <br />
-                We kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.
-                <br />
-                <br />
-                Tot ziens in de praktijk!
-                <br />
-                <br />
-                Met vriendelijke groeten,
-                <br />
-                <br />
-                Karel en Danique van Dierenpraktijk HappyPaws
-                ";
+
+                var (subject, body, emailType) = await GetEmailTemplateAsync(emailTemplateId);
+
+                if (string.IsNullOrEmpty(subject) || string.IsNullOrEmpty(body))
+                {
+                    throw new InvalidOperationException("Subject or body is empty.");
+                }
+
+                if (dto is UserDTO userDTO && emailType == EmailTypes.USER)
+                {
+                    ReplacePlaceholders(ref subject, userDTO);
+                    ReplacePlaceholders(ref body, userDTO);
+                }
+                else if (dto is AppointmentDTO appointmentDTO && emailType == EmailTypes.APPOINTMENT)
+                {
+                    ReplacePlaceholders(ref subject, appointmentDTO);
+                    ReplacePlaceholders(ref body, appointmentDTO);
+                }
+                body = body.Replace("\n", "<br>");
 
                 // Send the confirmation email
                 await SendEmailAsync(toEmail, subject, body);
@@ -96,95 +109,30 @@ namespace BackendASP
             catch (Exception ex)
             {
                 // Handle exceptions (log or throw as needed)
-                Console.WriteLine($"Error sending appointment confirmation email: {ex.Message}");
+                Console.WriteLine($"Error sending email: {ex.Message}");
             }
         }
 
-        public async Task SendRegisterConfirmationEmailAsync(UserDTO userDTO)
+        private static void ReplacePlaceholders<T>(ref string text, T dto)
         {
-            try
+            if (dto is UserDTO userDTO)
             {
-                // Replace these values with your actual email details
-                string toEmail = "test@hotmail.com"; // Use the email address of the customer
-                string subject = $"Accountbevestiging - HappyPaws Dierenartspraktijk";
-                string body = $@"
-                Beste {userDTO.FirstName} {userDTO.LastName},
-                <br />
-                <br />
-                Welkom bij Dierenpraktijk HappyPaws! Jouw account is succesvol geactiveerd. Hier zijn je inloggegevens:
-                <br />
-                <br />
-                E-mailadres: {userDTO.Email}
-                <br />
-                <br />
-                Met jouw account kun je afspraken plannen en de medische geschiedenis van jouw huisdier(en) volgen. 
-                Voor vragen staan we altijd klaar.
-                <br />
-                <br />
-                Bedankt voor het vertrouwen in HappyPaws.
-                <br />
-                <br />
-                Met vriendelijke groeten,
-                <br />
-                <br />
-                Karel en Danique van Dierenpraktijk HappyPaws
-                ";
-
-                // Send the confirmation email
-                await SendEmailAsync(toEmail, subject, body);
+                text = text.Replace("{Naam klant}", $"{userDTO.FirstName} {userDTO.LastName}");
+                text = text.Replace("{Telefoonnummer}", userDTO.PhoneNumber);
+                text = text.Replace("{Email}", userDTO.Email);
             }
-            catch (Exception ex)
+
+            if (dto is AppointmentDTO appointmentDTO)
             {
-                // Handle exceptions (log or throw as needed)
-                Console.WriteLine($"Error sending appointment confirmation email: {ex.Message}");
+                text = text.Replace("{Naam klant}", $"{appointmentDTO.CustomerName}");
+                text = text.Replace("{Telefoonnummer}", appointmentDTO.PhoneNumber);
+                text = text.Replace("{Email}", appointmentDTO.Email);
+                text = text.Replace("{Datum}", appointmentDTO.Date.ToString());
+                text = text.Replace("{Tijdslot}", appointmentDTO.TimeSlotTime);
+                text = text.Replace("{Duur}", appointmentDTO.Duration.ToString() + " minuten");
+                text = text.Replace("{Dierenarts}", appointmentDTO.Doctor.ToFriendlyString());
             }
         }
-
-        public async Task SendAppointmentCancelledEmailAsync(AppointmentDTO appointmentDTO)
-        {
-            try
-            {
-                // Replace these values with your actual email details
-                string toEmail = "test@hotmail.com"; // Use the email address of the customer
-                string subject = $"Geannuleerde Afspraak op {appointmentDTO.Date}";
-                string body = $@"
-                Beste {appointmentDTO.CustomerName},
-                <br />
-                <br />
-                Helaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. 
-                We begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.
-                <br />
-                <br />
-                Hier zijn de details van de geannuleerde afspraak:
-                <br />
-                <br />
-                Datum: {appointmentDTO.Date}
-                <br />
-                Tijd: {appointmentDTO.TimeSlotTime}
-                <br />
-                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}
-                <br />
-                <br />
-                Mocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. 
-                De gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                <br />
-                <br />
-                Bedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.
-                <br />
-                <br />
-                Met vriendelijke groeten,
-                <br />
-                <br />
-                Karel en Danique van Dierenpraktijk HappyPaws
-                ";
-
-                // Send the confirmation email
-                await SendEmailAsync(toEmail, subject, body);
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions (log or throw as needed)
-                Console.WriteLine($"Error sending appointment confirmation email: {ex.Message}");
-            }
-        }
+ 
     }
 }
