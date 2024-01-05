@@ -14,22 +14,7 @@
             <td class="timeslot" v-else>&nbsp;</td>
 
             <td v-if="timeslot.appointment" class="has-event" :rowspan="timeslot.appointment.duration/15">
-                <div class="dropdown">
-                    <button class="btn btn-primary mx-auto text-center" 
-                        type="button" 
-                        id="dropdownMenuButton" 
-                        data-toggle="dropdown" 
-                        data-bs-toggle="dropdown" 
-                        aria-haspopup="true" 
-                        aria-expanded="false"
-                        :style="{ 'width': '100%', 'height': (20 * (timeslot.appointment.duration/15)) + 'px', 'background-color': color + '!important' }">
-                        <span class="appointment-info">{{ timeslot.appointment.customer }} &mdash; {{ timeslot.appointment.time }} - {{ 
-                        calculateEndTime(timeslot.appointment.date,timeslot.appointment.time,timeslot.appointment.duration) }}</span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <AppointmentDetail :appointment="timeslot.appointment" />
-                    </div>
-                </div>
+                <OverviewAppointment :appointment="timeslot.appointment" :doctorId="doctorId" :color="color"/>
             </td>
             <td v-else-if="timeslot.available === 0" :style="{ 'background-color': 'black' }"></td>
             <td v-else-if="timeslot.available === 3" :style="{ 'background-color': 'rgba(255, 0, 0, 0.5)' }"></td>
@@ -40,6 +25,7 @@
 
 <script>
 import AppointmentDetail from './AppointmentDetail.vue'
+import OverviewAppointment from './OverviewAppointment.vue'
 import { calculateEndTime } from '../composables/datetime-utils.js'
 import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import { getTimeslotsByDate } from "../composables/timeslotManager.js";
@@ -47,7 +33,7 @@ import { getTimeslotsByDate } from "../composables/timeslotManager.js";
 export default {
     name: 'Calendar',
     components: {
-        AppointmentDetail
+        AppointmentDetail, OverviewAppointment
     },
     props: ['doctor', 'doctorId', 'appointments', 'date', 'color'],
     data() {

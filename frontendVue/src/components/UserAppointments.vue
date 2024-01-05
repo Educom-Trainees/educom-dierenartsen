@@ -139,7 +139,7 @@ export default {
       header: "Weet u zeker dat u deze afspraak wil annuleren?",
       text: "U kunt de afspraak nu nog kosteloos annuleren. Dit kan tot 24 uur vantevoren.",
       showModal: false,
-      acceptPropositionText: "Annuleren",
+      acceptPropositionText: "Afspraak annuleren",
       declinePropositionText: "Terug",
       appointments: [],
       appointment_types: [],
@@ -167,6 +167,11 @@ export default {
       await load();
 
       this.appointments = appointments;
+      this.appointments = this.sortAndFilterAppointments(this.appointments);
+
+      // this.appointments = this.appointments.sort((a, b) => {
+      //   return a.date < b.date ? 1 : -1;
+      // });
     },
     addMinutes(time, minsToAdd) {
       function D(J) {
@@ -192,7 +197,7 @@ export default {
             : 0, // is NOT_LATE
         };
 
-        updateAppoinment(updatedAppointment);
+        await updateAppoinment(updatedAppointment);
         this.loadAppointments();
       }
 
@@ -218,6 +223,20 @@ export default {
       const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1));
 
       return date < tomorrow;
+    },
+    sortAndFilterAppointments(appointments) {
+      const oneYearAgo = new Date(
+        new Date().setFullYear(new Date().getFullYear() - 1)
+      );
+
+      const filteredAppointments = appointments.filter((appointment) => {
+        return new Date(appointment.date) >= oneYearAgo;
+        //als deze conditie true returned, dan stopt filter hem in de nieuwe array. Als false, dan weggefilterd.
+      });
+
+      return filteredAppointments.sort((a, b) => {
+        return a.date < b.date ? 1 : -1;
+      });
     },
   },
 };

@@ -107,7 +107,13 @@
           />
           <div v-if="errors.phoneErr" class="error">{{ errors.phoneErr }}</div>
         </div>
-        <button type="submit" class="btn submit-btn mt-4">Opslaan</button>
+        <button
+          type="submit"
+          class="btn submit-btn mt-4"
+          :disabled="!isEditing"
+        >
+          Opslaan
+        </button>
       </form>
     </div>
   </div>
