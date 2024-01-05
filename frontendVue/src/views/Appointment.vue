@@ -319,92 +319,106 @@
           v-if="showForm == 'showContactForm'"
           class="appointment_form"
         >
-          <h4>Persoonlijke gegevens</h4>
-          <label>Uw contactgegevens</label><br />
-          <input
-            type="email"
-            required
-            v-model="email"
-            placeholder="Email adres*"
-          /><br />
-          <div v-if="emailError" class="error">{{ emailError }}</div>
-          <input
-            type="text"
-            required
-            v-model="phone"
-            placeholder="Mobiel nummer*"
-          /><br />
-          <div v-if="phoneError" class="error">{{ phoneError }}</div>
-          <label>Uw naam</label><br />
-          <input
-            type="text"
-            required
-            v-model="name"
-            placeholder="Naam*"
-          /><br />
-          <div v-if="nameError" class="error">{{ nameError }}</div>
-          <label>Gegevens huisdieren </label>
-          <div v-if="amount == 1">
-            <input
-              type="text"
-              v-model="name_animal[0]"
-              placeholder="Naam huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[0]"
-              placeholder="Reden voor afspraak"
-            /><br />
+          <div class="container">
+            <div class="row align-items-start">
+              <div class="col">
+                <h4>Persoonlijke gegevens</h4>
+                <label>Uw contactgegevens</label><br />
+                <input
+                  type="email"
+                  required
+                  v-model="email"
+                  placeholder="Email adres*"
+                /><br />
+                <div v-if="emailError" class="error">{{ emailError }}</div>
+                <input
+                  type="text"
+                  required
+                  v-model="phone"
+                  placeholder="Mobiel nummer*"
+                /><br />
+                <div v-if="phoneError" class="error">{{ phoneError }}</div>
+                <label>Uw naam</label><br />
+                <input
+                  type="text"
+                  required
+                  v-model="name"
+                  placeholder="Naam*"
+                /><br />
+                <div v-if="nameError" class="error">{{ nameError }}</div>
+                <label>Gegevens huisdieren </label>
+                <div v-if="amount == 1">
+                  <input
+                    type="text"
+                    v-model="name_animal[0]"
+                    placeholder="Naam huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[0]"
+                    placeholder="Reden voor afspraak"
+                  /><br />
+                </div>
+                <div v-if="amount != 1">
+                  <input
+                    type="text"
+                    v-model="name_animal[0]"
+                    placeholder="Naam eerste huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[0]"
+                    placeholder="Reden voor afspraak"
+                  /><br />
+                  <input
+                    type="text"
+                    v-model="name_animal[1]"
+                    placeholder="Naam tweede huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[1]"
+                    placeholder="Reden voor afspraak"
+                  />
+                </div>
+                <div v-if="amount != 1 && amount != 2">
+                  <input
+                    type="text"
+                    v-model="name_animal[2]"
+                    placeholder="Naam derde huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[2]"
+                    placeholder="Reden voor afspraak"
+                  />
+                </div>
+                <div v-if="amount == 4">
+                  <input
+                    type="text"
+                    v-model="name_animal[3]"
+                    placeholder="Naam vierde huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[3]"
+                    placeholder="Reden voor afspraak"
+                  />
+                </div>
+                <div v-if="name_animalError" class="error">
+                  {{ name_animalError }}
+                </div>
+              </div>
+              <div class="col">
+                <img
+                  class="hamster_image"
+                  src="../assets/hamster-appointment.png"
+                  alt=""
+                />
+              </div>
+            </div>
           </div>
-          <div v-if="amount != 1">
-            <input
-              type="text"
-              v-model="name_animal[0]"
-              placeholder="Naam eerste huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[0]"
-              placeholder="Reden voor afspraak"
-            /><br />
-            <input
-              type="text"
-              v-model="name_animal[1]"
-              placeholder="Naam tweede huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[1]"
-              placeholder="Reden voor afspraak"
-            />
-          </div>
-          <div v-if="amount != 1 && amount != 2">
-            <input
-              type="text"
-              v-model="name_animal[2]"
-              placeholder="Naam derde huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[2]"
-              placeholder="Reden voor afspraak"
-            />
-          </div>
-          <div v-if="amount == 4">
-            <input
-              type="text"
-              v-model="name_animal[3]"
-              placeholder="Naam vierde huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[3]"
-              placeholder="Reden voor afspraak"
-            />
-          </div>
-          <div v-if="name_animalError" class="error">
-            {{ name_animalError }}
-          </div>
+
           <button @click.prevent="backtodateform" class="back">vorige</button>
           <button class="submit">bevestig afspraak</button>
         </form>
@@ -782,5 +796,8 @@ h4 {
   margin-right: 10px;
   height: 4%;
   width: 4%;
+}
+hamster_image {
+  margin-top: 20px;
 }
 </style>
