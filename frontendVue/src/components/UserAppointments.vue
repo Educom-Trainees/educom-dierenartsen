@@ -196,7 +196,7 @@ export default {
             : 0, // is NOT_LATE
         };
 
-        updateAppoinment(updatedAppointment);
+        await updateAppoinment(updatedAppointment);
         this.loadAppointments();
       }
 
