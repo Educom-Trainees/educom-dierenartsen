@@ -11,6 +11,7 @@ import Profile from '../views/Profile.vue'
 import ChangeAppointment from '../views/ChangeAppointment.vue'
 import Vacation from '../views/Vacation.vue'
 import CanceledAppointments from '../views/CanceledAppointments.vue'
+import EmailTemplates from '../views/EmailTemplates.vue'
 
 const routes = [
   {
@@ -84,6 +85,15 @@ const routes = [
     path: '/canceled-appointments',
     name: 'canceled-appointments',
     component: CanceledAppointments,
+    meta: {
+      requiresAuth: true,
+      requiredRoles: [USER_ROLES.ADMIN]
+    }
+  },
+  {
+    path: '/email-templates',
+    name: 'email-templates',
+    component: EmailTemplates,
     meta: {
       requiresAuth: true,
       requiredRoles: [USER_ROLES.ADMIN]
