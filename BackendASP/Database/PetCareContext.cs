@@ -1,13 +1,13 @@
 ﻿using BackendASP.Models;
 using BackendASP.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace BackendASP.Database
 {
     public class PetCareContext : DbContext
     {
         private readonly IConfiguration _configuration;
-
 
         public DbSet<PetType> PetTypes { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -32,9 +32,7 @@ namespace BackendASP.Database
             //optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
             //optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
 
-            string connectionString = "Server=tcp:petcare-dbserver.database.windows.net,1433;Initial Catalog=PetCare;Persist Security Info=False;User ID=PetCareAdmin;Password=U9M63j3Bj~YadBD;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-
-            optionsBuilder.UseSqlServer(connectionString, options =>
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabaseAzure"), options =>
             {
                 // Additional configuration options, if needed
                 options.EnableRetryOnFailure();
