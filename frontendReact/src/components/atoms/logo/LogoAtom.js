@@ -1,9 +1,10 @@
 import React from 'react';
 import logoImage from './logoHappyPaw.png';
+import './_logo.style.scss'
 
 const LogoAtom = ({ alt }) => {
   return (
-    <img src={logoImage} alt={alt} />
+    <img className="logo" src={logoImage} alt={alt} />
   );
 };
 
