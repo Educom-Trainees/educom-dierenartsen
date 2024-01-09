@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-center align-items-center register-row mb-4">
+  <div class="row justify-content-center register-row mb-4">
     <h2 v-if="appointments.length == 0">geen afspraken gevonden</h2>
     <div
       class="col-sm-3 col-md-5 col-10 change-area"
