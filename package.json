@@ -1,0 +1,15 @@
+{
+  "name": "educom-dierenartsen",
+  "version": "1.0.0",
+  "description": "Dit is een groepsopdracht van Edu-DetaCom om een reserveringen applicatie  te maken voor 2 Dierenartsen, de [opdracht](./designs/Groepsopdracht%20Dierenartsen.pdf) en de [bijlagen](./designs/Groepsopdracht%20Dierenartsen%20Bijlagen.pdf) kan je doorlezen voor meer informatie.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "prop-types": "^15.8.1"
+  }
+}
