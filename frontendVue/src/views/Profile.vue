@@ -2,9 +2,7 @@
   <div>
     <TopNavigation />
     <Carousel
-      slide1="./cat-banner.png"
-      slide2="./dog-banner.png"
-      slide3="./rabbit-banner.png"
+      :slides="['./cat-banner.png', './dog-banner.png', './rabbit-banner.png']"
     />
     <div>
       <Sidebar class="sidebar" @index="show" />

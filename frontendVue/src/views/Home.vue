@@ -1,11 +1,7 @@
 <template>
   <div>
     <TopNavigation />
-    <Carousel
-      slide1="./slide-1.jpg"
-      slide2="./slide-2.jpg"
-      slide3="./slide-3.jpg"
-    />
+    <Carousel :slides="['./slide-3.jpg', './slide-2.jpg', './slide-1.jpg']" />
     <div class="container">
       <div class="row">
         <div class="col-10 col-md-8">

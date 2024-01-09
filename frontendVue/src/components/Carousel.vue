@@ -1,14 +1,16 @@
 <template>
-  <div id="carouselExample" class="carousel slide">
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img :src="slide3" class="d-block w-100" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img :src="slide2" class="d-block w-100" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img :src="slide1" class="d-block w-100" alt="..." />
+      <div
+        v-for="(slide, index) in slides"
+        :key="index"
+        :class="{
+          'carousel-item': true,
+          active: index === 0,
+        }"
+        data-bs-interval="5000"
+      >
+        <img :src="slide" class="d-block w-100" alt="..." />
       </div>
     </div>
     <button
@@ -34,19 +36,17 @@
 <script>
 export default {
   name: "Carousel",
-  props: ["slide1", "slide2", "slide3"],
-  // data() {
-  //   return {
-  //     slide1: this.slide1,
-  //     slide2: this.slide2,
-  //     slide3: this.slide3,
-  //   };
-  // },
+  props: ["slides"],
+  data() {
+    return {
+      slides: this.slides,
+    };
+  },
 };
 </script>
 
 <style>
 .carousel-item img {
-  max-height: 400px;
+  height: 350px;
 }
 </style>
