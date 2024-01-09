@@ -99,14 +99,14 @@
       </div>
       <button
         v-if="appointment.status === 0"
-        class="btn submit-btn mt-4"
+        class="btn submit-btn mt-4 appointment-button"
         @click="openModal(appointment)"
       >
         Afspraak annuleren
       </button>
       <button
         v-if="appointment.status !== 0"
-        class="btn submit-btn mt-4 text-danger"
+        class="btn submit-btn mt-4 text-danger cancelled-text"
         disabled="true"
       >
         Afspraak is geannuleerd
@@ -245,5 +245,13 @@ export default {
 <style>
 .result {
   text-align: left;
+}
+
+.appointment-button {
+  min-width: 100px;
+}
+
+.cancelled-text {
+  min-width: 250px;
 }
 </style>
