@@ -37,11 +37,11 @@
 export default {
   name: "Carousel",
   props: ["slides"],
-  data() {
-    return {
-      slides: this.slides,
-    };
-  },
+  // data() {
+  //   return {
+  //     slides: this.slides,
+  //   };
+  // },
 };
 </script>
 
