@@ -1,8 +1,10 @@
 <template>
-  <div class="row justify-content-center register-row mb-4">
+  <div
+    class="row justify-content-center register-row mb-4 appointment-container"
+  >
     <h2 v-if="appointments.length == 0">geen afspraken gevonden</h2>
     <div
-      class="col-sm-3 col-md-5 col-10 change-area"
+      class="col-sm-3 col-md-5 col-10 change-area appointment-card"
       v-for="appointment in appointments"
       :key="appointment.id"
     >
@@ -253,5 +255,13 @@ export default {
 
 .cancelled-text {
   min-width: 250px;
+}
+
+.appointment-container {
+  padding-top: 50px;
+}
+
+.appointment-card {
+  margin: 20px;
 }
 </style>
