@@ -38,7 +38,7 @@
               </p>
             </div>
             <button
-              class="btn submit-btn mt-4"
+              class="btn submit-btn mt-4 cancel-button"
               @click="removeHandledAppointment(appointment)"
             >
               Afspraak verwijderen
@@ -107,5 +107,11 @@ export default {
 .canceled {
   color: red;
   padding: 10px;
+}
+
+.cancel-button {
+  min-width: 200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
