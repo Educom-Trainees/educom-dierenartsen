@@ -11,14 +11,17 @@
         </tr>
         <tr v-for="(timeslot, index) in calculatedTimeslots" :data-id="timeslot.id" :key="timeslot.id">
             <td class="timeslot" v-if="index % 2 === 0">{{ timeslot.time }}</td>
-            <td class="timeslot" v-else>&nbsp;</td>
+            <td class="timeslot hidden" v-else>{{ timeslot.time }}</td>
 
             <td v-if="timeslot.appointment" class="has-event" :rowspan="timeslot.appointment.duration/15">
-                <OverviewAppointment :appointment="timeslot.appointment" :doctorId="doctorId" :color="color"/>
+                <OverviewAppointment :id="timeslot.appointment.id" 
+                    draggable="true" @dragstart="drag" 
+                    @dragover="allowDrop" @drop="drop"
+                    :appointment="timeslot.appointment" :doctorId="doctorId" :color="color"/>
             </td>
             <td v-else-if="timeslot.available === 0" :style="{ 'background-color': 'black' }"></td>
             <td v-else-if="timeslot.available === 3" :style="{ 'background-color': 'rgba(255, 0, 0, 0.5)' }"></td>
-            <td v-else-if="timeslot.show" class="no-event" rowspan="1"></td>
+            <td v-else-if="timeslot.show" @dragover="allowDrop" @drop="drop" class="no-event" rowspan="1"></td>
         </tr>
     </table>
 </template>
@@ -29,6 +32,8 @@ import OverviewAppointment from './OverviewAppointment.vue'
 import { calculateEndTime } from '../composables/datetime-utils.js'
 import { combineTimeslotAppointments } from '../composables/arrayTransfromer.js'
 import { getTimeslotsByDate } from "../composables/timeslotManager.js";
+import { getAppoinmentById, updateAppoinment } from '../composables/appointmentManager.js'
+import router from '@/router'
 
 export default {
     name: 'Calendar',
@@ -41,6 +46,7 @@ export default {
             //tslot: TIMESLOTS.map(t => { return {'time': t, 'doctor': this.doctorId }}),
             timeslotsDoctor: [],
             calculateEndTime: calculateEndTime,
+            lastDraggedAppointmentId: 0,
         }
     },
     methods: {
@@ -51,8 +57,35 @@ export default {
             } catch (error) {
                 console.error('Error fetching timeslots: ', error);
             }
-        }
+        },
+        drag(event) {
+            event.target.closest('td').rowSpan = 1
+            event.dataTransfer.setData('text', event.target.id)
+            this.lastDraggedAppointmentId = event.target.id
+        },
+        allowDrop(event) {
+            event.preventDefault()
+        },
+        async drop(event) {
+            event.preventDefault()
 
+            const data = event.dataTransfer.getData('text')
+            event.target.append(document.getElementById(data))
+
+            event.target.classList.remove('no-event')
+            event.target.classList.add('has-event')
+
+            await this.dragAndDropAppointment(event)
+            
+            router.go(0)
+        },
+        async dragAndDropAppointment(event) {
+            var appointment = await getAppoinmentById(this.lastDraggedAppointmentId)
+            const newStartTime = event.target.closest('tr').getElementsByClassName('timeslot')[0].innerHTML
+            appointment.time = newStartTime
+
+            await updateAppoinment(appointment)
+        },
     },
     watch: {
         date: {
@@ -65,10 +98,7 @@ export default {
     computed: {
         calculatedTimeslots() {
             const app = this.appointments.filter(a => (a.doctor == this.doctorId || a.doctor == 3))
-            // console.log(app)
-            // console.log('calculated' + combineTimeslotAppointments(this.timeslotsDoctor, app))
-            console.log(combineTimeslotAppointments(this.timeslotsDoctor, app))
-            return (combineTimeslotAppointments(this.timeslotsDoctor, app))
+            return combineTimeslotAppointments(this.timeslotsDoctor, app)
         }
     }
 }
@@ -122,6 +152,9 @@ td {
     text-align: center;
     font-weight: bold;
     padding: 5px;
+}
+.table .hidden {
+    color: transparent;
 }
 .table .has-event .dropdown {
   padding: 0;

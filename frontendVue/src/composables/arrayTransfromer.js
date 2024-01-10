@@ -15,7 +15,7 @@ export function combineTimeslotAppointments(timeslots, appointments) {
             if (result[i].appointment.duration > 15) {
                 const r = result[i].appointment.duration / 15
                 for (var n = 1; n < r; n++) {
-                    result[i+(n*2)].show = false
+                    result[i + (n * 2)].show = false
                 }
             }
         }

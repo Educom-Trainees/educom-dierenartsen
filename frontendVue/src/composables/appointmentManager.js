@@ -54,6 +54,7 @@ export async function cancelAppointmentByDoctor(appointment) {
         const response = await axios.put(url, cancelledAppointment) 
     }
     catch (error) {
+        console.error('Error cancelling appointment.')
         throw error
     }
 }
@@ -64,6 +65,7 @@ export async function updateAppoinment(updatedAppointment) {
         const response = await axios.put(url, updatedAppointment) 
     }
     catch (error) {
+        console.error('Error updating appointment.')
         throw error
     }
 }
