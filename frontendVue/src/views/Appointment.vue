@@ -286,9 +286,11 @@
               {{ appointment_type.name }}
             </option></select
           ><br />
-          <button v-if="type_animal != 1 && amount > 0" class="submit">
-            volgende
-          </button>
+          <div class="button-container">
+            <button v-if="type_animal != 1 && amount > 0" class="submit">
+              volgende
+            </button>
+          </div>
         </form>
       </div>
       <div class="button_div" v-if="showForm == 'showForm'">
@@ -319,8 +321,8 @@
           v-if="showForm == 'showContactForm'"
           class="appointment_form"
         >
-          <div class="container">
-            <div class="row align-items-start">
+          <div class="content-section">
+            <div class="row">
               <div class="col">
                 <h4>Persoonlijke gegevens</h4>
                 <label>Uw contactgegevens</label><br />
@@ -409,9 +411,9 @@
                   {{ name_animalError }}
                 </div>
               </div>
-              <div class="col">
+              <div class="col image-container">
                 <img
-                  class="hamster_image"
+                  class="hamster-image"
                   src="../assets/hamster-appointment.png"
                   alt=""
                 />
@@ -419,8 +421,10 @@
             </div>
           </div>
 
-          <button @click.prevent="backtodateform" class="back">vorige</button>
-          <button class="submit">bevestig afspraak</button>
+          <div class="button-container">
+            <button @click.prevent="backtodateform" class="back">vorige</button>
+            <button class="submit">bevestig afspraak</button>
+          </div>
         </form>
       </div>
     </div>
@@ -797,7 +801,22 @@ h4 {
   height: 4%;
   width: 4%;
 }
-hamster_image {
-  margin-top: 20px;
+.hamster-image {
+  border: solid 13px lightgray;
+  border-radius: 40%;
+}
+.image-container {
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+/* .button-container {
+  padding: 5px 0;
+} */
+.content-section {
+  margin: 0;
+  padding: 15px 0;
 }
 </style>

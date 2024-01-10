@@ -264,4 +264,7 @@ export default {
 .appointment-card {
   margin: 20px;
 }
+.usertitle {
+  padding: 10px 10px;
+}
 </style>

@@ -145,10 +145,12 @@
         </div>
       </div>
     </div>
-    <button @click.prevent="emitShowForm('showForm')" class="back">
-      vorige
-    </button>
-    <button class="submit">volgende</button>
+    <div class="button-container">
+      <button @click.prevent="emitShowForm('showForm')" class="back">
+        vorige
+      </button>
+      <button class="submit">volgende</button>
+    </div>
   </form>
 </template>
 
