@@ -6,7 +6,7 @@
     >
       <h1>Te laat geannuleerde afspraken</h1>
       <div
-        class="col-sm-3 col-md-5 col-10 change-area"
+        class="col-sm-3 col-md-5 col-10 change-area appointment-card"
         v-for="appointment in appointments"
         :key="appointment.id"
       >
@@ -113,5 +113,13 @@ export default {
   min-width: 200px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.appointment-card {
+  margin: 20px;
+}
+
+h1 {
+  padding-top: 20px;
 }
 </style>
