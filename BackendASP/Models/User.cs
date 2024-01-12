@@ -14,6 +14,7 @@ namespace BackendASP.Models
         public required string PasswordHash { get; set; }*/
         public DoctorTypes Doctor { get; set; }
         /*virtual public ICollection<IdentityUserRole<int>>? Role { get; set; }*/
+        public virtual ICollection<IdentityUserRole<int>> UserRoles { get; set; }
         virtual public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
         virtual public ICollection<Vacation> Vacations { get; set; } = new List<Vacation>();
         virtual public ICollection<UserPet> UserPets { get; set; } = new List<UserPet>();

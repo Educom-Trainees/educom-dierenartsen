@@ -5,6 +5,7 @@ using BackendASP.Models;
 using JsonPatchSample;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -35,8 +36,8 @@ namespace Backend2
 
             builder.Services
                 .AddIdentity<User, IdentityRole<int>>(options =>
-                    {
-                        options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+                {
+                        options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier; ;
                         options.SignIn.RequireConfirmedAccount = false;
                         options.Lockout.AllowedForNewUsers = false;
                     })
@@ -61,9 +62,9 @@ namespace Backend2
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
-                            ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
+                            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                            ValidAudience = builder.Configuration["Jwt:Audience"],
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
                             RoleClaimType = ClaimTypes.Role
                         };
                     }); 

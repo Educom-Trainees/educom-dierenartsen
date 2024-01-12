@@ -2,6 +2,7 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
+using Duende.IdentityServer.Extensions;
 using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Claims;
+using static Duende.IdentityServer.Models.IdentityResources;
 
 namespace BackendASP.Controllers
 {
@@ -40,25 +42,24 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Users
         [HttpGet]
-      /*  [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]*/
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] string? email)
         {
-            ClaimsPrincipal claim = User;
-            var currentUser = await _userManager.GetUserAsync(User);
-
-            if (currentUser != null && User.IsInRole("GUEST"))
-            {
-                email = currentUser.Email;
+            if (email != null) {
+                var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (currentUser != null && User.IsInRole("GUEST"))
+                {
+                    email = currentUser.Email;
+                }
             }
 
             var query = _context.Users
                   .Include(u => u.Vacations)
                   .Include(u => u.Appointments)
                   .Include(u => u.UserPets);
-                  /*.Include(u => u.Role);*/
 
             List<UserDTO> users; 
             if (email != null) {
@@ -78,15 +79,18 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or the user was not found</remarks>
         // GET: api/Users/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-            if (_context.Users == null)
+            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            if (currentUser != null && User.IsInRole("GUEST"))
             {
-                return NotFound();
+                id = currentUser.Id;
             }
+
             var user = await _context.Users
                 .Include(u => u.Vacations)
                 .Include(u => u.Appointments)
