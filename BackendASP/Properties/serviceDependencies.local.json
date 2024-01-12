@@ -10,6 +10,10 @@
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:PetCareDatabase",
       "dynamicId": null
+    },
+    "mssql2": {
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:BackendASPContextConnection"
     }
   }
 }

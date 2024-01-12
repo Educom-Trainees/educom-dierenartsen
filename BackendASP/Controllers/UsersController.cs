@@ -2,8 +2,13 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
+using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Security.Claims;
 
 namespace BackendASP.Controllers
 {
@@ -17,12 +22,14 @@ namespace BackendASP.Controllers
         private readonly PetCareContext _context;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly UserManager<User> _userManager;
 
-        public UsersController(PetCareContext context, IMapper mapper, IEmailService emailService)
+        public UsersController(PetCareContext context, IMapper mapper, IEmailService emailService, UserManager<User> userManager)
         {
             _context = context;
             _mapper = mapper;
             _emailService = emailService;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -33,19 +40,25 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Users
         [HttpGet]
+      /*  [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]*/
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] string? email)
         {
-            if (_context.Users == null)
+            ClaimsPrincipal claim = User;
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser != null && User.IsInRole("GUEST"))
             {
-                return NotFound();
+                email = currentUser.Email;
             }
+
             var query = _context.Users
                   .Include(u => u.Vacations)
                   .Include(u => u.Appointments)
                   .Include(u => u.UserPets);
+                  /*.Include(u => u.Role);*/
 
             List<UserDTO> users; 
             if (email != null) {
@@ -74,10 +87,10 @@ namespace BackendASP.Controllers
             {
                 return NotFound();
             }
-            var user = await _mapper.ProjectTo<UserDTO>(_context.Users
+            var user = await _context.Users
                 .Include(u => u.Vacations)
                 .Include(u => u.Appointments)
-                .Include(u => u.UserPets))
+                .Include(u => u.UserPets)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -85,7 +98,19 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
 
-            return user;
+            var roles = await _userManager.GetRolesAsync(user);
+
+            if (roles != null)
+            {
+                var userDTO = _mapper.Map<UserDTO>(user);
+                userDTO.Role = roles.SingleOrDefault();
+
+                return userDTO;
+            }
+            else
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
         }
 
         /// <summary>
@@ -172,7 +197,7 @@ namespace BackendASP.Controllers
         {
             if (_context.Users == null)
             {
-                return Problem("Entity set 'PetCareContext.Users'  is null.");
+                return NotFound();
             }
             var user = _mapper.Map<User>(userDTO);
 

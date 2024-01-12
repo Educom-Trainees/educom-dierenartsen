@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackendASP.Migrations
 {
     [DbContext(typeof(PetCareContext))]
-    [Migration("20231219100318_IsLateCancellation")]
-    partial class IsLateCancellation
+    [Migration("20240110133630_AddedIdentityUserRoles")]
+    partial class AddedIdentityUserRoles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace BackendASP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("AppointmentTimeSlot", b =>
+                {
+                    b.Property<int>("AppointmentsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeSlotsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppointmentsId", "TimeSlotsId");
+
+                    b.HasIndex("TimeSlotsId");
+
+                    b.ToTable("AppointmentTimeSlot");
+                });
 
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
                 {
@@ -58,8 +73,11 @@ namespace BackendASP.Migrations
                         .HasMaxLength(254)
                         .HasColumnType("nvarchar(254)");
 
-                    b.Property<bool?>("IsLateCancellation")
-                        .HasColumnType("bit");
+                    b.Property<int>("LateStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PetCount")
+                        .HasColumnType("int");
 
                     b.Property<int>("PetTypeId")
                         .HasColumnType("int");
@@ -75,9 +93,6 @@ namespace BackendASP.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeSlotId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -86,8 +101,6 @@ namespace BackendASP.Migrations
                     b.HasIndex("AppointmentTypeId");
 
                     b.HasIndex("PetTypeId");
-
-                    b.HasIndex("TimeSlotId");
 
                     b.HasIndex("UserId");
 
@@ -104,11 +117,12 @@ namespace BackendASP.Migrations
                             Doctor = 1,
                             Duration = 30,
                             Email = "corbijn.bullie@hoi.nl",
+                            LateStatus = 0,
+                            PetCount = 1,
                             PetTypeId = 4,
                             PhoneNumber = "0611330161",
                             Preference = 1,
-                            Status = 0,
-                            TimeSlotId = 6
+                            Status = 0
                         });
                 });
 
@@ -713,6 +727,60 @@ namespace BackendASP.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BackendASP.Models.EmailTemplate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmailType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TemplateName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailTemplates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Body = "Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Bij deze bevestigen wij dat uw afspraak gepland is voor:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                We kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.\r\n                <br />\r\n                <br />\r\n                Tot ziens in de praktijk!\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
+                            EmailType = 1,
+                            Subject = "Afspraak bevestiging voor {appointmentDTO.Date}",
+                            TemplateName = "Afspraak bevestiging"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Body = "Beste {userDTO.FirstName} {userDTO.LastName},\r\n                <br />\r\n                <br />\r\n                Welkom bij Dierenpraktijk HappyPaws! Jouw account is succesvol geactiveerd. Hier zijn je inloggegevens:\r\n                <br />\r\n                <br />\r\n                E-mailadres: {userDTO.Email}\r\n                <br />\r\n                <br />\r\n                Met jouw account kun je afspraken plannen en de medische geschiedenis van jouw huisdier(en) volgen. \r\n                Voor vragen staan we altijd klaar.\r\n                <br />\r\n                <br />\r\n                Bedankt voor het vertrouwen in HappyPaws.\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
+                            EmailType = 0,
+                            Subject = "Aanmeldingsbevestiging - HappyPaws Dierenartspraktijk",
+                            TemplateName = "Aanmeldingsbevestiging"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Body = "Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Helaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. \r\n                We begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.\r\n                <br />\r\n                <br />\r\n                Hier zijn de details van de geannuleerde afspraak:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                Mocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. \r\n                De gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                <br />\r\n                <br />\r\n                Bedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
+                            EmailType = 1,
+                            Subject = "Geannuleerde Afspraak op {appointmentDTO.Date}",
+                            TemplateName = "Geannuleerde afspraak"
+                        });
+                });
+
             modelBuilder.Entity("BackendASP.Models.PetType", b =>
                 {
                     b.Property<int>("Id")
@@ -1248,12 +1316,22 @@ namespace BackendASP.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Doctor")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -1263,85 +1341,123 @@ namespace BackendASP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Salutation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            AccessFailedCount = 0,
                             Doctor = 0,
                             Email = "brandon@gmail.com",
+                            EmailConfirmed = true,
                             FirstName = "Brandon",
                             LastName = "Klant",
+                            LockoutEnabled = false,
                             PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
                             PhoneNumber = "067890456",
-                            Role = 0,
-                            Salutation = "Meneer"
+                            PhoneNumberConfirmed = true,
+                            Salutation = "Meneer",
+                            TwoFactorEnabled = false,
+                            UserName = "brandon@gmail.com"
                         },
                         new
                         {
                             Id = 2,
-                            Doctor = 0,
-                            Email = "s123s12dass@s.com",
-                            FirstName = "Stijn",
-                            LastName = "Engelmoer",
-                            PasswordHash = "$2a$10$gPUJzQBPvMNpuHU2C337n.bmKeTgjjX9PVRFUTVi624lShT3A263u",
-                            PhoneNumber = "123321",
-                            Role = 0,
-                            Salutation = "Mevrouw"
+                            AccessFailedCount = 0,
+                            Doctor = 1,
+                            Email = "karel@happypaw.nl",
+                            EmailConfirmed = true,
+                            FirstName = "Karel",
+                            LastName = "Lant",
+                            LockoutEnabled = false,
+                            PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+                            PhoneNumber = "0611223344",
+                            PhoneNumberConfirmed = true,
+                            Salutation = "Meneer",
+                            TwoFactorEnabled = false,
+                            UserName = "karel@happypaw.nl"
                         },
                         new
                         {
                             Id = 3,
-                            Doctor = 1,
-                            Email = "karel@happypaw.nl",
-                            FirstName = "Karel",
-                            LastName = "Lant",
-                            PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
-                            PhoneNumber = "0611223344",
-                            Role = 1,
-                            Salutation = "Meneer"
+                            AccessFailedCount = 0,
+                            Doctor = 2,
+                            Email = "danique@happypaw.nl",
+                            EmailConfirmed = true,
+                            FirstName = "Danique",
+                            LastName = "de Beer",
+                            LockoutEnabled = false,
+                            PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
+                            PhoneNumber = "0687654321",
+                            PhoneNumberConfirmed = true,
+                            Salutation = "Mevrouw",
+                            TwoFactorEnabled = false,
+                            UserName = "danique@happypaw.nl"
                         },
                         new
                         {
                             Id = 4,
-                            Doctor = 2,
-                            Email = "danique@happypaw.nl",
-                            FirstName = "Danique",
-                            LastName = "de Beer",
-                            PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
-                            PhoneNumber = "0687654321",
-                            Role = 1,
-                            Salutation = "Mevrou"
-                        },
-                        new
-                        {
-                            Id = 5,
+                            AccessFailedCount = 0,
                             Doctor = 0,
                             Email = "admin@happypaw.nl",
+                            EmailConfirmed = true,
                             FirstName = "Admin",
                             LastName = "Secretaresse",
+                            LockoutEnabled = false,
                             PasswordHash = "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
                             PhoneNumber = "0623445443",
-                            Role = 2,
-                            Salutation = "Mevrouw"
+                            PhoneNumberConfirmed = true,
+                            Salutation = "Mevrouw",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@happypaw.nl"
                         });
                 });
 
@@ -1400,6 +1516,337 @@ namespace BackendASP.Migrations
                     b.ToTable("Vacations");
                 });
 
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.DeviceFlowCodes", b =>
+                {
+                    b.Property<string>("UserCode")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("DeviceCode")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("UserCode");
+
+                    b.HasIndex("DeviceCode")
+                        .IsUnique();
+
+                    b.HasIndex("Expiration");
+
+                    b.ToTable("DeviceCodes", (string)null);
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.Key", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Algorithm")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("DataProtected")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsX509Certificate")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Use")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Use");
+
+                    b.ToTable("Keys", (string)null);
+                });
+
+            modelBuilder.Entity("Duende.IdentityServer.EntityFramework.Entities.PersistedGrant", b =>
+                {
+                    b.Property<string>("Key")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ClientId")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ConsumedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Data")
+                        .IsRequired()
+                        .HasMaxLength(50000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SessionId")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("SubjectId")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Key");
+
+                    b.HasIndex("ConsumedTime");
+
+                    b.HasIndex("Expiration");
+
+                    b.HasIndex("SubjectId", "ClientId", "Type");
+
+                    b.HasIndex("SubjectId", "SessionId", "Type");
+
+                    b.ToTable("PersistedGrants", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Name = "ADMIN",
+                            NormalizedName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "EMPLOYEE",
+                            NormalizedName = "employee"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Name = "GUEST",
+                            NormalizedName = "guest"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 4,
+                            RoleId = 3
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("AppointmentTimeSlot", b =>
+                {
+                    b.HasOne("BackendASP.Models.Appointment", null)
+                        .WithMany()
+                        .HasForeignKey("AppointmentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackendASP.Models.TimeSlot", null)
+                        .WithMany()
+                        .HasForeignKey("TimeSlotsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
                 {
                     b.HasOne("BackendASP.Models.AppointmentType", "AppointmentType")
@@ -1414,12 +1861,6 @@ namespace BackendASP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackendASP.Models.TimeSlot", "TimeSlot")
-                        .WithMany("Appointments")
-                        .HasForeignKey("TimeSlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BackendASP.Models.User", "User")
                         .WithMany("Appointments")
                         .HasForeignKey("UserId");
@@ -1427,8 +1868,6 @@ namespace BackendASP.Migrations
                     b.Navigation("AppointmentType");
 
                     b.Navigation("PetType");
-
-                    b.Navigation("TimeSlot");
 
                     b.Navigation("User");
                 });
@@ -1531,6 +1970,57 @@ namespace BackendASP.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.HasOne("BackendASP.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.HasOne("BackendASP.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackendASP.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.HasOne("BackendASP.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BackendASP.Models.Appointment", b =>
                 {
                     b.Navigation("Pets");
@@ -1548,8 +2038,6 @@ namespace BackendASP.Migrations
 
             modelBuilder.Entity("BackendASP.Models.TimeSlot", b =>
                 {
-                    b.Navigation("Appointments");
-
                     b.Navigation("AvailableDays");
                 });
 

@@ -1,11 +1,17 @@
 ﻿using BackendASP.Models;
 using BackendASP.Models.Enums;
+using Duende.IdentityServer.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace BackendASP.Database
 {
-    public class PetCareContext : DbContext
+    public class PetCareContext : KeyApiAuthorizationDbContext<User, IdentityRole<int>, int>
     {
         private readonly IConfiguration _configuration;
 
@@ -22,7 +28,8 @@ namespace BackendASP.Database
         public DbSet<UserPet> UserPets { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
-        public PetCareContext(IConfiguration config)
+        public PetCareContext(IConfiguration config, DbContextOptions options,
+                              IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
             _configuration = config;
         }
@@ -32,7 +39,7 @@ namespace BackendASP.Database
             //optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
             //optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
 
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabaseAzure"), options =>
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabaseLocalDB"), options =>
             {
                 // Additional configuration options, if needed
                 options.EnableRetryOnFailure();
@@ -46,16 +53,20 @@ namespace BackendASP.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>(entity => { entity.ToTable(name: "Users"); });
+            modelBuilder.Entity<IdentityRole<int>>(entity => { entity.ToTable(name: "Roles"); });
+
             modelBuilder.Entity<PetType>().HasData(
-                new { Id = 1, Name = "hond", Plural = "honden", Image = "dog.png" },
-                new { Id = 2, Name = "kat", Plural = "katten", Image = "black-cat.png" },
-                new { Id = 3, Name = "konijn", Plural = "konijnen", Image = "rabbit.png" },
-                new { Id = 4, Name = "cavia", Plural = "cavia's", Image = "guinea-pig.png" },
-                new { Id = 5, Name = "hamster", Plural = "hamsters", Image = "hamster.png" },
-                new { Id = 6, Name = "rat", Plural = "ratten", Image = "rat.png" },
-                new { Id = 7, Name = "muis", Plural = "muizen", Image = "muis.png" },
-                new { Id = 8, Name = "kleine hond", Plural = "kleine honden", Image = "dog.png", ParentId = 1 },
-                new { Id = 9, Name = "grote hond", Plural = "grote honden", Image = "dog.png", ParentId = 1 }
+                    new { Id = 1, Name = "hond", Plural = "honden", Image = "dog.png" },
+                    new { Id = 2, Name = "kat", Plural = "katten", Image = "black-cat.png" },
+                    new { Id = 3, Name = "konijn", Plural = "konijnen", Image = "rabbit.png" },
+                    new { Id = 4, Name = "cavia", Plural = "cavia's", Image = "guinea-pig.png" },
+                    new { Id = 5, Name = "hamster", Plural = "hamsters", Image = "hamster.png" },
+                    new { Id = 6, Name = "rat", Plural = "ratten", Image = "rat.png" },
+                    new { Id = 7, Name = "muis", Plural = "muizen", Image = "muis.png" },
+                    new { Id = 8, Name = "kleine hond", Plural = "kleine honden", Image = "dog.png", ParentId = 1 },
+                    new { Id = 9, Name = "grote hond", Plural = "grote honden", Image = "dog.png", ParentId = 1 }
                 );
 
             modelBuilder.Entity<Appointment>().HasData(
@@ -229,10 +240,33 @@ namespace BackendASP.Database
                 new { Id = 52, TimeSlotId = 52, Days = 0b0000000, StartDate = DateOnly.Parse("2023-11-01") }
              );
 
+        modelBuilder.Entity<IdentityRole<int>>().HasData(
+            new IdentityRole<int> { Id = 3, Name = "ADMIN", NormalizedName = "admin" },
+            new IdentityRole<int> { Id = 2, Name = "EMPLOYEE", NormalizedName = "employee" },
+            new IdentityRole<int> { Id = 1, Name = "GUEST", NormalizedName = "guest" }
+            );
+
             modelBuilder.Entity<User>().HasData(
                  new
                  {
                      Id = 1,
+                     UserName = "brandon@gmail.com",
+                     Email = "brandon@gmail.com",
+                     EmailConfirmed = true,
+                     PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
+                     AccessFailedCount = 0,
+                     Salutation = "Meneer",
+                     FirstName = "Brandon",
+                     LastName = "Klant",
+                     PhoneNumber = "067890456",
+                     PhoneNumberConfirmed = true,
+                     Doctor = DoctorTypes.NO_PREFERENCE,
+                     LockoutEnabled = false,
+                     TwoFactorEnabled = false
+
+                 },
+
+                   /*  Id = 1,
                      Salutation = "Meneer",
                      FirstName = "Brandon",
                      LastName = "Klant",
@@ -240,55 +274,83 @@ namespace BackendASP.Database
                      PhoneNumber = "067890456",
                      PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
                      Doctor = DoctorTypes.NO_PREFERENCE,
-                     Role = UserRoles.GUEST
-                 },
+                     Role = UserRoles.GUEST*/
+
                  new
                  {
                      Id = 2,
-                     Salutation = "Mevrouw",
-                     FirstName = "Stijn",
-                     LastName = "Engelmoer",
-                     Email = "s123s12dass@s.com",
-                     PhoneNumber = "123321",
-                     PasswordHash = "$2a$10$gPUJzQBPvMNpuHU2C337n.bmKeTgjjX9PVRFUTVi624lShT3A263u",
-                     Doctor = DoctorTypes.NO_PREFERENCE,
-                     Role = UserRoles.GUEST
-                 },
-                 new
-                 {
-                     Id = 3,
+                     UserName = "karel@happypaw.nl",
+                     Email = "karel@happypaw.nl",
+                     EmailConfirmed = true,
+                     PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+                     AccessFailedCount = 0,
                      Salutation = "Meneer",
                      FirstName = "Karel",
                      LastName = "Lant",
-                     Email = "karel@happypaw.nl",
                      PhoneNumber = "0611223344",
-                     PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+                     PhoneNumberConfirmed = true,
                      Doctor = DoctorTypes.KAREL_LANT,
-                     Role = UserRoles.EMPLOYEE
+                     LockoutEnabled = false,
+                     TwoFactorEnabled = false
                  },
                 new
                 {
-                    Id = 4,
+                    Id = 3,
+                    UserName = "danique@happypaw.nl",
+                    Email = "danique@happypaw.nl",
+                    EmailConfirmed = true,
+                    PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq", 
+                    AccessFailedCount = 0,
                     Salutation = "Mevrouw",
                     FirstName = "Danique",
                     LastName = "de Beer",
-                    Email = "danique@happypaw.nl",
                     PhoneNumber = "0687654321",
-                    PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq",
+                    PhoneNumberConfirmed = true,
                     Doctor = DoctorTypes.DANIQUE_DE_BEER,
-                    Role = UserRoles.EMPLOYEE
+                    LockoutEnabled = false,
+                    TwoFactorEnabled = false
                 },
                 new
                 {
-                    Id = 5,
+                    Id = 4,
+                    UserName = "admin@happypaw.nl",
+                    /*NormalizedUserName = "ADMIN@HAPPPAW.NL",*/
+                    Email = "admin@happypaw.nl",
+                    /*NormalizedEmail = "ADMIN@HAPPPAW.NL",*/
+                    EmailConfirmed = true,
+                    PasswordHash = "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
+                    AccessFailedCount = 0,
                     Salutation = "Mevrouw",
                     FirstName = "Admin",
                     LastName = "Secretaresse",
-                    Email = "admin@happypaw.nl",
                     PhoneNumber = "0623445443",
-                    PasswordHash = "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
+                    PhoneNumberConfirmed = true,
                     Doctor = DoctorTypes.NO_PREFERENCE,
-                    Role = UserRoles.ADMIN
+                    LockoutEnabled = false,
+                    TwoFactorEnabled = false
+                }
+                );
+
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(
+                new IdentityUserRole<int>
+                {
+                    RoleId = 1,
+                    UserId = 1
+                },
+                new IdentityUserRole<int>
+                {
+                    RoleId = 2,
+                    UserId = 2
+                },
+                new IdentityUserRole<int>
+                {
+                    RoleId = 2,
+                    UserId = 3
+                },
+                new IdentityUserRole<int>
+                {
+                    RoleId = 3,
+                    UserId = 4
                 }
                 );
 
@@ -319,7 +381,7 @@ namespace BackendASP.Database
                 }
                 );
 
-            base.OnModelCreating(modelBuilder);
+            
         }
     }
 }

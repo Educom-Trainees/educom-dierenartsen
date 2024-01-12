@@ -1,9 +1,15 @@
 
 using BackendASP;
 using BackendASP.Database;
+using BackendASP.Models;
 using JsonPatchSample;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Security.Claims;
+using System.Text;
 
 namespace Backend2
 {
@@ -26,6 +32,43 @@ namespace Backend2
             });
             // Add services to the container.
             builder.Services.AddDbContext<PetCareContext>();
+
+            builder.Services
+                .AddIdentity<User, IdentityRole<int>>(options =>
+                    {
+                        options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+                        options.SignIn.RequireConfirmedAccount = false;
+                        options.Lockout.AllowedForNewUsers = false;
+                    })
+                .AddEntityFrameworkStores<PetCareContext>()
+                .AddDefaultTokenProviders();
+
+            builder.Services
+                .AddIdentityServer()
+                .AddApiAuthorization<User, PetCareContext>();
+
+            builder.Services
+                .AddAuthentication(options =>
+                    {
+                        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    })
+                .AddJwtBearer(options =>
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
+                            ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
+                            RoleClaimType = ClaimTypes.Role
+                        };
+                    }); 
+
+
             builder.Services.AddControllers(options =>
             {
                 options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
@@ -64,16 +107,17 @@ namespace Backend2
             app.UseSwagger();
             app.UseSwaggerUI();
 
-        /*    // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwaggerUI();
-            }
-*/
+            /*    // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwaggerUI();
+                }
+    */
             app.UseHttpsRedirection();
 
             app.UseCors();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             // Enable serving static files
