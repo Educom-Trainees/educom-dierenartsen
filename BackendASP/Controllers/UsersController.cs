@@ -49,7 +49,8 @@ namespace BackendASP.Controllers
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] string? email)
         {
             if (email != null) {
-                var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+                var currentUser = await _userManager.GetUserAsync(User);
+
                 if (currentUser != null && User.IsInRole("GUEST"))
                 {
                     email = currentUser.Email;
@@ -61,10 +62,13 @@ namespace BackendASP.Controllers
                   .Include(u => u.Appointments)
                   .Include(u => u.UserPets);
 
-            List<UserDTO> users; 
-            if (email != null) {
+            List<UserDTO> users;
+            if (email != null)
+            {
                 users = await _mapper.ProjectTo<UserDTO>(query.Where(u => u.Email == email)).ToListAsync();
-            } else {
+            }
+            else
+            {
                 users = await _mapper.ProjectTo<UserDTO>(query).ToListAsync();
             }
 
@@ -85,7 +89,8 @@ namespace BackendASP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-            var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            var currentUser = await _userManager.GetUserAsync(User);
+
             if (currentUser != null && User.IsInRole("GUEST"))
             {
                 id = currentUser.Id;
@@ -107,7 +112,6 @@ namespace BackendASP.Controllers
             if (roles != null)
             {
                 var userDTO = _mapper.Map<UserDTO>(user);
-                userDTO.Role = roles.SingleOrDefault();
 
                 return userDTO;
             }
@@ -128,6 +132,7 @@ namespace BackendASP.Controllers
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -229,6 +234,7 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or user were not found</remarks>
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)
