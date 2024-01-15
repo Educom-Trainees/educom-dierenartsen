@@ -75,25 +75,36 @@ namespace BackendASP.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 // User is authenticated successfully
-                var token = GenerateTokenString(user);
+                var token = GenerateJWT(user);
+                GenerateCookie(token);
 
                 // Your additional login logic...
 
-                return Ok(token);
+                return Ok("Login successful");
             }
 
             // Authentication failed
             return BadRequest(new { Message = "Invalid username or password" });
         }
 
-        private string GenerateTokenString(User user)
+        private void GenerateCookie(string token)
+        {
+            Response.Cookies.Append("token", token, new CookieOptions
+            {
+                Expires = DateTime.Now.AddHours(1),
+                HttpOnly = true,
+                Secure = true, // False only for development purposes
+                SameSite = SameSiteMode.None // Adjust as needed
+            });
+        }
+
+        private string GenerateJWT(User user)
         {
             var roles = _userManager.GetRolesAsync(user).Result;
 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, string.Join(",", roles)),
             };
