@@ -33,10 +33,19 @@
           <router-link class="nav-link" to="/vacation">Vakanties</router-link>
         </li>
         <li v-if="showCanceledAppointments" class="nav-item">
-          <router-link class="nav-link" to="/canceled-appointments">Geannuleerd</router-link>
+          <router-link class="nav-link" to="/canceled-appointments"
+            >Geannuleerd</router-link
+          >
+        </li>
+        <li v-if="showPastAppointments" class="nav-item">
+          <router-link class="nav-link" to="/past-appointments"
+            >Verlopen</router-link
+          >
         </li>
         <li v-if="showEmailTemplates" class="nav-item">
-          <router-link class="nav-link" to="/email-templates">Emails</router-link>
+          <router-link class="nav-link" to="/email-templates"
+            >Emails</router-link
+          >
         </li>
         <li class="nav-item">
           <router-link class="nav-link" to="/contact">Contact</router-link>
@@ -118,6 +127,7 @@ export default {
     this.showVacation = hasRequiredRole([USER_ROLES.ADMIN]);
     this.showCanceledAppointments = hasRequiredRole([USER_ROLES.ADMIN]);
     this.showEmailTemplates = hasRequiredRole([USER_ROLES.ADMIN]);
+    this.showPastAppointments = hasRequiredRole([USER_ROLES.ADMIN]);
   },
   methods: {
     logout() {
