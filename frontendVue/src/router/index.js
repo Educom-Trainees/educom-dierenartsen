@@ -69,7 +69,7 @@ const routes = [
     component: ChangeAppointment,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
+      requiredRoles: [USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE, USER_ROLES.GUEST]
     }
   },
   {

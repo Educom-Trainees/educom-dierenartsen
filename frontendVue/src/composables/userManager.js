@@ -6,6 +6,27 @@ const baseUrlUser = API_URL + 'users'
 const saltRounds = 10
 
 /**
+ * Get all users.
+ * 
+ * @returns Returns an array of users if found, otherwise empty array.
+ */
+export async function getUsers() {
+    try {
+        const response = await axios.get(baseUrlUser)
+        if (Array.isArray(response.data) && response.data.length === 0) {
+            return [] 
+        } 
+        else {
+            return response.data
+        }
+    }
+    catch (error) {
+        console.error('Error getting users from database.')
+        throw error
+    }
+}
+
+/**
  * Store new user in database.
  * 
  * @param {Object} newUser - The new user

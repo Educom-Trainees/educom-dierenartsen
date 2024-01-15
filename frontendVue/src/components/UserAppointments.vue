@@ -99,13 +99,22 @@
           </template>
         </div>
       </div>
-      <button
-        v-if="appointment.status === 0"
-        class="btn submit-btn mt-4 appointment-button"
-        @click="openModal(appointment)"
-      >
-        Afspraak annuleren
-      </button>
+      <div class="d-flex justify-content-evenly">
+        <button
+          v-if="appointment.status === 0"
+          class="btn submit-btn mt-4 appointment-button"
+          @click="moveAppointment(appointment.id)"
+        >
+          Afspraak verplaatsen
+        </button>
+        <button
+          v-if="appointment.status === 0"
+          class="btn submit-btn mt-4 appointment-button"
+          @click="openModal(appointment)"
+        >
+          Afspraak annuleren
+        </button>
+      </div>
       <button
         v-if="appointment.status !== 0"
         class="btn submit-btn mt-4 text-danger cancelled-text"
@@ -134,6 +143,8 @@ import { displayFullDate } from "../composables/datetime-utils.js";
 import getAppointment_types from "../composables/getAppointment_types";
 import { updateAppoinment } from "../composables/appointmentManager";
 import Modal from "./Modal.vue";
+import router from "../router/index.js";
+
 export default {
   components: { Modal },
   data() {
@@ -204,6 +215,12 @@ export default {
       }
 
       this.closeModal();
+    },
+    moveAppointment(appointmentId) {
+      router.push({
+        name: "change-appointment",
+        params: { id: appointmentId },
+      });
     },
     openModal(appointment) {
       this.selectedAppointment = appointment;
