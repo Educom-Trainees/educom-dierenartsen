@@ -14,8 +14,8 @@ namespace BackendASP.Models.DTO
         public required string PhoneNumber { get; set; }
         public required string Password { get; set; }
         public DoctorTypes Doctor { get; set; }
-        public required string Role { get; set; }
-        public List<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public string? Role { get; set; }
+        public List<AppointmentDTO> Appointments { get; set; } = new List<AppointmentDTO>();
         public List<VacationDTO> Vacations { get; set; } = new List<VacationDTO>();
         [JsonPropertyName("pets")]
         public List<UserPetDTO> UserPets { get; set; } = new List<UserPetDTO>();
