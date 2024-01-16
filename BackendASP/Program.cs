@@ -6,6 +6,7 @@ using JsonPatchSample;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -24,50 +25,73 @@ namespace Backend2
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
-                        policy =>
-                        {
-                            policy.AllowAnyOrigin() // WithOrigins("http://localhost:8080")
-                            .AllowAnyMethod()
-                            .AllowAnyHeader();
-                        });
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:8080") //Change for production!!
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
             });
             // Add services to the container.
-            builder.Services.AddDbContext<PetCareContext>();
+            builder.Services.AddDbContext<PetCareContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PetCareDatabaseLocalDB"), sqlOptions =>
+                {
+                    // Additional configuration options, if needed
+                    sqlOptions.EnableRetryOnFailure();
+                    sqlOptions.CommandTimeout(60); // Set command timeout, if needed
+                    sqlOptions.UseDateOnlyTimeOnly(); // Use this for DateOnly and TimeOnly types
+                });
+            });
 
             builder.Services
                 .AddIdentity<User, IdentityRole<int>>(options =>
                 {
-                        options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier; ;
-                        options.SignIn.RequireConfirmedAccount = false;
-                        options.Lockout.AllowedForNewUsers = false;
-                    })
+                    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier; ;
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Lockout.AllowedForNewUsers = false;
+                })
                 .AddEntityFrameworkStores<PetCareContext>()
                 .AddDefaultTokenProviders();
 
-            builder.Services
+/*            builder.Services
                 .AddIdentityServer()
-                .AddApiAuthorization<User, PetCareContext>();
+                .AddApiAuthorization<User, PetCareContext>();*/
 
             builder.Services
                 .AddAuthentication(options =>
-                    {
-                        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    })
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "token";
+                })
                 .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        options.TokenValidationParameters = new TokenValidationParameters
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                        RoleClaimType = ClaimTypes.Role
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
                         {
-                            ValidateIssuer = true,
-                            ValidateAudience = true,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                            ValidAudience = builder.Configuration["Jwt:Audience"],
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-                            RoleClaimType = ClaimTypes.Role
-                        };
-                    }); 
+                            context.Token = context.Request.Cookies["token"];
+                            return Task.CompletedTask;
+                        }
+                    };
+                }); 
 
 
             builder.Services.AddControllers(options =>
