@@ -34,6 +34,18 @@ namespace BackendASP.Controllers
             _userManager = userManager;
         }
 
+        private async Task<string?> GetUserRole(int userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user != null)
+            {
+                var role = await _userManager.GetRolesAsync(user);
+                return role.FirstOrDefault();
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Get all users
         /// </summary>
@@ -48,10 +60,10 @@ namespace BackendASP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] string? email)
         {
-            if (email != null) {
+            if (User.IsInRole("GUEST"))
+            {
                 var currentUser = await _userManager.GetUserAsync(User);
-
-                if (currentUser != null && User.IsInRole("GUEST"))
+                if (currentUser != null)
                 {
                     email = currentUser.Email;
                 }
@@ -72,6 +84,11 @@ namespace BackendASP.Controllers
                 users = await _mapper.ProjectTo<UserDTO>(query).ToListAsync();
             }
 
+            foreach (var userDTO in users)
+            {
+                userDTO.Role = await GetUserRole(userDTO.Id);
+            }
+
             return users;
         }
 
@@ -89,11 +106,13 @@ namespace BackendASP.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-
-            if (currentUser != null && User.IsInRole("GUEST"))
+            if (User.IsInRole("GUEST"))
             {
-                id = currentUser.Id;
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    id = currentUser.Id;
+                }
             }
 
             var user = await _context.Users
@@ -107,18 +126,11 @@ namespace BackendASP.Controllers
                 return NotFound();
             }
 
-            var roles = await _userManager.GetRolesAsync(user);
 
-            if (roles != null)
-            {
-                var userDTO = _mapper.Map<UserDTO>(user);
+            var userDTO = _mapper.Map<UserDTO>(user);
+            userDTO.Role = await GetUserRole(userDTO.Id);
 
-                return userDTO;
-            }
-            else
-            {
-                return StatusCode(500, "Internal Server Error");
-            }
+            return userDTO;
         }
 
         /// <summary>
