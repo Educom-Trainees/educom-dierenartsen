@@ -37,11 +37,6 @@
             >Geannuleerd</router-link
           >
         </li>
-        <li v-if="showPastAppointments" class="nav-item">
-          <router-link class="nav-link" to="/past-appointments"
-            >Verlopen</router-link
-          >
-        </li>
         <li v-if="showEmailTemplates" class="nav-item">
           <router-link class="nav-link" to="/email-templates"
             >Emails</router-link
