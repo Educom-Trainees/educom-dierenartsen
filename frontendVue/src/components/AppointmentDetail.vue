@@ -78,6 +78,16 @@
             >Beide doctoren</span
           >
         </div>
+        <div class="row no-padding">
+          <div class="col-sm">
+            <span
+              @click="registerNoShowAppointment(appointment)"
+              :disabled="appointment.lateStatus === 1"
+              class="btn btn-action action-move"
+              >No Show</span
+            >
+          </div>
+        </div>
       </div>
 
       <div class="row">
@@ -121,6 +131,7 @@ import {
   updateAppoinment,
 } from "../composables/appointmentManager.js";
 import { getPetTypes } from "../composables/PetManager.js";
+import getAppointments from "../composables/getAppointments.js";
 
 export default {
   name: "AppointmentDetail",
@@ -170,7 +181,21 @@ export default {
     assignBothDoctors(appointment) {
       appointment.doctor = 3;
       updateAppoinment(appointment);
-    }
+    },
+    async registerNoShowAppointment(appointment) {
+      console.log("registered as No Show");
+
+      const updatedAppointment = {
+        ...appointment,
+        lateStatus: 1,
+      };
+
+      await updateAppoinment(updatedAppointment);
+      const { appointments, error, load } = getAppointments();
+      //load fetches the appointments
+      await load();
+      console.log(appointments);
+    },
   },
   computed: {
     customerDetails() {
