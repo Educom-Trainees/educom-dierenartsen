@@ -35,17 +35,17 @@ namespace BackendASP.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDTO userDTO)
+        public async Task<ActionResult<User>> Register(RegisterModel registerModel)
         {
-            if (userDTO == null)
+            if (registerModel == null)
             {
                 return BadRequest(new { Message = "Invalid user data" });
             }
 
-            var user = _mapper.Map<User>(userDTO);
+            var user = _mapper.Map<User>(registerModel);
             user.UserName = user.Email;
 
-            var passwordHash = new PasswordHasher<User>().HashPassword(user, userDTO.Password);
+            var passwordHash = new PasswordHasher<User>().HashPassword(user, registerModel.Password);
             user.PasswordHash = passwordHash;
 
             var result = await _userManager.CreateAsync(user);
