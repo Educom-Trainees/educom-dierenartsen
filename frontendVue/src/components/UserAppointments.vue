@@ -101,14 +101,14 @@
       </div>
       <div class="d-flex justify-content-evenly">
         <button
-          v-if="appointment.status === 0"
+          v-if="appointment.status === 0 && new Date(appointment.date) >= today"
           class="btn submit-btn mt-4 appointment-button"
           @click="moveAppointment(appointment.id)"
         >
           Afspraak verplaatsen
         </button>
         <button
-          v-if="appointment.status === 0"
+          v-if="appointment.status === 0 && new Date(appointment.date) >= today"
           class="btn submit-btn mt-4 appointment-button"
           @click="openModal(appointment)"
         >
@@ -158,6 +158,7 @@ export default {
       appointment_types: [],
       selectedAppointment: null,
       displayFullDate: displayFullDate,
+      today: new Date(),
     };
   },
   async created() {
