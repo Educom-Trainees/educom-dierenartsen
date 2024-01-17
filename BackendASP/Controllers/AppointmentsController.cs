@@ -3,6 +3,8 @@ using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
 using BackendASP.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +22,14 @@ namespace BackendASP.Controllers
         private readonly PetCareContext _context;
         private readonly IMapper _mapper;
         private readonly IEmailService _emailService;
+        private readonly UserManager<User> _userManager;
 
-        public AppointmentsController(PetCareContext context, IMapper mapper, IEmailService emailService)
+        public AppointmentsController(PetCareContext context, IMapper mapper, IEmailService emailService, UserManager<User> userManager)
         {
             _context = context;
             _mapper = mapper;
             _emailService = emailService;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -38,11 +42,21 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Appointments
         [HttpGet]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status, [FromQuery] int? userId)
         {
+            if (User.IsInRole("GUEST"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    userId = currentUser.Id;
+                }
+            }
+
             if (_context.Appointments == null)
             {
                 return NotFound();
@@ -192,6 +206,7 @@ namespace BackendASP.Controllers
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -204,7 +219,16 @@ namespace BackendASP.Controllers
                 return BadRequest();
             }
 
-                var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == id);
+            if (User.IsInRole("GUEST"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    id = currentUser.Id;
+                }
+            }
+
+            var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == id);
 
             if (existingAppointment == null)
             {
