@@ -127,9 +127,9 @@
 
 <script>
 import { getUserDataFromSession } from "../composables/sessionManager.js";
-import getAppointments from "../composables/getAppointments";
+import { getAppointments } from "../composables/getAppointments";
 import { displayFullDate } from "../composables/datetime-utils.js";
-import getAppointment_types from "../composables/getAppointment_types";
+import { getAppointment_types } from "../composables/getAppointment_types";
 import { updateAppoinment } from "../composables/appointmentManager";
 import Modal from "./Modal.vue";
 export default {
@@ -148,23 +148,16 @@ export default {
     };
   },
   async created() {
-    const { appointment_types, appointment_types_error } =
-      getAppointment_types();
-
-    await this.loadAppointments();
-
+    const { appointment_types, appointment_types_error } = await getAppointment_types();
     this.appointment_types = appointment_types;
+    
+    await this.loadAppointments();
   },
   methods: {
     async loadAppointments() {
       const olduser = getUserDataFromSession();
 
-      const { appointments, _error, load } = getAppointments(
-        null,
-        null,
-        olduser.userId
-      );
-      await load();
+      const { appointments, _error} = await getAppointments(null, null, olduser.userId);
 
       this.appointments = appointments;
       this.appointments = this.sortAndFilterAppointments(this.appointments);
