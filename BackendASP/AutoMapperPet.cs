@@ -36,6 +36,7 @@ namespace BackendASP
 
             CreateMap<User, UserDTO>();
             CreateMap<UserDTO, User>();
+            CreateMap<RegisterModel, User>();
 
             CreateMap<Vacation, VacationDTO>();
             CreateMap<VacationDTO, Vacation>();
