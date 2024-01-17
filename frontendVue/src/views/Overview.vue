@@ -106,6 +106,11 @@ export default {
       this.appointments = await getActiveAppointmentsByDate(date);
     },
   },
+  provide() {
+    return {
+      getAppointments: () => this.getAppointments(this.toDateString(this.date)),
+    };
+  },
 };
 </script>
 

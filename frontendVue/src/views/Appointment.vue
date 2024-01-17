@@ -15,13 +15,25 @@
 
           <!-- Customers show up here if admin is logged in  -->
           <div v-if="isAdmin">
-            <label for="selectCustomer">Selecteer klant</label><br>
-            <input :value="displayCustomerName" @input="updateSelectedCustomerId" list="customers" name="selectCustomer" id="selectCustomer" placeholder="Selecteer een klant">
+            <label for="selectCustomer">Selecteer klant</label><br />
+            <input
+              :value="displayCustomerName"
+              @input="updateSelectedCustomerId"
+              list="customers"
+              name="selectCustomer"
+              id="selectCustomer"
+              placeholder="Selecteer een klant"
+            />
             <datalist id="customers">
-              <option v-for="customer in allCustomers" :key="customer.id" :value="customer.id" :label="customer.firstName +' ' + customer.lastName"></option>
+              <option
+                v-for="customer in allCustomers"
+                :key="customer.id"
+                :value="customer.id"
+                :label="customer.firstName + ' ' + customer.lastName"
+              ></option>
             </datalist>
           </div>
-          <br>
+          <br />
           <!---->
 
           <!-- If user has pets, they show here -->
@@ -437,6 +449,7 @@
 
           <div class="button-container">
             <button @click.prevent="backtodateform" class="back">vorige</button>
+            <button @click.prevent="log">log</button>
             <button class="submit">bevestig afspraak</button>
           </div>
         </form>
@@ -451,14 +464,20 @@
 <script>
 import TopNavigation from "../components/TopNavigation.vue";
 import AppointmentDateandTime from "../components/AppointmentDateandTime.vue";
-import { isLoggedIn, getUserDataFromSession } from "../composables/sessionManager.js";
+import {
+  isLoggedIn,
+  getUserDataFromSession,
+} from "../composables/sessionManager.js";
 import { getUserById, getUsers } from "../composables/userManager.js";
 import { getAppointmentTypes } from "../composables/appointmentManager.js";
 import getAppointments from "../composables/getAppointments";
 import getAppointment_type from "../composables/getAppointment_type";
 import postAppointments from "../composables/postAppointments";
-import { displayFullDate, toDateString } from "../composables/datetime-utils.js";
-import { USER_ROLES } from '../utils/userRoles.js'
+import {
+  displayFullDate,
+  toDateString,
+} from "../composables/datetime-utils.js";
+import { USER_ROLES } from "../utils/userRoles.js";
 
 export default {
   name: "app",
@@ -498,7 +517,7 @@ export default {
       pets: [],
       select_type: "select-animal-type",
       error: false,
-      genericError: 'Er is iets fout gegaan. Probeer het later opnieuw.',
+      genericError: "Er is iets fout gegaan. Probeer het later opnieuw.",
       isAdmin: false,
       allCustomers: [],
       selectedCustomerId: undefined,
@@ -510,37 +529,43 @@ export default {
       if (isLoggedIn()) {
         const user = getUserDataFromSession();
         if (user.userRole === USER_ROLES.ADMIN) {
-          this.isAdmin = true
-          this.allCustomers = await getUsers()
-          this.allCustomers = this.allCustomers.filter(customer => customer.role === USER_ROLES.GUEST)
-        }
-        else {
+          this.isAdmin = true;
+          this.allCustomers = await getUsers();
+          this.allCustomers = this.allCustomers.filter(
+            (customer) => customer.role === USER_ROLES.GUEST
+          );
+        } else {
           const userdata = await getUserById(user.userId);
           this.userid = user.userId;
           this.pets = userdata.pets;
         }
       }
       this.appointment_types = await getAppointmentTypes();
-    }
-    catch (error) {
-      this.error = true
-      console.error(error)
+    } catch (error) {
+      this.error = true;
+      console.error(error);
     }
   },
   watch: {
     selectedCustomerId(newValue) {
-      this.selectedCustomer = this.allCustomers.filter(customer => customer.id == newValue)[0];
+      this.selectedCustomer = this.allCustomers.filter(
+        (customer) => customer.id == newValue
+      )[0];
       if (this.selectedCustomer) {
-        this.userid = this.selectedCustomerId
-        this.pets = this.selectedCustomer.pets
-        this.pets.length > 0 ? this.select_type = 'select-pet' : this.select_type = 'select-animal-type'
+        this.userid = this.selectedCustomerId;
+        this.pets = this.selectedCustomer.pets;
+        this.pets.length > 0
+          ? (this.select_type = "select-pet")
+          : (this.select_type = "select-animal-type");
       }
-    }
+    },
   },
   computed: {
     displayCustomerName() {
-      return this.selectedCustomer ? `${this.selectedCustomer.firstName} ${this.selectedCustomer.lastName}` : ''
-    }
+      return this.selectedCustomer
+        ? `${this.selectedCustomer.firstName} ${this.selectedCustomer.lastName}`
+        : "";
+    },
   },
   methods: {
     updateSelectedCustomerId(event) {
@@ -568,7 +593,7 @@ export default {
         this.amount -= 1;
       } else {
         this.name_animal.push(pet.name);
-        this.type_animal = pet.type
+        this.type_animal = pet.type;
         this.amount += 1;
       }
     },
@@ -581,8 +606,7 @@ export default {
     async handleSubmit() {
       if (isLoggedIn()) {
         const user = getUserDataFromSession();
-        
-        
+
         var userdata = getUserById(user.userId);
         var pet_type = this.type_animal;
 
@@ -617,9 +641,12 @@ export default {
 
         if (this.isAdmin) {
           if (this.selectedCustomer) {
-            this.email = this.selectedCustomer.email
-            this.phone = this.selectedCustomer.phone
-            this.name = this.selectedCustomer.firstName + ' ' + this.selectedCustomer.lastName
+            this.email = this.selectedCustomer.email;
+            this.phone = this.selectedCustomer.phone;
+            this.name =
+              this.selectedCustomer.firstName +
+              " " +
+              this.selectedCustomer.lastName;
           }
         }
       }
