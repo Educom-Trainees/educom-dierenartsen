@@ -184,6 +184,7 @@ export default {
     },
     async registerNoShowAppointment(appointment) {
       console.log("registered as No Show");
+      console.log("test");
 
       const updatedAppointment = {
         ...appointment,
