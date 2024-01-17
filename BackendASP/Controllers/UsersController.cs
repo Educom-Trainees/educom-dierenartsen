@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Security.Claims;
 using static Duende.IdentityServer.Models.IdentityResources;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BackendASP.Controllers
 {
@@ -115,22 +116,21 @@ namespace BackendASP.Controllers
                 }
             }
 
-            var user = await _context.Users
-                .Include(u => u.Vacations)
-                .Include(u => u.Appointments)
-                .Include(u => u.UserPets)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var query = _context.Users
+                  .Include(u => u.Vacations)
+                  .Include(u => u.Appointments)
+                  .Include(u => u.UserPets);
+
+            var user = await _mapper.ProjectTo<UserDTO>(query.Where(u => u.Id == id)).FirstOrDefaultAsync();
 
             if (user == null)
             {
                 return NotFound();
             }
+            /*  var userDTO = _mapper.Map<UserDTO>(user);*/
+            user.Role = await GetUserRole(user.Id);
 
-
-            var userDTO = _mapper.Map<UserDTO>(user);
-            userDTO.Role = await GetUserRole(userDTO.Id);
-
-            return userDTO;
+            return user;
         }
 
         /// <summary>
@@ -154,7 +154,16 @@ namespace BackendASP.Controllers
         {
             if (id != userDTO.Id)
             {
-                return BadRequest();
+                return BadRequest("Path Id must be the same as User Id");
+            }
+
+            if (User.IsInRole("GUEST"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser != null)
+                {
+                    id = currentUser.Id;
+                }
             }
 
             var existingUser = await _context.Users.FindAsync(id);
@@ -209,6 +218,7 @@ namespace BackendASP.Controllers
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
