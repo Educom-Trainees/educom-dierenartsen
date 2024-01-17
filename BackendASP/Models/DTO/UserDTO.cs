@@ -12,7 +12,7 @@ namespace BackendASP.Models.DTO
         public required string Email { get; set; }
         [JsonPropertyName("phone")]
         public required string PhoneNumber { get; set; }
-        public required string Password { get; set; }
+/*        public required string Password { get; set; }*/
         public DoctorTypes Doctor { get; set; }
         public string? Role { get; set; }
         public List<AppointmentDTO> Appointments { get; set; } = new List<AppointmentDTO>();
