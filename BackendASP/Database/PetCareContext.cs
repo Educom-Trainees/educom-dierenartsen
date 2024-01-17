@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace BackendASP.Database
 {
-    public class PetCareContext : KeyApiAuthorizationDbContext<User, IdentityRole<int>, int>
+    public class PetCareContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         private readonly IConfiguration _configuration;
 
@@ -28,8 +28,7 @@ namespace BackendASP.Database
         public DbSet<UserPet> UserPets { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
-        public PetCareContext(IConfiguration config, DbContextOptions options,
-                              IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
+        public PetCareContext(IConfiguration config, DbContextOptions options) : base(options)
         {
             _configuration = config;
         }
@@ -39,13 +38,13 @@ namespace BackendASP.Database
             //optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
             //optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
 
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabaseLocalDB"), options =>
+           /* optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabaseLocalDB"), options =>
             {
                 // Additional configuration options, if needed
                 options.EnableRetryOnFailure();
                 options.CommandTimeout(60); // Set command timeout, if needed
                 options.UseDateOnlyTimeOnly(); // Use this for DateOnly and TimeOnly types
-            });
+            });*/
 
             optionsBuilder.LogTo(System.Console.WriteLine, minimumLevel: LogLevel.Information); // turn on logging
             base.OnConfiguring(optionsBuilder);
@@ -314,9 +313,7 @@ namespace BackendASP.Database
                 {
                     Id = 4,
                     UserName = "admin@happypaw.nl",
-                    /*NormalizedUserName = "ADMIN@HAPPPAW.NL",*/
                     Email = "admin@happypaw.nl",
-                    /*NormalizedEmail = "ADMIN@HAPPPAW.NL",*/
                     EmailConfirmed = true,
                     PasswordHash = "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
                     AccessFailedCount = 0,
