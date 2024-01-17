@@ -1,39 +1,36 @@
 import { ref } from 'vue'
+import axios from 'axios'
 import { API_URL } from '../utils/api'
 
-const getAppointments = (date = null, status = null, userId = null) => {
-    const appointments = ref(null)
-    const error = ref(null)
+export async function getAppointments(date = null, status = null, userId = null) {
+  const appointments = ref(null)
+  const error = ref(null)
 
-    const load = async () => {
-      try {
-        let url = API_URL + 'appointments'
-        // let data = await fetch(API_URL + 'appointments')
+  try {
+    let url = (API_URL + 'appointments')
 
-        if (date !== null) {
-          url += `?date=${date}`
-        }
-        if (status !== null) {
-            url += `?status=${status}`
-        }
-        if (userId !== null) {
-            url += `?userId=${userId}`
-        }
-
-        let data = await fetch(url)
-        
-        if(!data.ok){
-          throw Error('no data found')
-        }
-        appointments.value = await data.json()
-      }
-      catch (err) {
-        error.value = err.message
-        console.log(error.value)
-      }
+    if (date !== null) {
+      url += `?date=${date}`
+    }
+    if (status !== null) {
+        url += `?status=${status}`
+    }
+    if (userId !== null) {
+        url += `?userId=${userId}`
     }
 
-    return { appointments, error, load}
+    const response = await axios.get(url)
+
+    if (!response.data) {
+      throw Error('No data found')
+    }
+
+    appointments.value = response.data
+  } catch (err) {
+    error.value = err.message
+    console.error(error.value)
+  }
+
+  return { appointments, error}
 }
 
-export default getAppointments
