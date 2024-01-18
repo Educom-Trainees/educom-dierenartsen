@@ -42,7 +42,7 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Appointments
         [HttpGet]
-        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
+/*        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]*/
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -83,22 +83,22 @@ namespace BackendASP.Controllers
         /// <summary>
         /// Get the appointment details of one appointment
         /// </summary>
-        /// <param name="id">The id of the appointment</param>
+        /// <param name="appointmentId">The id of the appointment</param>
         /// <returns>the appointment</returns>
         /// <remarks>returns 404 when the database or the appointment was not found</remarks>
         // GET: api/Appointments/5
-        [HttpGet("{id}")]
+        [HttpGet("{appointmentId}")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AppointmentDTO>> GetAppointmentById(int id)
+        public async Task<ActionResult<AppointmentDTO>> GetAppointmentById(int appointmentId)
         {
             if (_context.Appointments == null)
             {
                 return NotFound();
             }
             var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments)
-                                           .FirstOrDefaultAsync(a => a.Id == id);
+                                           .FirstOrDefaultAsync(a => a.Id == appointmentId);
 
             if (appointment == null)
             {
@@ -111,19 +111,19 @@ namespace BackendASP.Controllers
         /// <summary>
         /// Modify an appointment
         /// </summary>
-        /// <param name="id">The id of the appointment</param>
+        /// <param name="appointmentId">The id of the appointment</param>
         /// <param name="patchDocument">The JSON Patch document with the updates</param>
         /// <returns>204 on success</returns>
         /// <remarks>returns 400 on a bad request
         /// returns 404 when the database was not found</remarks>
         // PATCH: api/Appointments/5
-        [HttpPatch("{id}")]
+        [HttpPatch("{appointmentId}")]
         [Consumes("application/json-patch+json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PatchAppointment(int id, [FromBody] JsonPatchDocument<AppointmentPatchDTO> patchDocument)
+        public async Task<IActionResult> PatchAppointment(int appointmentId, [FromBody] JsonPatchDocument<AppointmentPatchDTO> patchDocument)
         {
             if (patchDocument == null)
             {
@@ -132,7 +132,7 @@ namespace BackendASP.Controllers
 
             var existingAppointment = await _context.Appointments
                 .Include(a => a.TimeSlots)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == appointmentId);
 
             if (existingAppointment == null)
             {
@@ -181,7 +181,7 @@ namespace BackendASP.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AppointmentsExists(id))
+                if (!AppointmentsExists(appointmentId))
                 {
                     return NotFound();
                 }
@@ -193,28 +193,28 @@ namespace BackendASP.Controllers
 
             return NoContent();
         }
-  
+
 
         /// <summary>
         /// Modify an appointment
         /// </summary>
-        /// <param name="id">The id of the appointment</param>
+        /// <param name="appointmentId">The id of the appointment</param>
         /// <param name="appointmentDTO">The updated appointment</param>
         /// <returns>201 on success</returns>
         /// <remarks>returns 400 on a bad request
         /// returns 404 when the database was not found</remarks>
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut("{appointmentId}")]
         [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> PutAppointments(int id, AppointmentDTO appointmentDTO)
+        public async Task<IActionResult> PutAppointments(int appointmentId, [FromBody] AppointmentDTO appointmentDTO)
         {
-            if (id != appointmentDTO.Id)
+            if (appointmentId != appointmentDTO.Id)
             {
                 return BadRequest();
             }
@@ -222,13 +222,25 @@ namespace BackendASP.Controllers
             if (User.IsInRole("GUEST"))
             {
                 var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null)
+
+                if (currentUser == null || appointmentDTO.UserId != currentUser.Id)
                 {
-                    id = currentUser.Id;
+                    return Forbid();
+                }
+
+                var currentUsersAppointmentIds = await _context.Appointments
+                    .Where(a => a.User.Id == currentUser.Id)
+                    .Select(a => a.Id)
+                    .ToListAsync();
+
+                // Check if the appointmentId is in the current user's appointment IDs
+                if (!currentUsersAppointmentIds.Contains(appointmentId))
+                {
+                    return Forbid();
                 }
             }
 
-            var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == id);
+            var existingAppointment = await _context.Appointments.Include(a => a.TimeSlots).FirstOrDefaultAsync(a => a.Id == appointmentId);
 
             if (existingAppointment == null)
             {
@@ -290,7 +302,7 @@ namespace BackendASP.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AppointmentsExists(id))
+                if (!AppointmentsExists(appointmentId))
                 {
                     return NotFound();
                 }
@@ -434,20 +446,20 @@ namespace BackendASP.Controllers
         /// <summary>
         /// Remove an appointment (better is to change the status to cancelled)
         /// </summary>
-        /// <param name="id">The id of the appointment</param>
+        /// <param name="appointmentId">The id of the appointment</param>
         /// <returns>204 when deleted</returns>
         /// <remarks>returns 404 when the database or appointment were not found</remarks>
         // DELETE: api/Appointments/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{appointmentId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteAppointments(int id)
+        public async Task<IActionResult> DeleteAppointments(int appointmentId)
         {
             if (_context.Appointments == null)
             {
                 return NotFound();
             }
-            var appointments = await _context.Appointments.FindAsync(id);
+            var appointments = await _context.Appointments.FindAsync(appointmentId);
             if (appointments == null)
             {
                 return NotFound();
@@ -459,9 +471,9 @@ namespace BackendASP.Controllers
             return NoContent();
         }
 
-        private bool AppointmentsExists(int id)
+        private bool AppointmentsExists(int appointmentId)
         {
-            return (_context.Appointments?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Appointments?.Any(e => e.Id == appointmentId)).GetValueOrDefault();
         }
     }
 }
