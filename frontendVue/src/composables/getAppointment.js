@@ -1,25 +1,23 @@
 import { ref } from 'vue'
+import axios from 'axios'
 import { API_URL } from '../utils/api'
 
-const getAppointment = (id) => {
-    const appointment = ref(null)
-    const error = ref(null)
+export async function getAppointment(id) {
+  const appointment = ref(null)
+  const error = ref(null)
 
-    const load = async () => {
-      try {
-        let data = await fetch(API_URL + 'appointments/' + id)
-        if(!data.ok){
-          throw Error('no data found')
-        }
-        appointment.value = await data.json()
-      }
-      catch (err) {
-        error.value = err.message
-        console.log(error.value)
-      }
+  try {
+    const response = await axios.get(API_URL + 'appointments/' + id)
+
+    if (!response.data) {
+      throw Error('No data found')
     }
 
-    return { appointment, error, load}
-}
+    appointment.value = response.data
+  } catch (err) {
+    error.value = err.message
+    console.error(error.value)
+  }
 
-export default getAppointment
+  return { appointment, error }
+}

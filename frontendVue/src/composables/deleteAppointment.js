@@ -1,31 +1,19 @@
 import { ref } from 'vue'
 import { API_URL } from '../utils/api'
 
-const deleteAppointment = (id) => {
+export async function deleteAppointment(id) {
   const error = ref(null)
 
-  const load = async () => {
-    try {
-      let data = await fetch(API_URL + 'appointments/' + id,
-        {
-          method: "DELETE",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }
-      )
-      if (!data.ok) {
-        throw Error('no appointment found to be deleted')
-      }
+  try {
+    const response = await axios.delete(API_URL + 'appointments/' + id)
+
+    if (!response.data) {
+      throw Error('No appointment found to be deleted')
     }
-    catch (err) {
-      error.value = err.message
-      console.log(error.value)
-    }
+  } catch (err) {
+    error.value = err.message
+    console.error(error.value)
   }
 
-  return { error, load }
+  return { error }
 }
-
-export default deleteAppointment

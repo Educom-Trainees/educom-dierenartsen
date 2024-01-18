@@ -1,25 +1,23 @@
 import { ref } from 'vue'
+import axios from 'axios'
 import { API_URL } from '../utils/api'
 
-const getPet_Types = () => {
+export async function getPet_Types() {
     const pet_types = ref(null)
     const error = ref(null)
 
-    const load = async () => {
-      try {
-        let data = await fetch(API_URL + 'pet-types')
-        if(!data.ok){
-          throw Error('no data found')
-        }
-        pet_types.value = await data.json()
+    try {
+      const response = await axios.get(API_URL + 'pet-types')
+  
+      if (!response.data) {
+        throw Error('No data found')
       }
-      catch (err) {
-        error.value = err.message
-        console.log(error.value)
-      }
+  
+      pet_types.value = response.data
+    } catch (err) {
+      error.value = err.message
+      console.error(error.value)
     }
-    load()
-    return { pet_types, error}
-}
-
-export default getPet_Types
+  
+    return { pet_types, error }
+  }
