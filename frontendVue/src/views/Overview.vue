@@ -98,13 +98,18 @@ export default {
       this.date = nextDate(this.date);
     },
     previousDate() {
-      if (this.date > this.today) {
-        this.date = previousDate(this.date);
-      }
+      // if (this.date > this.today) {
+      this.date = previousDate(this.date);
+      // }
     },
     async getAppointments(date) {
       this.appointments = await getActiveAppointmentsByDate(date);
     },
+  },
+  provide() {
+    return {
+      getAppointments: () => this.getAppointments(this.toDateString(this.date)),
+    };
   },
 };
 </script>

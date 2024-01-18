@@ -78,15 +78,18 @@
             >Beide doctoren</span
           >
         </div>
-        <div class="row no-padding">
+        <div class="row">
           <div class="col-sm">
-            <span
+            <button
+              v-if="new Date(appointment.date) < new Date()"
               @click="registerNoShowAppointment(appointment)"
               :disabled="appointment.lateStatus === 1"
               class="btn btn-action action-move"
-              >No Show</span
             >
+              No Show
+            </button>
           </div>
+          <div class="col-sm"></div>
         </div>
       </div>
 
@@ -95,7 +98,7 @@
           <h6 id="detail-label">Details</h6>
         </div>
       </div>
-      <div v-for="(value, key) in customerDetails" class="row">
+      <div v-for="(value, key) in customerDetails" v-bind:key="key" class="row">
         <div class="col-sm">
           <span class="details label">{{ key }}</span>
         </div>
@@ -111,7 +114,7 @@
           <span class="details output">{{ petType }}</span>
         </div>
       </div>
-      <div v-for="name in petNames" class="row">
+      <div v-for="name in petNames" v-bind:key="name" class="row">
         <div class="col-sm">
           <span class="details label">Huisdier</span>
         </div>
@@ -131,11 +134,11 @@ import {
   updateAppoinment,
 } from "../composables/appointmentManager.js";
 import { getPetTypes } from "../composables/PetManager.js";
-import getAppointments from "../composables/getAppointments.js";
 
 export default {
   name: "AppointmentDetail",
   props: ["appointment"],
+  inject: ["getAppointments"],
   created() {
     this.getPetTypes();
   },
@@ -183,19 +186,14 @@ export default {
       updateAppoinment(appointment);
     },
     async registerNoShowAppointment(appointment) {
-      console.log("registered as No Show");
-      console.log("test");
-
       const updatedAppointment = {
         ...appointment,
         lateStatus: 1,
       };
 
       await updateAppoinment(updatedAppointment);
-      const { appointments, error, load } = getAppointments();
-      //load fetches the appointments
-      await load();
-      console.log(appointments);
+
+      await this.getAppointments();
     },
   },
   computed: {
