@@ -64,7 +64,7 @@
 
 <script>
 import TopNavigation from "../components/TopNavigation.vue";
-import { loginUser } from "../composables/userLoginService.js";
+import { loginUser } from "../composables/accountManager.js";
 
 export default {
   name: "Login",
@@ -94,72 +94,6 @@ export default {
       if (result && typeof result === "object") {
         this.errors = result;
       }
-      // old login function, deprecated: 17-11-2023
-      // this.errors = await loginUser(this.loginForm.email, this.loginForm.password)
-      // const email = this.loginForm.email
-      // const password = this.loginForm.password
-
-      // const { processedEmail, emailErr } = sanitizeAndValidateEmail(email)
-      // const { processedPassword, passwordErr } = validatePassword(password)
-
-      // if (emailErr.length === 0 && passwordErr.length === 0) {
-      //     try {
-      //         try {
-      //             const userDataFromDatabase = await getUser(processedEmail)
-      //             if (userDataFromDatabase === null) {
-      //                 this.errors.emailErr = '❌ Er is geen gebruiker met dit e-mailadres.'
-      //             }
-      //             else {
-      //                 const user = userDataFromDatabase[0]
-      //                 try {
-      //                     const isAuthenticated = await authenticateUser(processedPassword, user.passwordHash)
-      //                     if (isAuthenticated) {
-      //                         console.log('User login successful.')
-      //                         try {
-      //                             const userData = { userId: user.id, userEmail: user.email, userRole: user.role }
-      //                             sessionStorage.setItem('userData', JSON.stringify(userData))
-      //                             try {
-      //                                 if (user.role === USER_ROLES.ADMIN || user.role === USER_ROLES.EMPLOYEE) {
-      //                                     router.push('/overview')
-      //                                 }
-      //                                 else {
-      //                                     router.push('/')
-      //                                 }
-      //                             }
-      //                             catch (routerError) {
-      //                                 console.error('Error redirecting user: ', routerError)
-      //                                 this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-      //                             }
-      //                         }
-      //                         catch (sessionStorageError) {
-      //                             console.error('Error storing user data in browser session: ', sessionStorageError)
-      //                             this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-      //                         }
-      //                     }
-      //                     else {
-      //                         this.errors.passwordErr = '❌ De combinatie van e-mailadres en wachtwoord is niet geldig.'
-      //                     }
-      //                 }
-      //                 catch (authenticateUserError) {
-      //                     console.error('Error logging in user: ', authenticateUserError)
-      //                     this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-      //                 }
-      //             }
-      //         }
-      //         catch(getUserError) {
-      //             console.error('Error logging in user: ', getUserError)
-      //             this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-      //         }
-      //     }
-      //     catch (error) {
-      //         console.error('User login failed. ', error)
-      //         this.errors.genericErr = '❌ Er is iets fout gegaan. Probeer het later opnieuw.'
-      //     }
-      // }
-      // else {
-      //     this.errors.emailErr = emailErr
-      //     this.errors.passwordErr = passwordErr
-      // }
     },
   },
 };
