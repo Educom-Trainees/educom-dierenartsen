@@ -53,7 +53,7 @@
 
 <script>
 import TopNavigation from "../components/TopNavigation.vue";
-import getAppointments from "../composables/getAppointments.js";
+import { getAppointments } from "../composables/getAppointments.js";
 import { displayFullDate } from "../composables/datetime-utils.js";
 import { updateAppoinment } from "../composables/appointmentManager";
 
@@ -63,8 +63,8 @@ export default {
     TopNavigation,
   },
   async created() {
-    const { appointments, error, load } = getAppointments();
-    await load();
+    const { appointments, error } = await getAppointments();
+
     this.appointments = appointments?.value.filter((appointment) => {
       return appointment.lateStatus === 1;
     });
@@ -92,9 +92,8 @@ export default {
       };
 
       await updateAppoinment(updatedAppointment);
-      const { appointments, error, load } = getAppointments();
-      //load fetches the appointments
-      await load();
+      const { appointments, error } = await getAppointments();
+
       this.appointments = appointments?.value.filter((appointment) => {
         return appointment.lateStatus === 1;
       });

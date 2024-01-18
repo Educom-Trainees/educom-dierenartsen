@@ -424,10 +424,10 @@ import {
   getUserDataFromSession,
 } from "../composables/sessionManager.js";
 import { getUserById } from "../composables/userManager.js";
-import getAppointments from "../composables/getAppointments";
-import getAppointment_type from "../composables/getAppointment_type";
-import getAppointment_types from "../composables/getAppointment_types";
-import postAppointments from "../composables/postAppointments";
+import { getAppointments } from "../composables/getAppointments";
+import { getAppointment_type } from "../composables/getAppointment_type";
+import { getAppointment_types } from "../composables/getAppointment_types";
+import { postAppointments } from "../composables/postAppointments";
 import {
   displayFullDate,
   toDateString,
@@ -482,8 +482,7 @@ export default {
       this.pets = userdata.pets;
     }
 
-    const { appointment_types, appointment_types_error } =
-      getAppointment_types();
+    const { appointment_types, appointment_types_error } = await getAppointment_types();
     this.appointment_types = appointment_types;
   },
   methods: {
@@ -554,10 +553,9 @@ export default {
         this.phone = value.phone;
       }
 
-      const { appointment_type, error, load } = getAppointment_type(
+      const { appointment_type, error } = await getAppointment_type(
         this.type_consult
       );
-      await load();
       for (let i = 0; i < appointment_type.value.calculation.length; i++) {
         const app_type = appointment_type.value.calculation[i];
         if (app_type.count && app_type.count != this.amount) {
@@ -576,8 +574,7 @@ export default {
       this.showcontactForm = true;
     },
     async Result() {
-      const { appointments, error, load } = getAppointments();
-      await load();
+      const { appointments, error } = await getAppointments();
       this.appointments = appointments;
 
       this.nameError =
