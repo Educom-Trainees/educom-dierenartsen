@@ -16,6 +16,14 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <Compile Remove="Migrations\20231201115920_RecreateAvalaibleDays.Designer.cs" />
+    <Compile Remove="Migrations\20240110103640_Identity.cs" />
+    <Compile Remove="Migrations\20240110103640_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20240110133630_AddedIdentityUserRoles.cs" />
+    <Compile Remove="Migrations\20240110133630_AddedIdentityUserRoles.Designer.cs" />
+    <Compile Remove="Migrations\20240112140312_Identity.cs" />
+    <Compile Remove="Migrations\20240112140312_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20240112143326_UserRoleNavigation.cs" />
+    <Compile Remove="Migrations\20240112143326_UserRoleNavigation.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
