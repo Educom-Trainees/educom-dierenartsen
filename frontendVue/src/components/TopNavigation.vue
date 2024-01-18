@@ -42,6 +42,11 @@
             >Emails</router-link
           >
         </li>
+        <li v-if="showWorkSchedules" class="nav-item">
+          <router-link class="nav-link" to="/work-schedules"
+            >Werkschema</router-link
+          >
+        </li>
         <li class="nav-item">
           <router-link class="nav-link" to="/contact">Contact</router-link>
         </li>
@@ -123,6 +128,7 @@ export default {
     this.showCanceledAppointments = hasRequiredRole([USER_ROLES.ADMIN]);
     this.showEmailTemplates = hasRequiredRole([USER_ROLES.ADMIN]);
     this.showPastAppointments = hasRequiredRole([USER_ROLES.ADMIN]);
+    this.showWorkSchedules = hasRequiredRole([USER_ROLES.ADMIN]);
   },
   methods: {
     logout() {
