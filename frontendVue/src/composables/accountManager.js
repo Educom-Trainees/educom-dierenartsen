@@ -2,7 +2,6 @@
 import axios from 'axios';
 import router from '../router/index.js';
 import { sanitizeAndValidateEmail, validatePassword } from './userValidator.js';
-import { USER_ROLES } from '../utils/userRoles.js';
 import { API_URL } from '../utils/api';
 import { getUser } from './userManager.js';
 

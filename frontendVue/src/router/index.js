@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { USER_ROLES } from '../utils/userRoles.js'
 import Home from '../views/Home.vue'
 import Contact from '../views/Contact.vue'
 import Appointment from '../views/Appointment.vue'
@@ -51,7 +50,7 @@ const routes = [
     component: Overview,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
+      requiredRoles: ["ADMIN", "EMPLOYEE"]
     }
   },
   {
@@ -60,7 +59,7 @@ const routes = [
     component: Profile,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.GUEST]
+      requiredRoles: ["GUEST"]
     }
   },
   {
@@ -69,7 +68,7 @@ const routes = [
     component: ChangeAppointment,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.ADMIN, USER_ROLES.EMPLOYEE]
+      requiredRoles: ["ADMIN", "EMPLOYEE"]
     }
   },
   {
@@ -78,7 +77,7 @@ const routes = [
     component: Vacation,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.ADMIN]
+      requiredRoles: ["ADMIN"]
     }
   },
   {
@@ -87,7 +86,7 @@ const routes = [
     component: CanceledAppointments,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.ADMIN]
+      requiredRoles: ["ADMIN"]
     }
   },
   {
@@ -96,7 +95,7 @@ const routes = [
     component: EmailTemplates,
     meta: {
       requiresAuth: true,
-      requiredRoles: [USER_ROLES.ADMIN]
+      requiredRoles: ["ADMIN"]
     }
   }
 ]

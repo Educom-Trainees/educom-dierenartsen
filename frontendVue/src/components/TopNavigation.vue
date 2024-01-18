@@ -91,7 +91,6 @@
 
 <script>
 import router from "../router/index.js";
-import { USER_ROLES } from "../utils/userRoles.js";
 import {
   hasRequiredRole,
   isLoggedIn,
@@ -111,13 +110,13 @@ export default {
   },
   beforeMount() {
     this.showOverview = hasRequiredRole([
-      USER_ROLES.ADMIN,
-      USER_ROLES.EMPLOYEE,
+      "ADMIN",
+      "EMPLOYEE",
     ]);
     this.isLoggedIn = isLoggedIn();
-    this.showVacation = hasRequiredRole([USER_ROLES.ADMIN]);
-    this.showCanceledAppointments = hasRequiredRole([USER_ROLES.ADMIN]);
-    this.showEmailTemplates = hasRequiredRole([USER_ROLES.ADMIN]);
+    this.showVacation = hasRequiredRole(["ADMIN"]);
+    this.showCanceledAppointments = hasRequiredRole(["ADMIN"]);
+    this.showEmailTemplates = hasRequiredRole(["ADMIN"]);
   },
   methods: {
     logout() {
