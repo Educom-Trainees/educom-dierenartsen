@@ -19,7 +19,7 @@ namespace BackendASP.Migrations
                 columns: new[] { "Id", "Doctor", "Email", "FirstName", "LastName", "PasswordHash", "PhoneNumber", "Role", "Salutation" },
                 values: new object[,]
                 {
-                    { 4, 2, "danique@happypaw.nl", "Danique", "de Beer", "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq", "0687654321", 1, "Mevrou" },
+                    { 4, 2, "danique@happypaw.nl", "Danique", "de Beer", "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq", "0687654321", 1, "Mevrouw" },
                     { 5, 0, "admin@happypaw.nl", "Admin", "Secretaresse", "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG", "0623445443", 2, "Mevrouw" }
                 });
         }
