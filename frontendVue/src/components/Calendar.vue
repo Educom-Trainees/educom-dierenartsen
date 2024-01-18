@@ -38,7 +38,6 @@ export default {
     props: ['doctor', 'doctorId', 'appointments', 'date', 'color'],
     data() {
         return {
-            //tslot: TIMESLOTS.map(t => { return {'time': t, 'doctor': this.doctorId }}),
             timeslotsDoctor: [],
             calculateEndTime: calculateEndTime,
         }
@@ -65,9 +64,6 @@ export default {
     computed: {
         calculatedTimeslots() {
             const app = this.appointments.filter(a => (a.doctor == this.doctorId || a.doctor == 3))
-            // console.log(app)
-            // console.log('calculated' + combineTimeslotAppointments(this.timeslotsDoctor, app))
-            console.log(combineTimeslotAppointments(this.timeslotsDoctor, app))
             return (combineTimeslotAppointments(this.timeslotsDoctor, app))
         }
     }
