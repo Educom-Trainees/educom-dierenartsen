@@ -96,9 +96,9 @@ export default {
         const textBefore = this.selectedEmailTemplate[inputFieldId].slice(0, selectionStart);
         const textAfter = this.selectedEmailTemplate[inputFieldId].slice(selectionEnd);
 
-        this.selectedEmailTemplate[inputFieldId] = textBefore + value + textAfter;
+        this.selectedEmailTemplate[inputFieldId] = textBefore + "{" + value + "}" + textAfter;
 
-        const newPosition = selectionStart + value.length;
+        const newPosition = selectionStart + value.length + 2;
 
         setTimeout(() => {
           textarea.selectionStart = newPosition;
