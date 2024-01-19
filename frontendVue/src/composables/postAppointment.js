@@ -49,8 +49,6 @@ export async function postAppointment(
     
     const appointmentNumber = response.data.number
 
-    console.log(appointmentNumber)
-
     appointment.value = response.data
 
     return appointmentNumber
