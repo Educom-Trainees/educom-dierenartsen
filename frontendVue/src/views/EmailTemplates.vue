@@ -66,7 +66,6 @@ export default {
   async created() {
     const emailTemplates = await getEmailTemplates();
     this.emailTemplates = emailTemplates;
-    console.log(emailTemplates);
   },
   data() {
     return {
