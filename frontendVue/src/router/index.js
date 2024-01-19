@@ -41,7 +41,7 @@ const routes = [
     component: Login
   },
   {
-    path: '/result/:id',
+    path: '/result/:number',
     name: 'result',
     component: Result,
     props: true
