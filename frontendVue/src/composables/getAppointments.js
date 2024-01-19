@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { API_URL } from '../utils/api'
 
-export async function getAppointments(date = null, status = null, userId = null) {
+export async function getAppointments(date = null, status = null, userId = null, number = null) {
   const appointments = ref(null)
   const error = ref(null)
 
@@ -18,6 +18,9 @@ export async function getAppointments(date = null, status = null, userId = null)
     if (userId !== null) {
         url += `?userId=${userId}`
     }
+    if (number !== null) {
+      url += `?number=${number}`
+  }
 
     const response = await axios.get(url)
 
