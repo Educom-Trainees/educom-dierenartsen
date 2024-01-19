@@ -1,8 +1,10 @@
 import axios from 'axios'
+import { ref } from 'vue'
 import { API_URL } from '../utils/api'
 
 const baseUrlAppointment = API_URL + 'appointments'
 const baseUrlActiveAppointmentsByDate = baseUrlAppointment + '?status=0&date='
+const baseUrlAppointmentByNumber = baseUrlAppointment + '?number='
 
 /**
  * Get the active appointments for given date.
@@ -25,6 +27,31 @@ export async function getActiveAppointmentsByDate(date) {
         throw error
     }
 }
+/**
+ * Get the appointment for given appointment number.
+ * 
+ * @param {Number} number - The appointment number.
+ * @returns Returns the appointment if found, otherwise empty array.
+ */
+export async function getAppointmentByNumber(number) {
+    const appointment = ref(null)
+    const error = ref(null)
+  
+    try {
+      const response = await axios.get(baseUrlAppointmentByNumber + number)
+  
+      if (!response.data) {
+        throw Error('No data found')
+      }
+  
+      appointment.value = response.data[0]
+    } catch (err) {
+      error.value = err.message
+      console.error(error.value)
+    }
+  
+    return { appointment, error }
+  }
 /**
  * Get the appointment for given Id.
  * 
