@@ -1,19 +1,15 @@
 ﻿using BackendASP.Models;
 using BackendASP.Models.Enums;
-using Duende.IdentityServer.EntityFramework.Options;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using System.Linq;
 
 namespace BackendASP.Database
 {
     public class PetCareContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
         private readonly IConfiguration _configuration;
+        private readonly IPasswordHasherService _passwordHasher;
 
         public DbSet<PetType> PetTypes { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
@@ -28,24 +24,14 @@ namespace BackendASP.Database
         public DbSet<UserPet> UserPets { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
-        public PetCareContext(IConfiguration config, DbContextOptions options) : base(options)
+        public PetCareContext(IConfiguration config, IPasswordHasherService passwordHasher, DbContextOptions options) : base(options)
         {
             _configuration = config;
+            _passwordHasher = passwordHasher;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabase"), x => x.UseDateOnlyTimeOnly());
-            //optionsBuilder.UseMySql(_configuration.GetConnectionString("PetCareDatabaseMySql"), ServerVersion.AutoDetect(_configuration.GetConnectionString("PetCareDatabaseMySql")));
-
-           /* optionsBuilder.UseSqlServer(_configuration.GetConnectionString("PetCareDatabaseLocalDB"), options =>
-            {
-                // Additional configuration options, if needed
-                options.EnableRetryOnFailure();
-                options.CommandTimeout(60); // Set command timeout, if needed
-                options.UseDateOnlyTimeOnly(); // Use this for DateOnly and TimeOnly types
-            });*/
-
             optionsBuilder.LogTo(System.Console.WriteLine, minimumLevel: LogLevel.Information); // turn on logging
             base.OnConfiguring(optionsBuilder);
         }
@@ -239,49 +225,42 @@ namespace BackendASP.Database
                 new { Id = 52, TimeSlotId = 52, Days = 0b0000000, StartDate = DateOnly.Parse("2023-11-01") }
              );
 
-        modelBuilder.Entity<IdentityRole<int>>().HasData(
-            new IdentityRole<int> { Id = 3, Name = "ADMIN", NormalizedName = "admin" },
-            new IdentityRole<int> { Id = 2, Name = "EMPLOYEE", NormalizedName = "employee" },
-            new IdentityRole<int> { Id = 1, Name = "GUEST", NormalizedName = "guest" }
-            );
+            modelBuilder.Entity<IdentityRole<int>>().HasData(
+                new IdentityRole<int> { Id = 3, Name = "ADMIN", NormalizedName = "admin" },
+                new IdentityRole<int> { Id = 2, Name = "EMPLOYEE", NormalizedName = "employee" },
+                new IdentityRole<int> { Id = 1, Name = "GUEST", NormalizedName = "guest" }
+                );
 
             modelBuilder.Entity<User>().HasData(
                  new
                  {
                      Id = 1,
                      UserName = "brandon@gmail.com",
+                     NormalizedUserName = "BRANDON@GMAIL.COM",
                      Email = "brandon@gmail.com",
+                     NormalizedEmail = "BRANDON@GMAIL.COM",
                      EmailConfirmed = true,
-                     PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
+                     PasswordHash = _passwordHasher.HashPassword("Hallo123!"),
                      AccessFailedCount = 0,
                      Salutation = "Meneer",
                      FirstName = "Brandon",
-                     LastName = "Klant",
-                     PhoneNumber = "067890456",
+                     LastName = "de Goede",
+                     PhoneNumber = "0678904561",
                      PhoneNumberConfirmed = true,
                      Doctor = DoctorTypes.NO_PREFERENCE,
                      LockoutEnabled = false,
                      TwoFactorEnabled = false
 
                  },
-
-                   /*  Id = 1,
-                     Salutation = "Meneer",
-                     FirstName = "Brandon",
-                     LastName = "Klant",
-                     Email = "brandon@gmail.com",
-                     PhoneNumber = "067890456",
-                     PasswordHash = "$2a$10$SvgoFJscAHARXBJRzqG4wO8.hW5b3Xjoea/5QQchHAAPPYoJZLmpS",
-                     Doctor = DoctorTypes.NO_PREFERENCE,
-                     Role = UserRoles.GUEST*/
-
                  new
                  {
                      Id = 2,
                      UserName = "karel@happypaw.nl",
+                     NormalizedUserName = "KAREL@HAPPYPAW.NL",
                      Email = "karel@happypaw.nl",
+                     NormalizedEmail = "KAREL@HAPPYPAW.NL",
                      EmailConfirmed = true,
-                     PasswordHash = "$2a$10$fuY21uRpsloZwQCL4SJzUuCv0lvf6H3CfC0QzLP1DAjsV2ntwvbPG",
+                     PasswordHash = _passwordHasher.HashPassword("43nvw4zN6F!YBX5"),
                      AccessFailedCount = 0,
                      Salutation = "Meneer",
                      FirstName = "Karel",
@@ -296,9 +275,11 @@ namespace BackendASP.Database
                 {
                     Id = 3,
                     UserName = "danique@happypaw.nl",
+                    NormalizedUserName = "DANIQUE@HAPPYPAW.NL",
                     Email = "danique@happypaw.nl",
+                    NormalizedEmail = "DANIQUE@HAPPYPAW.NL",
                     EmailConfirmed = true,
-                    PasswordHash = "$2a$10$d42bHqP0V.N/99GPmWm6QeSgN92euYdvTHH2SHzHQzI2T2I/6HeIq", 
+                    PasswordHash = _passwordHasher.HashPassword("9gyoa@8$tapNQPN"), 
                     AccessFailedCount = 0,
                     Salutation = "Mevrouw",
                     FirstName = "Danique",
@@ -313,9 +294,11 @@ namespace BackendASP.Database
                 {
                     Id = 4,
                     UserName = "admin@happypaw.nl",
+                    NormalizedUserName = "ADMIN@HAPPYPAW.NL",
                     Email = "admin@happypaw.nl",
+                    NormalizedEmail = "ADMIN@HAPPYPAW.NL",
                     EmailConfirmed = true,
-                    PasswordHash = "$2a$10$ueqBUHOfk8IuBG6XhCZG2.XVuJUfwVQDjhCg4fktmtSVZLaGaXdqG",
+                    PasswordHash = _passwordHasher.HashPassword("FPFAr9shsFsi%Rs"),
                     AccessFailedCount = 0,
                     Salutation = "Mevrouw",
                     FirstName = "Admin",
@@ -357,7 +340,7 @@ namespace BackendASP.Database
                     Id = 1,
                     TemplateName = "Afspraak bevestiging",
                     Subject = "Afspraak bevestiging voor {appointmentDTO.Date}",
-                    Body = "Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Bij deze bevestigen wij dat uw afspraak gepland is voor:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                We kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.\r\n                <br />\r\n                <br />\r\n                Tot ziens in de praktijk!\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
+                    Body = "Beste {Naam klant},\r\n\r\nBij deze bevestigen wij dat uw afspraak gepland is voor:\r\n\r\nDatum: {Datum}\r\nTijd: {Tijdslot}\r\nDuur: {Duur}\r\nDierenarts: {Dierenarts}\r\n\r\nWe kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.\r\n\r\nTot ziens in de praktijk!\r\n\r\nMet vriendelijke groeten,\r\n\r\nKarel en Danique van Dierenpraktijk HappyPaws",
                     EmailType = EmailTypes.APPOINTMENT
                 },
                 new
@@ -365,7 +348,7 @@ namespace BackendASP.Database
                     Id = 2,
                     TemplateName = "Aanmeldingsbevestiging",
                     Subject = "Aanmeldingsbevestiging - HappyPaws Dierenartspraktijk",
-                    Body = "Beste {userDTO.FirstName} {userDTO.LastName},\r\n                <br />\r\n                <br />\r\n                Welkom bij Dierenpraktijk HappyPaws! Jouw account is succesvol geactiveerd. Hier zijn je inloggegevens:\r\n                <br />\r\n                <br />\r\n                E-mailadres: {userDTO.Email}\r\n                <br />\r\n                <br />\r\n                Met jouw account kun je afspraken plannen en de medische geschiedenis van jouw huisdier(en) volgen. \r\n                Voor vragen staan we altijd klaar.\r\n                <br />\r\n                <br />\r\n                Bedankt voor het vertrouwen in HappyPaws.\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
+                    Body = "Beste {Naam klant},\r\n\r\nWelkom bij Dierenpraktijk HappyPaws! Jouw account is succesvol geactiveerd. Hier zijn je inloggegevens:\r\n\r\nE-mailadres: {Email}\r\n\r\nMet jouw account kun je afspraken plannen en de medische geschiedenis van jouw huisdier(en) volgen. \r\nVoor vragen staan we altijd klaar.\r\n\r\nBedankt voor het vertrouwen in HappyPaws.\r\n\r\nMet vriendelijke groeten,\r\n\r\nKarel en Danique van Dierenpraktijk HappyPaws",
                     EmailType = EmailTypes.USER
                 },
                 new
@@ -373,7 +356,15 @@ namespace BackendASP.Database
                     Id = 3,
                     TemplateName = "Geannuleerde afspraak",
                     Subject = "Geannuleerde Afspraak op {appointmentDTO.Date}",
-                    Body = "Beste {appointmentDTO.CustomerName},\r\n                <br />\r\n                <br />\r\n                Helaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. \r\n                We begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.\r\n                <br />\r\n                <br />\r\n                Hier zijn de details van de geannuleerde afspraak:\r\n                <br />\r\n                <br />\r\n                Datum: {appointmentDTO.Date}\r\n                <br />\r\n                Tijd: {appointmentDTO.TimeSlotTime}\r\n                <br />\r\n                Dierenarts: {appointmentDTO.Doctor.ToFriendlyString()}\r\n                <br />\r\n                <br />\r\n                Mocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. \r\n                De gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                <br />\r\n                <br />\r\n                Bedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.\r\n                <br />\r\n                <br />\r\n                Met vriendelijke groeten,\r\n                <br />\r\n                <br />\r\n                Karel en Danique van Dierenpraktijk HappyPaws",
+                    Body = "Beste {Naam klant},\r\n\r\nHelaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. \r\nWe begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.\r\n\r\nHier zijn de details van de geannuleerde afspraak:\r\n\r\nDatum: {Datum}\r\nTijd: {Tijdslot}\r\nDierenarts: {Dierenarts}\r\n\r\nMocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. \r\n\r\nDe gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                \r\n\r\nBedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.\r\n\r\nMet vriendelijke groeten,\r\n\r\nKarel en Danique van Dierenpraktijk HappyPaws",
+                    EmailType = EmailTypes.APPOINTMENT
+                },
+                new
+                {
+                    Id = 4,
+                    TemplateName = "Gewijzigde afspraak",
+                    Subject = "Wijziging afspraak Dierenpraktijk HappyPaws",
+                    Body = "Beste {Naam klant},\r\n\r\nEr is een wijziging opgetreden in uw afspraakgegevens. Hieronder vind u de nieuwe afspraakgegevens:\r\n\r\nDatum: {Datum}\r\nTijd: {Tijdslot}\r\nDuur: {Duur}\r\nDierenarts: {Dierenarts}\r\n\r\nWe begrijpen dat uw tijd waardevol is, en we willen ervoor zorgen dat u op de hoogte bent van deze verandering. Als deze wijziging problemen oplevert of als u verdere vragen heeft, aarzel dan niet om contact met ons op te nemen.\r\n\r\nBedankt voor uw begrip.\r\n\r\nMet vriendelijke groeten,\r\n\r\nKarel en Danique van Dierenpraktijk HappyPaws",
                     EmailType = EmailTypes.APPOINTMENT
                 }
                 );
