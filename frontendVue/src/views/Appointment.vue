@@ -472,7 +472,8 @@ import { getUserById, getUsers } from "../composables/userManager.js";
 import { getAppointments } from "../composables/getAppointments";
 import { getAppointment_type } from "../composables/getAppointment_type";
 import { getAppointment_types } from "../composables/getAppointment_types";
-import { postAppointments } from "../composables/postAppointments";
+import { postAppointment } from "../composables/postAppointment";
+
 import {
   displayFullDate,
   toDateString,
@@ -709,12 +710,8 @@ export default {
         !this.phoneError &&
         !this.name_animalError
       ) {
-        const lastappointment = this.appointments[this.appointments.length - 1];
-        this.number = lastappointment.id;
-        this.number++;
 
-        await postAppointments(
-          this.number,
+        const appointmentNumber = await postAppointment(
           toDateString(this.date),
           this.time,
           this.duration,
@@ -732,7 +729,7 @@ export default {
           this.status
         );
 
-        this.$router.push("/result/" + this.number);
+        this.$router.push("/result/" + appointmentNumber);
       }
     },
   },
