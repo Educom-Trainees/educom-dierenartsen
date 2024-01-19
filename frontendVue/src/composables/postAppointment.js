@@ -2,8 +2,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { API_URL } from '../utils/api'
 
-export async function postAppointments(
-  number,
+export async function postAppointment(
   date,
   time,
   duration,
@@ -20,7 +19,7 @@ export async function postAppointments(
   doctor,
   status
 ) {
-  const appointments = ref([])
+  const appointment = ref([])
   const error = ref(null)
   const pets = []
   for (let i = 0; i < name_animal.length; i++) {
@@ -28,7 +27,6 @@ export async function postAppointments(
   }
   try {
     const response = await axios.post(API_URL + 'appointments', {
-      number: number,
       date: date,
       time: time,
       duration: duration,
@@ -45,11 +43,17 @@ export async function postAppointments(
       status: status,
     })
 
-    if(!response.ok){
+    if(!response.data){
       throw Error('not able to make appointment')
     }
     
-    appointments.value = response.data
+    const appointmentNumber = response.data.number
+
+    console.log(appointmentNumber)
+
+    appointment.value = response.data
+
+    return appointmentNumber
   } catch (err) {
   error.value = err.message
   console.log(error.value)
