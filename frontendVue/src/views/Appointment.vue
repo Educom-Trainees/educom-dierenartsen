@@ -469,15 +469,14 @@ import {
   getUserDataFromSession,
 } from "../composables/sessionManager.js";
 import { getUserById, getUsers } from "../composables/userManager.js";
-import getAppointments from "../composables/getAppointments";
-import getAppointment_type from "../composables/getAppointment_type";
-import getAppointment_types from "../composables/getAppointment_types";
-import postAppointments from "../composables/postAppointments";
+import { getAppointments } from "../composables/getAppointments";
+import { getAppointment_type } from "../composables/getAppointment_type";
+import { getAppointment_types } from "../composables/getAppointment_types";
+import { postAppointments } from "../composables/postAppointments";
 import {
   displayFullDate,
   toDateString,
 } from "../composables/datetime-utils.js";
-import { USER_ROLES } from "../utils/userRoles.js";
 
 export default {
   name: "app",
@@ -540,7 +539,13 @@ export default {
           this.pets = userdata.pets;
         }
       }
-      this.appointment_types = await getAppointment_types();
+      const { appointment_types, appointment_types_error } = await getAppointment_types();
+
+      if (appointment_types_error) {
+      throw new Error(appointment_types_error);
+      }
+
+      this.appointment_types = appointment_types;
     } catch (error) {
       this.error = true;
       console.error(error);
@@ -651,9 +656,7 @@ export default {
         }
       }
 
-      const { appointment_type, error } = await getAppointment_type(
-        this.type_consult
-      );
+      const { appointment_type, error } = await getAppointment_type(this.type_consult);
       for (let i = 0; i < appointment_type.value.calculation.length; i++) {
         const app_type = appointment_type.value.calculation[i];
         if (app_type.count && app_type.count != this.amount) {
