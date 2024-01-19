@@ -10,7 +10,7 @@ using System;
 using System.Runtime.Intrinsics.X86;
 using System.Threading.Tasks;
 
-namespace BackendASP
+namespace BackendASP.Services
 {
     public interface IEmailService
     {
@@ -133,6 +133,6 @@ namespace BackendASP
                 text = text.Replace("{Dierenarts}", appointmentDTO.Doctor.ToFriendlyString());
             }
         }
- 
+
     }
 }
