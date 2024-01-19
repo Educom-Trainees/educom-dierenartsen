@@ -3,6 +3,7 @@ using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
 using BackendASP.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,8 +32,10 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/Vacations
         [HttpGet]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<VacationDTO>>> GetVacations()
         {
@@ -54,8 +57,10 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or the vacation was not found</remarks>
         // GET: api/Vacations/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<VacationDTO>> GetVacation(int id)
         {
@@ -85,10 +90,12 @@ namespace BackendASP.Controllers
         // PUT: api/Vacations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutVacation(int id, VacationDTO vacationDTO)
         {
@@ -148,10 +155,12 @@ namespace BackendASP.Controllers
         // POST: api/Vacations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Vacation>> PostVacation(VacationDTO vacationDTO)
         {
@@ -206,7 +215,9 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or vacation were not found</remarks>
         // DELETE: api/Vacations/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteVacation(int id)
         {

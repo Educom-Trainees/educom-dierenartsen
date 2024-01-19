@@ -2,6 +2,7 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -84,10 +85,12 @@ namespace BackendASP.Controllers
         // PUT: api/PetTypes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutPetType(int id, PetTypeDTO petTypeDTO)
         {
@@ -146,10 +149,12 @@ namespace BackendASP.Controllers
         // POST: api/PetTypes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PetType>> PostPetType(PetTypeDTO petTypeDTO)
         {
@@ -173,7 +178,9 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or pet-type were not found</remarks>
         // DELETE: api/PetTypes/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePetType(int id)
         {

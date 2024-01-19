@@ -2,16 +2,12 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
-using Duende.IdentityServer.Extensions;
-using IdentityModel;
+using BackendASP.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Security.Claims;
-using static Duende.IdentityServer.Models.IdentityResources;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BackendASP.Controllers
 {
@@ -58,6 +54,7 @@ namespace BackendASP.Controllers
         [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers([FromQuery] string? email)
         {
@@ -104,6 +101,7 @@ namespace BackendASP.Controllers
         [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
@@ -149,6 +147,7 @@ namespace BackendASP.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutUser(int id, UserDTO userDTO)
         {
@@ -223,6 +222,7 @@ namespace BackendASP.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<User>> PostUser(UserDTO userDTO)
         {
@@ -258,6 +258,7 @@ namespace BackendASP.Controllers
         [HttpDelete("{id}")]
         [Authorize(Roles = "ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)
         {

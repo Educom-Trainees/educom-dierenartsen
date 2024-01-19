@@ -32,8 +32,6 @@ namespace BackendASP.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
-
-
         }
 
         [HttpPost("register")]
@@ -64,7 +62,6 @@ namespace BackendASP.Controllers
                 return BadRequest(new { Message = "User registration failed", Errors = errors });
             }
         }
-
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)

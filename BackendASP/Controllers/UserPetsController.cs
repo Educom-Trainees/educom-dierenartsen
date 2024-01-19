@@ -2,6 +2,7 @@
 using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,10 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/UserPets
         [HttpGet]
+        [Authorize(Roles = "USER, EMPLOYEE, ADMIN")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<UserPetDTO>>> GetUserPets()
         {
             if (_context.UserPets == null)
@@ -55,8 +60,10 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or the user-pet was not found</remarks>
         // GET: api/UserPets/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "USER, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserPetDTO>> GetUserPet(int id)
         {
@@ -86,10 +93,12 @@ namespace BackendASP.Controllers
         // PUT: api/UserPets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutUserPet(int id, UserPetDTO userPetDTO)
         {
@@ -150,10 +159,12 @@ namespace BackendASP.Controllers
         // POST: api/UserPets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "USER, EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UserPet>> PostUserPet(UserPetDTO userPetDTO)
         {
@@ -191,7 +202,9 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or user-pet were not found</remarks>
         // DELETE: api/UserPets/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUserPet(int id)
         {

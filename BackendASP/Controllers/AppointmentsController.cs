@@ -3,6 +3,7 @@ using BackendASP.Database;
 using BackendASP.Models;
 using BackendASP.Models.DTO;
 using BackendASP.Models.Enums;
+using BackendASP.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
@@ -38,20 +39,26 @@ namespace BackendASP.Controllers
         /// <param name="date">(optional) appointments of this specific date</param>
         /// <param name="status">(optional) appointments that have this status (0 = active, 1 = cancelled by doctor, 2 = cancelled by customer, 3 = during vacation)</param>
         /// <param name="userId">(optional) appointments that have this userId</param>
+        /// <param name="number">(optional) appointments that have this appointment number</param>
         /// <returns>200 + The appointment</returns>
-        /// <remarks>returns 404 on missing database</remarks>
+        /// <remarks>returns 401 on not authorized, 403 on forbidden and 404 on missing database</remarks>
         // GET: api/Appointments
         [HttpGet]
-/*        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]*/
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status, [FromQuery] int? userId)
+        public async Task<ActionResult<IEnumerable<AppointmentDTO>>> GetAppointments([FromQuery] DateOnly? date, [FromQuery] StatusTypes? status, [FromQuery] int? userId, [FromQuery] int? number)
         {
             if (User.IsInRole("GUEST"))
             {
                 var currentUser = await _userManager.GetUserAsync(User);
-                if (currentUser != null)
+                if (currentUser == null)
+                {
+                    return Forbid();
+                } else
                 {
                     userId = currentUser.Id;
                 }
@@ -75,6 +82,10 @@ namespace BackendASP.Controllers
             {
                 query = query.Where(a => a.User != null && a.User.Id == userId);
             }
+            if (number != null)
+            {
+                query = query.Where(a => a.AppointmentNumber == number);
+            }
             var appointments = await _mapper.ProjectTo<AppointmentDTO>(query).ToListAsync();
 
             return appointments;
@@ -85,18 +96,43 @@ namespace BackendASP.Controllers
         /// </summary>
         /// <param name="appointmentId">The id of the appointment</param>
         /// <returns>the appointment</returns>
-        /// <remarks>returns 404 when the database or the appointment was not found</remarks>
+        /// <remarks>returns 401 on not authorized, 403 on forbidden and 404 when the database or the appointment was not found</remarks>
         // GET: api/Appointments/5
         [HttpGet("{appointmentId}")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AppointmentDTO>> GetAppointmentById(int appointmentId)
         {
+            if (User.IsInRole("GUEST"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+
+                if (currentUser == null)
+                {
+                    return Forbid();
+                }
+
+                var currentUsersAppointmentIds = await _context.Appointments
+                    .Where(a => a.User.Id == currentUser.Id)
+                    .Select(a => a.Id)
+                    .ToListAsync();
+
+                // Check if the appointmentId is in the current user's appointment IDs
+                if (!currentUsersAppointmentIds.Contains(appointmentId))
+                {
+                    return Forbid();
+                }
+            }
+
             if (_context.Appointments == null)
             {
                 return NotFound();
             }
+
             var appointment = await _mapper.ProjectTo<AppointmentDTO>(_context.Appointments)
                                            .FirstOrDefaultAsync(a => a.Id == appointmentId);
 
@@ -115,13 +151,15 @@ namespace BackendASP.Controllers
         /// <param name="patchDocument">The JSON Patch document with the updates</param>
         /// <returns>204 on success</returns>
         /// <remarks>returns 400 on a bad request
-        /// returns 404 when the database was not found</remarks>
+        /// returns 401 on not authorized and 404 when the database was not found</remarks>
         // PATCH: api/Appointments/5
         [HttpPatch("{appointmentId}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [Consumes("application/json-patch+json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PatchAppointment(int appointmentId, [FromBody] JsonPatchDocument<AppointmentPatchDTO> patchDocument)
         {
@@ -202,7 +240,7 @@ namespace BackendASP.Controllers
         /// <param name="appointmentDTO">The updated appointment</param>
         /// <returns>201 on success</returns>
         /// <remarks>returns 400 on a bad request
-        /// returns 404 when the database was not found</remarks>
+        /// returns 401 on not authorized and 404 when the database was not found</remarks>
         // PUT: api/Appointments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{appointmentId}")]
@@ -211,6 +249,7 @@ namespace BackendASP.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> PutAppointments(int appointmentId, [FromBody] AppointmentDTO appointmentDTO)
         {
@@ -353,7 +392,7 @@ namespace BackendASP.Controllers
         /// <li>pet names and extraInfo are both optional, when both absent still send the object as it is needed for the count</li>
         /// </ul><ul>
         /// <li>returns 400 on a incorrect or incomplete request</li>
-        /// <li>returns 404 when the database, pet-type, doctor-type, type or timeslot could not be found</li>
+        /// <li>returns 401 on not authorized and 404 when the database, pet-type, doctor-type, type or timeslot could not be found</li>
         /// </ul>
         /// </remarks>
         /// <param name="appointmentDTO">The new appointment</param>
@@ -365,6 +404,7 @@ namespace BackendASP.Controllers
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<AppointmentDTO>> PostAppointments(AppointmentDTO appointmentDTO)
         {
@@ -448,10 +488,12 @@ namespace BackendASP.Controllers
         /// </summary>
         /// <param name="appointmentId">The id of the appointment</param>
         /// <returns>204 when deleted</returns>
-        /// <remarks>returns 404 when the database or appointment were not found</remarks>
+        /// <remarks>returns 401 on not authorized and 404 when the database or appointment were not found</remarks>
         // DELETE: api/Appointments/5
         [HttpDelete("{appointmentId}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteAppointments(int appointmentId)
         {

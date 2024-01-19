@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BackendASP.Database;
 using BackendASP.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackendASP.Controllers
 {
@@ -23,6 +24,7 @@ namespace BackendASP.Controllers
 
         // GET: api/EmailTemplates
         [HttpGet]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         public async Task<ActionResult<IEnumerable<EmailTemplate>>> GetEmailTemplates()
         {
           if (_context.EmailTemplates == null)
@@ -34,6 +36,7 @@ namespace BackendASP.Controllers
 
         // GET: api/EmailTemplates/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         public async Task<ActionResult<EmailTemplate>> GetEmailTemplate(int id)
         {
           if (_context.EmailTemplates == null)
@@ -53,6 +56,7 @@ namespace BackendASP.Controllers
         // PUT: api/EmailTemplates/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         public async Task<IActionResult> PutEmailTemplate(int id, EmailTemplate emailTemplate)
         {
             if (id != emailTemplate.Id)
@@ -84,6 +88,7 @@ namespace BackendASP.Controllers
         // POST: api/EmailTemplates
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         public async Task<ActionResult<EmailTemplate>> PostEmailTemplate(EmailTemplate emailTemplate)
         {
           if (_context.EmailTemplates == null)
@@ -98,6 +103,7 @@ namespace BackendASP.Controllers
 
         // DELETE: api/EmailTemplates/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "EMPLOYEE, ADMIN")]
         public async Task<IActionResult> DeleteEmailTemplate(int id)
         {
             if (_context.EmailTemplates == null)
