@@ -1,11 +1,9 @@
-
-using BackendASP;
 using BackendASP.Database;
 using BackendASP.Models;
+using BackendASP.Services;
 using JsonPatchSample;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -55,10 +53,6 @@ namespace Backend2
                 .AddEntityFrameworkStores<PetCareContext>()
                 .AddDefaultTokenProviders();
 
-/*            builder.Services
-                .AddIdentityServer()
-                .AddApiAuthorization<User, PetCareContext>();*/
-
             builder.Services
                 .AddAuthentication(options =>
                 {
@@ -93,7 +87,6 @@ namespace Backend2
                     };
                 }); 
 
-
             builder.Services.AddControllers(options =>
             {
                 options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
@@ -122,6 +115,7 @@ namespace Backend2
             builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddTransient<IEmailService, EmailService>();
+            builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
 
             // Enable serving static files from the wwwroot folder
             builder.Services.AddDirectoryBrowser();
