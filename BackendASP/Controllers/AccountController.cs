@@ -18,15 +18,17 @@ namespace BackendASP.Controllers
         private readonly PetCareContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
+        private readonly IPasswordHasherService _passwordHasher;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
 
-        public AccountController(PetCareContext context, IMapper mapper, IConfiguration config, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole<int>> roleManager)
+        public AccountController(PetCareContext context, IMapper mapper, IConfiguration config, IPasswordHasherService passwordHasher, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
+            _passwordHasher = passwordHasher;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -43,10 +45,9 @@ namespace BackendASP.Controllers
             }
 
             var user = _mapper.Map<User>(registerModel);
-            user.UserName = user.Email;
 
-            var passwordHash = new PasswordHasher<User>().HashPassword(user, registerModel.Password);
-            user.PasswordHash = passwordHash;
+            user.UserName = user.Email;
+            user.PasswordHash = _passwordHasher.HashPassword(registerModel.Password);
 
             var result = await _userManager.CreateAsync(user);
 
