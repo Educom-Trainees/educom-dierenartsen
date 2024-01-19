@@ -3,6 +3,7 @@
     <TopNavigation />
     <div class="planning">
       <h1 class="appointment_header">Afspraak maken</h1>
+      <p v-if="error" class="error">{{ genericError }}</p>
       <div class="test" v-if="showForm == 'showForm'">
         <h2><img src="/balk1.png" /></h2>
         <form
@@ -11,6 +12,130 @@
           class="appointment_form"
         >
           <h4 class="appointment_header_2">Afspraak voorkeuren</h4>
+
+          <!-- Customers show up here if admin is logged in  -->
+          <div v-if="isAdmin">
+            <label for="selectCustomer">Selecteer klant</label><br />
+            <input
+              :value="displayCustomerName"
+              @input="updateSelectedCustomerId"
+              list="customers"
+              name="selectCustomer"
+              id="selectCustomer"
+              placeholder="Selecteer een klant"
+            />
+            <datalist id="customers">
+              <option
+                v-for="customer in allCustomers"
+                :key="customer.id"
+                :value="customer.id"
+                :label="customer.firstName + ' ' + customer.lastName"
+              ></option>
+            </datalist>
+          </div>
+          <br />
+          <!---->
+
+          <!-- If user has pets, they show here -->
+          <div v-if="pets?.length > 0">
+            <input
+              type="radio"
+              name="select-type"
+              id="select-pet"
+              value="select-pet"
+              @click="toggleSelectType"
+              :checked="select_type == 'select-pet'"
+            /><label for="select-pet">Selecteer uw huisdier* </label><br />
+
+            <div v-if="select_type === 'select-pet'">
+              <button
+                v-for="pet in pets"
+                :key="pet.id"
+                @click="addOrRemovePet(pet)"
+                type="button"
+                id="big"
+                :class="{
+                  selected_animal: this.name_animal.includes(pet.name),
+                }"
+              >
+                <img
+                  v-if="pet.type == 1"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-dog.png'
+                      : '/dog.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 2"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-black-cat.png'
+                      : '/black-cat.png'
+                  "
+                />
+                <img
+                  v-if="pet.type === 3"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-rabbit.png'
+                      : '/rabbit.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 4"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-guinea-pig.png'
+                      : '/guinea-pig.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 5"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-hamster.png'
+                      : '/hamster.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 6"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-rat.png'
+                      : '/rat.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 7"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-muis.png'
+                      : '/muis.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 8"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-dog.png'
+                      : '/dog.png'
+                  "
+                />
+                <img
+                  v-if="pet.type == 9"
+                  :src="
+                    name_animal.includes(pet.name)
+                      ? '/inverted-dog.png'
+                      : '/dog.png'
+                  "
+                />
+                <br />{{ pet.name }}
+              </button>
+            </div>
+          </div>
+          <!-- // -->
+
           <input
             type="radio"
             name="select-type"
@@ -176,105 +301,6 @@
             </div>
           </div>
 
-          <!-- If user has pets, they show here -->
-
-          <div v-if="pets?.length > 0">
-            <input
-              type="radio"
-              name="select-type"
-              id="select-pet"
-              value="select-pet"
-              @click="toggleSelectType"
-            /><label for="select-pet">Selecteer uw huisdier* </label><br />
-
-            <div v-if="select_type === 'select-pet'">
-              <button
-                v-for="pet in pets"
-                :key="pet.id"
-                @click="addOrRemovePet(pet.name)"
-                type="button"
-                id="big"
-                :class="{
-                  selected_animal: this.name_animal.includes(pet.name),
-                }"
-              >
-                <img
-                  v-if="pet.type == 1"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-dog.png'
-                      : '/dog.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 2"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-black-cat.png'
-                      : '/black-cat.png'
-                  "
-                />
-                <img
-                  v-if="pet.type === 3"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-rabbit.png'
-                      : '/rabbit.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 4"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-guinea-pig.png'
-                      : '/guinea-pig.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 5"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-hamster.png'
-                      : '/hamster.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 6"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-rat.png'
-                      : '/rat.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 7"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-muis.png'
-                      : '/muis.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 8"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-dog.png'
-                      : '/dog.png'
-                  "
-                />
-                <img
-                  v-if="pet.type == 9"
-                  :src="
-                    name_animal.includes(pet.name)
-                      ? '/inverted-dog.png'
-                      : '/dog.png'
-                  "
-                />
-                <br />{{ pet.name }}
-              </button>
-            </div>
-          </div>
-          <!-- // -->
           <br />
           <select required v-model="type_consult" id="type_select">
             <option hidden value="">Selecteer type afspraak*</option>
@@ -286,9 +312,11 @@
               {{ appointment_type.name }}
             </option></select
           ><br />
-          <button v-if="type_animal != 1 && amount > 0" class="submit">
-            volgende
-          </button>
+          <div class="button-container">
+            <button v-if="type_animal != 1 && amount > 0" class="submit">
+              volgende
+            </button>
+          </div>
         </form>
       </div>
       <div class="button_div" v-if="showForm == 'showForm'">
@@ -319,94 +347,111 @@
           v-if="showForm == 'showContactForm'"
           class="appointment_form"
         >
-          <h4>Persoonlijke gegevens</h4>
-          <label>Uw contactgegevens</label><br />
-          <input
-            type="email"
-            required
-            v-model="email"
-            placeholder="Email adres*"
-          /><br />
-          <div v-if="emailError" class="error">{{ emailError }}</div>
-          <input
-            type="text"
-            required
-            v-model="phone"
-            placeholder="Mobiel nummer*"
-          /><br />
-          <div v-if="phoneError" class="error">{{ phoneError }}</div>
-          <label>Uw naam</label><br />
-          <input
-            type="text"
-            required
-            v-model="name"
-            placeholder="Naam*"
-          /><br />
-          <div v-if="nameError" class="error">{{ nameError }}</div>
-          <label>Gegevens huisdieren </label>
-          <div v-if="amount == 1">
-            <input
-              type="text"
-              v-model="name_animal[0]"
-              placeholder="Naam huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[0]"
-              placeholder="Reden voor afspraak"
-            /><br />
+          <div class="content-section">
+            <div class="row">
+              <div class="col">
+                <h4>Persoonlijke gegevens</h4>
+                <label>Uw contactgegevens</label><br />
+                <input
+                  type="email"
+                  required
+                  v-model="email"
+                  placeholder="Email adres*"
+                /><br />
+                <div v-if="emailError" class="error">{{ emailError }}</div>
+                <input
+                  type="text"
+                  required
+                  v-model="phone"
+                  placeholder="Mobiel nummer*"
+                /><br />
+                <div v-if="phoneError" class="error">{{ phoneError }}</div>
+                <label>Uw naam</label><br />
+                <input
+                  type="text"
+                  required
+                  v-model="name"
+                  placeholder="Naam*"
+                /><br />
+                <div v-if="nameError" class="error">{{ nameError }}</div>
+                <label>Gegevens huisdieren </label>
+                <div v-if="amount == 1">
+                  <input
+                    type="text"
+                    v-model="name_animal[0]"
+                    placeholder="Naam huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[0]"
+                    placeholder="Reden voor afspraak"
+                  /><br />
+                </div>
+                <div v-if="amount != 1">
+                  <input
+                    type="text"
+                    v-model="name_animal[0]"
+                    placeholder="Naam eerste huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[0]"
+                    placeholder="Reden voor afspraak"
+                  /><br />
+                  <input
+                    type="text"
+                    v-model="name_animal[1]"
+                    placeholder="Naam tweede huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[1]"
+                    placeholder="Reden voor afspraak"
+                  />
+                </div>
+                <div v-if="amount != 1 && amount != 2">
+                  <input
+                    type="text"
+                    v-model="name_animal[2]"
+                    placeholder="Naam derde huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[2]"
+                    placeholder="Reden voor afspraak"
+                  />
+                </div>
+                <div v-if="amount == 4">
+                  <input
+                    type="text"
+                    v-model="name_animal[3]"
+                    placeholder="Naam vierde huisdier"
+                  />
+                  <input
+                    type="text"
+                    v-model="info_animal[3]"
+                    placeholder="Reden voor afspraak"
+                  />
+                </div>
+                <div v-if="name_animalError" class="error">
+                  {{ name_animalError }}
+                </div>
+              </div>
+              <div class="col image-container">
+                <img
+                  class="hamster-image"
+                  src="../assets/hamster-appointment.png"
+                  alt=""
+                />
+              </div>
+            </div>
           </div>
-          <div v-if="amount != 1">
-            <input
-              type="text"
-              v-model="name_animal[0]"
-              placeholder="Naam eerste huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[0]"
-              placeholder="Reden voor afspraak"
-            /><br />
-            <input
-              type="text"
-              v-model="name_animal[1]"
-              placeholder="Naam tweede huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[1]"
-              placeholder="Reden voor afspraak"
-            />
+
+          <div class="button-container">
+            <button @click.prevent="backtodateform" class="back">vorige</button>
+            <button @click.prevent="log">log</button>
+            <button class="submit">bevestig afspraak</button>
           </div>
-          <div v-if="amount != 1 && amount != 2">
-            <input
-              type="text"
-              v-model="name_animal[2]"
-              placeholder="Naam derde huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[2]"
-              placeholder="Reden voor afspraak"
-            />
-          </div>
-          <div v-if="amount == 4">
-            <input
-              type="text"
-              v-model="name_animal[3]"
-              placeholder="Naam vierde huisdier"
-            />
-            <input
-              type="text"
-              v-model="info_animal[3]"
-              placeholder="Reden voor afspraak"
-            />
-          </div>
-          <div v-if="name_animalError" class="error">
-            {{ name_animalError }}
-          </div>
-          <button @click.prevent="backtodateform" class="back">vorige</button>
-          <button class="submit">bevestig afspraak</button>
         </form>
       </div>
     </div>
@@ -423,18 +468,16 @@ import {
   isLoggedIn,
   getUserDataFromSession,
 } from "../composables/sessionManager.js";
-import { getUserById } from "../composables/userManager.js";
-import { getAppointments } from "../composables/getAppointments";
-import { getAppointment_type } from "../composables/getAppointment_type";
-import { getAppointment_types } from "../composables/getAppointment_types";
-import { postAppointments } from "../composables/postAppointments";
+import { getUserById, getUsers } from "../composables/userManager.js";
+import getAppointments from "../composables/getAppointments";
+import getAppointment_type from "../composables/getAppointment_type";
+import getAppointment_types from "../composables/getAppointment_types";
+import postAppointments from "../composables/postAppointments";
 import {
   displayFullDate,
   toDateString,
-  skipSundayAndMonday,
-  previousDate,
-  nextDate,
 } from "../composables/datetime-utils.js";
+import { USER_ROLES } from "../utils/userRoles.js";
 
 export default {
   name: "app",
@@ -442,6 +485,7 @@ export default {
     TopNavigation,
     AppointmentDateandTime,
   },
+
   data() {
     return {
       userid: null,
@@ -472,20 +516,61 @@ export default {
       displayFullDate: displayFullDate,
       pets: [],
       select_type: "select-animal-type",
+      error: false,
+      genericError: "Er is iets fout gegaan. Probeer het later opnieuw.",
+      isAdmin: false,
+      allCustomers: [],
+      selectedCustomerId: undefined,
+      selectedCustomer: undefined,
     };
   },
   async created() {
-    if (isLoggedIn()) {
-      const user = getUserDataFromSession();
-      const userdata = await getUserById(user.userId);
-      this.userid = user.userId;
-      this.pets = userdata.pets;
+    try {
+      if (isLoggedIn()) {
+        const user = getUserDataFromSession();
+        if (user.userRole === "ADMIN") {
+          this.isAdmin = true;
+          this.allCustomers = await getUsers();
+          this.allCustomers = this.allCustomers.filter(
+            (customer) => customer.role === "GUEST"
+          );
+        } else {
+          const userdata = await getUserById(user.userId);
+          this.userid = user.userId;
+          this.pets = userdata.pets;
+        }
+      }
+      this.appointment_types = await getAppointment_types();
+    } catch (error) {
+      this.error = true;
+      console.error(error);
     }
-
-    const { appointment_types, appointment_types_error } = await getAppointment_types();
-    this.appointment_types = appointment_types;
+  },
+  watch: {
+    selectedCustomerId(newValue) {
+      this.selectedCustomer = this.allCustomers.filter(
+        (customer) => customer.id == newValue
+      )[0];
+      if (this.selectedCustomer) {
+        this.userid = this.selectedCustomerId;
+        this.pets = this.selectedCustomer.pets;
+        this.pets.length > 0
+          ? (this.select_type = "select-pet")
+          : (this.select_type = "select-animal-type");
+      }
+    },
+  },
+  computed: {
+    displayCustomerName() {
+      return this.selectedCustomer
+        ? `${this.selectedCustomer.firstName} ${this.selectedCustomer.lastName}`
+        : "";
+    },
   },
   methods: {
+    updateSelectedCustomerId(event) {
+      this.selectedCustomerId = event.target.value;
+    },
     showThisForm(array) {
       this.showForm = array[0];
       this.doctor = array[1];
@@ -502,12 +587,13 @@ export default {
     backtodateform() {
       this.showForm = "showDateForm";
     },
-    addOrRemovePet(petName) {
-      if (this.name_animal.includes(petName)) {
-        this.name_animal = this.name_animal.filter((name) => name !== petName);
+    addOrRemovePet(pet) {
+      if (this.name_animal.includes(pet.name)) {
+        this.name_animal = this.name_animal.filter((name) => name !== pet.name);
         this.amount -= 1;
       } else {
-        this.name_animal.push(petName);
+        this.name_animal.push(pet.name);
+        this.type_animal = pet.type;
         this.amount += 1;
       }
     },
@@ -520,6 +606,7 @@ export default {
     async handleSubmit() {
       if (isLoggedIn()) {
         const user = getUserDataFromSession();
+
         var userdata = getUserById(user.userId);
         var pet_type = this.type_animal;
 
@@ -551,6 +638,17 @@ export default {
         this.email = value.email;
         this.name = value.name;
         this.phone = value.phone;
+
+        if (this.isAdmin) {
+          if (this.selectedCustomer) {
+            this.email = this.selectedCustomer.email;
+            this.phone = this.selectedCustomer.phone;
+            this.name =
+              this.selectedCustomer.firstName +
+              " " +
+              this.selectedCustomer.lastName;
+          }
+        }
       }
 
       const { appointment_type, error } = await getAppointment_type(
@@ -779,5 +877,23 @@ h4 {
   margin-right: 10px;
   height: 4%;
   width: 4%;
+}
+.hamster-image {
+  border: solid 13px lightgray;
+  border-radius: 40%;
+}
+.image-container {
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+/* .button-container {
+  padding: 5px 0;
+} */
+.content-section {
+  margin: 0;
+  padding: 15px 0;
 }
 </style>

@@ -238,7 +238,8 @@ export default {
         const appointments = await getActiveAppointmentsByDate(nextValidDate);
         const timeslotAppointments = combineTimeslotAppointments(
           timeslots,
-          appointments
+          appointments,
+          2
         );
 
         //dit zorgt ervoor dat als het dezelfde dag is als de appointment die je wilt verplaatsen je dan die tijd erbij doet

@@ -47,6 +47,11 @@ export async function getAppoinmentById(id) {
     }
 }
 
+/**
+ * Cancel the appointment.
+ * 
+ * @param {Object} appointment 
+ */
 export async function cancelAppointmentByDoctor(appointment) {
     const url = baseUrlAppointment + "/ " + String(appointment.id)
     const cancelledAppointment = {...appointment, 'status': 1}
@@ -54,16 +59,44 @@ export async function cancelAppointmentByDoctor(appointment) {
         const response = await axios.put(url, cancelledAppointment) 
     }
     catch (error) {
+        console.error('Error cancelling appointment.')
         throw error
     }
 }
 
+/**
+ * Update the appointment.
+ * 
+ * @param {Object} updatedAppointment 
+ */
 export async function updateAppoinment(updatedAppointment) {
     const url = baseUrlAppointment + "/" + String(updatedAppointment.id)
     try {
         const response = await axios.put(url, updatedAppointment) 
     }
     catch (error) {
+        console.error('Error updating appointment.')
+        throw error
+    }
+}
+
+/**
+ * Get all the appointment types.
+ * 
+ * @returns Returns the appointment-types if found, otherwise empty array.
+ */
+export async function getAppointmentTypes() {
+    const url = API_URL + 'appointment-types'
+    try {
+        const response = await axios.get(url) 
+        if (Array.isArray(response.data) && response.data.length === 0) {
+            return []
+        } else {
+            return response.data
+        }
+    }
+    catch (error) {
+        console.error('Error getting appointment types from database.')
         throw error
     }
 }

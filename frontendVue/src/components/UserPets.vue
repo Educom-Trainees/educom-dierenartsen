@@ -25,7 +25,7 @@
       <button
         @click.prevent="changeInput()"
         v-if="!showInput"
-        class="btn submit-btn mt-1"
+        class="btn submit-btn mt-1 pet-button"
       >
         Huisdier toevoegen
       </button>
@@ -123,5 +123,9 @@ export default {
 <style>
 .type_select {
   margin-right: 80px;
+}
+
+.pet-button {
+  min-width: 100px;
 }
 </style>

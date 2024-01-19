@@ -1,6 +1,6 @@
 <template>
   <div>
-  <TopNavigation />
+    <TopNavigation />
     <div class="container">
       <div class="row">
         <div class="col-10 col-md-8">
@@ -25,14 +25,15 @@
             030-39-81-984
           </address>
           <address>
-            <strong>Noodnummer</strong> <small>(alleen voor spoedgevallen!)</small
-            ><br />
+            <strong>Noodnummer</strong>
+            <small>(alleen voor spoedgevallen!)</small><br />
             06-84-49-28-33
           </address>
           <address>
             <strong>E-mail</strong><br />
             <a href="mailto:#">info@happypaws.nl</a>
           </address>
+          <ContactForm />
         </div>
         <div class="col-10 col-md-6">
           <img src="/visit_us_cats.jpg" class="d-block w-100 h-100" alt="" />
@@ -44,11 +45,13 @@
 
 <script>
 import TopNavigation from "../components/TopNavigation.vue";
+import ContactForm from "@/components/ContactForm.vue";
 
 export default {
   name: "Contact",
   components: {
     TopNavigation,
+    ContactForm,
   },
 };
 </script>

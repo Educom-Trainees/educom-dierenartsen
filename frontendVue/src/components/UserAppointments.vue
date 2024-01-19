@@ -1,8 +1,10 @@
 <template>
-  <div class="row justify-content-center align-items-center register-row mb-4">
+  <div
+    class="row justify-content-center register-row mb-4 appointment-container"
+  >
     <h2 v-if="appointments.length == 0">geen afspraken gevonden</h2>
     <div
-      class="col-sm-3 col-md-5 col-10 change-area"
+      class="col-sm-3 col-md-5 col-10 change-area appointment-card"
       v-for="appointment in appointments"
       :key="appointment.id"
     >
@@ -97,16 +99,25 @@
           </template>
         </div>
       </div>
-      <button
-        v-if="appointment.status === 0"
-        class="btn submit-btn mt-4"
-        @click="openModal(appointment)"
-      >
-        Afspraak annuleren
-      </button>
+      <div class="d-flex justify-content-evenly">
+        <button
+          v-if="appointment.status === 0 && new Date(appointment.date) >= today"
+          class="btn submit-btn mt-4 appointment-button"
+          @click="moveAppointment(appointment.id)"
+        >
+          Afspraak verplaatsen
+        </button>
+        <button
+          v-if="appointment.status === 0 && new Date(appointment.date) >= today"
+          class="btn submit-btn mt-4 appointment-button"
+          @click="openModal(appointment)"
+        >
+          Afspraak annuleren
+        </button>
+      </div>
       <button
         v-if="appointment.status !== 0"
-        class="btn submit-btn mt-4 text-danger"
+        class="btn submit-btn mt-4 text-danger cancelled-text"
         disabled="true"
       >
         Afspraak is geannuleerd
@@ -132,6 +143,8 @@ import { displayFullDate } from "../composables/datetime-utils.js";
 import { getAppointment_types } from "../composables/getAppointment_types";
 import { updateAppoinment } from "../composables/appointmentManager";
 import Modal from "./Modal.vue";
+import router from "../router/index.js";
+
 export default {
   components: { Modal },
   data() {
@@ -145,6 +158,7 @@ export default {
       appointment_types: [],
       selectedAppointment: null,
       displayFullDate: displayFullDate,
+      today: new Date(),
     };
   },
   async created() {
@@ -196,6 +210,12 @@ export default {
 
       this.closeModal();
     },
+    moveAppointment(appointmentId) {
+      router.push({
+        name: "change-appointment",
+        params: { id: appointmentId },
+      });
+    },
     openModal(appointment) {
       this.selectedAppointment = appointment;
       if (this.isLateCancellation(appointment.date)) {
@@ -238,5 +258,24 @@ export default {
 <style>
 .result {
   text-align: left;
+}
+
+.appointment-button {
+  min-width: 100px;
+}
+
+.cancelled-text {
+  min-width: 250px;
+}
+
+.appointment-container {
+  padding-top: 50px;
+}
+
+.appointment-card {
+  margin: 20px;
+}
+.usertitle {
+  padding: 10px 10px;
 }
 </style>

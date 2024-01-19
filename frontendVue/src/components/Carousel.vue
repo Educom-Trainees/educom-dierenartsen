@@ -1,14 +1,16 @@
 <template>
-  <div id="carouselExample" class="carousel slide">
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="/slide-3.jpg" class="d-block w-100" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img src="/slide-2.jpg" class="d-block w-100" alt="..." />
-      </div>
-      <div class="carousel-item">
-        <img src="/slide-1.jpg" class="d-block w-100" alt="..." />
+      <div
+        v-for="(slide, index) in slides"
+        :key="index"
+        :class="{
+          'carousel-item': true,
+          active: index === 0,
+        }"
+        data-bs-interval="5000"
+      >
+        <img :src="slide" class="d-block w-100" alt="..." />
       </div>
     </div>
     <button
@@ -32,33 +34,19 @@
   </div>
 </template>
 <script>
-//dit was voor het automatisering van de carousel maar het breekt elke pagina behalve de de homepagina en het ziet er niet zo mooi
-//uit als normaal maar misschien kunnen jullie hier nog iets mee
-
-// document.addEventListener("DOMContentLoaded", function() {
-//     let i = 0;
-//     showSlides();
-
-//     function showSlides() {
-//         if(i == 3){
-//             i = 0
-//         }
-//         let slides = document.getElementsByClassName("carousel-item");
-//         slides[i].className = slides[i].className.replace(" active", "")
-
-//         if(i+1 == 3){
-//             slides[0].className += " active"
-//         }else{
-//             slides[i+1].className += " active"
-//         }
-//         i++
-//         setTimeout(showSlides, 5000); // Change image every 3 seconds
-//     }
-// });
+export default {
+  name: "Carousel",
+  props: ["slides"],
+  // data() {
+  //   return {
+  //     slides: this.slides,
+  //   };
+  // },
+};
 </script>
 
 <style>
 .carousel-item img {
-  max-height: 400px;
+  height: 350px;
 }
 </style>

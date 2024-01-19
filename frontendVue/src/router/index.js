@@ -11,6 +11,8 @@ import ChangeAppointment from '../views/ChangeAppointment.vue'
 import Vacation from '../views/Vacation.vue'
 import CanceledAppointments from '../views/CanceledAppointments.vue'
 import EmailTemplates from '../views/EmailTemplates.vue'
+import WorkSchedules from '../views/WorkSchedules.vue'
+
 
 const routes = [
   {
@@ -68,7 +70,7 @@ const routes = [
     component: ChangeAppointment,
     meta: {
       requiresAuth: true,
-      requiredRoles: ["ADMIN", "EMPLOYEE"]
+      requiredRoles: ["ADMIN", "EMPLOYEE", "GUEST"]
     }
   },
   {
@@ -93,6 +95,24 @@ const routes = [
     path: '/email-templates',
     name: 'email-templates',
     component: EmailTemplates,
+    meta: {
+      requiresAuth: true,
+      requiredRoles: ["ADMIN"]
+    }
+  },
+  {
+    path: '/work-schedules',
+    name: 'work-schedules',
+    component: WorkSchedules,
+    meta: {
+      requiresAuth: true,
+      requiredRoles: ["ADMIN"]
+    }
+  },
+  {
+    path: '/work-schedules',
+    name: 'work-schedules',
+    component: WorkSchedules,
     meta: {
       requiresAuth: true,
       requiredRoles: ["ADMIN"]
