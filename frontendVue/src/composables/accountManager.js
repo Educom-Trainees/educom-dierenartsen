@@ -41,8 +41,6 @@ export async function loginUser(email, password) {
                 try {
                     const user = await getUser(processedEmail);
                     const userData = { userId: user.id, userEmail: user.email, userRole: user.role };
-                    console.log(user);
-                    console.log(userData);
                     sessionStorage.setItem('userData', JSON.stringify(userData));
 
                     // Redirect the user based on their role
