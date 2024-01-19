@@ -6,7 +6,7 @@
       <h2><img src="/balk4.png" /></h2>
       <Suspense>
         <template #default>
-          <ResultSuspense :id="id"/>
+          <ResultSuspense :number="number"/>
         </template>
         <template #fallback>
           <p>Loading...</p>
@@ -27,7 +27,7 @@ export default {
     TopNavigation,
     ResultSuspense,
   },
-  props: ["id"],
+  props: ["number"],
 };
 </script>
 

@@ -51,10 +51,10 @@
   </template>
   
   <script>
-import { getAppointment } from "../composables/getAppointment";
 import { getPet_Types } from "../composables/getPet_Types";
 import { getAppointment_types } from "../composables/getAppointment_types";
 import { displayFullDate } from "../composables/datetime-utils.js";
+import { getAppointmentByNumber } from '../composables/appointmentManager';
 
 export default {
   name: "ResultSuspense",
@@ -63,9 +63,9 @@ export default {
       displayFullDate: displayFullDate,
     };
   },
-  props: ["id"],
+  props: ["number"],
   async setup(props) {
-    const { appointment, error } = await getAppointment(props.id);
+    const { appointment, error } = await getAppointmentByNumber(props.number);
     const { pet_types, pet_types_error } = await getPet_Types();
     const { appointment_types, appointment_types_error } = await getAppointment_types();
 
