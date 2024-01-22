@@ -1,11 +1,94 @@
-// Import necessary modules and services
 import axios from 'axios';
 import router from '../router/index.js';
-import { sanitizeAndValidateEmail, validatePassword } from './userValidator.js';
+import { validatePersonalInfo, sanitizeAndValidateEmail, validatePassword } from './userValidator.js';
 import { API_URL } from '../utils/api';
 import { getUser } from './userManager.js';
 
 const baseUrlAccount = API_URL + 'account';
+
+/**
+ * Register new user.
+ * 
+ * @param {Object} registerForm - The register form with data input from user.
+ */
+export async function registerUser(registerForm) {
+    const {
+        processedSalutation,
+        processedFirstName,
+        processedLastName,
+        processedPhone,
+        salutationErr,
+        firstNameErr,
+        lastNameErr,
+        phoneErr,
+    } = validatePersonalInfo(registerForm.salutation, registerForm.firstName, registerForm.lastName, registerForm.phone);
+    const { processedEmail, emailErr } = sanitizeAndValidateEmail(registerForm.email);
+    const { processedPassword, passwordErr, confirmPasswordErr } = validatePassword(registerForm.password, registerForm.confirmPassword);
+
+    const errors = {
+        salutationErr,
+        firstNameErr,
+        lastNameErr,
+        emailErr,
+        phoneErr,
+        passwordErr,
+        confirmPasswordErr,
+        genericErr: '',
+    };
+
+    if (
+        salutationErr.length === 0 &&
+        firstNameErr.length === 0 &&
+        lastNameErr.length === 0 &&
+        phoneErr.length === 0 &&
+        emailErr.length === 0 &&
+        passwordErr.length === 0 &&
+        confirmPasswordErr.length === 0
+    ) {
+        const registerModel = {
+            salutation: processedSalutation,
+            firstName: processedFirstName,
+            lastName: processedLastName,
+            email: processedEmail,
+            phone: processedPhone,
+            password: processedPassword,
+        };
+
+        try {
+            const response = await axios.post(baseUrlAccount + '/register', registerModel);
+
+            if (response.status === 200) {
+                router.push('/login');
+            } else {
+                console.error('Error during register. Status:', response.status);
+                errors.genericErr = '❌ An error occurred. Please try again later.';
+                return errors;
+            }
+        } catch (error) {
+            console.error('User registration failed. ', error);
+
+            if (error.response && error.response.status === 400) {
+                const { errors } = error.response.data;
+        
+                if (errors && errors.length > 0) {
+                    errors.forEach(error => {
+                        switch (error.code) {
+                            case 'DuplicateUserName':
+                                errors.emailErr = '❌ Er bestaat al een gebruiker met dit e-mailadres.';
+                                break;
+                            // Add more cases as needed for other error codes
+                        }
+                    });
+                    return errors;
+                }
+            } else {
+                errors.genericErr = '❌ Er is iets fout gegaan tijdens de registratie. Probeer het later opnieuw.';
+            }
+        }
+    }
+
+    return errors;
+}
 
 /**
  * Login user.
@@ -75,3 +158,4 @@ export async function loginUser(email, password) {
         return errors;
     }
 }
+

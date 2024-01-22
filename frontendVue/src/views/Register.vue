@@ -67,7 +67,7 @@
 
 <script>
 import TopNavigation from '../components/TopNavigation.vue'
-import { registerUser } from '../composables/userRegisterService.js'
+import { registerUser } from '../composables/accountManager.js'
 
 export default {
     name: 'Register',
