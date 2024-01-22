@@ -69,6 +69,7 @@ import {
   previousDate,
 } from "../composables/datetime-utils.js";
 import { getActiveAppointmentsByDate } from "../composables/appointmentManager.js";
+import { computed } from "vue";
 
 export default {
   name: "Overview",
@@ -109,6 +110,7 @@ export default {
   provide() {
     return {
       getAppointments: () => this.getAppointments(this.toDateString(this.date)),
+      todayAppointments: computed(() => this.appointments),
     };
   },
 };
