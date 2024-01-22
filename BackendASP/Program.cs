@@ -34,7 +34,7 @@ namespace Backend2
             // Add services to the container.
             builder.Services.AddDbContext<PetCareContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("PetCareDatabaseLocalDB"), sqlOptions =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PetCareDatabaseAzure"), sqlOptions =>
                 {
                     // Additional configuration options, if needed
                     sqlOptions.EnableRetryOnFailure();
