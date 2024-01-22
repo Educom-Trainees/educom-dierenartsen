@@ -10,16 +10,21 @@ export function combineTimeslotAppointments(timeslots, appointments) {
         const a = appointments.filter(a => a.time == t.time && (a.doctor == t.doctor || a.doctor == 3))
         return {...t, 'appointment': a? a[0] : undefined, 'show': true}
     })
-    for (var i = 0; i < result.length - 1; i++) { 
+
+    for (var i = 0; i < result.length - 1; i++) {
         if (result[i].appointment) {
             if (result[i].appointment.duration > 15) {
-                const r = result[i].appointment.duration / 15
+                const r = result[i].appointment.duration / 15;
                 for (var n = 1; n < r; n++) {
-                    result[i + (n * 2)].show = false
+                    const index = i + (n * 2);
+                    if (result[index]) {
+                        result[index].show = false;
+                    }
                 }
             }
         }
     }
+
     return result
 }
 /**
