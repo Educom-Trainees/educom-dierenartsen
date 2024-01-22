@@ -81,9 +81,11 @@
         <div class="row">
           <div class="col-sm">
             <button
-              v-if="new Date(appointment.date) < new Date()"
               @click="registerNoShowAppointment(appointment)"
-              :disabled="appointment.lateStatus === 1"
+              :disabled="
+                appointment.lateStatus === 1 ||
+                new Date(appointment.date) > new Date()
+              "
               class="btn btn-action action-move"
             >
               No Show
