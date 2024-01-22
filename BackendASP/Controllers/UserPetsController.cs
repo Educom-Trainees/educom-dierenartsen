@@ -31,7 +31,7 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 on missing database</remarks>
         // GET: api/UserPets
         [HttpGet]
-        [Authorize(Roles = "USER, EMPLOYEE, ADMIN")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,7 +60,7 @@ namespace BackendASP.Controllers
         /// <remarks>returns 404 when the database or the user-pet was not found</remarks>
         // GET: api/UserPets/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "USER, EMPLOYEE, ADMIN")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -159,7 +159,7 @@ namespace BackendASP.Controllers
         // POST: api/UserPets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "USER, EMPLOYEE, ADMIN")]
+        [Authorize(Roles = "GUEST, EMPLOYEE, ADMIN")]
         [Consumes("application/json")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
