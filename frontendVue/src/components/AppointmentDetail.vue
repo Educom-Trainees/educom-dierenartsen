@@ -201,7 +201,7 @@ export default {
   computed: {
     customerDetails() {
       return {
-        Afspraaknummer: this.appointment.id,
+        Afspraaknummer: this.appointment.number,
         Klant: this.appointment.customer,
         Telefoonnummer: this.appointment.phoneNumber,
         Email: this.appointment.email,
