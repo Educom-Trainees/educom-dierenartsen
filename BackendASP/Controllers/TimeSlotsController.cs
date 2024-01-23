@@ -72,8 +72,10 @@ namespace BackendASP.Controllers
                     Available = CalculateAvailable(timeSlot, mask, appointment, vacation, requestedDate),
                 };
 
-                //set the timeslots before the booked timeslot to available_15/30
-                if (timeslotDTO.Available == SlotAvailable.BOOKED && timeSlot.PreviousTimeSlot != null)
+                //set the timeslots before the unavailable timeslot to available_15/30
+                if ((timeslotDTO.Available == SlotAvailable.BOOKED || timeslotDTO.Available == SlotAvailable.NOT_AVAILABLE ||
+                     timeslotDTO.Available == SlotAvailable.BREAK || timeslotDTO.Available == SlotAvailable.VACATION) &&
+                     timeSlot.PreviousTimeSlot != null)
                 {
                     var previousTimeSlot = results[i - 2];
                     if (previousTimeSlot.Available == SlotAvailable.AVAILABLE_45)
