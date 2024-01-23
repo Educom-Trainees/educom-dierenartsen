@@ -2,10 +2,13 @@
 {
     public enum SlotAvailable
     {
+        AVAILABLE_45 = 3,
+        AVAILABLE_30 = 2,
+        AVAILABLE_15 = 1,
         NOT_AVAILABLE = 0,
-        AVAILABLE = 1,
-        BOOKED = 2,
-        VACATION = 3,
+        BOOKED = -1,
+        BREAK = -2,
+        VACATION = -3,
 
         // Verder uit te breiden met evt. appointment/vacation
     }

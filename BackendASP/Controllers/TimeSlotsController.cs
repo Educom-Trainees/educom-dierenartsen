@@ -58,8 +58,10 @@ namespace BackendASP.Controllers
 
             List<TimeSlotDTO> results = new List<TimeSlotDTO>();
             int mask = 1 << (int)requestedDate.DayOfWeek;
-            foreach (var timeSlot in timeSlots)
+
+            for (int i = 0; i < timeSlots.Count; i++)
             {
+                var timeSlot = timeSlots[i];
                 var appointment = bookedAppointments.FirstOrDefault(a => a.TimeSlots.Contains(timeSlot));
                 var vacation = vacationsOnDate.FirstOrDefault(v => v.User.Doctor == timeSlot.Doctor);
 
@@ -69,6 +71,26 @@ namespace BackendASP.Controllers
                     Doctor = timeSlot.Doctor,
                     Available = CalculateAvailable(timeSlot, mask, appointment, vacation, requestedDate),
                 };
+
+                //set the timeslots before the booked timeslot to available_15/30
+                if (timeslotDTO.Available == SlotAvailable.BOOKED && timeSlot.PreviousTimeSlot != null)
+                {
+                    var previousTimeSlot = results[i - 2];
+                    if (previousTimeSlot.Available == SlotAvailable.AVAILABLE_45)
+                    {
+                        previousTimeSlot.Available = SlotAvailable.AVAILABLE_15;
+                    }
+
+                    if (timeSlot.PreviousTimeSlot.PreviousTimeSlot != null)
+                    {
+                        var previousPreviousTimeSlot = results[i - 4];
+                        if (previousPreviousTimeSlot.Available == SlotAvailable.AVAILABLE_45)
+                        {
+                            previousPreviousTimeSlot.Available = SlotAvailable.AVAILABLE_30;
+                        }
+                    }
+                }
+
                 results.Add(timeslotDTO);
             }
 
@@ -116,7 +138,8 @@ namespace BackendASP.Controllers
                     }
                 }
 
-                return SlotAvailable.AVAILABLE;
+
+                return SlotAvailable.AVAILABLE_45;
             }
         }
 
