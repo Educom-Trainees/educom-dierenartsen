@@ -47,7 +47,7 @@
       <div class="row no-padding">
         <div class="col-sm">
           <button
-            :disabled="appointment.preference !== 0"
+            :disabled="appointment.preference !== 0 || !isDoctorChangeAllowed()"
             @click="changeDoctor(appointment)"
             class="btn btn-action action-move"
           >
@@ -84,7 +84,7 @@
               @click="registerNoShowAppointment(appointment)"
               :disabled="
                 appointment.lateStatus === 1 ||
-                new Date(appointment.date) > new Date()
+                new Date(appointment.date) < new Date()
               "
               class="btn btn-action action-move"
             >
@@ -130,7 +130,11 @@
 
 <script>
 import router from "../router/index.js";
-import { displayTimeslot, displayDate } from "../composables/datetime-utils.js";
+import {
+  displayTimeslot,
+  displayDate,
+  calculateEndTime,
+} from "../composables/datetime-utils.js";
 import {
   cancelAppointmentByDoctor,
   updateAppoinment,
@@ -140,9 +144,10 @@ import { getPetTypes } from "../composables/PetManager.js";
 export default {
   name: "AppointmentDetail",
   props: ["appointment"],
-  inject: ["getAppointments"],
+  inject: ["getAppointments", "todayAppointments"],
   created() {
     this.getPetTypes();
+    this.todayAppointments;
   },
   data() {
     return {
@@ -173,7 +178,7 @@ export default {
         params: { id: appointmentId },
       });
     },
-    changeDoctor(appointment) {
+    async changeDoctor(appointment) {
       if (appointment.preference === 0) {
         if (appointment.doctor === 1) {
           appointment.doctor = 2;
@@ -196,6 +201,42 @@ export default {
       await updateAppoinment(updatedAppointment);
 
       await this.getAppointments();
+    },
+
+    isDoctorChangeAllowed() {
+      const otherDoctor = this.appointment.doctor === 1 ? 2 : 1;
+
+      const startTime = new Date(
+        [this.appointment.date, this.appointment.time].join(" ")
+      );
+
+      const endTime = new Date(
+        [this.appointment.date, this.appointment.time].join(" ")
+      );
+      endTime.setMinutes(endTime.getMinutes() + this.appointment.duration);
+
+      const overlappingAppointments = this.todayAppointments.filter(
+        (appointment) => {
+          if (appointment.doctor !== otherDoctor) {
+            return false;
+          }
+
+          const start = new Date(
+            [appointment.date, appointment.time].join(" ")
+          );
+
+          const end = new Date([appointment.date, appointment.time].join(" "));
+          end.setMinutes(end.getMinutes() + appointment.duration);
+
+          if (endTime > start && startTime < end) {
+            return true;
+          }
+
+          return false;
+        }
+      );
+
+      return overlappingAppointments.length === 0;
     },
   },
   computed: {
