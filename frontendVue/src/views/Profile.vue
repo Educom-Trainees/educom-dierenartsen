@@ -44,6 +44,16 @@ export default {
       this.showing = profileContent;
     },
   },
+  beforeRouteEnter(to, from, next) {
+    const showing = to.query.showing;
+    if (showing !== undefined) {
+      next(vm => {
+        vm.show(parseInt(showing))
+      });
+    } else {
+      next();
+    }
+  },
 };
 </script>
 

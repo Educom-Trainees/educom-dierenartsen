@@ -214,7 +214,8 @@ export default {
       router.push({
         name: "change-appointment",
         params: { id: appointmentId },
-      });
+        query: { source: "profile"}
+      })
     },
     openModal(appointment) {
       this.selectedAppointment = appointment;

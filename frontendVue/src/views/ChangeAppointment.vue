@@ -147,6 +147,17 @@ export default {
   created() {
     this.getAppointment(this.$route.params.id);
     this.getFreeTimeslots(this.date);
+
+    const source = this.$route.query.source;
+
+    if (source === 'profile') {
+      this.finalRouterPush = {
+        path: '/profile',
+        query: { showing: 2 }
+      };
+    } else {
+      this.finalRouterPush = '/overview';
+    }
   },
   watch: {
     date() {
@@ -184,7 +195,7 @@ export default {
           time: this.time,
         };
         updateAppoinment(updatedAppointment);
-        router.push("/overview");
+        router.push(this.finalRouterPush);
       } catch (error) {
         this.showGenericError = true;
         console.error(error);

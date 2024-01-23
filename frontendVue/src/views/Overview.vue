@@ -77,6 +77,14 @@ export default {
     Calendar,
     TopNavigation,
   },
+  async beforeRouteEnter(to, from, next) {
+    //always send date to today for now, can use query in the future to send to correct date of change
+    const date = to.query.date || toDateString(new Date());
+    const appointments = await getActiveAppointmentsByDate(date);
+    next(vm => {
+      vm.appointments = appointments;
+    });
+  },
   mounted() {
     this.getAppointments(this.toDateString(this.date));
   },
