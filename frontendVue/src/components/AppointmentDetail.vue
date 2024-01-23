@@ -101,10 +101,7 @@
           <div class="col-sm">
             <button
               @click="registerNoShowAppointment(appointment)"
-              :disabled="
-                appointment.lateStatus === 1 ||
-                new Date(appointment.date) < new Date()
-              "
+              :disabled="appointment.lateStatus === 1 || !isAppointmentOver()"
               class="btn btn-action action-move"
             >
               No Show
@@ -149,10 +146,7 @@
 
 <script>
 import router from "../router/index.js";
-import {
-  displayTimeslot,
-  displayDate,
-} from "../composables/datetime-utils.js";
+import { displayTimeslot, displayDate } from "../composables/datetime-utils.js";
 import {
   cancelAppointmentByDoctor,
   updateAppoinment,
@@ -240,7 +234,6 @@ export default {
           if (appointment.doctor !== otherDoctor) {
             return false;
           }
-
           //obtain start time of all appointments in agenda today
           // (this iterates over todayAppointments)
           const start = new Date(
@@ -258,9 +251,19 @@ export default {
           return false;
         }
       );
-
       //only returns true if no appointments overlap
       return overlappingAppointments.length === 0;
+    },
+
+    isAppointmentOver() {
+      const endTime = new Date(
+        [this.appointment.date, this.appointment.time].join(" ")
+      );
+      endTime.setMinutes(endTime.getMinutes() + this.appointment.duration);
+
+      const currentTime = new Date();
+
+      return currentTime >= endTime;
     },
   },
   computed: {
