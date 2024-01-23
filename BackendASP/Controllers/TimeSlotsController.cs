@@ -67,6 +67,7 @@ namespace BackendASP.Controllers
 
                 var timeslotDTO = new TimeSlotDTO
                 {
+                    Id = timeSlot.Id,
                     Time = timeSlot.Time,
                     Doctor = timeSlot.Doctor,
                     Available = CalculateAvailable(timeSlot, mask, appointment, vacation, requestedDate),
@@ -95,8 +96,29 @@ namespace BackendASP.Controllers
 
                 results.Add(timeslotDTO);
             }
+            results = CalculateBreak(results);
 
             return results;
+        }
+
+        private static List<TimeSlotDTO> CalculateBreak(List<TimeSlotDTO> timeSlots)
+        {
+            HashSet<int> morningBreakKarelIds = new HashSet<int> { 9, 11, 13, 15 };
+
+            var morningBreakKarelSlots = timeSlots.Where(slot => morningBreakKarelIds.Contains(slot.Id)).ToList();
+
+            int unavailableMorningBreakCount = 0;
+
+            foreach (var timeSlot in morningBreakKarelSlots)
+            {
+                // For example, if the morning break is not available, increment the count
+                if (timeSlot.Available == SlotAvailable.BOOKED || timeSlot.Available == SlotAvailable.NOT_AVAILABLE)
+                {
+                    unavailableMorningBreakCount++;
+                }
+
+            }
+            return morningBreakKarelSlots;
         }
 
         private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment, Vacation? vacation, DateOnly requestedDate)
