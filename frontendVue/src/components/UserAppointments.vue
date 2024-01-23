@@ -162,16 +162,21 @@ export default {
     };
   },
   async created() {
-    const { appointment_types, appointment_types_error } = await getAppointment_types();
+    const { appointment_types, appointment_types_error } =
+      await getAppointment_types();
     this.appointment_types = appointment_types;
-    
+
     await this.loadAppointments();
   },
   methods: {
     async loadAppointments() {
       const olduser = getUserDataFromSession();
 
-      const { appointments, _error} = await getAppointments(null, null, olduser.userId);
+      const { appointments, _error } = await getAppointments(
+        null,
+        null,
+        olduser.userId
+      );
 
       this.appointments = appointments;
       this.appointments = this.sortAndFilterAppointments(this.appointments);
@@ -262,7 +267,9 @@ export default {
 }
 
 .appointment-button {
-  min-width: 100px;
+  margin: 10px;
+  padding: 10px 20px;
+  width: auto !important;
 }
 
 .cancelled-text {
