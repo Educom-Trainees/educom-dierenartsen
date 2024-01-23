@@ -72,11 +72,13 @@
           </button>
         </div>
         <div class="col-sm">
-          <span
+          <button
             @click="assignBothDoctors(appointment)"
+            :disabled="appointment.doctor === 3 || !isDoctorChangeAllowed()"
             class="btn btn-action action-move"
-            >Beide doctoren</span
           >
+            Beide doktoren
+          </button>
         </div>
         <div class="row">
           <div class="col-sm">
