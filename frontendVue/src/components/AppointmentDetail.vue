@@ -206,10 +206,12 @@ export default {
     isDoctorChangeAllowed() {
       const otherDoctor = this.appointment.doctor === 1 ? 2 : 1;
 
+      //obtain start time of the appointment to be changed
       const startTime = new Date(
         [this.appointment.date, this.appointment.time].join(" ")
       );
 
+      //obtain end time of the appointment to be changed
       const endTime = new Date(
         [this.appointment.date, this.appointment.time].join(" ")
       );
@@ -221,10 +223,13 @@ export default {
             return false;
           }
 
+          //obtain start time of all appointments in agenda today
+          // (this iterates over todayAppointments)
           const start = new Date(
             [appointment.date, appointment.time].join(" ")
           );
 
+          //obtain end time of all appointments in agenda today
           const end = new Date([appointment.date, appointment.time].join(" "));
           end.setMinutes(end.getMinutes() + appointment.duration);
 
@@ -236,6 +241,7 @@ export default {
         }
       );
 
+      //only returns true if no appointments overlap
       return overlappingAppointments.length === 0;
     },
   },
