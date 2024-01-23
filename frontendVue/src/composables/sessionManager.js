@@ -46,6 +46,6 @@ export function getUserDataFromSession() {
 /**
  * Remove the user data from browser session.
  */
-export function logoutUser() {
+export function removeUserSession() {
     sessionStorage.removeItem('userData')
 }
