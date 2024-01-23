@@ -101,7 +101,7 @@ namespace BackendASP.Controllers
             return results;
         }
 
-        private static List<TimeSlotDTO> CalculateBreak(List<TimeSlotDTO> timeSlots)
+        public static List<TimeSlotDTO> CalculateBreak(List<TimeSlotDTO> timeSlots)
         {
             List<string> morningBreakTimes = new List<string>
             {
