@@ -67,6 +67,7 @@ namespace BackendASP.UnitTests.Database
             // Validate
             Assert.That(result, Has.Count.EqualTo(22));
             Assert.That(result, Has.None.Property(nameof(TimeSlotDTO.Available)).EqualTo(SlotAvailable.BREAK));
+            Assert.That(result, Has.ItemAt(EIndex.K_10_15).Property(nameof(TimeSlotDTO.Available)).EqualTo(SlotAvailable.AVAILABLE_30));
         }
 
     }

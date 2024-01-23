@@ -154,7 +154,7 @@ namespace BackendASP.Controllers
                 }
             }
 
-            return morningBreakSlotsKarel;
+            return timeSlots;
         }
 
         private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment, Vacation? vacation, DateOnly requestedDate)
