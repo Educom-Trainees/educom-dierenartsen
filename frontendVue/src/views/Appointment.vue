@@ -449,7 +449,6 @@
 
           <div class="button-container">
             <button @click.prevent="backtodateform" class="back">vorige</button>
-            <button @click.prevent="log">log</button>
             <button class="submit">bevestig afspraak</button>
           </div>
         </form>
@@ -540,10 +539,11 @@ export default {
           this.pets = userdata.pets;
         }
       }
-      const { appointment_types, appointment_types_error } = await getAppointment_types();
+      const { appointment_types, appointment_types_error } =
+        await getAppointment_types();
 
       if (appointment_types_error) {
-      throw new Error(appointment_types_error);
+        throw new Error(appointment_types_error);
       }
 
       this.appointment_types = appointment_types;
@@ -657,7 +657,9 @@ export default {
         }
       }
 
-      const { appointment_type, error } = await getAppointment_type(this.type_consult);
+      const { appointment_type, error } = await getAppointment_type(
+        this.type_consult
+      );
       for (let i = 0; i < appointment_type.value.calculation.length; i++) {
         const app_type = appointment_type.value.calculation[i];
         if (app_type.count && app_type.count != this.amount) {
@@ -710,7 +712,6 @@ export default {
         !this.phoneError &&
         !this.name_animalError
       ) {
-
         const appointmentNumber = await postAppointment(
           toDateString(this.date),
           this.time,
