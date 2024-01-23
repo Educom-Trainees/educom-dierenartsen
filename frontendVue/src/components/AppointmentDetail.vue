@@ -84,7 +84,7 @@
               @click="registerNoShowAppointment(appointment)"
               :disabled="
                 appointment.lateStatus === 1 ||
-                new Date(appointment.date) > new Date()
+                new Date(appointment.date) < new Date()
               "
               class="btn btn-action action-move"
             >
