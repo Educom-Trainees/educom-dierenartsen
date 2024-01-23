@@ -103,22 +103,58 @@ namespace BackendASP.Controllers
 
         private static List<TimeSlotDTO> CalculateBreak(List<TimeSlotDTO> timeSlots)
         {
-            HashSet<int> morningBreakKarelIds = new HashSet<int> { 9, 11, 13, 15 };
-
-            var morningBreakKarelSlots = timeSlots.Where(slot => morningBreakKarelIds.Contains(slot.Id)).ToList();
-
-            int unavailableMorningBreakCount = 0;
-
-            foreach (var timeSlot in morningBreakKarelSlots)
+            List<string> morningBreakTimes = new List<string>
             {
-                // For example, if the morning break is not available, increment the count
+                "10:00",
+                "10:15",
+                "10:30",
+                "10:45"
+            };
+
+            var morningBreakSlots = timeSlots
+                .Where(slot => morningBreakTimes.Contains(slot.Time))
+                .ToList();
+
+
+            var morningBreakSlotsKarel = morningBreakSlots
+                .Where(slot => slot.Doctor == DoctorTypes.KAREL_LANT)
+                .ToList();
+
+            List<TimeSlotDTO> unavailableMorningTimeSlots = new List<TimeSlotDTO>();
+
+            foreach (var timeSlot in morningBreakSlotsKarel)
+            {
+                //if timeslot is either booked or not available increment int value. Breaks will have to be filtered out earlier.
                 if (timeSlot.Available == SlotAvailable.BOOKED || timeSlot.Available == SlotAvailable.NOT_AVAILABLE)
                 {
-                    unavailableMorningBreakCount++;
+                    unavailableMorningTimeSlots.Add(timeSlot);
                 }
-
             }
-            return morningBreakKarelSlots;
+
+            //if all but one slot are unavailable, set the break in the last available slot. Do nothing when vacation.
+            if (unavailableMorningTimeSlots.Count == 3)
+            {
+                var availableSlot = morningBreakSlotsKarel.FirstOrDefault(slot => slot.Available == SlotAvailable.AVAILABLE_15 || slot.Available == SlotAvailable.AVAILABLE_30 || slot.Available == SlotAvailable.AVAILABLE_45);
+
+                if (availableSlot != null)
+                {
+                    availableSlot.Available = SlotAvailable.BREAK;
+                }
+            }
+
+            if (unavailableMorningTimeSlots.Count == 2)
+            {
+                // Check if the two unavailable slots are next in line
+                int index1 = morningBreakSlotsKarel.IndexOf(unavailableMorningTimeSlots[0]);
+                int index2 = morningBreakSlotsKarel.IndexOf(unavailableMorningTimeSlots[1]);
+
+                if (Math.Abs(index1 - index2) == 1)
+                {
+                    // Perform some action when the two unavailable slots are next in line
+                }
+            }
+
+            return morningBreakSlotsKarel;
         }
 
         private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment, Vacation? vacation, DateOnly requestedDate)
