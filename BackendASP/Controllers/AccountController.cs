@@ -35,6 +35,7 @@ namespace BackendASP.Controllers
         }
 
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<User>> Register(RegisterModel registerModel)
         {
             if (registerModel == null)
@@ -64,6 +65,7 @@ namespace BackendASP.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             // Your existing login logic...
@@ -122,88 +124,14 @@ namespace BackendASP.Controllers
             return tokenString;
         }
 
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+
+            Response.Cookies.Delete("token");
+
+            return Ok(new { Message = "User logged out successfully" });
+        }
     }
 }
-
-
-/*  [HttpPost("register")]
-  public async Task<IActionResult> Register([FromBody] BackendASPUser user)
-  {
-      // Your existing registration logic...
-
-      // Check if the role exists, and create it if not
-      if (!await _roleManager.RoleExistsAsync("User"))
-      {
-          await _roleManager.CreateAsync(new IdentityRole("User"));
-      }
-
-      // Your existing registration logic...
-
-      // Create the user
-      var result = await _userManager.CreateAsync(user, "string");
-
-      if (result.Succeeded)
-      {
-          // Assign the "User" role to the registered user
-          await _userManager.AddToRoleAsync(user, "User");
-
-          // Your additional logic...
-
-          return Ok(new { Message = "User registered successfully" });
-      }
-      else
-      {
-          // Handle user creation failure
-          return BadRequest(new { Message = "User registration failed", Errors = result.Errors });
-      }
-  }
-
-  [HttpPost("login")]
-  public async Task<IActionResult> Login([FromBody] LoginModel model)
-  {
-      // Your existing login logic...
-
-      var user = await _userManager.FindByNameAsync(model.UserName); // You can also use FindByEmailAsync if your login uses email
-
-      if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
-      {
-          // User is authenticated successfully
-          // Your additional login logic...
-
-          return Ok(new { Message = "User logged in successfully" });
-      }
-
-      // Authentication failed
-      return BadRequest(new { Message = "Invalid username or password" });
-  }
-
-  [HttpPost("logout")]
-  public async Task<IActionResult> Logout()
-  {
-      await _signInManager.SignOutAsync();
-
-      return Ok(new { Message = "User logged out successfully" });
-  }
-
-  [HttpPost("createrole")]
-  public async Task<IActionResult> CreateRole([FromBody] string roleName)
-  {
-      // Check if the role exists, and create it if not
-      if (!await _roleManager.RoleExistsAsync(roleName))
-      {
-          await _roleManager.CreateAsync(new IdentityRole(roleName));
-          return Ok(new { Message = $"Role '{roleName}' created successfully" });
-      }
-
-      return BadRequest(new { Message = $"Role '{roleName}' already exists" });
-  }
-
-  [HttpGet("getroles")]
-  public IActionResult GetRoles()
-  {
-      var roles = _roleManager.Roles;
-      return Ok(roles);
-  }
-}*/
-
-// RegistrationModel and LoginModel classes remain unchanged
