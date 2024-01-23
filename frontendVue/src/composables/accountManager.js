@@ -3,6 +3,7 @@ import router from '../router/index.js';
 import { validatePersonalInfo, sanitizeAndValidateEmail, validatePassword } from './userValidator.js';
 import { API_URL } from '../utils/api';
 import { getUser } from './userManager.js';
+import { removeUserSession } from './sessionManager.js';
 
 const baseUrlAccount = API_URL + 'account';
 
@@ -159,3 +160,24 @@ export async function loginUser(email, password) {
     }
 }
 
+/**
+ * Logout user.
+ * 
+ */
+export async function logoutUser() {
+    console.log('Before logout request');
+    try {
+        const response = await axios.post(baseUrlAccount + "/logout");
+        console.log('After logout request');
+        // ... rest of your code
+        if (response.status === 200) {
+            removeUserSession();
+
+            router.push('/login');
+        } else {
+            console.error('Error during logout. Status:', response.status);
+        }
+    } catch (error) {
+        console.error('Error during logout:', error);
+    }
+}

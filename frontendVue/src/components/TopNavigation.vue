@@ -103,8 +103,8 @@ import router from "../router/index.js";
 import {
   hasRequiredRole,
   isLoggedIn,
-  logoutUser,
 } from "../composables/sessionManager.js";
+import { logoutUser } from "../composables/accountManager";
 
 export default {
   name: "TopNavigation",
@@ -130,9 +130,8 @@ export default {
     this.showWorkSchedules = hasRequiredRole(["ADMIN"]);
   },
   methods: {
-    logout() {
-      logoutUser();
-      // location.reload()
+    async logout() {
+      await logoutUser();
       router.go(0);
     },
   },
