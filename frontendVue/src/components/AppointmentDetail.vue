@@ -133,7 +133,6 @@ import router from "../router/index.js";
 import {
   displayTimeslot,
   displayDate,
-  calculateEndTime,
 } from "../composables/datetime-utils.js";
 import {
   cancelAppointmentByDoctor,
