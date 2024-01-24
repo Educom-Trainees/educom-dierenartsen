@@ -1,9 +1,25 @@
 <template>
   <TopNavigation />
-  <button class="btn submit-btn mt-4" v-if="showKarel" @click="toggleDoctor">
+  <button
+    :class="{
+      'button-selected': selectedDoctor === 1,
+      btn: true,
+      'btn-light': true,
+      'mt-4': true,
+    }"
+    @click="() => toggleDoctor(1)"
+  >
     Karel Lant
   </button>
-  <button class="btn submit-btn mt-4" v-else @click="toggleDoctor">
+  <button
+    :class="{
+      'button-selected': selectedDoctor === 2,
+      btn: true,
+      'btn-light': true,
+      'mt-4': true,
+    }"
+    @click="() => toggleDoctor(2)"
+  >
     Danique de Beer
   </button>
 
@@ -140,11 +156,14 @@
   <div v-if="showModal">
     <Modal
       :header="header"
-      :text="text"
+      :text="`U staat op het punt het werkschema voor ${
+        selectedDoctor === 1 ? 'Karel Lant' : 'Danique de Beer'
+      } aan te passen
+    vanaf ${startDate} `"
       :acceptPropositionText="acceptPropositionText"
       :declinePropositionText="declinePropositionText"
       @close="closeModal"
-      @accept="cancelAppointment()"
+      @accept="confirmScheduleChange"
     />
   </div>
 </template>
@@ -154,22 +173,22 @@ import AppointmentDateandTime from "../components/AppointmentDateandTime.vue";
 import TopNavigation from "../components/TopNavigation.vue";
 import { displayFullDate } from "../composables/datetime-utils.js";
 import Modal from "../components/Modal.vue";
+import { updateWorkSchedule } from "../composables/workScheduleManager";
 
 export default {
   name: "work-schedules",
   components: { TopNavigation, AppointmentDateandTime, Modal },
   data() {
     return {
-      showKarel: true,
+      selectedDoctor: 1,
       startDate: new Date().toISOString().slice(0, 10),
       displayFullDate: displayFullDate,
       header: "Weet u het zeker?",
-      text: "U staat op het punt het werkschema voor [dokter] aan te passen vanaf [datum]",
       showModal: false,
-      acceptPropositionText: "Schema doorvoeren",
+      acceptPropositionText: "Bevestigen",
       declinePropositionText: "Terug",
       isCustomClassAdded: {
-        button1: false,
+        button1: true,
         button2: true,
         button3: true,
         button4: true,
@@ -225,8 +244,8 @@ export default {
     };
   },
   methods: {
-    toggleDoctor() {
-      this.showKarel = !this.showKarel;
+    toggleDoctor(number) {
+      this.selectedDoctor = number;
     },
     toggleCustomClass(buttonKey) {
       this.isCustomClassAdded[buttonKey] = !this.isCustomClassAdded[buttonKey];
@@ -236,6 +255,13 @@ export default {
     },
     closeModal() {
       this.showModal = false;
+    },
+    async confirmScheduleChange() {
+      await updateWorkSchedule(
+        this.selectedDoctor,
+        this.startDate,
+        this.selectedDayparts
+      );
     },
   },
 };
