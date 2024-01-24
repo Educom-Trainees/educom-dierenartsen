@@ -134,32 +134,51 @@
       </button>
     </div>
   </div>
+  <button @click="openModal()" class="btn submit-btn mt-4 save-button">
+    Opslaan
+  </button>
+  <div v-if="showModal">
+    <Modal
+      :header="header"
+      :text="text"
+      :acceptPropositionText="acceptPropositionText"
+      :declinePropositionText="declinePropositionText"
+      @close="closeModal"
+      @accept="cancelAppointment()"
+    />
+  </div>
 </template>
 
 <script>
 import AppointmentDateandTime from "../components/AppointmentDateandTime.vue";
 import TopNavigation from "../components/TopNavigation.vue";
 import { displayFullDate } from "../composables/datetime-utils.js";
+import Modal from "../components/Modal.vue";
 
 export default {
   name: "work-schedules",
-  components: { TopNavigation, AppointmentDateandTime },
+  components: { TopNavigation, AppointmentDateandTime, Modal },
   data() {
     return {
       showKarel: true,
       startDate: new Date().toISOString().slice(0, 10),
       displayFullDate: displayFullDate,
+      header: "Weet u het zeker?",
+      text: "U staat op het punt het werkschema voor [dokter] aan te passen vanaf [datum]",
+      showModal: false,
+      acceptPropositionText: "Schema doorvoeren",
+      declinePropositionText: "Terug",
       isCustomClassAdded: {
         button1: false,
-        button2: false,
-        button3: false,
-        button4: false,
-        button5: false,
-        button6: false,
-        button7: false,
-        button8: false,
-        button9: false,
-        button10: false,
+        button2: true,
+        button3: true,
+        button4: true,
+        button5: true,
+        button6: true,
+        button7: true,
+        button8: true,
+        button9: true,
+        button10: true,
       },
       selectedDayparts: [
         {
@@ -212,6 +231,12 @@ export default {
     toggleCustomClass(buttonKey) {
       this.isCustomClassAdded[buttonKey] = !this.isCustomClassAdded[buttonKey];
     },
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
   },
 };
 </script>
@@ -253,5 +278,9 @@ export default {
 .button-selected {
   background-color: #52565a !important;
   color: white;
+}
+
+.save-button {
+  margin-top: 40px !important;
 }
 </style>
