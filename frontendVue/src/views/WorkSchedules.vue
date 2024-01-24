@@ -25,59 +25,114 @@
   <div class="week">
     <div class="weekday">
       <h3>Maandag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="toggleCustomClass('button1')"
+        :class="{
+          'button-selected': isCustomClassAdded['button1'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="toggleCustomClass('button2')"
+        :class="{
+          'button-selected': isCustomClassAdded['button2'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Dinsdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="toggleCustomClass('button3')"
+        :class="{
+          'button-selected': isCustomClassAdded['button3'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="toggleCustomClass('button4')"
+        :class="{
+          'button-selected': isCustomClassAdded['button4'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Woensdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="toggleCustomClass('button5')"
+        :class="{
+          'button-selected': isCustomClassAdded['button5'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="toggleCustomClass('button6')"
+        :class="{
+          'button-selected': isCustomClassAdded['button6'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Donderdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="toggleCustomClass('button7')"
+        :class="{
+          'button-selected': isCustomClassAdded['button7'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="toggleCustomClass('button8')"
+        :class="{
+          'button-selected': isCustomClassAdded['button8'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Vrijdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="toggleCustomClass('button9')"
+        :class="{
+          'button-selected': isCustomClassAdded['button9'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="toggleCustomClass('button10')"
+        :class="{
+          'button-selected': isCustomClassAdded['button10'],
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
-    <!-- <label>Ochtend</label><br />
-    <div v-if="date">
-      <div>
-        <button
-          :class="{ selected_time: time == timeslot.time }"
-          id="smallblock"
-          @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
-          :value="timeslot"
-          v-for="timeslot in timeSlots.filter((t) => t.time <= '12:00')"
-          :key="timeslot.time"
-        >
-          <img class="time" src="/time.png" /> {{ timeslot.time }}
-        </button>
-      </div>
-    </div>
-    <label>Namiddag</label><br />
-    <div v-if="date">
-      <div>
-        <button
-          :class="{ selected_time: time == timeslot.time }"
-          id="smallblock"
-          @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
-          :value="timeslot"
-          v-for="timeslot in timeSlots.filter((t) => t.time >= '14:00')"
-          :key="timeslot.time"
-        >
-          <img class="time" src="/time.png" /> {{ timeslot.time }}
-        </button>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -93,55 +148,69 @@ export default {
     return {
       showKarel: true,
       startDate: new Date().toISOString().slice(0, 10),
-      timeSlots: [
-        {
-          time: "09:00",
-        },
-        { time: "09:15" },
-        { time: "09:30" },
-        { time: "09:45" },
-        {
-          time: "10:00",
-        },
-        { time: "10:15" },
-        { time: "10:30" },
-        { time: "10:45" },
-        {
-          time: "11:00",
-        },
-        { time: "11:15" },
-        { time: "11:30" },
-        { time: "11:45" },
-        {
-          time: "12:00",
-        },
-
-        { time: "14:15" },
-        { time: "14:30" },
-        { time: "14:45" },
-        {
-          time: "15:00",
-        },
-        { time: "15:15" },
-        { time: "15:30" },
-        { time: "15:45" },
-        {
-          time: "16:00",
-        },
-        { time: "16:15" },
-        { time: "16:30" },
-        { time: "16:45" },
-        {
-          time: "17:00",
-        },
-        { time: "17:15" },
-      ],
       displayFullDate: displayFullDate,
+      isCustomClassAdded: {
+        button1: false,
+        button2: false,
+        button3: false,
+        button4: false,
+        button5: false,
+        button6: false,
+        button7: false,
+        button8: false,
+        button9: false,
+        button10: false,
+      },
+      selectedDayparts: [
+        {
+          weekDay: 1,
+          dayPart: 1,
+        },
+        {
+          weekDay: 1,
+          dayPart: 2,
+        },
+        {
+          weekDay: 2,
+          dayPart: 1,
+        },
+        {
+          weekDay: 2,
+          dayPart: 2,
+        },
+        {
+          weekDay: 3,
+          dayPart: 1,
+        },
+        {
+          weekDay: 3,
+          dayPart: 2,
+        },
+        {
+          weekDay: 4,
+          dayPart: 1,
+        },
+        {
+          weekDay: 4,
+          dayPart: 2,
+        },
+        {
+          weekDay: 5,
+          dayPart: 1,
+        },
+        {
+          weekDay: 5,
+          dayPart: 2,
+        },
+      ],
     };
   },
   methods: {
     toggleDoctor() {
       this.showKarel = !this.showKarel;
+    },
+    toggleCustomClass(buttonKey) {
+      this.isCustomClassAdded[buttonKey] = !this.isCustomClassAdded[buttonKey];
     },
   },
 };
@@ -179,5 +248,10 @@ export default {
   gap: 5px;
   width: 100%;
   height: 100%;
+}
+
+.button-selected {
+  background-color: #52565a !important;
+  color: white;
 }
 </style>
