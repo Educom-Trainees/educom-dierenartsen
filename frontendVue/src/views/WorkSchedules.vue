@@ -42,18 +42,36 @@
     <div class="weekday">
       <h3>Maandag</h3>
       <button
-        @click="toggleCustomClass('button1')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 1,
+              dayPart: 1,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button1'],
+          'button-selected': alreadySelected({
+            weekDay: 1,
+            dayPart: 1,
+          }),
           btn: true,
           'btn-light': true,
         }"
       >
         Ochtend</button
       ><button
-        @click="toggleCustomClass('button2')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 1,
+              dayPart: 2,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button2'],
+          'button-selected': alreadySelected({
+            weekDay: 1,
+            dayPart: 2,
+          }),
           btn: true,
           'btn-light': true,
         }"
@@ -64,18 +82,36 @@
     <div class="weekday">
       <h3>Dinsdag</h3>
       <button
-        @click="toggleCustomClass('button3')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 2,
+              dayPart: 1,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button3'],
+          'button-selected': alreadySelected({
+            weekDay: 2,
+            dayPart: 1,
+          }),
           btn: true,
           'btn-light': true,
         }"
       >
         Ochtend</button
       ><button
-        @click="toggleCustomClass('button4')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 2,
+              dayPart: 2,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button4'],
+          'button-selected': alreadySelected({
+            weekDay: 2,
+            dayPart: 2,
+          }),
           btn: true,
           'btn-light': true,
         }"
@@ -86,18 +122,36 @@
     <div class="weekday">
       <h3>Woensdag</h3>
       <button
-        @click="toggleCustomClass('button5')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 3,
+              dayPart: 1,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button5'],
+          'button-selected': alreadySelected({
+            weekDay: 3,
+            dayPart: 1,
+          }),
           btn: true,
           'btn-light': true,
         }"
       >
         Ochtend</button
       ><button
-        @click="toggleCustomClass('button6')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 3,
+              dayPart: 2,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button6'],
+          'button-selected': alreadySelected({
+            weekDay: 3,
+            dayPart: 2,
+          }),
           btn: true,
           'btn-light': true,
         }"
@@ -108,18 +162,36 @@
     <div class="weekday">
       <h3>Donderdag</h3>
       <button
-        @click="toggleCustomClass('button7')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 4,
+              dayPart: 1,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button7'],
+          'button-selected': alreadySelected({
+            weekDay: 4,
+            dayPart: 1,
+          }),
           btn: true,
           'btn-light': true,
         }"
       >
         Ochtend</button
       ><button
-        @click="toggleCustomClass('button8')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 4,
+              dayPart: 2,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button8'],
+          'button-selected': alreadySelected({
+            weekDay: 4,
+            dayPart: 2,
+          }),
           btn: true,
           'btn-light': true,
         }"
@@ -130,18 +202,36 @@
     <div class="weekday">
       <h3>Vrijdag</h3>
       <button
-        @click="toggleCustomClass('button9')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 5,
+              dayPart: 1,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button9'],
+          'button-selected': alreadySelected({
+            weekDay: 5,
+            dayPart: 1,
+          }),
           btn: true,
           'btn-light': true,
         }"
       >
         Ochtend</button
       ><button
-        @click="toggleCustomClass('button10')"
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts(selectedDayparts, {
+              weekDay: 5,
+              dayPart: 2,
+            })
+        "
         :class="{
-          'button-selected': isCustomClassAdded['button10'],
+          'button-selected': alreadySelected({
+            weekDay: 5,
+            dayPart: 2,
+          }),
           btn: true,
           'btn-light': true,
         }"
@@ -187,18 +277,6 @@ export default {
       showModal: false,
       acceptPropositionText: "Bevestigen",
       declinePropositionText: "Terug",
-      isCustomClassAdded: {
-        button1: true,
-        button2: true,
-        button3: true,
-        button4: true,
-        button5: true,
-        button6: true,
-        button7: true,
-        button8: true,
-        button9: true,
-        button10: true,
-      },
       selectedDayparts: [
         {
           weekDay: 1,
@@ -247,9 +325,6 @@ export default {
     toggleDoctor(number) {
       this.selectedDoctor = number;
     },
-    toggleCustomClass(buttonKey) {
-      this.isCustomClassAdded[buttonKey] = !this.isCustomClassAdded[buttonKey];
-    },
     openModal() {
       this.showModal = true;
     },
@@ -262,6 +337,38 @@ export default {
         this.startDate,
         this.selectedDayparts
       );
+    },
+    alreadySelected(scheduleObject) {
+      return this.selectedDayparts.some((obj) =>
+        Object.keys(scheduleObject).every(
+          (key) => obj[key] === scheduleObject[key]
+        )
+      );
+    },
+    addOrRemoveSelectedDayParts(array, scheduleObject) {
+      // scheduleobject contains (weekDay & dayPart)
+
+      //checks if the object already exists in array ()
+      const existsInArray = array.some((obj) =>
+        Object.keys(scheduleObject).every(
+          (key) => obj[key] === scheduleObject[key]
+        )
+      );
+      // if object doesn't exist -> add to array
+      if (!existsInArray) {
+        this.selectedDayparts.push({
+          weekDay: scheduleObject.weekDay,
+          dayPart: scheduleObject.dayPart,
+        });
+      } else {
+        // remove object from array
+        this.selectedDayparts = this.selectedDayparts.filter(
+          (obj) =>
+            obj.weekDay !== scheduleObject.weekDay &&
+            obj.dayPart !== scheduleObject.dayPart
+        );
+      }
+      console.log(this.selectedDayparts);
     },
   },
 };
