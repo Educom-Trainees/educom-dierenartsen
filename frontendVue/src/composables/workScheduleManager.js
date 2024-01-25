@@ -11,7 +11,8 @@ export async function updateWorkSchedule(doctorId, startDate, schedule) {
     }
 
     try {
-        return await axios.post(baseUrlScheduleChange, data)
+        console.log("sending data: ", data);
+        //return await axios.post(baseUrlScheduleChange, data)
     } catch (e) {
         console.log(e)
     }
