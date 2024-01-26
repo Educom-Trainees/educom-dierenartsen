@@ -157,13 +157,12 @@
 <script>
 import {
   displayFullDate,
-  toDateString,
-  skipSundayAndMonday,
   previousDate,
   nextDate,
 } from "../composables/datetime-utils.js";
 import { findFreeTimeslots } from "../composables/arrayTransfromer.js";
 import { getTimeslotsByDate } from "../composables/timeslotManager.js";
+import { SLOT_AVAILABILITY } from "../utils/slotAvailability.js";
 export default {
   props: ["duration", "oldtime", "appointmentDate", "initialPreference"],
   data() {
@@ -250,7 +249,7 @@ export default {
 
       this.closed = true;
       timeslots.forEach((t) => {
-        if (t.available == 1) this.closed = false;
+        if (t.available >= 1 && t.available <= 3) this.closed = false;
       });
 
       const freeTimeslots = findFreeTimeslots(timeslots);
@@ -278,6 +277,19 @@ export default {
         this.freeTimeslots = list;
       } else {
         this.freeTimeslots = freeTimeslots;
+      }
+
+      // Filter freeTimeslots based on the duration
+      if (this.duration) {
+          let targetAvailability;
+          if (this.duration === 45) {
+              targetAvailability = [SLOT_AVAILABILITY.AVAILABLE_45];
+          } else if (this.duration === 30) {
+              targetAvailability = [SLOT_AVAILABILITY.AVAILABLE_30, SLOT_AVAILABILITY.AVAILABLE_45];
+          } else if (this.duration === 15) {
+              targetAvailability = [SLOT_AVAILABILITY.AVAILABLE_15, SLOT_AVAILABILITY.AVAILABLE_30, SLOT_AVAILABILITY.AVAILABLE_45];
+          }
+          this.freeTimeslots = this.freeTimeslots.filter(timeslot => targetAvailability.includes(timeslot.available));
       }
     },
   },
