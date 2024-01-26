@@ -1,28 +1,29 @@
 <template>
   <TopNavigation />
-  <button
-    :class="{
-      'button-selected': selectedDoctor === 1,
-      btn: true,
-      'btn-light': true,
-      'mt-4': true,
-    }"
-    @click="() => toggleDoctor(1)"
-  >
-    Karel Lant
-  </button>
-  <button
-    :class="{
-      'button-selected': selectedDoctor === 2,
-      btn: true,
-      'btn-light': true,
-      'mt-4': true,
-    }"
-    @click="() => toggleDoctor(2)"
-  >
-    Danique de Beer
-  </button>
-
+  <div class="button-container">
+    <button
+      :class="{
+        'button-selected': selectedDoctor === 1,
+        btn: true,
+        'btn-light': true,
+        'mt-4': true,
+      }"
+      @click="() => toggleDoctor(1)"
+    >
+      Karel Lant
+    </button>
+    <button
+      :class="{
+        'button-selected': selectedDoctor === 2,
+        btn: true,
+        'btn-light': true,
+        'mt-4': true,
+      }"
+      @click="() => toggleDoctor(2)"
+    >
+      Danique de Beer
+    </button>
+  </div>
   <div
     id="datepicker-area"
     class="d-flex justify-content-center align-items-center"
@@ -37,14 +38,14 @@
       />
     </div>
   </div>
-  <h3>Klik je nieuwe werkschema aan:</h3>
+  <h3 class="mt-4 mb-4">Klik je nieuwe werkschema aan:</h3>
   <div class="week">
     <div class="weekday">
       <h3>Maandag</h3>
       <button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 1,
               dayPart: 1,
             })
@@ -62,7 +63,7 @@
       ><button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 1,
               dayPart: 2,
             })
@@ -84,7 +85,7 @@
       <button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 2,
               dayPart: 1,
             })
@@ -102,7 +103,7 @@
       ><button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 2,
               dayPart: 2,
             })
@@ -124,7 +125,7 @@
       <button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 3,
               dayPart: 1,
             })
@@ -142,7 +143,7 @@
       ><button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 3,
               dayPart: 2,
             })
@@ -164,7 +165,7 @@
       <button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 4,
               dayPart: 1,
             })
@@ -182,7 +183,7 @@
       ><button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 4,
               dayPart: 2,
             })
@@ -204,7 +205,7 @@
       <button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 5,
               dayPart: 1,
             })
@@ -222,7 +223,7 @@
       ><button
         @click="
           () =>
-            addOrRemoveSelectedDayParts(selectedDayparts, {
+            addOrRemoveSelectedDayParts({
               weekDay: 5,
               dayPart: 2,
             })
@@ -339,21 +340,19 @@ export default {
       );
     },
     alreadySelected(scheduleObject) {
-      return this.selectedDayparts.some((obj) =>
-        Object.keys(scheduleObject).every(
-          (key) => obj[key] === scheduleObject[key]
-        )
-      );
+      return this.selectedDayparts.some((dayPart) => {
+        return (
+          dayPart.weekDay === scheduleObject.weekDay &&
+          dayPart.dayPart === scheduleObject.dayPart
+        );
+      });
     },
-    addOrRemoveSelectedDayParts(array, scheduleObject) {
+    addOrRemoveSelectedDayParts(scheduleObject) {
       // scheduleobject contains (weekDay & dayPart)
 
       //checks if the object already exists in array ()
-      const existsInArray = array.some((obj) =>
-        Object.keys(scheduleObject).every(
-          (key) => obj[key] === scheduleObject[key]
-        )
-      );
+      const existsInArray = this.alreadySelected(scheduleObject);
+
       // if object doesn't exist -> add to array
       if (!existsInArray) {
         this.selectedDayparts.push({
@@ -362,13 +361,13 @@ export default {
         });
       } else {
         // remove object from array
-        this.selectedDayparts = this.selectedDayparts.filter(
-          (obj) =>
-            obj.weekDay !== scheduleObject.weekDay &&
-            obj.dayPart !== scheduleObject.dayPart
-        );
+        this.selectedDayparts = this.selectedDayparts.filter((dayPart) => {
+          return !(
+            dayPart.weekDay === scheduleObject.weekDay &&
+            dayPart.dayPart === scheduleObject.dayPart
+          );
+        });
       }
-      console.log(this.selectedDayparts);
     },
   },
 };
@@ -406,6 +405,15 @@ export default {
   gap: 5px;
   width: 100%;
   height: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 10px 0;
 }
 
 .button-selected {
