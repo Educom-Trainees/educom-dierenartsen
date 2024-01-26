@@ -36,7 +36,7 @@ export function combineTimeslotAppointments(timeslots, appointments) {
  */
 
 export function findFreeTimeslots(timeslots) {
-    return timeslots.filter(timeslot => timeslot.available === 1);
+    return timeslots.filter(timeslot => timeslot.available >= 1 && timeslot.available <= 3);
 }
 
 // export function findFreeTimeslots(timeslotAppointments, appointmentDuration) {
