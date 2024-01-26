@@ -41,10 +41,16 @@
       </td>
       <td
         v-else-if="timeslot.available === 0"
-        :style="{ 'background-color': 'black' }"
+        :style="{ 'background-color': '#dddddd' }"
       ></td>
+      <td 
+        v-else-if="timeslot.available === -2" class="fw-bold" 
+        :style="{ 'background-color': '#dddddd', 'text-align': 'center' }">
+        -- pauze --
+    </td>
+
       <td
-        v-else-if="timeslot.available === 3"
+        v-else-if="timeslot.available === -3"
         :style="{ 'background-color': 'rgba(255, 0, 0, 0.5)' }"
       ></td>
       <td
