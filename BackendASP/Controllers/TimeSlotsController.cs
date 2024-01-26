@@ -125,6 +125,30 @@ namespace BackendASP.Controllers
             return timeSlots;
         }
 
+        private static List<TimeSlotDTO> CheckAvailableMorningTimeSlots(List<TimeSlotDTO> morningBreakSlots, DoctorTypes doctor)
+        {
+            var doctorMorningBreakSlots = morningBreakSlots
+                .Where(slot => slot.Doctor == doctor)
+                .ToList();
+
+            if (doctorMorningBreakSlots.Any(slot => slot.Available == SlotAvailable.VACATION))
+            {
+                return new List<TimeSlotDTO>();
+            }
+
+            List <TimeSlotDTO> availableMorningTimeSlots = new List<TimeSlotDTO>();
+
+            foreach (var timeSlot in doctorMorningBreakSlots)
+            {
+                if (timeSlot.Available == SlotAvailable.AVAILABLE_15 || timeSlot.Available == SlotAvailable.AVAILABLE_30 || timeSlot.Available == SlotAvailable.AVAILABLE_45)
+                {
+                    availableMorningTimeSlots.Add(timeSlot);
+                }
+            }
+
+            return availableMorningTimeSlots;
+        }
+
         private static void SetBreaks(List<TimeSlotDTO> availableSlotsPrimary, List<TimeSlotDTO> availableSlotsSecondary)
         {
             // Check if there's already a vacation in the available slots, if so then no break needed
@@ -136,7 +160,7 @@ namespace BackendASP.Controllers
             if (availableSlotsPrimary.Count == 1)
             {
                 var availableSlotPrimary = availableSlotsPrimary.FirstOrDefault(slot => slot.Available == SlotAvailable.AVAILABLE_15 || slot.Available == SlotAvailable.AVAILABLE_30 || slot.Available == SlotAvailable.AVAILABLE_45);
-               
+
                 if (availableSlotPrimary != null)
                 {
                     availableSlotPrimary.Available = SlotAvailable.BREAK;
@@ -153,7 +177,16 @@ namespace BackendASP.Controllers
             else if (availableSlotsPrimary.Count == 2)
             {
                 // Check if there's an overlap between the available slots of both doctors. 
-                var overlapSlots = availableSlotsPrimary.Where(slot => availableSlotsSecondary.Any(secSlot => secSlot.Time == slot.Time && slot.Available == SlotAvailable.AVAILABLE_15 || slot.Available == SlotAvailable.AVAILABLE_30 || slot.Available == SlotAvailable.AVAILABLE_45)).ToList();
+                var overlapSlots = availableSlotsPrimary
+                    .Where(slot =>
+                        availableSlotsSecondary.Any(secSlot =>
+                            secSlot.Time == slot.Time &&
+                            (slot.Available == SlotAvailable.AVAILABLE_15 ||
+                             slot.Available == SlotAvailable.AVAILABLE_30 ||
+                             slot.Available == SlotAvailable.AVAILABLE_45)
+                        )
+                    ).ToList();
+
                 if (overlapSlots.Count == 1)
                 {
                     // If there is an overlap, put the break at the overlapping slot for both doctors.
@@ -185,7 +218,7 @@ namespace BackendASP.Controllers
                 var thirdSlotTime = TimeSpan.Parse(availableSlotsPrimary[2].Time);
 
                 // If the three slots are in line, set the first to available_30
-                if (secondSlotTime - firstSlotTime == TimeSpan.FromMinutes(15) && 
+                if (secondSlotTime - firstSlotTime == TimeSpan.FromMinutes(15) &&
                     thirdSlotTime - secondSlotTime == TimeSpan.FromMinutes(15))
                 {
                     availableSlotsPrimary[0].Available = SlotAvailable.AVAILABLE_30;
@@ -193,24 +226,6 @@ namespace BackendASP.Controllers
             }
         }
 
-        private static List<TimeSlotDTO> CheckAvailableMorningTimeSlots(List<TimeSlotDTO> morningBreakSlots, DoctorTypes doctor)
-        {
-            var doctorMorningBreakSlots = morningBreakSlots
-                .Where(slot => slot.Doctor == doctor)
-                .ToList();
-
-            List<TimeSlotDTO> availableMorningTimeSlots = new List<TimeSlotDTO>();
-
-            foreach (var timeSlot in doctorMorningBreakSlots)
-            {
-                if (timeSlot.Available == SlotAvailable.AVAILABLE_15 || timeSlot.Available == SlotAvailable.AVAILABLE_30 || timeSlot.Available == SlotAvailable.AVAILABLE_45)
-                {
-                    availableMorningTimeSlots.Add(timeSlot);
-                }
-            }
-
-            return availableMorningTimeSlots;
-        }
 
         private static SlotAvailable CalculateAvailable(TimeSlot timeSlot, int mask, Appointment? appointment, Vacation? vacation, DateOnly requestedDate)
         {

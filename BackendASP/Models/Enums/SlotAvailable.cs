@@ -9,7 +9,5 @@
         BOOKED = -1,
         BREAK = -2,
         VACATION = -3,
-
-        // Verder uit te breiden met evt. appointment/vacation
     }
 }
