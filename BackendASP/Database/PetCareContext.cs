@@ -339,7 +339,7 @@ namespace BackendASP.Database
                 {
                     Id = 1,
                     TemplateName = "Afspraak bevestiging",
-                    Subject = "Afspraak bevestiging voor {appointmentDTO.Date}",
+                    Subject = "Afspraak bevestiging voor {Datum}",
                     Body = "Beste {Naam klant},\r\n\r\nBij deze bevestigen wij dat uw afspraak gepland is voor:\r\n\r\nDatum: {Datum}\r\nTijd: {Tijdslot}\r\nDuur: {Duur}\r\nDierenarts: {Dierenarts}\r\n\r\nWe kijken ernaar uit om uw huisdier te ontvangen. Als u nog specifieke vragen heeft of bepaalde informatie met ons wilt delen, aarzel dan niet om contact met ons op te nemen.\r\n\r\nTot ziens in de praktijk!\r\n\r\nMet vriendelijke groeten,\r\n\r\nKarel en Danique van Dierenpraktijk HappyPaws",
                     EmailType = EmailTypes.APPOINTMENT
                 },
@@ -355,7 +355,7 @@ namespace BackendASP.Database
                 {
                     Id = 3,
                     TemplateName = "Geannuleerde afspraak",
-                    Subject = "Geannuleerde Afspraak op {appointmentDTO.Date}",
+                    Subject = "Geannuleerde Afspraak op {Datum}",
                     Body = "Beste {Naam klant},\r\n\r\nHelaas hebben we vernomen dat je jouw geplande afspraak bij HappyPaws Dierenartspraktijk wilt annuleren. \r\nWe begrijpen dat situaties kunnen veranderen, en we willen ervoor zorgen dat het annuleringsproces soepel verloopt.\r\n\r\nHier zijn de details van de geannuleerde afspraak:\r\n\r\nDatum: {Datum}\r\nTijd: {Tijdslot}\r\nDierenarts: {Dierenarts}\r\n\r\nMocht je op een later moment opnieuw een afspraak willen maken, aarzel dan niet om contact met ons op te nemen. \r\n\r\nDe gezondheid en het welzijn van jouw huisdier zijn onze hoogste prioriteit, en we staan altijd klaar om te helpen.                \r\n\r\nBedankt voor je begrip en we hopen je snel weer te zien bij Dierenpraktijk HappyPaws.\r\n\r\nMet vriendelijke groeten,\r\n\r\nKarel en Danique van Dierenpraktijk HappyPaws",
                     EmailType = EmailTypes.APPOINTMENT
                 },
