@@ -1,12 +1,29 @@
 <template>
   <TopNavigation />
-  <button class="btn submit-btn mt-4" v-if="showKarel" @click="toggleDoctor">
-    Karel Lant
-  </button>
-  <button class="btn submit-btn mt-4" v-else @click="toggleDoctor">
-    Danique de Beer
-  </button>
-
+  <div class="button-container">
+    <button
+      :class="{
+        'button-selected': selectedDoctor === 1,
+        btn: true,
+        'btn-light': true,
+        'mt-4': true,
+      }"
+      @click="() => toggleDoctor(1)"
+    >
+      Karel Lant
+    </button>
+    <button
+      :class="{
+        'button-selected': selectedDoctor === 2,
+        btn: true,
+        'btn-light': true,
+        'mt-4': true,
+      }"
+      @click="() => toggleDoctor(2)"
+    >
+      Danique de Beer
+    </button>
+  </div>
   <div
     id="datepicker-area"
     class="d-flex justify-content-center align-items-center"
@@ -21,63 +38,224 @@
       />
     </div>
   </div>
-  <h3>Klik je nieuwe werkschema aan:</h3>
+  <h3 class="mt-4 mb-4">Klik je nieuwe werkschema aan:</h3>
   <div class="week">
     <div class="weekday">
       <h3>Maandag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 1,
+              dayPart: 1,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 1,
+            dayPart: 1,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 1,
+              dayPart: 2,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 1,
+            dayPart: 2,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Dinsdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 2,
+              dayPart: 1,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 2,
+            dayPart: 1,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 2,
+              dayPart: 2,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 2,
+            dayPart: 2,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Woensdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 3,
+              dayPart: 1,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 3,
+            dayPart: 1,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 3,
+              dayPart: 2,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 3,
+            dayPart: 2,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Donderdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 4,
+              dayPart: 1,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 4,
+            dayPart: 1,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 4,
+              dayPart: 2,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 4,
+            dayPart: 2,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
     <div class="weekday">
       <h3>Vrijdag</h3>
-      <button class="btn btn-secondary">Ochtend</button
-      ><button class="btn btn-secondary">Middag</button>
+      <button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 5,
+              dayPart: 1,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 5,
+            dayPart: 1,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Ochtend</button
+      ><button
+        @click="
+          () =>
+            addOrRemoveSelectedDayParts({
+              weekDay: 5,
+              dayPart: 2,
+            })
+        "
+        :class="{
+          'button-selected': alreadySelected({
+            weekDay: 5,
+            dayPart: 2,
+          }),
+          btn: true,
+          'btn-light': true,
+        }"
+      >
+        Middag
+      </button>
     </div>
-    <!-- <label>Ochtend</label><br />
-    <div v-if="date">
-      <div>
-        <button
-          :class="{ selected_time: time == timeslot.time }"
-          id="smallblock"
-          @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
-          :value="timeslot"
-          v-for="timeslot in timeSlots.filter((t) => t.time <= '12:00')"
-          :key="timeslot.time"
-        >
-          <img class="time" src="/time.png" /> {{ timeslot.time }}
-        </button>
-      </div>
-    </div>
-    <label>Namiddag</label><br />
-    <div v-if="date">
-      <div>
-        <button
-          :class="{ selected_time: time == timeslot.time }"
-          id="smallblock"
-          @click.prevent="changetimeANDdoctor(timeslot.time, timeslot.doctor)"
-          :value="timeslot"
-          v-for="timeslot in timeSlots.filter((t) => t.time >= '14:00')"
-          :key="timeslot.time"
-        >
-          <img class="time" src="/time.png" /> {{ timeslot.time }}
-        </button>
-      </div>
-    </div> -->
+  </div>
+  <button @click="openModal()" class="btn submit-btn mt-4 save-button">
+    Opslaan
+  </button>
+  <div v-if="showModal">
+    <Modal
+      :header="header"
+      :text="`U staat op het punt het werkschema voor ${
+        selectedDoctor === 1 ? 'Karel Lant' : 'Danique de Beer'
+      } aan te passen
+    vanaf ${startDate} `"
+      :acceptPropositionText="acceptPropositionText"
+      :declinePropositionText="declinePropositionText"
+      @close="closeModal"
+      @accept="confirmScheduleChange"
+    />
   </div>
 </template>
 
@@ -85,63 +263,111 @@
 import AppointmentDateandTime from "../components/AppointmentDateandTime.vue";
 import TopNavigation from "../components/TopNavigation.vue";
 import { displayFullDate } from "../composables/datetime-utils.js";
+import Modal from "../components/Modal.vue";
+import { updateWorkSchedule } from "../composables/workScheduleManager";
 
 export default {
   name: "work-schedules",
-  components: { TopNavigation, AppointmentDateandTime },
+  components: { TopNavigation, AppointmentDateandTime, Modal },
   data() {
     return {
-      showKarel: true,
+      selectedDoctor: 1,
       startDate: new Date().toISOString().slice(0, 10),
-      timeSlots: [
-        {
-          time: "09:00",
-        },
-        { time: "09:15" },
-        { time: "09:30" },
-        { time: "09:45" },
-        {
-          time: "10:00",
-        },
-        { time: "10:15" },
-        { time: "10:30" },
-        { time: "10:45" },
-        {
-          time: "11:00",
-        },
-        { time: "11:15" },
-        { time: "11:30" },
-        { time: "11:45" },
-        {
-          time: "12:00",
-        },
-
-        { time: "14:15" },
-        { time: "14:30" },
-        { time: "14:45" },
-        {
-          time: "15:00",
-        },
-        { time: "15:15" },
-        { time: "15:30" },
-        { time: "15:45" },
-        {
-          time: "16:00",
-        },
-        { time: "16:15" },
-        { time: "16:30" },
-        { time: "16:45" },
-        {
-          time: "17:00",
-        },
-        { time: "17:15" },
-      ],
       displayFullDate: displayFullDate,
+      header: "Weet u het zeker?",
+      showModal: false,
+      acceptPropositionText: "Bevestigen",
+      declinePropositionText: "Terug",
+      selectedDayparts: [
+        {
+          weekDay: 1,
+          dayPart: 1,
+        },
+        {
+          weekDay: 1,
+          dayPart: 2,
+        },
+        {
+          weekDay: 2,
+          dayPart: 1,
+        },
+        {
+          weekDay: 2,
+          dayPart: 2,
+        },
+        {
+          weekDay: 3,
+          dayPart: 1,
+        },
+        {
+          weekDay: 3,
+          dayPart: 2,
+        },
+        {
+          weekDay: 4,
+          dayPart: 1,
+        },
+        {
+          weekDay: 4,
+          dayPart: 2,
+        },
+        {
+          weekDay: 5,
+          dayPart: 1,
+        },
+        {
+          weekDay: 5,
+          dayPart: 2,
+        },
+      ],
     };
   },
   methods: {
-    toggleDoctor() {
-      this.showKarel = !this.showKarel;
+    toggleDoctor(number) {
+      this.selectedDoctor = number;
+    },
+    openModal() {
+      this.showModal = true;
+    },
+    closeModal() {
+      this.showModal = false;
+    },
+    async confirmScheduleChange() {
+      await updateWorkSchedule(
+        this.selectedDoctor,
+        this.startDate,
+        this.selectedDayparts
+      );
+    },
+    alreadySelected(scheduleObject) {
+      return this.selectedDayparts.some((dayPart) => {
+        return (
+          dayPart.weekDay === scheduleObject.weekDay &&
+          dayPart.dayPart === scheduleObject.dayPart
+        );
+      });
+    },
+    addOrRemoveSelectedDayParts(scheduleObject) {
+      // scheduleobject contains (weekDay & dayPart)
+
+      //checks if the object already exists in array ()
+      const existsInArray = this.alreadySelected(scheduleObject);
+
+      // if object doesn't exist -> add to array
+      if (!existsInArray) {
+        this.selectedDayparts.push({
+          weekDay: scheduleObject.weekDay,
+          dayPart: scheduleObject.dayPart,
+        });
+      } else {
+        // remove object from array
+        this.selectedDayparts = this.selectedDayparts.filter((dayPart) => {
+          return !(
+            dayPart.weekDay === scheduleObject.weekDay &&
+            dayPart.dayPart === scheduleObject.dayPart
+          );
+        });
+      }
     },
   },
 };
@@ -179,5 +405,23 @@ export default {
   gap: 5px;
   width: 100%;
   height: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+
+.button-selected {
+  background-color: #52565a !important;
+  color: white;
+}
+
+.save-button {
+  margin-top: 40px !important;
 }
 </style>

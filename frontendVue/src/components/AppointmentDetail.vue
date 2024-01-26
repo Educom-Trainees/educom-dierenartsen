@@ -101,10 +101,27 @@
           <div class="col-sm">
             <button
               @click="registerNoShowAppointment(appointment)"
-              :disabled="appointment.lateStatus === 1 || !isAppointmentOver()"
+              :disabled="appointment.lateStatus === 1 || !appointmentStarted()"
               class="btn btn-action action-move"
             >
               No Show
+              <svg
+                class="lock-icon"
+                v-if="!appointmentStarted()"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                height="15px"
+                width="15px"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+                />
+              </svg>
             </button>
           </div>
           <div class="col-sm"></div>
@@ -255,15 +272,15 @@ export default {
       return overlappingAppointments.length === 0;
     },
 
-    isAppointmentOver() {
-      const endTime = new Date(
+    appointmentStarted() {
+      const startAppointmentTime = new Date(
         [this.appointment.date, this.appointment.time].join(" ")
       );
-      endTime.setMinutes(endTime.getMinutes() + this.appointment.duration);
+      startAppointmentTime.setMinutes(startAppointmentTime.getMinutes());
 
       const currentTime = new Date();
 
-      return currentTime >= endTime;
+      return currentTime >= startAppointmentTime;
     },
   },
   computed: {
