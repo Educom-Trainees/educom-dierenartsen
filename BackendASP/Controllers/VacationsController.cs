@@ -179,7 +179,7 @@ namespace BackendASP.Controllers
 
             // Logic to filter out appointments that fall in the vacation period
 
-            var activeAppointmentsDuringVacation = await _context.Appointments
+            var activeAppointmentsOnDateVacation = await _context.Appointments
                 .Include(a => a.TimeSlots)
                 .Where(a => a.Doctor == vacation.User.Doctor &&
                              a.Status == Models.Enums.StatusTypes.ACTIVE &&
@@ -187,14 +187,26 @@ namespace BackendASP.Controllers
                              a.Date <= DateOnly.FromDateTime(vacation.EndDateTime.Date))
                 .ToListAsync();
 
-            activeAppointmentsDuringVacation = activeAppointmentsDuringVacation
-                .Where(a => (a.Date != DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
-                             a.Date != DateOnly.FromDateTime(vacation.EndDateTime.Date)) ||
-                             (a.Date == DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
-                             TimeOnly.Parse(a.TimeSlots.First().Time) >= TimeOnly.FromDateTime(vacation.StartDateTime)) ||
-                             (a.Date == DateOnly.FromDateTime(vacation.EndDateTime.Date) &&
-                             TimeOnly.Parse(a.TimeSlots.First().Time) <= TimeOnly.FromDateTime(vacation.EndDateTime)))
-                .ToList();
+            var activeAppointmentsDuringVacation = activeAppointmentsOnDateVacation
+               .Where(a =>
+                    // Appointment between start date and end date
+                   (a.Date != DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                    a.Date != DateOnly.FromDateTime(vacation.EndDateTime.Date)) ||
+                    // Appointment on vacation date (1 day vacation) and between start and end time vacation
+                   (a.Date == DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                    a.Date == DateOnly.FromDateTime(vacation.EndDateTime.Date) &&
+                    TimeOnly.Parse(a.TimeSlots.First().Time) >= TimeOnly.FromDateTime(vacation.StartDateTime) &&
+                    TimeOnly.Parse(a.TimeSlots.First().Time) <= TimeOnly.FromDateTime(vacation.EndDateTime)) ||
+                    // Appointment after start time vacation (multiple day vacation)
+                   (a.Date == DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                    a.Date != DateOnly.FromDateTime(vacation.EndDateTime.Date) &&
+                    TimeOnly.Parse(a.TimeSlots.First().Time) >= TimeOnly.FromDateTime(vacation.EndDateTime)) ||
+                    // Appointment before end time vacation (multiple day vacation)
+                   (a.Date == DateOnly.FromDateTime(vacation.EndDateTime.Date) &&
+                    a.Date != DateOnly.FromDateTime(vacation.StartDateTime.Date) &&
+                    TimeOnly.Parse(a.TimeSlots.First().Time) <= TimeOnly.FromDateTime(vacation.EndDateTime)))
+               .ToList();
+
 
             foreach (var appointment in activeAppointmentsDuringVacation) {
                appointment.Status = StatusTypes.DURING_VACATION;
