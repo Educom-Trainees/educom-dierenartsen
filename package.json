@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vuepic/vue-datepicker": "^7.4.1",
     "volar-service-vetur": "^0.0.17"
   }
 }
