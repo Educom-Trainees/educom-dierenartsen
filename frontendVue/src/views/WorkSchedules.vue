@@ -265,6 +265,98 @@
         </VueDatePicker>
       </div>
     </div>
+
+    <div class="weekday">
+      <h3>Zaterdag</h3>
+      <span class="select-day">
+        <label for="works-on-tuesday">Werkt op zaterdag: </label>
+        <input
+          id="works-on-saturday"
+          v-model="workDays.saturday.works"
+          type="checkbox"
+        />
+      </span>
+      <div class="timepicker-group" v-if="workDays.saturday.works">
+        <VueDatePicker
+          v-model="workDays.saturday.startTime"
+          time-picker
+          minutes-increment="15"
+          locale="nl"
+          cancelText="Terug"
+          selectText="Bevestigen"
+          :min-time="{ hours: 9, minutes: 0o0 }"
+          :max-time="{ hours: 17, minutes: 30 }"
+          :start-time="workDays.saturday.startTime"
+          placeholder="Starttijd"
+        >
+          <template #input-icon>
+            <img class="input-slot-image" src="/clock.png" />
+          </template>
+        </VueDatePicker>
+        <VueDatePicker
+          v-model="workDays.saturday.endTime"
+          time-picker
+          minutes-increment="15"
+          locale="nl"
+          cancelText="Terug"
+          selectText="Bevestigen"
+          :min-time="{ hours: 9, minutes: 0o0 }"
+          :max-time="{ hours: 17, minutes: 30 }"
+          :start-time="workDays.saturday.endTime"
+          placeholder="Eindtijd"
+        >
+          <template #input-icon>
+            <img class="input-slot-image" src="/clock.png" />
+          </template>
+        </VueDatePicker>
+      </div>
+    </div>
+
+    <div class="weekday">
+      <h3>Zondag</h3>
+      <span class="select-day">
+        <label for="works-on-sunday">Werkt op zondag: </label>
+        <input
+          id="works-on-sunday"
+          v-model="workDays.sunday.works"
+          type="checkbox"
+        />
+      </span>
+      <div class="timepicker-group" v-if="workDays.sunday.works">
+        <VueDatePicker
+          v-model="workDays.sunday.startTime"
+          time-picker
+          minutes-increment="15"
+          locale="nl"
+          cancelText="Terug"
+          selectText="Bevestigen"
+          :min-time="{ hours: 9, minutes: 0o0 }"
+          :max-time="{ hours: 17, minutes: 30 }"
+          :start-time="workDays.sunday.startTime"
+          placeholder="Starttijd"
+        >
+          <template #input-icon>
+            <img class="input-slot-image" src="/clock.png" />
+          </template>
+        </VueDatePicker>
+        <VueDatePicker
+          v-model="workDays.sunday.endTime"
+          time-picker
+          minutes-increment="15"
+          locale="nl"
+          cancelText="Terug"
+          selectText="Bevestigen"
+          :min-time="{ hours: 9, minutes: 0o0 }"
+          :max-time="{ hours: 17, minutes: 30 }"
+          :start-time="workDays.sunday.endTime"
+          placeholder="Eindtijd"
+        >
+          <template #input-icon>
+            <img class="input-slot-image" src="/clock.png" />
+          </template>
+        </VueDatePicker>
+      </div>
+    </div>
   </div>
   <button @click="openModal()" class="btn submit-btn mt-4 save-button">
     Opslaan
@@ -332,6 +424,16 @@ export default {
           startTime: { hours: 9, minutes: 0o0 },
           endTime: { hours: 17, minutes: 30 },
         },
+        saturday: {
+          works: true,
+          startTime: { hours: 9, minutes: 0o0 },
+          endTime: { hours: 17, minutes: 30 },
+        },
+        sunday: {
+          works: true,
+          startTime: { hours: 9, minutes: 0o0 },
+          endTime: { hours: 17, minutes: 30 },
+        },
       },
     };
   },
@@ -376,7 +478,7 @@ export default {
   width: auto;
   height: 100%;
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 800px) {
     flex-direction: column;
   }
 }
