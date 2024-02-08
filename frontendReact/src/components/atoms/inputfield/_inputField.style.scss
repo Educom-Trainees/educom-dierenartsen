@@ -1,0 +1,34 @@
+.input-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+  
+    &:focus {
+      outline: none;
+      border-color: #ff6a00; // Pas de gewenste focuskleur aan
+    }
+    @media (max-width: 480px) {
+      font-size: 18px; // Adjusted font size for small screens (e.g., mobile)
+    }
+  
+    @media (min-width: 481px) and (max-width: 768px) {
+      font-size: 22px; // Adjusted font size for medium-sized screens (e.g., tablets)
+    }
+  
+    @media (min-width: 769px) and (max-width: 1024px) {
+      font-size: 26px; // Adjusted font size for larger screens (e.g., small laptops)
+    }
+  
+    @media (min-width: 1025px) and (max-width: 1200px) {
+      font-size: 28px; // Adjusted font size for high-resolution screens
+    }
+  
+    @media (min-width: 1201px) {
+      font-size: 30px; // Adjusted font size for ultra-high-resolution screens
+    }
+
+  }

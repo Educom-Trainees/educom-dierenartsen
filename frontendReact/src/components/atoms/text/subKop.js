@@ -3,7 +3,7 @@ import './_subKop.style.scss';
 
 function subKop({ text }) {
   return (
-    <div className="subKop-text">
+    <div className="subkop-text">
       <p>{text}</p>
     </div>
   );

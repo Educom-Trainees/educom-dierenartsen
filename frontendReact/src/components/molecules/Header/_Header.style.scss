@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  // color: #fff;
+
+  // Media Query for Small Screens (max-width: 480px)
+  @media (max-width: 480px) {
+    padding: 5px; // Adjusted padding for small screens
+  }
+
+  // Media Query for Medium Screens (min-width: 481px) and (max-width: 768px)
+  @media (min-width: 481px) and (max-width: 768px) {
+    padding: 8px; // Adjusted padding for medium-sized screens
+  }
+
+  // Media Query for Large Screens (min-width: 769px) and (max-width: 1024px)
+  @media (min-width: 769px) and (max-width: 1024px) {
+    padding: 12px; // Adjusted padding for larger screens
+  }
+
+  // Media Query for Extra Large Screens (min-width: 1025px) and (max-width: 1200px)
+  @media (min-width: 1025px) and (max-width: 1200px) {
+    padding: 15px; // Adjusted padding for high-resolution screens
+  }
+
+  // Media Query for Ultra High-Resolution Screens (min-width: 1201px)
+  @media (min-width: 1201px) {
+    padding: 18px; // Adjusted padding for ultra-high-resolution screens
+  }
+}

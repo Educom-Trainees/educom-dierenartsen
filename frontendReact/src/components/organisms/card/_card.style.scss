@@ -1,0 +1,116 @@
+.Card {
+  display: flex;
+  flex-direction: column;
+  max-width: 580px;
+  margin: 20px auto;
+  font-family: 'Lexend', sans-serif;
+  padding: 35px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 38px;
+
+  
+  @media (max-width: 480px) {
+    padding: 20px;
+    max-width: 260px;
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    max-width: 400px;
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    max-width: 500px;
+  }
+
+  @media (min-width: 1025px) and (max-width: 1200px) {
+    max-width: 600px;
+  }
+
+  @media (min-width: 1201px) {
+    max-width: 700px;
+  }
+}
+
+
+.dataSelector {
+  margin-top: -7px;
+}
+
+.second-row {
+  margin-top: 30px;
+}
+
+.text-first-row {
+  margin-bottom: 20px;
+}
+
+.text-second-row {
+  margin-bottom: 10px;
+}
+
+.button-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+
+  .button {
+    margin-right: 10px;
+  }
+}
+
+.dropdown-group {
+  margin-bottom: 15px;
+
+  .dropdown-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .dropdown-text {
+      margin-right: 10px;
+    }
+  }
+}
+
+.third-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 30px;
+}
+
+.next-button {
+  display: block;
+  margin-left: auto;
+}
+
+.beschikbaarheid {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin-top: 10px;
+  color: rgb(171, 171, 171);
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+.beschikbaar,
+.niet-beschikbaar {
+  display: flex;
+  align-items: center;
+}
+
+.niet-beschikbaar {
+  justify-content: space-between;
+}
+
+.availability-icon-left {
+  margin-left: 5px;
+  color: #00D451;
+}
+
+.availability-icon-right {
+  margin-left: 5px;
+}

@@ -1,0 +1,97 @@
+.Menu {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    background-color: rgb(255, 255, 255);
+    padding: 10px;
+    width: 280px;
+    height: 40%;
+    top: 50px;
+    right: 10px;
+    position: fixed;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+    z-index: 10000;
+    transition: transform 0.3s ease;
+
+    &.menu-open {
+        opacity: 1; /* Make the menu visible */
+        transform: translateY(0); /* Bring the menu down */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition for menu opening */
+      }
+  
+    .OptionWrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+    
+        &:hover {
+            .OptionLabel::before {
+              transform: translateX(-115px); 
+            }
+      
+            transform: translateX(-10px);
+        }
+    }
+    
+      .OptionIcon {
+        color: #806F60;
+        font-size: 20px;
+        padding-left: 5px;
+        margin-bottom: 2px;
+        margin-right: 20px;
+      }
+    
+      .OptionLabel {
+        position: relative;
+        color: #000000;
+        font-family: 'Lexend', sans-serif;
+        font-weight: 200;
+        font-size: 20px;
+        margin: 0;
+        padding: 5px;
+        cursor: pointer;
+        transition: transform 0.7s ease;
+
+        // &::before {
+        //     content: ''; /* Add an empty content to the pseudo-element */
+        //     position: absolute;
+        //     top: 0;
+        //     right: 0%; /* Initially position the pseudo-element to the left of the label */
+        //     width: 95%;
+        //     height: 100%;
+        //     background-color: #ffffff; /* Set the background color of the pseudo-element */
+        //     transition: transform 0.7s ease; /* Smooth transition for revealing the text */
+        //   }
+      }
+
+      // Media Query for Small Screens (max-width: 480px)
+      @media (max-width: 480px) {
+        width: 100%;
+        height: 100%;
+        right: 0; // Adjusted font size for small screens (e.g., mobile)
+      }
+    
+      // Media Query for Medium Screens (min-width: 481px) and (max-width: 768px)
+      @media (min-width: 481px) and (max-width: 768px) {
+        width: 80%;
+        right: 10px;
+      }
+
+      // Media Query for Large Screens (min-width: 769px) and (max-width: 1024px)
+      @media (min-width: 769px) and (max-width: 1024px) {
+        width: 30%;
+        right: 10px;
+        height: 60%;
+
+      }
+
+      // Media Query for Extra Large Screens (min-width: 1025px)
+      @media (min-width: 1025px) {
+        width: 20%;
+        right: 10px;
+        height: 58%;
+      }
+}
+    

@@ -1,0 +1,113 @@
+.dropdown-button {
+    position: relative;
+    width: 85px;
+    padding-top: 3px;
+    background-color: rgb(255, 255, 255);
+    font-family: 'Lexend', sans-serif;
+    font-weight: 200;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+  
+    &.secondary {
+      background-color: #5a4400;
+      width: 218px;
+    }
+  
+    @media (max-width: 480px) {
+      width: 100px; // Adjust as needed
+    }
+  }
+  
+  .dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 85px;
+    height: 25px;
+    padding-bottom: 3px;
+    background-color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+  
+    .rotateArrow {
+      display: flex;
+      align-items: center;
+      transition: transform 0.3s ease;
+  
+      &:hover {
+        transform: rotate(180deg);
+      }
+    }
+  
+    &.secondary {
+      background-color: transparent;
+      color: #ffffff;
+  
+      .rotateArrow {
+        display: flex;
+        align-items: center;
+        margin-left: 145px; // Pas de marge aan zoals nodig
+        background-color: transparent;
+      }
+    }
+  
+    @media (max-width: 480px) {
+      // Add styles for small screens
+    }
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    top: 100%; // Plaats het dropdown-menu onder de knop
+    left: 0;
+    width: 100%; // Neem de volledige breedte in beslag
+    background-color: #fff; // Voeg een achtergrondkleur toe
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    max-height: 200px; // Stel de maximale hoogte in op het gewenste aantal pixels
+    overflow-y: auto; // Voeg een scrollbalk toe als het menu de maximale hoogte overschrijdt
+    list-style: none;
+    font-family: 'Lexend', sans-serif;
+    font-size: 12px;
+    padding-left: 12px;
+    padding-bottom: 20px;
+    transition: max-height 1s ease; // Gebruik max-height in plaats van height voor animatie
+  
+    &.open {
+      max-height: 100px; // Zorg ervoor dat het menu het aantal items binnen max-height toont
+      padding-top: 10px;
+    }
+  
+    &.secondary {
+      background-color: #5a4400;
+      border-radius: 20px;
+      width: 120px;
+    }
+  
+    @media (max-width: 480px) {
+      // Add styles for small screens
+    }
+  }
+  
+  .dropdown-option {
+    margin-bottom: 5px;
+    color: #838383;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      padding-top: 3px;
+      color: #0cb100;
+    }
+  
+    &.secondary {
+      background: none;
+      color: #ffffff;
+    }
+  
+    @media (max-width: 480px) {
+      // Add styles for small screens
+    }
+  }

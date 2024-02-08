@@ -1,0 +1,96 @@
+.toggle-button-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 480px) {
+    font-size: 14px; // Adjusted font size for small screens (e.g., mobile)
+  }
+
+  @media (min-width: 481px) and (max-width: 768px) {
+    font-size: 22px; // Adjusted font size for medium-sized screens (e.g., tablets)
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    font-size: 26px; // Adjusted font size for larger screens (e.g., small laptops)
+  }
+
+  @media (min-width: 1025px) and (max-width: 1200px) {
+    font-size: 28px; // Adjusted font size for high-resolution screens
+  }
+
+  @media (min-width: 1201px) {
+    font-size: 30px; // Adjusted font size for ultra-high-resolution screens
+  }
+}
+
+.button {
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button--large {
+  background-color: #B16100;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0px 1px 8px #3a3a3a;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  margin-right: 5px;
+
+  &:hover {
+    background-color: white;
+    color: #B16100;
+  }
+
+  .icon {
+    font-size: 1rem;
+  }
+}
+
+.button-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  transform: scale(0);
+  transition: transform 0.3s ease;
+
+  @media (max-width: 480px) {
+    top: 0;
+    left: 0;
+  }
+}
+
+.button--small,
+.button--extra-small {
+  background-color: #B16100;
+  border-radius: 100px;
+  cursor: pointer;
+  box-shadow: 0px 1px 8px #3a3a3a;
+  color: #fff;
+  padding: 5px;
+  margin-right: 5px;
+
+  &:hover {
+    background-color: #27ae60;
+  }
+}
+
+.button--small {
+  width: 30px;
+}
+
+.button--extra-small {
+  width: 30px;
+}
+
+.toggled .button--large {
+  transform: scale(0);
+}
+
+.toggled .button-container {
+  transform: scale(1);
+}

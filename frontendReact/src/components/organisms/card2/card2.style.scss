@@ -1,0 +1,33 @@
+.Card2{
+  display: flex;
+  flex-direction: column;
+  max-width: 580px;
+  margin: 20px auto;
+  font-family: 'Lexend', sans-serif;
+  padding: 35px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 38px;
+
+  .row-1, .row-2, .row-3{
+    margin-bottom: 20px;
+  }
+  .text-row-1, .text-row-2, .text-row-3, .text-row-4{
+    margin-bottom: 10px;
+  }
+  
+  .buttons-third-row{
+    display: flex;
+    align-items: center;
+    
+    .first-button{
+      margin-right: 10px;
+    }
+    
+  }
+  
+  .button-bar{
+    background-color: red;
+    padding: none;
+  }
+}
