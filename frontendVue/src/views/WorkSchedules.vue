@@ -54,7 +54,6 @@
         <VueDatePicker
           v-model="workDays.monday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -70,7 +69,6 @@
         <VueDatePicker
           v-model="workDays.monday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -99,7 +97,6 @@
         <VueDatePicker
           v-model="workDays.tuesday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -115,7 +112,6 @@
         <VueDatePicker
           v-model="workDays.tuesday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -144,7 +140,6 @@
         <VueDatePicker
           v-model="workDays.wednesday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -160,7 +155,6 @@
         <VueDatePicker
           v-model="workDays.wednesday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -189,7 +183,6 @@
         <VueDatePicker
           v-model="workDays.thursday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -205,7 +198,6 @@
         <VueDatePicker
           v-model="workDays.thursday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -234,7 +226,6 @@
         <VueDatePicker
           v-model="workDays.friday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -250,7 +241,6 @@
         <VueDatePicker
           v-model="workDays.friday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -280,7 +270,6 @@
         <VueDatePicker
           v-model="workDays.saturday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -296,7 +285,6 @@
         <VueDatePicker
           v-model="workDays.saturday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -326,7 +314,6 @@
         <VueDatePicker
           v-model="workDays.sunday.startTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -342,7 +329,6 @@
         <VueDatePicker
           v-model="workDays.sunday.endTime"
           time-picker
-          minutes-increment="15"
           locale="nl"
           cancelText="Terug"
           selectText="Bevestigen"
@@ -401,38 +387,38 @@ export default {
       workDays: {
         monday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
         tuesday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
         wednesday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
         thursday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
         friday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
         saturday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
         sunday: {
           works: true,
-          startTime: { hours: 9, minutes: 0o0 },
-          endTime: { hours: 17, minutes: 30 },
+          startTime: null,
+          endTime: null,
         },
       },
     };
