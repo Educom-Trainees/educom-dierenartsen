@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendASP.UnitTests.Database
+namespace BackendASP.UnitTests
 {
     internal static class CustomExpressions
     {
