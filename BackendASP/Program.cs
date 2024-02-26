@@ -34,7 +34,7 @@ namespace Backend2
             // Add services to the container.
             builder.Services.AddDbContext<PetCareContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("PetCareDatabaseAzure"), sqlOptions =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("PetCareDatabaseLocalDB"), sqlOptions =>
                 {
                     // Additional configuration options, if needed
                     sqlOptions.EnableRetryOnFailure();
@@ -116,6 +116,7 @@ namespace Backend2
 
             builder.Services.AddTransient<IEmailService, EmailService>();
             builder.Services.AddScoped<IPasswordHasherService, PasswordHasherService>();
+            builder.Services.AddScoped<IWorkScheduleService, WorkScheduleService>();
 
             // Enable serving static files from the wwwroot folder
             builder.Services.AddDirectoryBrowser();
