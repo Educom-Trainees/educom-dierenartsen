@@ -3,17 +3,13 @@
     "secrets1": {
       "type": "secrets"
     },
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:PetCareDatabase",
-      "dynamicId": null
-    },
     "apis1": {
       "type": "apis"
     },
-    "mssql2": {
+    "mssql1": {
       "type": "mssql",
-      "connectionId": "ConnectionStrings:BackendASPContextConnection"
+      "connectionId": "ConnectionStrings:PetCareDatabaseMySql",
+      "dynamicId": null
     }
   }
 }

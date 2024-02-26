@@ -15,6 +15,7 @@
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
+    <Compile Remove="Controllers\WorkScheduleDTO.cs" />
     <Compile Remove="Migrations\20231201115920_RecreateAvalaibleDays.Designer.cs" />
     <Compile Remove="Migrations\20240110103640_Identity.cs" />
     <Compile Remove="Migrations\20240110103640_Identity.Designer.cs" />
